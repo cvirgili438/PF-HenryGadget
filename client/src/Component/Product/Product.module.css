@@ -1,0 +1,40 @@
+.container {
+  border: 1px solid black;
+  width: 400px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.image {
+  width: 100%;
+}
+
+.detail {
+  margin: 10px;
+}
+
+.name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 1em;
+}
+
+.price {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 1.5em;
+  font-style: italic;
+}
+
+.units_left {
+  font-size: 1.2em;
+  font-family: 'Courier New', Courier, monospace;  
+}
+
+.low_units_left {
+  color: red;
+  font-weight: bold;
+}
