@@ -2,7 +2,7 @@
 import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import LandingPage from './Component/LandingPage/LandingPage.jsx';
-import Product from './Component/Product/Product.jsx';
+import Products from './Component/Products/Products.jsx';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Switch >
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/test'>
-          <Product />
+          <Products />
         </Route>
       </Switch>      
     </div>

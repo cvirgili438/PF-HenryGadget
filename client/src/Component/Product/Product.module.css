@@ -1,6 +1,9 @@
 .container {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
   border: 1px solid black;
-  width: 400px;
+  width: 350px;
   margin: 5px;
   padding: 5px;
 }
@@ -9,7 +12,15 @@
   width: 100%;
 }
 
+.image:hover {
+  transition: 0.4s;
+  scale: 1.025;
+  filter: invert(20%);
+}
+
 .detail {
+  align-items: center;
+  margin-top: auto;
   margin: 10px;
 }
 
