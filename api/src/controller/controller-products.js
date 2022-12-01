@@ -1,7 +1,4 @@
-const axios = require('axios');
 const { Product } = require('../db');
-
-
 
 async function inicialProducts(){
     try {
@@ -27,7 +24,8 @@ async function inicialProducts(){
         ]
         const isSaved = await Product.findAll();
         if (isSaved.length === 0) {
-            await Product.bulkCreate(products);
+            // Acá esta el error.
+            // await Product.bulkCreate(products);
             console.log('productos agregados')
         }
     } catch (error) {
