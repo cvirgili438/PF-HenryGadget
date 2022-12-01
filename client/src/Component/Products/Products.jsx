@@ -1,5 +1,6 @@
 import React from 'react';
 import Product from '../Product/Product';
+import Filters from '../Filters/Filters';
 
 import styles from './Products.module.css';
 
@@ -9,6 +10,7 @@ const Products = () => {
 
   return (
     <div className={ styles.container }>
+      <Filters/>
       {
         testJSON.length > 0
         ?
