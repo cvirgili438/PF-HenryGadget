@@ -63,4 +63,14 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+router.post('/', async (req,res) => {
+    const product = req.body;
+    
+    try {
+        await Product.create(product);
+        res.status(201).json({msg: 'Product added correctly', product: product})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
 module.exports = router;
