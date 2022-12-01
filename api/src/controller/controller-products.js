@@ -10,7 +10,7 @@ async function inicialProducts(){
                 model: 'Apple AirPods Pro',
                 type: 'headphones',
                 stock: 10,
-                img: 'https://http2.mlstatic.com/D_NQ_NP_667877-MCO50292509021_062022-O.webp'
+                img: ['https://http2.mlstatic.com/D_NQ_NP_667877-MCO50292509021_062022-O.webp']
             },
             {
                 brand: 'Lenovo',
@@ -19,13 +19,12 @@ async function inicialProducts(){
                 model: 'LP40',
                 type: 'headphones',
                 stock: 10,
-                img: 'https://http2.mlstatic.com/D_NQ_NP_958613-MLA46481706067_062021-O.webp'
+                img: ['https://http2.mlstatic.com/D_NQ_NP_958613-MLA46481706067_062021-O.webp']
             }
         ]
         const isSaved = await Product.findAll();
         if (isSaved.length === 0) {
-            // Acá esta el error.
-            // await Product.bulkCreate(products);
+            await Product.bulkCreate(products);
             console.log('productos agregados')
         }
     } catch (error) {
