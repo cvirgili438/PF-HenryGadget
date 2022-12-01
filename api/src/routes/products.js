@@ -28,6 +28,20 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findOne({
+            where: {
+                id: id
+            }
+        });
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(400).json(`The enter id does not exist`)
+    }
+})
+
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
