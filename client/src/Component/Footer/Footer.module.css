@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(220, 220, 220);
+  border: 1px solid black;
+}
+
+.column {
+  font-size: 0.9em;
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  justify-content: center;
+}

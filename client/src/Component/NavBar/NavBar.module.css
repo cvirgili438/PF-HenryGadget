@@ -1,0 +1,25 @@
+.logo {
+  height: 64px;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  padding: 10px;
+  background: rgb(125, 125, 125);
+}
+
+.center {
+  width: 100%;
+  min-width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
