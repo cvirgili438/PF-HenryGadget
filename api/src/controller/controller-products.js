@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Products } = require('../db');
+const { Product } = require('../db');
 
 
 
@@ -25,9 +25,9 @@ async function inicialProducts(){
                 img: 'https://http2.mlstatic.com/D_NQ_NP_958613-MLA46481706067_062021-O.webp'
             }
         ]
-        const isSaved = await Products.findAll();
+        const isSaved = await Product.findAll();
         if (isSaved.length === 0) {
-            await Products.bulkCreate(products);
+            await Product.bulkCreate(products);
             console.log('productos agregados')
         }
     } catch (error) {
