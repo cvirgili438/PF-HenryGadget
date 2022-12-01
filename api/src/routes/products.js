@@ -36,6 +36,9 @@ router.get('/:id', async (req, res) => {
                 id: id
             }
         });
+        if (product === null) {
+            return res.status(400).json(`The enter id does not exist`)
+        }
         res.status(200).json(product);
     } catch (error) {
         res.status(400).json(`The enter id does not exist`)
