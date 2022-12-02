@@ -74,4 +74,31 @@ router.post('/', async (req,res) => {
     }
 })
 
+router.put('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findOne({
+            where: {
+                id: id
+            }
+        });
+        if (product === null) {
+            return res.status(400).json(`The enter id does not exist`)
+        }
+        const body = req.body;
+        await Product.update(
+            body,
+            {
+                where: {
+                    id
+                }
+            }
+        )
+        res.status(200).json('Updated')
+
+    } catch (error) {
+        res.status(400).json('An error has occurred');
+    }
+})
+
 module.exports = router;
