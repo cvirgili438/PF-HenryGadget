@@ -1,0 +1,23 @@
+[
+  {
+    "image": "https://s1.eestatic.com/2019/11/14/elandroidelibre/el_androide_libre_444469413_180850360_800x600.jpg",
+    "name": "Motorola V3 RAZR",
+    "description": "Celular con reproductor de MP3, camara de medio megapixel, infrarojo, y muchas mas cosas que no pienso escribir porque necesito un texto largo",
+    "price": 30000,
+    "units_left": 10
+  },
+  {
+    "image": "https://ep00.epimg.net/elpais/imagenes/2017/09/11/album/1505131070_460765_1505132831_album_normal.jpg",
+    "name": "iPhone",
+    "description": "Celular con pantalla tactil y Steve Jobs vivo, orem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de",
+    "price": 500,
+    "units_left": 0
+  },
+  {
+    "image": "https://www.elesquiu.com/u/fotografias/m/2020/12/4/f1280x720-363323_494998_5050.jpg",
+    "name": "Nokia 1100",
+    "description": "Celular con jueguito de la viborita super divertido y con bateria que dura eones.",
+    "price": 251300,
+    "units_left": 1
+  }
+]
