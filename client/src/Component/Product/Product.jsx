@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 
 import styles from './Product.module.css';
 
-const Product = ({ name, description, image, price, units_left }) => {
+const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
   const trim_text = 120;  // cantidad de caracteres a mostrar, el resto se cortan y se agregan tres puntitos
 
   return (
     <div className={ styles.container }>
-      <Link to='/test'>
+      
+      <Link to={`/home/${id}`}> 
         <img
           src={ image }
           alt={ name }

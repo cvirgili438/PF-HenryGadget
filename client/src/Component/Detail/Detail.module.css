@@ -1,0 +1,51 @@
+ul{
+    display: flex;    
+    list-style-type: none;
+    justify-content: center;
+   
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 0 5vh;
+}
+
+.miniNav li{
+    padding-right: 1rem;
+    border-right: 1px solid #000;
+    margin-right: 1rem;
+
+}
+
+.productArea{
+    display: flex;
+
+}
+
+.mainImg{
+    padding: 3rem;
+}
+
+.mainImg img{
+    width: 50vw;
+
+}
+
+.miniatura{
+    padding: 1rem;
+}
+.miniatura img{
+    width: 5rem;
+}
+.favorito{
+    width: 1.5rem;
+}
+
+.nameArea{
+    display: flex;
+    flex-direction: row;
+    align-items: centewr;
+}
+
