@@ -4,28 +4,33 @@ const router = Router();
 const { Product, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
+const getDifferencesArray = require('./controllers/getDifferencesArray.js');
 
 router.get('/', async (req, res) => {
+    if (getDifferencesArray(Object.getOwnPropertyNames(req.query),
+    ['name', 'brand', 'type', 'limit', 'offset']).length !== 0)
+        return res.status(400).json('bad query');
+
     try {
         const { name, brand, type, limit, offset } = req.query;
         const condition = {};
         let where = {};
 
         if (name) {
-            where.name = {[Sequelize.Op.iLike]: `%${name}%`}
+            where.name = { [Sequelize.Op.iLike]: `%${name}%` }
         }
         if (brand) {
-            where.brand = {[Sequelize.Op.iLike]: `%${brand}%`}
+            where.brand = { [Sequelize.Op.iLike]: `%${brand}%` }
         }
         if (type) {
-            where.type = {[Sequelize.Op.iLike]: `%${type}%`}
+            where.type = { [Sequelize.Op.iLike]: `%${type}%` }
         }
         condition.where = where;
         condition.include = Review;
 
         if (limit && offset) {
-            condition.limit =  limit;
-            condition.offset =  offset;
+            condition.limit = limit;
+            condition.offset = offset;
         }
 
         const products = await Product.findAll(condition);
@@ -38,7 +43,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const product = await Product.findOne({
             where: {
                 id: id
@@ -71,20 +76,20 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.post('/', async (req,res) => {
+router.post('/', async (req, res) => {
     const product = req.body;
-    
+
     try {
         await Product.create(product);
-        res.status(201).json({msg: 'Product added correctly', product: product})
+        res.status(201).json({ msg: 'Product added correctly', product: product })
     } catch (error) {
-        res.status(400).json({err: error})
+        res.status(400).json({ err: error })
     }
 })
 
 router.put('/:id', async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const product = await Product.findOne({
             where: {
                 id: id
