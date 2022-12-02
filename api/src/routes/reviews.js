@@ -34,9 +34,6 @@ router.get('/', async (req,res)=> {                                             
     }
 })
 
-
-
-
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
     const reviewDataValidate = reviewData || false;                                             // Validacion en caso de que reviewData sea null, evitar que rompa el servidor
