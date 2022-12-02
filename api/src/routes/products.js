@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Product } = require('../db.js');
+const { Product, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
 
@@ -21,6 +21,7 @@ router.get('/', async (req, res) => {
             where.type = {[Sequelize.Op.iLike]: `%${type}%`}
         }
         condition.where = where;
+        condition.include = Review;
 
         if (limit && offset) {
             condition.limit =  limit;
