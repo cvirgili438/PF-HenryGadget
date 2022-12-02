@@ -56,4 +56,20 @@ router.post('/', async (req,res) => {                                           
     }
 })
 
+router.delete('/admin/:idReview', async (req,res) => {                                                              // Localhost:3001/admin/id (soft delete) 
+    const {idReview} = req.params;                                                                                  // Solicitamos id por params                           
+
+    try {
+        const reviewToDelete = await Review.findByPk(idReview);                                                     // Buscamos la review por id para verificar luego
+        if(idReview && reviewToDelete){                                                                             // Validamos que nos hayan pasado tanto id por params y que si exista en la db
+            await Review.destroy({where: {id: idReview}})                                                           // Si si existe eliminamos y devolvemos mensaje apropiado
+            res.status(200).json({msg: 'Review deleted correctly', idReview})
+            return;
+        }
+        res.status(400).json({msg: `Review with id: ${idReview} was already deleted or doesn't exist`});            // En caso de que falle la validacion, devolveremos mensaje apropiado
+    } catch (error) {
+        res.status(400).json({msg: `Review with id: ${idReview} was already deleted or doesn't exist`, err: error})
+    }
+})
+
 module.exports = router;
