@@ -21,17 +21,20 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     products : action.payload
-                }
-            case FILTER_BY_NAME:
-                return{
-                    ...state,
-                    filteredProducts:action.payload
-
-                }
+                }           
             case GET_PRODUCTS_BY_QUERY:
+                if(action.filter === false){
+                    let products = action.payload
+                    let filtered = products.slice(0,9)
                 return {
                     ...state,
-                    filteredProducts:action.payload
+                    products:products,
+                    filteredProducts:filtered
+                }
+                }
+                else return {
+                        ...state,
+                        filteredProducts:action.payload
                 }
             default:
                 return {...state}

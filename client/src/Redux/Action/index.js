@@ -17,31 +17,31 @@ export const getAllProducts= ()=> async (dispatch)=>{
             catch(err){console.log(err)}
 }
 
-export const getProductByName = (name)=> async (dispatch)=>{
-    try{
-        let json = await axios(`http://localhost:3001/Products?name=${name}`)
+export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
+   if(query === {}){
+    try{        
+        let json = await  axios(`http://localhost:3001/Products`)
         return dispatch({
-            type:FILTER_BY_NAME,
-            payload:json.data
+            type:GET_PRODUCTS_BY_QUERY,
+            payload:json.data,
+            filter:false
         })
     }
-    catch(er){console.log(er)}
-}
-
-export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query
-    let arrayObjeto = Object.entries(query) // pongo el objeto en formato array tipo [[Propiedad1,valor propiedad1],[Propiedad2,Valor2]] etc
+    catch(er){console.log(er.messege)}
+   }
+    let arrayObjeto = Object.entries(query) // pongo el objeto en formato array tipo [[Propiedad1,valor propiedad1],[Propiedad2,Valor2]] etc            
     let stringToUrl = ''
     arrayObjeto.map((el)=>{
         if(arrayObjeto.length -1 === arrayObjeto.indexOf(el)) // si el index es el ultimo, no agrega & sino si
         {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}`)} 
         else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
     })
-    try{
-        
+    try{        
         let json = await  axios(`http://localhost:3001/Products?${stringToUrl}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
-            payload:json.data
+            payload:json.data,
+            filter:true
         })
     }
     catch(er){console.log(er.messege)}
