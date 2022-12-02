@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const FILTER_BY_NAME = 'FILTER_BY_NAME'
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -26,3 +27,15 @@ export const getProductByName = (name)=> async (dispatch)=>{
     }
     catch(er){console.log(er)}
 }
+
+export const getProductById =(id) => async (dispatch) => {
+    try {
+        let res = await axios.get(`http://localhost3001/Products/${id}`)
+        return dispatch({
+            type:GET_PRODUCT_BY_ID,
+            payload:res.data
+        })
+    } catch (er) {
+        console.log(er)
+    }
+} 

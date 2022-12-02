@@ -5,6 +5,159 @@ ul{
    
 }
 
+nav{
+    display: flex;
+}
+
+.miniNav li{
+    padding-right: 1rem;
+    border-right: 1px solid #000;
+    margin-right: 1rem;
+
+}
+
+ul > li{
+    margin-right:25px;
+    font-weight:lighter;
+    cursor:pointer
+}
+
+li.active {
+    border-bottom:3px solid silver;
+}
+
+.productArea{
+    display: flex;
+
+}
+.itemPhoto{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-right:1px solid #f6f6f6;
+}
+
+.mainImg{
+    /* width: 10rem; */
+    max-width: 60%;
+}
+
+
+.menuItems{
+    list-style-type:none;
+    font-size:11px;
+    display:inline-flex;
+    margin-bottom:0;
+    margin-top:20px
+}
+
+
+.btnSuccess{
+    width:100%;
+    border-radius:0;
+}
+
+
+.section{
+    width:100%;
+    /* margin-left:-15px; */
+    padding:2px;
+    padding-left:15px;
+    padding-right:15px;
+    background:#f8f9f9
+}
+
+
+.titlePrice{
+    margin-top:30px;
+    margin-bottom:0;
+    color:black
+}
+
+
+.titleAttr{
+    margin-top:0;
+    margin-bottom:0;
+    color:black;
+}
+
+
+.btnMinus{
+    cursor:pointer;
+    font-size:7px;
+    display:flex;
+    align-items:center;
+    padding:5px;
+    padding-left:10px;
+    padding-right:10px;
+    border:1px solid gray;
+    border-radius:2px;
+    border-right:0;
+}
+
+
+.btnPlus{
+    cursor:pointer;
+    font-size:7px;
+    display:flex;
+    align-items:center;
+    padding:5px;
+    padding-left:10px;
+    padding-right:10px;
+    border:1px solid gray;
+    border-radius:2px;
+    border-left:0;
+}
+
+
+div.section > div {
+    width:100%;
+    display:inline-flex;
+}
+
+
+div.section > div > input {
+    margin:0;
+    padding-left:5px;
+    font-size:10px;
+    padding-right:5px;
+    max-width:18%;
+    text-align:center;
+}
+
+
+.attr,.attr2{
+    cursor:pointer;
+    margin-right:5px;
+    height:20px;
+    font-size:10px;
+    padding:2px;
+    border:1px solid gray;
+    border-radius:2px;
+}
+
+
+.attr.active,.attr2.active{ 
+    border:1px solid orange;
+}
+
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: gray;
+}
+
+
+
+
+/* ul{
+    display: flex;    
+    list-style-type: none;
+    justify-content: center;
+   
+}
+
 .container{
     display: flex;
     flex-direction: column;
@@ -49,3 +202,9 @@ ul{
     align-items: centewr;
 }
 
+.price h3{
+    display: flex;    
+    margin-top: 3rem;
+    
+}
+ */
