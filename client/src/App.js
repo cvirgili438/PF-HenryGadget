@@ -2,6 +2,7 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import LandingPage from './Component/LandingPage/LandingPage.jsx';
+import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 
 
 const App = () => {
@@ -11,7 +12,7 @@ const App = () => {
       <div className="App">
         <Switch >
           <Route exact path='/'>
-            <LandingPage />
+            <ProductCRUD />
           </Route>
         </Switch>      
       </div>
