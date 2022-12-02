@@ -8,7 +8,7 @@ export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 export const getAllProducts= ()=> async (dispatch)=>{   
       // Traemos en un futuro, un array de Productos con sus caracteristicas 
             try{
-                var json = await axios('http://localhost3001/Products')
+                var json = await axios('http://localhost:3001/Products')
                 return dispatch({
                     type:GET_PRODUCTS,
                     payload:json.data
@@ -19,7 +19,7 @@ export const getAllProducts= ()=> async (dispatch)=>{
 
 export const getProductByName = (name)=> async (dispatch)=>{
     try{
-        let json = await axios(`http://localhost3001/Products?name=${name}`)
+        let json = await axios(`http://localhost:3001/Products?name=${name}`)
         return dispatch({
             type:FILTER_BY_NAME,
             payload:json.data
@@ -38,7 +38,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     })
     try{
         
-        let json = await  axios(`http://localhost3001/Products?${stringToUrl}`)
+        let json = await  axios(`http://localhost:3001/Products?${stringToUrl}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data
