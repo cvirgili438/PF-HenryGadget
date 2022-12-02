@@ -33,6 +33,19 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    try {
+        const {email} = req.query;
+        const user = await User.findOne({where: {email}});
+        if (user === null) {
+            return res.status(400).json(`The enter email does not exist`)
+        }
+        res.status(200).json({user: user});
+    } catch (error) {
+        res.status(400).json(`The enter email does not exist`)
+    }
+})
+
 router.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
