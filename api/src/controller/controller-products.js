@@ -9,8 +9,6 @@ async function inicialProducts() {
 
    
     try {
-        console.log(storages)
-        console.log(storages[0])
         let arrayStorage = [
             await Storage.create(storages[0]),
             await Storage.create(storages[1]),
