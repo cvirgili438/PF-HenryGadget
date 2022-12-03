@@ -82,6 +82,33 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/type', async(req, res) => {
+    try {
+        const types = await Type.findAll();
+        res.status(200).json({msg: 'List of types', result: types});
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.get('/brand', async(req, res) => {
+    try {
+        const brands = await Brand.findAll();
+        res.status(200).json({msg: 'List of available brands', result: brands});
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.get('/storage', async(req, res) => {
+    try {
+        const storages = await Storage.findAll();
+        res.status(200).json({msg: 'List of available storages', result: storages});
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
