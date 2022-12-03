@@ -1,32 +1,49 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Product, Review } = require('../db.js');
+const { Product, Review, Brand, Storage, Type } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
 const getDifferencesArray = require('./controllers/getDifferencesArray.js');
 
 router.get('/', async (req, res) => {
     if (getDifferencesArray(Object.getOwnPropertyNames(req.query),
-    ['name', 'brand', 'type', 'limit', 'offset']).length !== 0)
+        ['name', 'brand', 'type', 'limit', 'offset']).length !== 0)
         return res.status(400).json('bad query');
 
     try {
         const { name, brand, type, limit, offset } = req.query;
-        const condition = {};
+        let condition = {
+            include: [
+                {
+                    model: Brand,
+                    required: true
+                },
+                {
+                    model: Type,
+                    required: true
+                },
+                {
+                    model: Storage,
+                    required: true
+                },
+                {
+                    model: Review,
+                    required: true
+                }]
+        };
         let where = {};
 
         if (name) {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }
         }
         if (brand) {
-            where.brand = { [Sequelize.Op.iLike]: `%${brand}%` }
+            condition.include[0].where = { name: { [Sequelize.Op.iLike]: `%${brand}%` } }
         }
         if (type) {
-            where.type = { [Sequelize.Op.iLike]: `%${type}%` }
+            condition.include[1].where = { name: { [Sequelize.Op.iLike]: `%${type}%` } }
         }
         condition.where = where;
-        condition.include = Review;
 
         if (limit && offset) {
             condition.limit = limit;
