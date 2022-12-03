@@ -1,4 +1,4 @@
-const { Product, Type } = require('../db');
+const { Product, Type, Storage } = require('../db');
 const products = require('./products.js');
 const review = require('./reviews.js');
 const brands = require('./brands.js');
@@ -6,7 +6,17 @@ const storages = require('./storages.js');
 const types = require('./types.js');
 
 async function inicialProducts() {
+
+   
     try {
+        console.log(storages)
+        console.log(storages[0])
+        let arrayStorage = [
+            await Storage.create(storages[0]),
+            await Storage.create(storages[1]),
+            await Storage.create(storages[2])
+        ];
+        
 
         const typeHead = await Type.create(types[0]);
         const typeSmart = await Type.create(types[1]);
@@ -23,7 +33,7 @@ async function inicialProducts() {
                 produc.setType(typeHead);
             else {
                 produc.setType(typeSmart);
-                produc.createStorage(storages[i-2]);
+                produc.setStorage(arrayStorage[Math.floor(Math.random() * 2) + 1]);
             }
         }
     } catch (error) {
