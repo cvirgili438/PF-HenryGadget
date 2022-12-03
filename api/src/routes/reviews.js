@@ -72,4 +72,25 @@ router.delete('/admin/:idReview', async (req,res) => {                          
     }
 })
 
+router.put('/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
+    const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
+    const {reviewData} = req.body;
+    const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
+
+    if(!idReview) return res.status(400).json({err: 'Review id is missing'});                                                   // Validaciones en caso de que algo falte
+    if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing'});  
+    
+    try { 
+        const review = await Review.findByPk(idReview);
+        if(!review){
+            res.status(404).json({err: `Review with id: ${idReview} doesn't exist`})
+        }
+        const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el comment
+        res.status(200).json({msg: `Review with id: ${idReview} was updated`, reviewUpdated})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+
 module.exports = router;
