@@ -5,11 +5,23 @@ const { Product, Review, Brand, Storage, Type } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
 const getDifferencesArray = require('./controllers/getDifferencesArray.js');
+const sortByPrice = require('./controllers/sortByPrice.js');
+const sortByBrand = require('./controllers/sortByBrand.js');
 
 router.get('/', async (req, res) => {
-    if (getDifferencesArray(Object.getOwnPropertyNames(req.query),
-        ['name', 'brand', 'type', 'limit', 'offset']).length !== 0)
+
+    const { name, brand, type, limit, offset, sortPrice, sortBrand } = req.query;
+    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand'];
+
+    if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
         return res.status(400).json('bad query');
+
+    // Se chequea que se reciban solo opciones válidas
+    if (sortPrice && !(sortPrice === 'up' || sortPrice === 'down'))
+        return res.status(400).json('bad option in query sortPrice');
+
+    if (sortBrand && !(sortBrand === 'up' || sortBrand === 'down'))
+        return res.status(400).json('bad option in query sortBrand');
 
     try {
         const { name, brand, type, limit, offset } = req.query;
@@ -32,6 +44,7 @@ router.get('/', async (req, res) => {
                     required: true
                 }]
         };
+
         let where = {};
 
         if (name) {
@@ -50,7 +63,18 @@ router.get('/', async (req, res) => {
             condition.offset = offset;
         }
 
-        const products = await Product.findAll(condition);
+        let products = await Product.findAll(condition);
+        // Convertir array en objetos sin metadata.
+        products = products.map(el => el.get({ plain: true }))
+
+        // SortPrice up o down
+        if (sortPrice)
+            products = sortByPrice(products, sortPrice);
+
+        // sortBrand up o down
+        if (sortBrand)
+            products = sortByBrand(products, sortBrand);
+
         res.status(200).json(products);
 
     } catch (error) {
