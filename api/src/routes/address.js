@@ -43,22 +43,39 @@ router.post('/', async(req,res) => {                                            
     }
 })
 
-router.put('/', async(req,res) => {
-    const {idAddress, address} = req.body;
+router.put('/', async(req,res) => {                                                                                     // localhost:3001/address (put)
+    const {idAddress, address} = req.body;                                                                              // Requerimos tanto el id de la direccion y la nueva direccion por body.
 
-    if(!idAddress) return res.status(404).json({err: 'Address id is missing'});
+    if(!idAddress) return res.status(404).json({err: 'Address id is missing'});                                         // Pequeñas validaciones para verificar que todos los datos fueron enviados
     if(!address) return res.status(404).json({err: "New address data is missing"});
     try {
-        const addressToUpdate = await Address.findByPk(idAddress);
+        const addressToUpdate = await Address.findByPk(idAddress);                                                      // Buscamos la direccion a actualizar por id
 
-        if(!addressToUpdate){
+        if(!addressToUpdate){                                                                                           // Validamos que exista, sino mostramos msg apropiado
             return res.status(404).json({err: `Address with id: ${idAddress} was not found`});
         }
 
-        const addressUpdated = await Address.update(address, {where: {id: idAddress}});
+        const addressUpdated = await Address.update(address, {where: {id: idAddress}});                                 // Una vez encontrada actualizamos la informacion y devolvemos msg apropiado
         res.status(201).json({msg: `Address with the id: ${idAddress} was updated succesfully`, addressUpdated})
     } catch (error) {
         res.status(400).json({err: "An error occurred on the data base // Address with the id doesn't exist", error})
+    }
+})
+
+router.delete('/:idAddress', async(req,res) => {                                                                        // localhost:3001/address (delete)
+    const {idAddress} = req.params;                                                                                     // Requerimos el id de la address a eliminar por params
+
+    try {
+        const addressToDelete = await Address.findByPk(idAddress);                                                      // Buscamos que la address exista
+        if(idAddress && addressToDelete){                                                                               // Verificamos que exista tanto la direccion como un id previsto
+            await Address.destroy({where: {id: idAddress}})                                                             // Si pasa la verificacion procedemos a eliminar la direccion y devolvemos msg apropiado
+            res.status(200).json({msg: `Address deleted correctly`, idAddress})
+            return;
+        };
+
+        res.status(400).json({msg: `Address with id: ${idAddress} was already deleted or doesn't exist`});              // En caso de que no pase devolvemos error con msg apropiado
+    } catch (error) {
+        res.status(400).json({msg: `Address with id: ${idAddress} was already deleted or doesn't exist`, err: error});
     }
 })
 
