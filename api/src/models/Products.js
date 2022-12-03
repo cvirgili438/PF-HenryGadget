@@ -9,10 +9,6 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true,     
     },
-    brand: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,10 +22,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: {
-      type: DataTypes.ENUM('headphones', 'smartphones'),
-      allowNull: false,
-    },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -39,10 +31,6 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    storage: {
       type: DataTypes.STRING,
       allowNull: true,
     },
