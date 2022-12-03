@@ -1,10 +1,8 @@
 import React from "react";
 import styles from "./Detail.module.css";
 import testJSON from '../Products/testJSON.json';
-import minus from '../../Assets/icons/angle-left-solid.svg'
+import MiniNav from '../MiniNav/MiniNav'
 
-
-console.log(testJSON);
 
 
 
@@ -12,12 +10,7 @@ const Detail = () => {
     return (
 
         <div className="container">
-            <nav>
-                <ul className={styles.miniNav}>
-                    <li>Inicio</li>
-                    <li>Products</li>
-                </ul>
-            </nav>
+            <MiniNav />
             <div className={`${styles.productArea}`}>
                 <div className={`col-xs-4 ${styles.itemPhoto}`}>
                     <img className={styles.mainImg} src={testJSON[0].image} alt={testJSON.name} />
@@ -42,9 +35,10 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.titleAttr}`}><small>CANTIDAD</small></h6>
                         <div>
-                            <div className={`${styles.btnMinus}`}><i><img src={minus} alt="minus" /></i></div>
+                            <div className={`${styles.btnMinus}`}><i className="bi bi-caret-left"></i></div>
                             <input value="1" />
-                            <div className={`${styles.btnPlus}`}><i><img src="../../Assets/icons/angle-right-solid.svg" alt="plus" /></i></div>
+                            
+                            <div className={`${styles.btnPlus}`}><i className="bi bi-caret-right"></i></div>
                         </div>
                     </div>
 
@@ -72,10 +66,16 @@ const Detail = () => {
                 <div className={`row`}>
                     <div className={`col p-3`}>
                         Almacenamiento
-                        <div><span><i class="fi fi-ss-database"></i></span>16GB</div>
+                        <div><span><i className="bi bi-sd-card"></i></span>16GB</div>
                     </div>
-                    <div className={`col p-3`}>Camara</div>
-                    <div className={`col p-3`}>Procesador</div>
+                    <div className={`col p-3`}>
+                        Camara
+                        <div><span><i class="bi bi-camera"></i></span>16GB</div>
+                        </div>
+                    <div className={`col p-3`}>
+                        Procesador
+                        <div><span><i class="bi bi-cpu"></i></span>16GB</div>
+                        </div>
                 </div>
             </div>
         </div>
