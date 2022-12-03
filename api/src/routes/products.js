@@ -27,22 +27,11 @@ router.get('/', async (req, res) => {
         const { name, brand, type, limit, offset } = req.query;
         let condition = {
             include: [
-                {
-                    model: Brand,
-                    // required: true
-                },
-                {
-                    model: Type,
-                    // required: true
-                },
-                {
-                    model: Storage,
-                    // required: true
-                },
-                {
-                    model: Review,
-                    // required: false
-                }]
+                { model: Brand },
+                { model: Type },
+                { model: Storage },
+                { model: Review }
+            ]
         };
 
         let where = {};
@@ -51,10 +40,10 @@ router.get('/', async (req, res) => {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }
         }
         if (brand) {
-            condition.include[0].where = { name: brand }
+            condition.include[0].where = { name: { [Sequelize.Op.iLike]: `${brand}` } }
         }
         if (type) {
-            condition.include[1].where = { name: type }
+            condition.include[1].where = { name: { [Sequelize.Op.iLike]: `${type}` } }
         }
         condition.where = where;
 
