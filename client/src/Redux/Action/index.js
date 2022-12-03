@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const FILTER_BY_NAME = 'FILTER_BY_NAME'
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
+
 
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -47,6 +49,14 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     catch(er){console.log(er.messege)}
 }
 
-export const paginated = (value)=>(dispatch)=>{
-    // falta ponerse deacuerdo sobre cuatno en cuanto va a ir el paginado
-}
+export const getProductById =(id) => async (dispatch) => {
+    try {
+        let res = await axios.get(`http://localhost3001/Products/${id}`)
+        return dispatch({
+            type:GET_PRODUCT_BY_ID,
+            payload:res.data
+        })
+    } catch (er) {
+        console.log(er)
+    }
+} 
