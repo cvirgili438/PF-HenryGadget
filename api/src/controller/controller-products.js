@@ -1,3 +1,4 @@
+
 const { Product } = require('../db');
 
 async function inicialProducts() {
@@ -121,5 +122,6 @@ async function inicialProducts() {
         console.log(error, 'data not found')
     }
 }
+
 
 module.exports = { inicialProducts }

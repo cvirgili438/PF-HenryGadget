@@ -1,4 +1,4 @@
-import { FILTER_BY_NAME, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY } from "../Action"
+import { FILTER_BY_NAME, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
 
 
 
@@ -10,7 +10,9 @@ const inicialtate = {
     // {}
             ],
     filteredProducts: [],
-    paginated: []
+
+    productDetail: []
+
 }
 
 
@@ -35,6 +37,11 @@ export default function rootReducer(state = inicialtate,action){
                 else return {
                         ...state,
                         filteredProducts:action.payload
+                }
+            case GET_PRODUCT_BY_ID:
+                return{
+                    ...state,
+                    productDetail : action.payload
                 }
             default:
                 return {...state}
