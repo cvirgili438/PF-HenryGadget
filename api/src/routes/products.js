@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Product, Review } = require('../db.js');
+const { Product, Review, Brand, Storage, Type } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
 const getDifferencesArray = require('./controllers/getDifferencesArray.js');
@@ -9,6 +9,7 @@ const sortByPrice = require('./controllers/sortByPrice.js');
 const sortByBrand = require('./controllers/sortByBrand.js');
 
 router.get('/', async (req, res) => {
+
     const { name, brand, type, limit, offset, sortPrice, sortBrand } = req.query;
     const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand'];
 
@@ -23,20 +24,39 @@ router.get('/', async (req, res) => {
         return res.status(400).json('bad option in query sortBrand');
 
     try {
-        const condition = {};
+        const { name, brand, type, limit, offset } = req.query;
+        let condition = {
+            include: [
+                {
+                    model: Brand,
+                    required: true
+                },
+                {
+                    model: Type,
+                    required: true
+                },
+                {
+                    model: Storage,
+                    required: true
+                },
+                {
+                    model: Review,
+                    required: true
+                }]
+        };
+
         let where = {};
 
         if (name) {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }
         }
         if (brand) {
-            where.brand = { [Sequelize.Op.iLike]: `%${brand}%` }
+            condition.include[0].where = { name: { [Sequelize.Op.iLike]: `%${brand}%` } }
         }
         if (type) {
-            where.type = { [Sequelize.Op.iLike]: `%${type}%` }
+            condition.include[1].where = { name: { [Sequelize.Op.iLike]: `%${type}%` } }
         }
         condition.where = where;
-        condition.include = Review;
 
         if (limit && offset) {
             condition.limit = limit;
