@@ -83,7 +83,8 @@ router.put('/:idReview', async (req,res) => {                                   
     try { 
         const review = await Review.findByPk(idReview);
         if(!review){
-            res.status(404).json({err: `Review with id: ${idReview} doesn't exist`})
+            res.status(404).json({err: `Review with id: ${idReview} doesn't exist`});
+            return;
         }
         const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el comment
         res.status(200).json({msg: `Review with id: ${idReview} was updated`, reviewUpdated})
