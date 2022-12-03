@@ -29,19 +29,19 @@ router.get('/', async (req, res) => {
             include: [
                 {
                     model: Brand,
-                    required: true
+                    // required: true
                 },
                 {
                     model: Type,
-                    required: true
+                    // required: true
                 },
                 {
                     model: Storage,
-                    required: true
+                    // required: true
                 },
                 {
                     model: Review,
-                    required: true
+                    // required: false
                 }]
         };
 
@@ -51,10 +51,10 @@ router.get('/', async (req, res) => {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }
         }
         if (brand) {
-            condition.include[0].where = { name: { [Sequelize.Op.iLike]: `%${brand}%` } }
+            condition.include[0].where = { name: brand }
         }
         if (type) {
-            condition.include[1].where = { name: { [Sequelize.Op.iLike]: `%${type}%` } }
+            condition.include[1].where = { name: type }
         }
         condition.where = where;
 
@@ -145,13 +145,36 @@ router.delete('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const product = req.body;
+    
 
     try {
-        await Product.create(product);
+        const product = req.body;
+        const {type, brand, storage} = req.body;
+        if (!type || !brand) {
+            return res.status(400).json({err: "Important information is missing from product as type or brand"})
+        }
+
+        let productCreated = await Product.create(product);
+        const [typeOfDevice, typeCreated] = await Type.findOrCreate({
+            where: {name: type}
+        });
+        
+        const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
+            where: {name: brand}
+        });
+        
+        await productCreated.setBrand(brandOfDevice);
+        await productCreated.setType(typeOfDevice);
+        if (storage) {
+            const [storageOfDevice, created] = await Storage.findOrCreate({
+                where: {size: storage}
+            })
+            await productCreated.setStorage(storageOfDevice);
+            return res.status(201).json({ msg: 'Product added correctly', product: product })
+        }
         res.status(201).json({ msg: 'Product added correctly', product: product })
     } catch (error) {
-        res.status(400).json({ err: error })
+        res.status(400).json({err: error})
     }
 })
 
@@ -166,6 +189,28 @@ router.put('/:id', async (req, res) => {
         if (product === null) {
             return res.status(400).json(`The enter id does not exist`)
         }
+        const {type, brand, storage} = req.body;
+        if (type) {
+            const [typeOfDevice, typeCreated] = await Type.findOrCreate({
+                where: {name: type}
+            });
+            await product.setType(typeOfDevice);
+        }
+
+        if (brand) {
+            const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
+                where: {name: brand}
+            });
+            await product.setBrand(brandOfDevice);
+        }
+        
+        if (storage) {
+            const [storageOfDevice, created] = await Storage.findOrCreate({
+                where: {size: storage}
+            })
+            await product.setStorage(storageOfDevice);
+        }
+        
         const body = req.body;
         await Product.update(
             body,
