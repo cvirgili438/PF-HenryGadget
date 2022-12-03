@@ -9,9 +9,10 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true,     
     },
-    cant: {
+    size: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true
     },
     description: {
       type: DataTypes.STRING,
