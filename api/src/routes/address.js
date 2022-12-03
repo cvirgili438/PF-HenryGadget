@@ -43,4 +43,23 @@ router.post('/', async(req,res) => {                                            
     }
 })
 
+router.put('/', async(req,res) => {
+    const {idAddress, address} = req.body;
+
+    if(!idAddress) return res.status(404).json({err: 'Address id is missing'});
+    if(!address) return res.status(404).json({err: "New address data is missing"});
+    try {
+        const addressToUpdate = await Address.findByPk(idAddress);
+
+        if(!addressToUpdate){
+            return res.status(404).json({err: `Address with id: ${idAddress} was not found`});
+        }
+
+        const addressUpdated = await Address.update(address, {where: {id: idAddress}});
+        res.status(201).json({msg: `Address with the id: ${idAddress} was updated succesfully`, addressUpdated})
+    } catch (error) {
+        res.status(400).json({err: "An error occurred on the data base // Address with the id doesn't exist", error})
+    }
+})
+
 module.exports = router
