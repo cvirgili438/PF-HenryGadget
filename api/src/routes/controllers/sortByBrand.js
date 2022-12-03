@@ -1,9 +1,9 @@
 module.exports = (products, sortPrice) => {
     if (sortPrice === 'up') {
         products.sort((first, second) => {
-            if (first.brand.toLowerCase() < second.brand.toLowerCase())
+            if (first.brand.name.toLowerCase() < second.brand.name.toLowerCase())
                 return -1
-            if (first.brand.toLowerCase() > second.brand.toLowerCase())
+            if (first.brand.name.toLowerCase() > second.brand.name.toLowerCase())
                 return 1
             return 0;
         })
@@ -12,9 +12,9 @@ module.exports = (products, sortPrice) => {
 
     if (sortPrice === 'down') {
         products.sort((first, second) => {
-            if (first.brand.toLowerCase() < second.brand.toLowerCase())
+            if (first.brand.name.toLowerCase() < second.brand.name.toLowerCase())
                 return 1
-            if (first.brand.toLowerCase() > second.brand.toLowerCase())
+            if (first.brand.name.toLowerCase() > second.brand.name.toLowerCase())
                 return -1
             return 0;
         })
