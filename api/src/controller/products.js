@@ -1,6 +1,5 @@
 module.exports = [
     {
-        brand: 'Apple',
         name: 'Airpods',
         price: 100,
         model: 'Apple AirPods Pro',
@@ -9,7 +8,6 @@ module.exports = [
         img: ['https://http2.mlstatic.com/D_NQ_NP_667877-MCO50292509021_062022-O.webp']
     },
     {
-        brand: 'Lenovo',
         name: 'Lenovo LivePods',
         price: 70,
         model: 'LP40',
@@ -18,7 +16,6 @@ module.exports = [
         img: ['https://http2.mlstatic.com/D_NQ_NP_958613-MLA46481706067_062021-O.webp']
     },
     {
-        brand: 'Motorola',
         name: 'Motorola Buds 120',
         price: 120,
         model: 'Buds 120',
@@ -28,7 +25,6 @@ module.exports = [
             'https://motorolaus.vtexassets.com/arquivos/ids/162202-800-auto']
     },
     {
-        brand: 'Xiaomi Redmi',
         name: 'Xiaomi Redmi Note 12 Pro+',
         price: 500,
         model: 'Note 12 Pro+',
@@ -38,7 +34,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg']
     },
     {
-        brand: 'Xiaomi Poco',
         name: 'Xiaomi Poco X4 Pro 5G',
         price: 500,
         model: 'X4 Pro 5G',
@@ -48,7 +43,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg']
     },
     {
-        brand: 'Asus',
         name: 'Asus ROG Phone 6',
         price: 500,
         model: 'ROG Phone 6',
@@ -58,7 +52,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-02.jpg']
     },
     {
-        brand: 'Nokia',
         name: 'Nokia X30',
         price: 501,
         model: 'X30',
@@ -68,7 +61,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/nokia/nokia-x30-5g-2.jpg']
     },
     {
-        brand: 'Cat',
         name: 'Cat S62',
         price: 501,
         model: 'S62',
@@ -78,7 +70,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-2.jpg']
     },
     {
-        brand: 'vivo',
         name: 'vivo X90',
         price: 501,
         model: 'x90',
@@ -88,7 +79,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-2.jpg']
     },
     {
-        brand: 'ZTE',
         name: 'ZTE Axon 40 SE',
         price: 600,
         model: 'Axon 40 SE',
@@ -98,7 +88,6 @@ module.exports = [
             'https://fdn2.gsmarena.com/vv/pics/zte/zte-axon-40-se-2.jpg']
     },
     {
-        brand: 'OnePlus',
         name: 'OnePlus Ace Pro',
         price: 600,
         model: 'Ace Pro',
