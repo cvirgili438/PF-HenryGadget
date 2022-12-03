@@ -1,4 +1,4 @@
-import { FILTER_BY_NAME, GET_PRODUCTS, GET_PRODUCT_BY_ID } from "../Action"
+import { FILTER_BY_NAME, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
 
 
 
@@ -10,7 +10,9 @@ const inicialtate = {
     // {}
             ],
     filteredProducts: [],
+
     productDetail: []
+
 }
 
 
@@ -21,12 +23,20 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     products : action.payload
-                }
-            case FILTER_BY_NAME:
-                return{
+                }           
+            case GET_PRODUCTS_BY_QUERY:
+                if(action.filter === false){
+                    let products = action.payload
+                    let filtered = products.slice(0,9)
+                return {
                     ...state,
-                    filteredProducts:action.payload
-
+                    products:products,
+                    filteredProducts:filtered
+                }
+                }
+                else return {
+                        ...state,
+                        filteredProducts:action.payload
                 }
             case GET_PRODUCT_BY_ID:
                 return{
