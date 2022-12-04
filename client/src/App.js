@@ -2,7 +2,8 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import LandingPage from './Component/LandingPage/LandingPage.jsx';
-import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
+import NavBar from './Component/NavBar/NavBar';
+import Detail from './Component/Detail/Detail';
 
 
 const App = () => {
@@ -12,9 +13,13 @@ const App = () => {
       <div className="App">
         <Switch >
           <Route exact path='/'>
-            <ProductCRUD />
+            <LandingPage />
           </Route>
-        </Switch>      
+          <Route path='/'>
+            <NavBar />
+          </Route>
+        </Switch>     
+        <Route exact path="/home/:id" component={Detail} />
       </div>
     </BrowserRouter>
   );
