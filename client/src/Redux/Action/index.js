@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 export const GET_PRODUCTS = 'GET_PRODUCTS'
-export const FILTER_BY_NAME = 'FILTER_BY_NAME'
+export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
-
 
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -51,7 +50,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
 
 export const getProductById =(id) => async (dispatch) => {
     try {
-        let res = await axios.get(`http://localhost3001/Products/${id}`)
+        let res = await axios.get(`http://localhost:3001/Products/${id}`)
         return dispatch({
             type:GET_PRODUCT_BY_ID,
             payload:res.data
@@ -60,3 +59,19 @@ export const getProductById =(id) => async (dispatch) => {
         console.log(er)
     }
 } 
+export  const getAllFilters= ()=> async (dispatch)=>{
+ try {
+    let type = await axios(`http://localhost:3001/Products/type`)
+    let brand = await axios(`http://localhost:3001/Products/brand`)
+    let storage = await axios("http://localhost:3001/Products/storage")
+    return dispatch({
+        type:GET_TYPES,
+        payload : {
+            type: type.data.result,
+            brand: brand.data.result,
+            storage: storage.data.result
+        }
+    })
+ }
+ catch(er){console.log(er.messege)}
+}

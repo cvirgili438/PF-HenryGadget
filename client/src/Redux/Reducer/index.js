@@ -1,4 +1,4 @@
-import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
+import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES } from "../Action"
 
 
 
@@ -11,7 +11,7 @@ const inicialtate = {
             ],
     filteredProducts: [],
     productDetail: [],
-    
+    filters:{}
 
 }
 
@@ -42,6 +42,15 @@ export default function rootReducer(state = inicialtate,action){
                 return{
                     ...state,
                     productDetail : action.payload
+                }
+            case GET_TYPES:
+                let types = {}
+                types.type = action.payload.type.map(el =>{return el.name})
+                types.brand = action.payload.brand.map(el =>{return el.name})
+                types.storage = action.payload.storage.map(el =>{return el.size})
+                return{
+                    ...state,
+                    filters: types
                 }
             default:
                 return {...state}
