@@ -58,7 +58,7 @@ router.post('/', async (req,res) => {
         if (!dni || !firstName || !lastName || !email || !phone) {
             return res.status(400).json(error.errors.map(e => e.message).join(', '));
         }
-        res.status(400).json(error.parent.detail)
+        res.status(400).json({err: error.errors})
     }
 })
 
