@@ -19,13 +19,13 @@
 
 
 .active{
-    height:6rem;
+    height:auto;
 }
 .active_color{
     height: 10rem;
 }
 .active_storage{
-    height: 10rem;
+    height: auto;
 }
 
 .block_container_title{
