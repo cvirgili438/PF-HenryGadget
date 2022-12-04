@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { objectToQuery } from '../../hooks/ObjectToQuery';
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
@@ -19,7 +19,7 @@ export const getAllProducts= ()=> async (dispatch)=>{
 }
 
 export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
-   if(query === {}){
+   if(query === {} || !query){
     try{        
         let json = await  axios(`http://localhost:3001/Products`)
         return dispatch({
@@ -30,13 +30,14 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     }
     catch(er){console.log(er.messege)}
    }
-    let arrayObjeto = Object.entries(query) // pongo el objeto en formato array tipo [[Propiedad1,valor propiedad1],[Propiedad2,Valor2]] etc            
-    let stringToUrl = ''
-    arrayObjeto.map((el)=>{
-        if(arrayObjeto.length -1 === arrayObjeto.indexOf(el)) // si el index es el ultimo, no agrega & sino si
-        {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}`)} 
-        else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
-    })
+    // let arrayObjeto = Object.entries(query) // pongo el objeto en formato array tipo [[Propiedad1,valor propiedad1],[Propiedad2,Valor2]] etc            
+    // let stringToUrl = ''
+    // arrayObjeto.map((el)=>{
+    //     if(arrayObjeto.length -1 === arrayObjeto.indexOf(el)) // si el index es el ultimo, no agrega & sino si
+    //     {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}`)} 
+    //     else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
+    // })
+    let stringToUrl = objectToQuery(query)
     try{        
         let json = await  axios(`http://localhost:3001/Products?${stringToUrl}`)
         return dispatch({
