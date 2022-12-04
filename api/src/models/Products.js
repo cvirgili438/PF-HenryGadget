@@ -4,10 +4,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('product', {
-    id :{
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey:true,     
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -42,15 +42,16 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    img : {
+    img: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false,     
+      allowNull: false,
     },
-       
-  },{
-    timestamps: true,
-    createdAt: 'created',
-    updatedAt: 'updated',
-    paranoid: true,
-  });
+
+  },
+    {
+      timestamps: true,
+      createdAt: 'created',
+      updatedAt: 'updated',
+      paranoid: true,
+    });
 };

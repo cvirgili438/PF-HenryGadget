@@ -18,9 +18,11 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: false
     },     
-  },{
+  },
+  {
     timestamps: true,
-    createdAt: false,
-    updatedAt: 'date'
+    createdAt: 'created',
+    updatedAt: 'updated',
+    paranoid: true,
   });
 };
