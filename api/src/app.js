@@ -5,8 +5,6 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 DOMAIN_FRONT = process.env.DOMAIN_FRONT || 'localhost';
 
-require('./db.js');
-
 const server = express();
 
 server.name = 'API';
