@@ -14,14 +14,14 @@ router.get('/', async (req, res) => {
     const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand'];
 
     if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
-        return res.status(400).json('bad query');
+        return res.status(400).json({err: 'Bad query.'});
 
     // Se chequea que se reciban solo opciones válidas
     if (sortPrice && !(sortPrice === 'up' || sortPrice === 'down'))
-        return res.status(400).json('bad option in query sortPrice');
+        return res.status(400).json({err: 'Bad option in query sortPrice.'});
 
     if (sortBrand && !(sortBrand === 'up' || sortBrand === 'down'))
-        return res.status(400).json('bad option in query sortBrand');
+        return res.status(400).json({err: 'Bad option in query sortBrand.'});
 
     try {
         const { name, brand, type, limit, offset } = req.query;
@@ -64,17 +64,17 @@ router.get('/', async (req, res) => {
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
 
-        res.status(200).json(products);
+        res.status(200).json({msg: 'Products obtained successfully.', result: products});
 
     } catch (error) {
-        res.status(400).json('product not found')
+        res.status(400).json({err: 'Product not found.'})
     }
 })
 
 router.get('/type', async(req, res) => {
     try {
         const types = await Type.findAll();
-        res.status(200).json({msg: 'List of types', result: types});
+        res.status(200).json({msg: 'List of types.', result: types});
     } catch (error) {
         res.status(400).json({err: error})
     }
@@ -107,11 +107,11 @@ router.get('/:id', async (req, res) => {
             }
         });
         if (product === null) {
-            return res.status(400).json(`The enter id does not exist`)
+            return res.status(400).json({err: `The enter id does not exist.`})
         }
-        res.status(200).json(product);
+        res.status(200).json({msg: 'Product obtained successfully.', result: product});
     } catch (error) {
-        res.status(400).json(`The enter id does not exist`)
+        res.status(400).json({err: error.message})
     }
 })
 
@@ -120,16 +120,16 @@ router.delete('/:id', async (req, res) => {
         const { id } = req.params;
         const productToDelete = await Product.findByPk(id);
         if (productToDelete === null) {
-            return res.json(`The product with id: ${id} does not exits`)
+            return res.status(400).json({err: `The product with id: ${id} does not exits.`});
         }
         await Product.destroy({
             where: {
                 id: id
             }
         });
-        res.json(`The product with the name ${productToDelete.name} has been deleted`)
+        res.json({msg: `The product with the name ${productToDelete.name} has been deleted.`})
     } catch (error) {
-        res.status(400).json('An error has occurred')
+        res.status(400).json({err: error.message})
     }
 })
 
@@ -140,7 +140,7 @@ router.post('/', async (req, res) => {
         const product = req.body;
         const {type, brand, storage} = req.body;
         if (!type || !brand) {
-            return res.status(400).json({err: "Important information is missing from product as type or brand"})
+            return res.status(400).json({err: "Important information is missing from product as type or brand."})
         }
 
         let productCreated = await Product.create(product);
@@ -159,11 +159,11 @@ router.post('/', async (req, res) => {
                 where: {size: storage}
             })
             await productCreated.setStorage(storageOfDevice);
-            return res.status(201).json({ msg: 'Product added correctly', product: product })
+            return res.status(201).json({ msg: 'Product added correctly', result: product })
         }
-        res.status(201).json({ msg: 'Product added correctly', product: product })
+        res.status(201).json({ msg: 'Product added correctly.', result: product })
     } catch (error) {
-        res.status(400).json({err: error})
+        res.status(400).json({err: error.message})
     }
 })
 
@@ -176,7 +176,7 @@ router.put('/:id', async (req, res) => {
             }
         });
         if (product === null) {
-            return res.status(400).json(`The enter id does not exist`)
+            return res.status(400).json({err: `The enter id does not exist.`})
         }
         const {type, brand, storage} = req.body;
         if (type) {
@@ -209,10 +209,10 @@ router.put('/:id', async (req, res) => {
                 }
             }
         )
-        res.status(200).json('Updated')
+        res.status(200).json({msg: 'Updated.'})
 
     } catch (error) {
-        res.status(400).json('An error has occurred');
+        res.status(400).json({err: error.message});
     }
 })
 
