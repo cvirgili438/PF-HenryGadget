@@ -3,25 +3,26 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('review', {
+  sequelize.define('type', {
     id :{
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true,     
     },
-    score: {
-      type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
+      unique: true
     },
-    comment: {
+    description: {
       type: DataTypes.STRING,
       allowNull: true,
     },     
-  },{
+  },
+  {
     timestamps: true,
     createdAt: 'created',
     updatedAt: 'updated',
     paranoid: true,
   });
 };
-

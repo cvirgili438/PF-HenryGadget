@@ -1,6 +1,5 @@
 import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-
 import LandingPage from './Component/LandingPage/LandingPage.jsx';
 import NavBar from './Component/NavBar/NavBar';
 import Detail from './Component/Detail/Detail';
@@ -12,11 +11,11 @@ const App = () => {
     <BrowserRouter >
       <div className="App">
         <Switch >
-          <Route exact path='/'>
-            <LandingPage />
-          </Route>
-          <Route path='/'>
-            <NavBar />
+          <Route  path='/'>
+            <NavBar/>
+            <Route exact path={'/'}>
+              <LandingPage /> 
+            </Route>
           </Route>
         </Switch>     
         <Route exact path="/home/:id" component={Detail} />

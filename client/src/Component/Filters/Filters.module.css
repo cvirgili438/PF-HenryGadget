@@ -5,27 +5,34 @@
 }
 
 .options_container{
-    background-color: rgb(240, 222, 222);
+    background-color: rgb(241, 239, 255);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     transition: all 1s ease-in-out;
+    justify-content: center;
     height: 0;
     overflow: hidden;
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 
 .active{
-    height:5rem;
+    height:auto;
+}
+.active_color{
+    height: 10rem;
+}
+.active_storage{
+    height: auto;
 }
 
 .block_container_title{
     font-weight: 500;
     padding-bottom: .4rem;
     font-size: 1.2rem;
-    border-bottom: 2px solid black;
+    border-bottom: 1.5px solid black;
     cursor: pointer;
     text-align: start;
     display: flex;

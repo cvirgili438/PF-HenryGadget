@@ -1,3 +1,4 @@
+
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
@@ -8,10 +9,6 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true,     
-    },
-    brand: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
@@ -26,10 +23,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -39,10 +32,6 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    storage: {
       type: DataTypes.STRING,
       allowNull: true,
     },

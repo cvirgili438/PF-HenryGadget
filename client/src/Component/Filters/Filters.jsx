@@ -1,25 +1,42 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
+import {useDispatch, useSelector} from 'react-redux'
 import styles from "./Filters.module.css";
 import {MdKeyboardArrowRight} from 'react-icons/md'
+import { getAllFilters } from "../../Redux/Action";
 
 function Filters() {
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    dispatch(getAllFilters())
+  },[dispatch])
+  const filters = useSelector((state)=> state.filters)
     
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState({
+      category:false,
+      brand:false,
+      color:false,
+      storage:false
+    })
 
-    const toggle = ()=>{
-        setActive(!active)
+    const toggle = (e)=>{
+        
+        if(e.target.id === "category")setActive({...active,[e.target.id]:!active.category})
+        if(e.target.id === "brand")setActive({...active,[e.target.id]:!active.brand})
+        if(e.target.id === "color")setActive({...active,[e.target.id]:!active.color})
+        if(e.target.id === "storage")setActive({...active,[e.target.id]:!active.storage})
+
     }
 
   return (
     <div className={styles.container}>
       <h2>Filters</h2>
       <div className={styles.block_container}>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id="category" onClick={toggle} >
             Categegory
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.category ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          <div>
+        <div className={active.category ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+          {/* <div>
             <input type="checkbox" id="cell" />
             <label htmlFor="cell">Cellphones</label>
           </div>
@@ -30,17 +47,18 @@ function Filters() {
           <div>
             <input type="checkbox" name="speakers" id="speakers" />
             <label htmlFor="speakers">Speakers</label>
-          </div>
+          </div> */}
+          {filters.type? filters.type.map((e,i)=>{return (<h6 key={`type${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
         </div>
       </div>
 
       <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id='brand' onClick={toggle} >
             Brand
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.brand ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          <div>
+        <div className={active.brand ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+          {/* <div>
             <input type="checkbox" id="Samsung" />
             <label htmlFor="Samsung">Samsung</label>
           </div>
@@ -55,16 +73,17 @@ function Filters() {
           <div>
             <input type="checkbox" name="iPhone" id="iPhone" />
             <label htmlFor="iPhone">iPhone</label>
-          </div>
+          </div> */}
+          {filters.brand? filters.brand.map((e,i)=>{return (<h6 key={`brand${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
         </div>
       </div>
 
-      <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+      {/* <div>
+        <div className={styles.block_container_title} id='color' onClick={toggle} >
             Color
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.color ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+        <div className={active.color ? `${styles.options_container} ${styles.active_color}` : styles.options_container}>
           <div>
             <input type="checkbox" name="red" id="red" />
             <label htmlFor="red">Red</label>
@@ -90,15 +109,15 @@ function Filters() {
             <label htmlFor="pink">Pink</label>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id='storage' onClick={toggle} >
             Storage
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.storage ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          <div>
+        <div className={active.storage ? `${styles.options_container} ${styles.active_storage}` : styles.options_container}>
+          {/* <div>
             <input type="checkbox" id="1TB" />
             <label htmlFor="1TB">1TB</label>
           </div>
@@ -125,7 +144,8 @@ function Filters() {
           <div>
             <input type="checkbox" name="16" id="16" />
             <label htmlFor="16">16GB</label>
-          </div>
+          </div> */}
+          {filters.storage? filters.storage.map((e,i)=>{return (<h6 key={`storage${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
         </div>
       </div>
     </div>
