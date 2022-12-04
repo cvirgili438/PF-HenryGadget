@@ -23,3 +23,4 @@ module.exports = (sequelize) => {
     updatedAt: 'updated'
   });
 };
+

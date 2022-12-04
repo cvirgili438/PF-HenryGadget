@@ -21,4 +21,5 @@ async function inicialProducts() {
     }
 }
 
+
 module.exports = { inicialProducts }
