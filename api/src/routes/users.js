@@ -97,7 +97,7 @@ router.put('/:id', async (req, res) => {
 
     } catch (error) {
         if (error.parent.detail) {
-            return res.status(400).json(error.parent.detail);
+            return res.status(400).json({err: error.parent.detail});
         }
         res.status(400).json({err: error.message});
     }
