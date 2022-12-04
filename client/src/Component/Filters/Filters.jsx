@@ -8,7 +8,7 @@ function Filters() {
   const dispatch=useDispatch()
   useEffect(()=>{
     dispatch(getAllFilters())
-  })
+  },[dispatch])
   const filters = useSelector((state)=> state.filters)
     
     const [active, setActive] = useState({

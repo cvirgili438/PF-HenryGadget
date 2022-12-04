@@ -5,6 +5,7 @@ import Filters from '../Filters/Filters';
 import styles from './Products.module.css';
 
 import testJSON from './testJSON.json';
+import Paginated from '../Paginated/Paginated';
 
 const Products = () => {
 
@@ -32,6 +33,7 @@ const Products = () => {
         :
         <div className={ styles.noProducts }>No products available</div>
       }
+      <Paginated />
     </div>
   );
 };
