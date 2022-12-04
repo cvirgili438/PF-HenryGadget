@@ -1,4 +1,4 @@
-import { FILTER_BY_NAME, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
+import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
 
 
 
@@ -10,8 +10,8 @@ const inicialtate = {
     // {}
             ],
     filteredProducts: [],
-
-    productDetail: []
+    productDetail: [],
+    
 
 }
 
