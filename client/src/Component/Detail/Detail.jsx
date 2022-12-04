@@ -1,13 +1,29 @@
-import React, { useState } from "react";
-import styles from "./Detail.module.css";
-import testJSON from '../Products/testJSON.json';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { getProductById } from '../../Redux/Action/index.js'
+
 import MiniNav from '../MiniNav/MiniNav'
 import Separator from "../Separator/Separator";
 
+import styles from "./Detail.module.css";
+
+import noImage from '../../Assets/noImage.jpg';
 
 
 const Detail = () => {
+    const { id } = useParams();
+
     const [input, setInput] = useState({value : 1})
+
+    const productDetail = useSelector(state => state.productDetail);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProductById(id));
+    }, [dispatch, id]);
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus'  ) {
@@ -37,23 +53,31 @@ const Detail = () => {
             <MiniNav />
             <div className={`${styles.product_area}`}>
                 <div className={`col-xs-4 ${styles.item_photo}`}>
-                    <img className={styles.main_img} src={testJSON[0].image} alt={testJSON.name} />
+                    {
+                        !productDetail.img ?
+                            <img className={ styles.main_img } src={ noImage } alt='Not available' />
+                        :
+                            productDetail.img.length === 0 ?
+                                <img className={ styles.main_img } src={ noImage } alt='Not available' />
+                            :
+                            <img className={styles.main_img} src={productDetail.img[0]} alt={productDetail.name} />
+                    }
                 </div>
                 <div className={`col-xs-5`} style={{ border: '0px solid gray' }}>
                     {/* <!-- Datos del vendedor y titulo del producto --> */}
-                    <h3>{testJSON[0].name}</h3>
-                    <h5 style={{ color: '#337ab7' }}>Motorola</h5>
+                    <h3>{productDetail.name}</h3>
+                    <h5 style={{ color: '#337ab7' }}>{ productDetail.name }</h5>
 
                     {/* <!-- Precios --> */}
                     <h6 className={`${styles.title_price}`}><small>PRECIO OFERTA</small></h6>
-                    <h3 style={{ margin: '0px' }}>${testJSON[0].price}</h3>
+                    <h3 style={{ margin: '0px' }}>${productDetail.price}</h3>
 
                     {/* <!-- Detalles especificos del producto --> */}
 
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
-                            <div className={`${styles.attr2}`}>16 GB</div>
+                            <div className={`${styles.attr2}`}>-n/a-</div>
                         </div>
                     </div>
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
@@ -79,15 +103,15 @@ const Detail = () => {
                 <div className={`row`}>
                     <div className={`col p-3`}>
                         <strong>Almacenamiento</strong>
-                        <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>16GB</div>                        
+                        <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>-n/a-</div>                        
                     </div>
                     <div className={`col p-3`}>
                         <strong>Camara</strong>
-                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>16GB</div>                        
+                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{ productDetail.camera }</div>                        
                     </div>
                     <div className={`col p-3`}>
                         <strong>Procesador</strong>
-                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>16GB</div>
+                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{ productDetail.processor }</div>
                         </div>
                 </div>
 
