@@ -4,6 +4,7 @@ import LandingPage from './Component/LandingPage/LandingPage.jsx';
 import NavBar from './Component/NavBar/NavBar';
 import Detail from './Component/Detail/Detail';
 
+
 const App = () => {
   
   return (
