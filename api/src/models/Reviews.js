@@ -9,11 +9,10 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey:true,     
     },
-    // SE VERÁ EL ERROR EN EL SPIRN QUE CORRESPONDA.
-    // score: {
-    //   type: DataTypes.ENUM(1, 2, 3, 4, 5),
-    //   allowNull: false,
-    // },
+    score: {
+      type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+      allowNull: false,
+    },
     comment: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -21,7 +20,8 @@ module.exports = (sequelize) => {
   },{
     timestamps: true,
     createdAt: 'created',
-    updatedAt: 'updated'
+    updatedAt: 'updated',
+    paranoid: true,
   });
 };
 

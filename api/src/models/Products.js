@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('headphones', 'smartphones'),
       allowNull: false,
     },
     stock: {
@@ -66,3 +66,4 @@ module.exports = (sequelize) => {
     paranoid: true,
   });
 };
+
