@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Product, Review, Brand, Storage, Type } = require('../db.js');
+const { Product, Review, Brand, Storage, Type, Ram } = require('../db.js');
 const { Sequelize } = require("sequelize");
 
 const getDifferencesArray = require('./controllers/getDifferencesArray.js');
@@ -9,9 +9,8 @@ const sortByPrice = require('./controllers/sortByPrice.js');
 const sortByBrand = require('./controllers/sortByBrand.js');
 
 router.get('/', async (req, res) => {
-
-    const { name, brand, type, limit, offset, sortPrice, sortBrand } = req.query;
-    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand'];
+    const { name, brand, type, limit, offset, sortPrice, sortBrand, ram } = req.query;
+    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand', 'ram'];
 
     if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
         return res.status(400).json({err: 'Bad query.'});
@@ -24,13 +23,13 @@ router.get('/', async (req, res) => {
         return res.status(400).json({err: 'Bad option in query sortBrand.'});
 
     try {
-        const { name, brand, type, limit, offset } = req.query;
         let condition = {
             include: [
-                { model: Brand },
-                { model: Type },
-                { model: Storage },
-                { model: Review }
+                { model: Brand }, // include[0]
+                { model: Type }, // include[1]
+                { model: Storage }, // include[2]
+                { model: Review }, // include[3]
+                { model: Ram } // include[4]
             ]
         };
 
@@ -44,6 +43,9 @@ router.get('/', async (req, res) => {
         }
         if (type) {
             condition.include[1].where = { name: { [Sequelize.Op.iLike]: `${type}` } }
+        }
+        if (ram) {
+            condition.include[4].where = { size: { [Sequelize.Op.iLike]: `${ram}` } }
         }
         condition.where = where;
 
@@ -93,6 +95,15 @@ router.get('/storage', async(req, res) => {
     try {
         const storages = await Storage.findAll();
         res.status(200).json({msg: 'List of available storages', result: storages});
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.get('/ram', async(req, res) => {
+    try {
+        const rams = await Ram.findAll();
+        res.status(200).json({msg: 'List of available RAMs', result: rams});
     } catch (error) {
         res.status(400).json({err: error})
     }
