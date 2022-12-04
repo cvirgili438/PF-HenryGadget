@@ -4,10 +4,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('user', {
-    id :{
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey:true,     
+      primaryKey: true,
     },
     dni: {
       type: DataTypes.STRING,
@@ -18,11 +18,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'first_name',
-      validate:{
+      validate: {
         isAlphanumeric: true,
-        isEmpty(string){
+        isEmpty(string) {
           const validation = [...string].filter(e => e !== ' ').length === 0
-          if(validation){
+          if (validation) {
             throw new Error('First name cannot be empty!')
           }
         }
@@ -32,14 +32,14 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'last_name',
-      validate:{
+      validate: {
         isAlphanumeric: true,
-        isEmpty(string){
-           const validation = [...string].filter(e => e !== ' ').length === 0
-           if(validation){
-             throw new Error('Last name cannot be empty!')
-           }
-         }
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('Last name cannot be empty!')
+          }
+        }
       }
     },
     email: {
@@ -47,13 +47,13 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-        is: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i,                    // RegEx validator for email
+        isEmail: true,
       }
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
+      validate: {
         isNumeric: true
       }
     },
@@ -61,8 +61,8 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM('admin', 'client'),
       allowNull: true,
       defaultValue: 'client'
-    },       
-  },{
+    },
+  }, {
     timestamps: true,
     createdAt: 'created',
     updatedAt: 'updated',
