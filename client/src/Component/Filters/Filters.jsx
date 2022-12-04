@@ -5,10 +5,10 @@ import {MdKeyboardArrowRight} from 'react-icons/md'
 function Filters() {
     
     const [active, setActive] = useState({
-      category:true,
-      brand:true,
-      color:true,
-      storage:true
+      category:false,
+      brand:false,
+      color:false,
+      storage:false
     })
 
     const toggle = (e)=>{

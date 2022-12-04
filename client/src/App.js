@@ -12,11 +12,11 @@ const App = () => {
     <BrowserRouter >
       <div className="App">
         <Switch >
-          <Route exact path='/'>
-            <LandingPage />
-          </Route>
-          <Route path='/'>
-            <NavBar />
+          <Route  path='/'>
+            <NavBar/>
+            <Route exact path={'/'}>
+              <LandingPage />
+            </Route>
           </Route>
         </Switch>     
         <Route exact path="/home/:id" component={Detail} />
