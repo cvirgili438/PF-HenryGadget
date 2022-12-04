@@ -1,5 +1,6 @@
-const { Product, Type, Storage, Ram } = require('../db');
+const { Product, Type, Storage, Ram, Brand } = require('../db');
 const products = require('./objectToAdd/products.js');
+const iphones = require('./objectToAdd/iphoneProducts')
 const review = require('./objectToAdd/reviews.js');
 const brands = require('./objectToAdd/brands.js');
 const storages = require('./objectToAdd/storages.js');
@@ -40,6 +41,22 @@ async function inicialProducts() {
                 produc.setStorage(arrayStorage[Math.floor(Math.random() * storages.length - 1) + 1]);
                 produc.setRam(arrayRams[Math.floor(Math.random() * rams.length - 1) + 1]);
             }
+        }
+
+        for (let i = 0; i < iphones.length; i++) {
+            let iphone = await Product.create(iphones[i]);
+
+            for (let j = i; j < i + 1; j++)
+                iphone.createReview(review[j]);
+            
+            const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
+                where: {name: "Apple"}
+            });    
+            iphone.setBrand(brandOfDevice);
+            iphone.setType(arrayTypes[1]);
+            iphone.setStorage(arrayStorage[Math.floor(Math.random() * storages.length - 1) + 1]);
+            iphone.setRam(arrayRams[Math.floor(Math.random() * rams.length - 1) + 1]);
+            
         }
     } catch (error) {
         console.log(error, 'data not found')
