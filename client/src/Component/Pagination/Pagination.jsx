@@ -5,12 +5,13 @@ import { useHistory } from 'react-router-dom'
 import { objectToQuery } from '../../hooks/ObjectToQuery'
 
 
-// import { setPageView } from '../../redux/actions/index';
+import { setPageView } from '../../Redux/Action';
 import { getProductsByQuery } from '../../Redux/Action';
 
 import styles from './Pagination.module.css'
 
-
+// ESTA FUNCION MUESTRA LOS NUMEROS SE OCUPA DE MOSTRAR LOS NUMEROS DE PAGINAS ADELANTE Y ATRAS DE LA ACTUAL
+// maxPages ES CUANTAS PAGINAS MUESTRA EL PAGINADOR, POR EJ> 5 ---> 3 4 5 6 7 (DOS ANTES Y DOS DESPUES, MAS LA ACTUAL)
 const stripedPagination = (totalPages, currentPage, maxPages) => {
   let startPage, endPage;
 
@@ -44,59 +45,43 @@ const Pagination = () => {
 
   const dispatch = useDispatch();
 
-  const totalProducts = 18;
-  // const countries = useSelector(state => state.countries);
-  // const continents = useSelector(state => state.filterContinent);
-  // const activities = useSelector(state => state.filterActivity);
-  // const theme = useSelector(state => state.theme);
-  // const page = useSelector(state => state.page);
-  const page = 1;
+  const productsPerPage = 3;
+  const totalProducts = 9; // ESTO VA A VENIR DEL BACK EN UNA RUTA QUE DIGA CUANTOS PRODUCTOS HAY
+  
+  const page = useSelector(state => state.page);
 
-  // let keys_c = Object.keys(continents).filter(k => continents[k] === true)
-  // let keys_a = Object.keys(activities).filter(k => activities[k] === true)
-
-  // const visibles = countries.filter(c => keys_c.includes(c.continent) && c.activities.some(obj => keys_a.includes(obj.name))).length
-
-  const pages = Math.ceil(totalProducts / 9);
+  const pages = Math.ceil(totalProducts / productsPerPage);
   const maxPages = 5;
 
-  let query = useQueryParams()
-  console.log(query)
-  let handlePaginated = (e)=>{
-    // queries.limit = 9
-    // queries.offset = e.target.id*9-9
-    // let string = objectToQuery(queries)
-    // history.push(`?${string}`)
-    dispatch(getProductsByQuery(query))
-  }
+  const query = useQueryParams();
 
   const handleInputChange = (e) => {
-    // dispatch(setPageView(e.target.value))
-    query.limit = 9
-    query.offset = e.target.value * 9 - 9
-    dispatch(getProductsByQuery(query))
+    dispatch(setPageView(e.target.value));
+    query.limit = productsPerPage;
+    query.offset = e.target.value * productsPerPage - productsPerPage;
+    dispatch(getProductsByQuery(query));
   }
 
   const handleInputLess = (e) => {
-    // dispatch(setPageView(page - 5))
+    dispatch(setPageView(page - 5));
   }
 
   const handleInputMore = (e) => {
-    // dispatch(setPageView(page + 5))
+    dispatch(setPageView(page + 5));
   }
 
   useEffect(() => {
-    if(totalProducts < 10) {
-      // dispatch(setPageView(1))
+    if(totalProducts < productsPerPage) {
+      dispatch(setPageView(1))
     }
     if (page > pages) {
-      // dispatch(setPageView(pages))
+      dispatch(setPageView(pages))
     }
     setShownPages(stripedPagination(pages, page, maxPages))
   }, [page, totalProducts, pages, dispatch]);
   
   return (
-    totalProducts < 9 ? null :
+    totalProducts < productsPerPage ? null :
     <div className={ styles.container }>
       {
       <>

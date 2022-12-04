@@ -4,6 +4,7 @@ export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
+export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 
 // export const URL = 'http://localhost:3001';
 export const URL = 'http://192.168.0.170:3001'; // para pruebas
@@ -79,3 +80,12 @@ export  const getAllFilters= ()=> async (dispatch)=>{
  }
  catch(er){console.log(er.messege)}
 }
+
+export const setPageView = (page) => {
+    return function(dispatch) {
+      return dispatch({
+        type: SET_PAGE_VIEW,
+        payload: page
+      })
+    }
+  }

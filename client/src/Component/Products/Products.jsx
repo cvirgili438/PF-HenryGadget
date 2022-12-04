@@ -8,17 +8,18 @@ import Filters from '../Filters/Filters';
 
 import styles from './Products.module.css';
 
-import Paginated from '../Paginated/Paginated';
+// import Paginated from '../Paginated/Paginated';
 import Pagination from '../Pagination/Pagination.jsx';
 
 const Products = ({ featured }) => {
-  const products = useSelector(state => state.products);
+  const products = useSelector(state => state.filteredProducts);
   
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!products) {
-      dispatch(getProductsByQuery({limit: 9, offset: 0}));
+    if (products.length === 0) {
+      // CUANDO TENGAMOS MUCHOS PRODUCTOS CAMBIAR EL 3 A 9
+      dispatch(getProductsByQuery({limit: 3, offset: 0}));
     }
   }, [products, dispatch]);
 
@@ -29,7 +30,7 @@ const Products = ({ featured }) => {
       </div>
       <div className={ styles.paginated }>
         <Pagination />
-        <Paginated />
+        {/* <Paginated /> */}
         <div className={ styles.products }>
         {
           products
