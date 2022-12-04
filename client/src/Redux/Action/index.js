@@ -5,8 +5,8 @@ export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 
-export const URL = 'http://localhost:3001';
-// export const URL = 'http://192.168.0.170:3001'; // para pruebas
+// export const URL = 'http://localhost:3001';
+export const URL = 'http://192.168.0.170:3001'; // para pruebas
 
 export const getAllProducts= ()=> async (dispatch)=>{   
       // Traemos en un futuro, un array de Productos con sus caracteristicas 

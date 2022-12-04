@@ -1,39 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getAllProducts } from '../../Redux/Action/index.js'
+
 import Product from '../Product/Product';
 import Filters from '../Filters/Filters';
 
 import styles from './Products.module.css';
 
-import testJSON from './testJSON.json';
 import Paginated from '../Paginated/Paginated';
 
-const Products = () => {
+const Products = ({ featured }) => {
+  const products = useSelector(state => state.products);
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts({}));
+  }, [dispatch]);
 
   return (
     <div className={ styles.container }>
-      <Filters/>
-      {
-        testJSON.length > 0
-        ?
-        (
-          testJSON.map((p, i) => {
-            return (
-              <Product
-              key={i}
-              id={i}
-              name={p.name}
-              description={p.description}
-              image={p.image}
-              price={p.price}
-              units_left={p.units_left}
-              />
-            )
-          })
-        )
-        :
-        <div className={ styles.noProducts }>No products available</div>
-      }
-      <Paginated />
+      <div className={ styles.filters }>
+        <Filters />
+      </div>
+      <div className={ styles.paginated }>
+        <Paginated />
+        <div className={ styles.products }>
+        {
+          products
+          ?
+          (
+            products.map((p, i) => {
+              return (
+                <Product
+                key={i}
+                id={ p.id }
+                name={p.name}
+                description={p.description}
+                image={p.img[0]}
+                price={p.price}
+                units_left={p.stock}
+                />
+                )
+              })
+              )
+              :
+              <div className={ styles.noProducts }>No products available</div>
+            }
+        </div>
+      </div>
     </div>
   );
 };
