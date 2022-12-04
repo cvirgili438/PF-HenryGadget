@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAllProducts } from '../../Redux/Action/index.js'
+import { getProductsByQuery } from '../../Redux/Action/index.js'
 
 import Product from '../Product/Product';
 import Filters from '../Filters/Filters';
@@ -9,6 +9,7 @@ import Filters from '../Filters/Filters';
 import styles from './Products.module.css';
 
 import Paginated from '../Paginated/Paginated';
+import Pagination from '../Pagination/Pagination.jsx';
 
 const Products = ({ featured }) => {
   const products = useSelector(state => state.products);
@@ -16,8 +17,10 @@ const Products = ({ featured }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts({}));
-  }, [dispatch]);
+    if (!products) {
+      dispatch(getProductsByQuery({limit: 9, offset: 0}));
+    }
+  }, [products, dispatch]);
 
   return (
     <div className={ styles.container }>
@@ -25,6 +28,7 @@ const Products = ({ featured }) => {
         <Filters />
       </div>
       <div className={ styles.paginated }>
+        <Pagination />
         <Paginated />
         <div className={ styles.products }>
         {
@@ -38,7 +42,7 @@ const Products = ({ featured }) => {
                 id={ p.id }
                 name={p.name}
                 description={p.description}
-                image={p.img[0]}
+                image={p.img}
                 price={p.price}
                 units_left={p.stock}
                 />

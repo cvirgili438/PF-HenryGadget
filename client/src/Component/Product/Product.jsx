@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import noImage from '../../Assets/noImage.jpg';
+
 import styles from './Product.module.css';
 
 const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
@@ -9,12 +11,16 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
   return (
     <div className={ styles.container }>
       
-      <Link to={`/product/${ id }`}> 
-        <img
-          src={ image }
-          alt={ name }
-          className={ styles.image }
-          />
+      <Link to={`/product/${ id }`}>
+      {
+        !image ?
+          <img className={ styles.image } src={ noImage } alt='Not available' />
+        :
+        image.length === 0 ?
+            <img className={ styles.image } src={ noImage } alt='Not available' />
+          :
+          <img className={styles.image} src={image[0]} alt={name} />
+      }
       </Link>
       <div className={ styles.detail }>
         <div className={ styles.name }>{ name }</div>

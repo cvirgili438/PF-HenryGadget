@@ -40,6 +40,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     //     else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
     // })
     let stringToUrl = objectToQuery(query)
+    console.log(stringToUrl)
     try{        
         let json = await  axios(URL + `/Products?${stringToUrl}`)
         return dispatch({
