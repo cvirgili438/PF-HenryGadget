@@ -7,6 +7,7 @@ DOMAIN_FRONT = process.env.DOMAIN_FRONT || 'localhost';
 const server = express();
 
 server.name = 'API';
+// AQUI VAN LOS MIDDLEWIRES
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
@@ -20,21 +21,21 @@ server.use((req, res, next) => {
   next();
 });
 
-// AQUI VAN LOS MIDDLEWIRES
+// AQUI VAN LAS RUTAS
 const products = require('./routes/products.js');
-const reviews = require('./routes/reviews.js')
-const users = require('./routes/users');
-const address = require('./routes/address.js')
-
-// Configurar los routers
-// Ejemplo: server.use('/auth', authRouter);
 server.use('/products', products);
+
+const reviews = require('./routes/reviews.js');
 server.use('/reviews', reviews);
+
+const users = require('./routes/users');
 server.use('/users', users);
-server.use('/address', address)
+
+const address = require('./routes/address.js');
+server.use('/address', address);
 
 server.get('/', (req, res) => {
-    res.status(200).send("HenryGadget");
+  res.status(200).send("HenryGadget");
 });
 //////////////////////
 
