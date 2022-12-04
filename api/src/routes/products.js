@@ -85,7 +85,7 @@ router.get('/type', async(req, res) => {
 router.get('/brand', async(req, res) => {
     try {
         const brands = await Brand.findAll();
-        res.status(200).json({msg: 'List of available brands', result: brands});
+        res.status(200).json({msg: 'List of brand availables', result: brands});
     } catch (error) {
         res.status(400).json({err: error})
     }
@@ -94,7 +94,7 @@ router.get('/brand', async(req, res) => {
 router.get('/storage', async(req, res) => {
     try {
         const storages = await Storage.findAll();
-        res.status(200).json({msg: 'List of available storages', result: storages});
+        res.status(200).json({msg: 'List of storage availables', result: storages});
     } catch (error) {
         res.status(400).json({err: error})
     }
@@ -103,7 +103,7 @@ router.get('/storage', async(req, res) => {
 router.get('/ram', async(req, res) => {
     try {
         const rams = await Ram.findAll();
-        res.status(200).json({msg: 'List of available RAMs', result: rams});
+        res.status(200).json({msg: 'List of RAM availables', result: rams});
     } catch (error) {
         res.status(400).json({err: error})
     }
