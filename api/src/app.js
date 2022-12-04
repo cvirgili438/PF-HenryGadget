@@ -2,7 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const routes = require('./routes/index.js');
 DOMAIN_FRONT = process.env.DOMAIN_FRONT || 'localhost';
 
 const server = express();
@@ -22,7 +21,22 @@ server.use((req, res, next) => {
 });
 
 // AQUI VAN LOS MIDDLEWIRES
-server.use('/', routes);
+const products = require('./routes/products.js');
+const reviews = require('./routes/reviews.js')
+const users = require('./routes/users');
+const address = require('./routes/address.js')
+
+// Configurar los routers
+// Ejemplo: server.use('/auth', authRouter);
+server.use('/products', products);
+server.use('/reviews', reviews);
+server.use('/users', users);
+server.use('/address', address)
+
+server.get('/', (req, res) => {
+    res.status(200).send("HenryGadget");
+});
+//////////////////////
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
