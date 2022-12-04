@@ -1,4 +1,4 @@
-import { FILTER_BY_NAME, GET_PRODUCTS } from "../Action"
+import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID } from "../Action"
 
 
 
@@ -9,7 +9,10 @@ const inicialtate = {
     // {brand: "Samsung", name :"Galaxy A23",price:"79.999,00",model:"SM-A235M",type:"smartphone", stock:"4",camera:"50", storage:"128",processor:"Qualcomm SM6225 8 núcleos 2,4 Ghz",description:"saraza"},
     // {}
             ],
-    filteredProducts: []
+    filteredProducts: [],
+    productDetail: [],
+    
+
 }
 
 
@@ -20,12 +23,25 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     products : action.payload
+                }           
+            case GET_PRODUCTS_BY_QUERY:
+                if(action.filter === false){
+                    let products = action.payload
+                    let filtered = products.slice(0,9)
+                return {
+                    ...state,
+                    products:products,
+                    filteredProducts:filtered
                 }
-            case FILTER_BY_NAME:
+                }
+                else return {
+                        ...state,
+                        filteredProducts:action.payload
+                }
+            case GET_PRODUCT_BY_ID:
                 return{
                     ...state,
-                    filteredProducts:action.payload
-
+                    productDetail : action.payload
                 }
             default:
                 return {...state}
