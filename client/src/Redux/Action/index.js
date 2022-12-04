@@ -5,11 +5,13 @@ export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 
+export const URL = 'http://localhost:3001';
+// export const URL = 'http://192.168.0.170:3001';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
       // Traemos en un futuro, un array de Productos con sus caracteristicas 
             try{
-                var json = await axios('http://localhost:3001/Products')
+                var json = await axios(URL + '/Products')
                 return dispatch({
                     type:GET_PRODUCTS,
                     payload:json.data
@@ -21,7 +23,7 @@ export const getAllProducts= ()=> async (dispatch)=>{
 export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
    if(query === {} || !query){
     try{        
-        let json = await  axios(`http://localhost:3001/Products`)
+        let json = await  axios(URL + '/Products')
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data,
@@ -39,7 +41,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     // })
     let stringToUrl = objectToQuery(query)
     try{        
-        let json = await  axios(`http://localhost:3001/Products?${stringToUrl}`)
+        let json = await  axios(URL + `/Products?${stringToUrl}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data,
@@ -51,7 +53,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
 
 export const getProductById =(id) => async (dispatch) => {
     try {
-        let res = await axios.get(`http://localhost:3001/Products/${id}`)
+        let res = await axios.get(URL + `/Products/${id}`)
         return dispatch({
             type:GET_PRODUCT_BY_ID,
             payload:res.data
@@ -62,9 +64,9 @@ export const getProductById =(id) => async (dispatch) => {
 } 
 export  const getAllFilters= ()=> async (dispatch)=>{
  try {
-    let type = await axios(`http://localhost:3001/Products/type`)
-    let brand = await axios(`http://localhost:3001/Products/brand`)
-    let storage = await axios("http://localhost:3001/Products/storage")
+    let type = await axios(URL + `/Products/type`)
+    let brand = await axios(URL + `/Products/brand`)
+    let storage = await axios(URL + `/Products/storage`)
     return dispatch({
         type:GET_TYPES,
         payload : {
