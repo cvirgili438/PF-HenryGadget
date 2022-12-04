@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQueryParams } from '../../hooks/useQueryParams'
 import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+
 import { objectToQuery } from '../../hooks/ObjectToQuery'
 
 
@@ -41,25 +43,36 @@ const stripedPagination = (totalPages, currentPage, maxPages) => {
 }
 
 const Pagination = () => {
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const queryActual = useQuery();
+  
+  const productsPerPage = 9; // ESTO HAY QUE CAMBIARLO CUANDO TENGAMOS MAS PRODUCTOS, TAMBIEN PODRIA ESTAR ALMACENADO EN LA BD COMO CONFIGURACION DE VISUALIZACION
+  const totalProducts = 9; // ESTO VA A VENIR DEL BACK EN UNA RUTA QUE DIGA CUANTOS PRODUCTOS HAY
+  const limit = queryActual.get('limit') || productsPerPage;
+  const offset = queryActual.get('offset') || 0;
+  
   const [shownPages, setShownPages] = useState([2,3,4,5,6]);
 
   const dispatch = useDispatch();
-
-  const productsPerPage = 3;
-  const totalProducts = 9; // ESTO VA A VENIR DEL BACK EN UNA RUTA QUE DIGA CUANTOS PRODUCTOS HAY
+  const history = useHistory()
   
   const page = useSelector(state => state.page);
+  const products = useSelector(state => state.filteredProducts);
 
   const pages = Math.ceil(totalProducts / productsPerPage);
   const maxPages = 5;
 
-  const query = useQueryParams();
+  const queryNew = useQueryParams();
 
   const handleInputChange = (e) => {
     dispatch(setPageView(e.target.value));
-    query.limit = productsPerPage;
-    query.offset = e.target.value * productsPerPage - productsPerPage;
-    dispatch(getProductsByQuery(query));
+    queryNew.limit = productsPerPage;
+    queryNew.offset = e.target.value * productsPerPage - productsPerPage;
+    dispatch(getProductsByQuery(queryNew));
+    
+    let string = objectToQuery(queryNew)
+    history.push(`?${string}`)
+    dispatch(getProductsByQuery(queryNew))
   }
 
   const handleInputLess = (e) => {
@@ -71,6 +84,10 @@ const Pagination = () => {
   }
 
   useEffect(() => {
+    if (products.length === 0) {
+      dispatch(getProductsByQuery({limit: limit, offset: offset}));
+      dispatch(setPageView((offset / productsPerPage) + 1))
+    }
     if(totalProducts < productsPerPage) {
       dispatch(setPageView(1))
     }
@@ -78,10 +95,11 @@ const Pagination = () => {
       dispatch(setPageView(pages))
     }
     setShownPages(stripedPagination(pages, page, maxPages))
-  }, [page, totalProducts, pages, dispatch]);
+  }, [products, page, totalProducts, pages, limit, offset, dispatch]);
   
+  // SOBRE LO QUE SIGUE... NO PREGUNTEN, FUNCIONA OK 😁
   return (
-    totalProducts < productsPerPage ? null :
+    totalProducts <= productsPerPage ? null :
     <div className={ styles.container }>
       {
       <>
