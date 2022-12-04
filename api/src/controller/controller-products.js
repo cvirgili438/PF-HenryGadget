@@ -1,3 +1,4 @@
+
 const { Product, Type, Storage } = require('../db');
 const products = require('./products.js');
 const review = require('./reviews.js');
@@ -38,5 +39,6 @@ async function inicialProducts() {
         console.log(error, 'data not found')
     }
 }
+
 
 module.exports = { inicialProducts }

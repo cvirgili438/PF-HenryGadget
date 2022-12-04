@@ -12,9 +12,7 @@ const LandingPage = () => {
 
   return (
     <div className={ styles.container }>   
-      <div className={ styles.header }>
-        <NavBar />
-      </div>
+     
       <div className={ styles.main }>
         <h1>Bienvenidos xD</h1>
         <Link to= '/home'>
