@@ -18,4 +18,9 @@ router.get('/', (req, res) => {
     res.status(200).send("HenryGadget");
 });
 
+// Para cuando no coincide con ninguna de las rutas creadas
+router.get('*', (req, res) => {
+    res.status(400).send({err: 'The route does not match any of the established ones.'});
+});
+
 module.exports = router;
