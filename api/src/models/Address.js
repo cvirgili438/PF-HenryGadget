@@ -30,6 +30,6 @@ module.exports = (sequelize) => {
     timestamps: true,
     createdAt: 'created',
     updatedAt: 'updated',
-    // tableName: 'address' // No funciona
+    paranoid: true,
   });
 };
