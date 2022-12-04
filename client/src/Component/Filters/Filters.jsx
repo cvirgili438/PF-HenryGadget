@@ -4,21 +4,31 @@ import {MdKeyboardArrowRight} from 'react-icons/md'
 
 function Filters() {
     
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState({
+      category:true,
+      brand:true,
+      color:true,
+      storage:true
+    })
 
-    const toggle = ()=>{
-        setActive(!active)
+    const toggle = (e)=>{
+        console.log(e.target.id)
+        if(e.target.id === "category")setActive({...active,[e.target.id]:!active.category})
+        if(e.target.id === "brand")setActive({...active,[e.target.id]:!active.brand})
+        if(e.target.id === "color")setActive({...active,[e.target.id]:!active.color})
+        if(e.target.id === "storage")setActive({...active,[e.target.id]:!active.storage})
+
     }
 
   return (
     <div className={styles.container}>
       <h2>Filters</h2>
       <div className={styles.block_container}>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id="category" onClick={toggle} >
             Categegory
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.category ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+        <div className={active.category ? `${styles.options_container} ${styles.active}` : styles.options_container}>
           <div>
             <input type="checkbox" id="cell" />
             <label htmlFor="cell">Cellphones</label>
@@ -35,11 +45,11 @@ function Filters() {
       </div>
 
       <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id='brand' onClick={toggle} >
             Brand
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.brand ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+        <div className={active.brand ? `${styles.options_container} ${styles.active}` : styles.options_container}>
           <div>
             <input type="checkbox" id="Samsung" />
             <label htmlFor="Samsung">Samsung</label>
@@ -60,11 +70,11 @@ function Filters() {
       </div>
 
       <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id='color' onClick={toggle} >
             Color
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.color ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+        <div className={active.color ? `${styles.options_container} ${styles.active_color}` : styles.options_container}>
           <div>
             <input type="checkbox" name="red" id="red" />
             <label htmlFor="red">Red</label>
@@ -93,11 +103,11 @@ function Filters() {
       </div>
 
       <div>
-        <div className={styles.block_container_title} onClick={toggle} >
+        <div className={styles.block_container_title} id='storage' onClick={toggle} >
             Storage
-            <MdKeyboardArrowRight className={active ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowRight className={active.storage ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+        <div className={active.storage ? `${styles.options_container} ${styles.active_storage}` : styles.options_container}>
           <div>
             <input type="checkbox" id="1TB" />
             <label htmlFor="1TB">1TB</label>
