@@ -19,9 +19,9 @@ export const getAllProducts= ()=> async (dispatch)=>{
 }
 
 export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
-   if(query === {} || !query){
+   if(query === "" || !query){
     try{        
-        let json = await  axios(`http://localhost:3001/Products`)
+        let json = await  axios(`http://localhost:3001/products`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data,
@@ -37,9 +37,10 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     //     {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}`)} 
     //     else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
     // })
-    let stringToUrl = objectToQuery(query)
+    // let stringToUrl = objectToQuery(query)
+    // console.log(stringToUrl)
     try{        
-        let json = await  axios(`http://localhost:3001/Products?${stringToUrl}`)
+        let json = await  axios(`http://localhost:3001/products${query}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data,

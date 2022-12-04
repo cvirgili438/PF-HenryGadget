@@ -28,6 +28,7 @@ export default function rootReducer(state = inicialtate,action){
                 if(action.filter === false){
                     let products = action.payload
                     let filtered = products.slice(0,9)
+                    console.log(products)
                 return {
                     ...state,
                     products:products,
