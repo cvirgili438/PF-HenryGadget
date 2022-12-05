@@ -28,7 +28,7 @@ import style from './Paginated.module.css'
     }
     let products = produ(product)
     let queries = useQueryParams()
-    console.log(queries)
+    
     let handlePaginated = (e)=>{
         queries.limit = 9
         queries.offset = e.target.id*9-9

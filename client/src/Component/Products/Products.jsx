@@ -7,6 +7,7 @@ import Filters from '../Filters/Filters';
 import styles from './Products.module.css';
 
 import Pagination from '../Pagination/Pagination.jsx';
+import Paginated from '../Paginated/Paginated';
 
 const Products = () => {
   const products = useSelector(state => state.filteredProducts);
@@ -17,7 +18,7 @@ const Products = () => {
         <Filters />
       </div>
       <div className={ styles.paginated }>
-        <Pagination />
+        <Paginated />
         <div className={ styles.products }>
         {
           products
