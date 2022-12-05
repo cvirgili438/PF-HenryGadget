@@ -10,16 +10,18 @@ module.exports = (sequelize) => {
       primaryKey:true,     
     },
     status: {
-      type: DataTypes.ENUM('paid', 'preparing', 'on route', 'delivered', 'canceled'),
+      type: DataTypes.ENUM('in cart','paid', 'preparing', 'on route', 'shipped', 'canceled','done'),
       allowNull: false,
     },
     trackingNumber: {
       type: DataTypes.STRING,
       allowNull: true,
     },     
-  },{
+  },
+  {
     timestamps: true,
     createdAt: 'created',
-    updatedAt: 'updated'
+    updatedAt: 'updated',
+    paranoid: true,
   });
 };

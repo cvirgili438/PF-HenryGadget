@@ -4,23 +4,24 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('review', {
-    id :{
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey:true,     
+      primaryKey: true,
     },
-    // SE VERÁ EL ERROR EN EL SPIRN QUE CORRESPONDA.
-    // score: {
-    //   type: DataTypes.ENUM(1, 2, 3, 4, 5),
-    //   allowNull: false,
-    // },
+    score: {
+      type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+      allowNull: false,
+    },
     comment: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
-    },     
-  },{
-    timestamps: true,
-    createdAt: 'created',
-    updatedAt: 'updated'
-  });
+    },
+  },
+    {
+      timestamps: true,
+      createdAt: 'created',
+      updatedAt: 'updated',
+      paranoid: true,
+    });
 };

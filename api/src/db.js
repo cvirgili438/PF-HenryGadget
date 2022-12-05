@@ -3,7 +3,7 @@ const { Sequelize, Op } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_DEPLOY
+  DB_USER, DB_PASSWORD, DB_HOST
 } = process.env;
 
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/HenryGadget`, {
@@ -13,11 +13,6 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
     freezeTableName: true // Para que no le cambie el nombre a todas las tablas
   }
 });
-
-// const sequelize = new Sequelize(DB_DEPLOY, {
-//   logging: false, // set to console.log to see the raw SQL queries
-//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-// });
 
 const basename = path.basename(__filename);
 
@@ -39,14 +34,33 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-
+const { Product, Review, User, Brand, Type, Storage, Address, Ram } = sequelize.models;
 
 // Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+Product.hasMany(Review);
+Review.belongsTo(Product);
+
+User.hasMany(Review);
+Review.belongsTo(User);
+
+User.hasMany(Address);
+Address.belongsTo(User)
+
+Brand.hasMany(Product);
+Product.belongsTo(Brand);
+
+Type.hasMany(Product);
+Product.belongsTo(Type);
+
+Storage.hasMany(Product);
+Product.belongsTo(Storage);
+
+Ram.hasMany(Product);
+Product.belongsTo(Ram);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');
-  Op 
+  Op
 };
-    
+
