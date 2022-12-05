@@ -3,14 +3,13 @@
   text-align: center;
   flex-direction: column;
   border: 1px solid black;
-  width: 350px;
-  margin: 5px;
+  width: 300px;
+  margin-bottom: 2rem;
   padding: 5px;
 }
 
 .image {
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 200px;
 }
 
 .image:hover {
