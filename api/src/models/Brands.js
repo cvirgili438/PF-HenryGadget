@@ -14,12 +14,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-        isEmpty(string) {
-          const validation = [...string].filter(e => e !== ' ').length === 0
-          if (validation) {
-            throw new Error('Brand name cannot be empty!')
-          }
-        }
+        notEmpty: true,
       }
     },
     description: {
