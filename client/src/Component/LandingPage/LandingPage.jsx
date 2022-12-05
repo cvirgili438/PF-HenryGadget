@@ -9,6 +9,7 @@ import Footer from '../Footer/Footer';
 
 
 import styles from './LandingPage.module.css';
+import Slider from '../Slider/Slider';
 
 
 const LandingPage = () => {
@@ -16,6 +17,8 @@ const LandingPage = () => {
   
   return (
     <div className={ styles.container }>   
+      <Slider/>
+
       <div className={ styles.main }>
         {/* {
           featured.length > 0 ?
