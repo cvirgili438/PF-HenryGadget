@@ -13,6 +13,10 @@ function Filters() {
   const {search} = useLocation()
   const filters = useSelector((state)=> state.filters)
   const query = new URLSearchParams(search)
+  let brand = query.get("brand")
+  let type = query.get('type')
+  let storage = query.get('storage')
+  let price = query.get("sortPrice")
   const [active, setActive] = useState({
     category:true,
     brand:true,
@@ -21,17 +25,17 @@ function Filters() {
   })
 
   const [select,setSelect] = useState({
-    type:"",
-    brand:"",
-    storage:"",
-    price:""
+    type: type || "",
+    brand: brand || "",
+    storage: storage || "",
+    price:price || ""
   })
 
 
   useEffect(()=>{
-    dispatch(getProductsByQuery(""))
+    dispatch(getProductsByQuery(search))
     dispatch(getAllFilters())
-  },[dispatch])
+  },[dispatch,select])
 
   
     
@@ -66,7 +70,7 @@ function Filters() {
       query.set(e.target.name,e.target.value)
       history.push({search:query.toString()})
       dispatch(getProductsByQuery(search))
-
+      console.log(search)
     }
 
     const handleClear=()=>{

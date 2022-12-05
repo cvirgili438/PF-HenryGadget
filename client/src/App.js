@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import LandingPage from './Component/LandingPage/LandingPage.jsx';
 import NavBar from './Component/NavBar/NavBar';
 import Detail from './Component/Detail/Detail';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   
