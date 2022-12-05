@@ -12,10 +12,18 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('Brand name cannot be empty!')
+          }
+        }
+      }
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },     
   },

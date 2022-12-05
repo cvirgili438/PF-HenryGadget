@@ -12,14 +12,38 @@ module.exports = (sequelize) => {
     street: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('Street cannot be empty!')
+          }
+        }
+      }
     },
     city: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('City cannot be empty!')
+          }
+        }
+      }
     },
     region: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('Region cannot be empty!')
+          }
+        }
+      }
     },
     postalCode: {
       type: DataTypes.STRING,
