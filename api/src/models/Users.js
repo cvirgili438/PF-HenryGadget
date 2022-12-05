@@ -20,12 +20,7 @@ module.exports = (sequelize) => {
       field: 'first_name',
       validate: {
         isAlphanumeric: true,
-        isEmpty(string) {
-          const validation = [...string].filter(e => e !== ' ').length === 0
-          if (validation) {
-            throw new Error('First name cannot be empty!')
-          }
-        }
+        notEmpty: true
       }
     },
     lastName: {
@@ -34,12 +29,7 @@ module.exports = (sequelize) => {
       field: 'last_name',
       validate: {
         isAlphanumeric: true,
-        isEmpty(string) {
-          const validation = [...string].filter(e => e !== ' ').length === 0
-          if (validation) {
-            throw new Error('Last name cannot be empty!')
-          }
-        }
+        notEmpty: true
       }
     },
     email: {
