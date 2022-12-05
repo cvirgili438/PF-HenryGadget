@@ -29,6 +29,7 @@ function Filters() {
 
 
   useEffect(()=>{
+    dispatch(getProductsByQuery(""))
     dispatch(getAllFilters())
   },[dispatch])
 
