@@ -12,7 +12,15 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        isEmpty(string) {
+          const validation = [...string].filter(e => e !== ' ').length === 0
+          if (validation) {
+            throw new Error('Name cannot be empty!')
+          }
+        }
+      }
     },
     price: {
       type: DataTypes.FLOAT,
@@ -31,7 +39,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     processor: {
