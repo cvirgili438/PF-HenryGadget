@@ -3,10 +3,12 @@
 }
 
 .container {
-  height: 100%;
   display: flex;
+  width: 100%;
   padding: 10px;
   background: rgb(125, 125, 125);
+  position: fixed;
+  z-index: 100;
 }
 
 .center {
