@@ -96,4 +96,84 @@ module.exports = [
         img: ['https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-2.jpg']
     },
+    {
+        name: 'Xperia 5 IV',
+        price: 650,
+        model: 'Sony Xperia 5 I',
+        type: 'headphones',
+        stock: 0,
+        img: ['https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-5-iv-ecru-white.jpg']
+    },
+    {
+        name: 'Galaxy M13 5G',
+        price: 700,
+        model: 'Samsung Galaxy M13 5G',
+        type: 'headphones',
+        stock: 0,
+        img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg']
+    },
+    {
+        name: 'Pocket SG',
+        price: 700,
+        model: 'Huawei Pocket SG',
+        type: 'headphones',
+        stock: 0,
+        img: ['https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-lite-2.jpg']
+    },
+    {
+        name: 'W41 Pro',
+        price: 700,
+        model: 'LG W41 Pro',
+        type: 'headphones',
+        stock: 7,
+        img: ['https://fdn2.gsmarena.com/vv/pics/lg/lg-w41-pro-1.jpg']
+    },
+    {
+        name: 'Wildfire E2 Plu',
+        price: 200,
+        model: 'HTC Wildfire E2 Plu',
+        type: 'headphones',
+        stock: 4,
+        img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg']
+    },
+    {
+        name: '80',
+        price: 850,
+        model: 'Honor 80',
+        type: 'headphones',
+        stock: 5,
+        img: ['https://fdn2.gsmarena.com/vv/pics/honor/honor-80-pro-2.jpg']
+    },
+    {
+        name: '10 Pro',
+        price: 850,
+        model: 'Realme 10 Pro',
+        type: 'headphones',
+        stock: 13,
+        img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg']
+    },
+    {
+        name: 'KEY2 LE',
+        price: 950,
+        model: 'BlackBerry KEY2 LE',
+        type: 'headphones',
+        stock: 24,
+        img: ['https://fdn2.gsmarena.com/vv/pics/blackberry/blackberry-key2-le-1.jpg']
+    },
+    {
+        name: '18s',
+        price: 950,
+        model: 'Meizu 18s',
+        type: 'headphones',
+        stock: 34,
+        img: ['https://fdn2.gsmarena.com/vv/pics/meizu/meizu-18s-1.jpg']
+    },
+    {
+        name: 'Surface Du',
+        price: 300,
+        model: 'Microsoft Surface Duo',
+        type: 'headphones',
+        stock: 5,
+        img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg']
+    },
 ]
