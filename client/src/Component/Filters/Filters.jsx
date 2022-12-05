@@ -1,153 +1,138 @@
 import React,{useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux'
 import styles from "./Filters.module.css";
-import {MdKeyboardArrowRight} from 'react-icons/md'
-import { getAllFilters } from "../../Redux/Action";
+import {MdKeyboardArrowDown} from 'react-icons/md'
+import { getAllFilters ,getProductsByQuery } from "../../Redux/Action";
+import {useLocation , useHistory} from 'react-router-dom'
 
 function Filters() {
-  const dispatch=useDispatch()
+
+  const dispatch = useDispatch()
+  
+  const history = useHistory()
+  const {search} = useLocation()
+  const filters = useSelector((state)=> state.filters)
+  const query = new URLSearchParams(search)
+  const [active, setActive] = useState({
+    category:true,
+    brand:true,
+    storage:true,
+    price:true
+  })
+
+  const [select,setSelect] = useState({
+    type:"",
+    brand:"",
+    storage:"",
+    price:""
+  })
+
+
   useEffect(()=>{
     dispatch(getAllFilters())
   },[dispatch])
-  const filters = useSelector((state)=> state.filters)
+
+  
     
-    const [active, setActive] = useState({
-      category:false,
-      brand:false,
-      color:false,
-      storage:false
-    })
 
     const toggle = (e)=>{
         
-        if(e.target.id === "category")setActive({...active,[e.target.id]:!active.category})
-        if(e.target.id === "brand")setActive({...active,[e.target.id]:!active.brand})
-        if(e.target.id === "color")setActive({...active,[e.target.id]:!active.color})
-        if(e.target.id === "storage")setActive({...active,[e.target.id]:!active.storage})
+        if(e.target.id === "category")setActive({...active,[e.target.id]:!active.category});
+        if(e.target.id === "brand")setActive({...active,[e.target.id]:!active.brand});
+        if(e.target.id === "price")setActive({...active,[e.target.id]:!active.price});
+        if(e.target.id === "storage")setActive({...active,[e.target.id]:!active.storage});
 
+    }
+
+    const handleSelect = (e)=>{
+      if(e.target.name === 'sortPrice'){
+        e.target.value === 'Higher prices' ? query.set(e.target.name, "up") :  query.set(e.target.name,"down");
+        setSelect({...select,price:e.target.value})
+        history.push({search:query.toString()})
+        dispatch(getProductsByQuery(search))
+        return
+      }
+      if(e.target.name === "type"){
+        let withOutS = e.target.value.substring(0,e.target.value.length-1)
+        let toLower = withOutS[0].toLowerCase() + withOutS.slice(1)
+        setSelect({...select,[e.target.name]:toLower})
+        query.set(e.target.name,toLower)
+        history.push({search:query.toString()})
+        dispatch(getProductsByQuery(search))
+        return
+      }
+      setSelect({...select,[e.target.name]:e.target.value})
+      query.set(e.target.name,e.target.value)
+      history.push({search:query.toString()})
+      dispatch(getProductsByQuery(search))
+
+    }
+
+    const handleClear=()=>{
+      setSelect({...select,type:"",
+      brand:"",
+      storage:"",
+      price:""})
+
+      query.delete("brand")
+      query.delete("sortPrice")
+      query.delete("type")
+      query.delete("storage")
+      history.push({search:query.toString()})
+      dispatch(getProductsByQuery(search))
     }
 
   return (
     <div className={styles.container}>
-      <h2>Filters</h2>
+
+      <h2>{query.get('type') ? query.get('type')[0].toUpperCase()+query.get('type').slice(1)+'s': ""}</h2>
+
       <div className={styles.block_container}>
         <div className={styles.block_container_title} id="category" onClick={toggle} >
             Categegory
-            <MdKeyboardArrowRight className={active.category ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowDown className={active.category ? styles.arrow_active : ""}/> 
         </div>
         <div className={active.category ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          {/* <div>
-            <input type="checkbox" id="cell" />
-            <label htmlFor="cell">Cellphones</label>
-          </div>
-          <div>
-            <input type="checkbox" name="headphones" id="headphones" />
-            <label htmlFor="headphones">Headphones</label>
-          </div>
-          <div>
-            <input type="checkbox" name="speakers" id="speakers" />
-            <label htmlFor="speakers">Speakers</label>
-          </div> */}
-          {filters.type? filters.type.map((e,i)=>{return (<h6 key={`type${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
+          {filters.type? filters.type.map((e,i)=>{return <input onClick={handleSelect} type='button' key={`type${i}`} name='type' className={`${styles.input} ${select.type === e ? styles.input_active : ""}`} value={`${e[0].toUpperCase()}${e.slice(1)+'s'}`}/>}) : (<h3>Loading</h3>)}
         </div>
       </div>
 
       <div>
         <div className={styles.block_container_title} id='brand' onClick={toggle} >
             Brand
-            <MdKeyboardArrowRight className={active.brand ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowDown className={active.brand ? styles.arrow_active : ""}/> 
         </div>
-        <div className={active.brand ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          {/* <div>
-            <input type="checkbox" id="Samsung" />
-            <label htmlFor="Samsung">Samsung</label>
-          </div>
-          <div>
-            <input type="checkbox" />
-            <label htmlFor="Motorola">Motorola</label>
-          </div>
-          <div>
-            <input type="checkbox" id="Xiamomi" />
-            <label htmlFor="Xiaomi">Xiaomi</label>
-          </div>
-          <div>
-            <input type="checkbox" name="iPhone" id="iPhone" />
-            <label htmlFor="iPhone">iPhone</label>
-          </div> */}
-          {filters.brand? filters.brand.map((e,i)=>{return (<h6 key={`brand${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
+        <div className={active.brand ? `${styles.options_container} ${styles.active_brand}` : styles.options_container}>
+          {filters.brand? filters.brand.map((e,i)=>{return <input onClick={handleSelect} className={`${styles.input} ${select.brand === e ? styles.input_active : ""}`} type='button' key={`type${i}`} name='brand'  value={`${e}`}/>}) : (<h3>Loading</h3>)}
         </div>
       </div>
 
-      {/* <div>
-        <div className={styles.block_container_title} id='color' onClick={toggle} >
-            Color
-            <MdKeyboardArrowRight className={active.color ? styles.arrow_active : ""}/> 
-        </div>
-        <div className={active.color ? `${styles.options_container} ${styles.active_color}` : styles.options_container}>
-          <div>
-            <input type="checkbox" name="red" id="red" />
-            <label htmlFor="red">Red</label>
-          </div>
-          <div>
-            <input type="checkbox" name="blue" id="blue" />
-            <label htmlFor="blue">Blue</label>
-          </div>
-          <div>
-            <input type="checkbox" name="green" id="green" />
-            <label htmlFor="green">Green</label>
-          </div>
-          <div>
-            <input type="checkbox" name="grey" id="grey" />
-            <label htmlFor="grey">Grey</label>
-          </div>
-          <div>
-            <input type="checkbox" name="black" id="black" />
-            <label htmlFor="black">Black</label>
-          </div>
-          <div>
-            <input type="checkbox" name="pink" id="pink" />
-            <label htmlFor="pink">Pink</label>
-          </div>
-        </div>
-      </div> */}
 
       <div>
         <div className={styles.block_container_title} id='storage' onClick={toggle} >
             Storage
-            <MdKeyboardArrowRight className={active.storage ? styles.arrow_active : ""}/> 
+            <MdKeyboardArrowDown className={active.storage ? styles.arrow_active : ""}/> 
         </div>
         <div className={active.storage ? `${styles.options_container} ${styles.active_storage}` : styles.options_container}>
-          {/* <div>
-            <input type="checkbox" id="1TB" />
-            <label htmlFor="1TB">1TB</label>
-          </div>
-          <div>
-            <input type="checkbox" id="512" />
-            <label htmlFor="512">512GB</label>
-          </div>
-          <div>
-            <input type="checkbox" name="256" id="256" />
-            <label htmlFor="256">256GB</label>
-          </div>
-          <div>
-            <input type="checkbox" name="128" id="128" />
-            <label htmlFor="128">128GB</label>
-          </div>
-          <div>
-            <input type="checkbox" name="64" id="64" />
-            <label htmlFor="64">64GB</label>
-          </div>
-          <div>
-            <input type="checkbox" name="32" id="32" />
-            <label htmlFor="32">32GB</label>
-          </div>
-          <div>
-            <input type="checkbox" name="16" id="16" />
-            <label htmlFor="16">16GB</label>
-          </div> */}
-          {filters.storage? filters.storage.map((e,i)=>{return (<h6 key={`storage${i}`}>{e}</h6>)}) : (<h3>Loading</h3>)}
+          {filters.storage? filters.storage.map((e,i)=>{return (<input onClick={handleSelect} type='button' key={`type${i}`} name='storage'  value={`${e}`}  className={`${styles.input} ${select.storage === e ? styles.input_active : ""}`} />) }) : (<h3>Loading</h3>)}
         </div>
       </div>
+
+      <div>
+        <div className={styles.block_container_title} id='price' onClick={toggle} >
+            Price
+            <MdKeyboardArrowDown className={active.price ? styles.arrow_active : ""}/> 
+        </div>
+        <div className={active.price ? `${styles.options_container} ${styles.active}` : styles.options_container}>
+          <input type='button' value='Higher prices' onClick={handleSelect}  className={`${styles.input} ${select.price === 'Higher prices' ? styles.input_active : ""}`} name="sortPrice"/>
+          <input type='button' value="Lower prices"  onClick={handleSelect} name="sortPrice" className={`${styles.input} ${select.price === 'Lower prices' ? styles.input_active : ""}`}/>
+        </div>
+      </div>
+
+      <div>
+        <input type='button' onClick={handleClear} className={styles.clear_button} value='Clear filters' />
+      </div>
+
     </div>
   );
 }

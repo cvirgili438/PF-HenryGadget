@@ -6,8 +6,8 @@ export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 
-// export const URL = 'http://localhost:3001';
-export const URL = 'http://192.168.0.170:3001'; // para pruebas
+export const URL = 'http://localhost:3001';
+// export const URL = 'http://192.168.0.170:3001'; // para pruebas
 
 export const getAllProducts= ()=> async (dispatch)=>{   
       // Traemos en un futuro, un array de Productos con sus caracteristicas 
@@ -40,10 +40,10 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
     //     {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}`)} 
     //     else {return stringToUrl = stringToUrl.concat(`${el[0]}=${el[1]}&`)}
     // })
-    let stringToUrl = objectToQuery(query)
-    
+    // let stringToUrl = objectToQuery(query)
+    // console.log(stringToUrl)
     try{        
-        let json = await  axios(URL + `/Products?${stringToUrl}`)
+        let json = await  axios(URL + `/Products${query}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
             payload:json.data,
