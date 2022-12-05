@@ -1,0 +1,22 @@
+
+
+.body_modal_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.body_modal_container_inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.body_modal_container_inputs input{
+    width: 20rem;
+}
+
+.body_modal_button{
+    margin-top: 1rem;
+    width: 20rem;
+}

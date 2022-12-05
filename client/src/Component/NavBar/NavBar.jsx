@@ -10,11 +10,12 @@ import Input from "../Input/Input.jsx";
 import logo from '../../Assets/logo.png'
 
 import styles from './NavBar.module.css';
+import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 
 const NavBar = () => {
   const [input, setInput] = useState('');
   const dispatch = useDispatch();
-
+  const [modalShow, setModalShow] = useState(false);
   const handleInputChange = e => {
     setInput(e.target.value);
   };
@@ -58,9 +59,11 @@ const NavBar = () => {
         <Link to='/'>
           <Button text='Cart' />
         </Link>
-        <Link to='/user'>
-          <Button text='Login' />
-        </Link>
+        <Button text='Login' onClick={()=>setModalShow(true)} />
+        <ModalRegister 
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        />
       </div>
     </div>
   )
