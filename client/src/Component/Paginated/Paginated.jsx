@@ -34,7 +34,7 @@ import style from './Paginated.module.css'
         queries.offset = e.target.id*9-9
         let string = objectToQuery(queries)
         history.push(`?${string}`)
-        dispatch(getProductsByQuery(queries))
+        dispatch(getProductsByQuery("?"+string))
     }
    
     
