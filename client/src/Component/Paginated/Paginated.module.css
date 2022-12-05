@@ -1,0 +1,22 @@
+.paginated li {
+    display:inline;
+     padding-left:3px;
+     padding-right:3px;
+    background-color:black;
+    cursor: pointer;   
+    border: black 2px solid;
+    border-radius:10%;    
+    background-color: rgba(177, 174, 175, 0.7);   
+}
+
+.number {
+    color: black;
+    text-decoration:none;
+}
+.number:hover {
+    color:black;
+    background-color:lightgray;
+}
+.paginated{
+    opacity: 10;
+}

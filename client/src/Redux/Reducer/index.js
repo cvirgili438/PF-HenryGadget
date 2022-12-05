@@ -1,4 +1,4 @@
-import { FILTER_BY_NAME, GET_PRODUCTS } from "../Action"
+import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
 
 
 
@@ -9,7 +9,11 @@ const inicialtate = {
     // {brand: "Samsung", name :"Galaxy A23",price:"79.999,00",model:"SM-A235M",type:"smartphone", stock:"4",camera:"50", storage:"128",processor:"Qualcomm SM6225 8 núcleos 2,4 Ghz",description:"saraza"},
     // {}
             ],
-    filteredProducts: []
+    filteredProducts: [],
+    productDetail: [],
+    filters:{},
+    page: 1
+
 }
 
 
@@ -20,12 +24,39 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     products : action.payload
+                }           
+            case GET_PRODUCTS_BY_QUERY:
+                if(action.filter === false){
+                    let products = action.payload
+                    let filtered = products.slice(0,9)
+                return {
+                    ...state,
+                    products:products,
+                    filteredProducts:filtered
                 }
-            case FILTER_BY_NAME:
+                }
+                else return {
+                        ...state,
+                        filteredProducts:action.payload
+                }
+            case GET_PRODUCT_BY_ID:
                 return{
                     ...state,
-                    filteredProducts:action.payload
-
+                    productDetail : action.payload
+                }
+            case GET_TYPES:
+                let types = {}
+                types.type = action.payload.type.map(el =>{return el.name})
+                types.brand = action.payload.brand.map(el =>{return el.name})
+                types.storage = action.payload.storage.map(el =>{return el.size})
+                return{
+                    ...state,
+                    filters: types
+                }
+            case SET_PAGE_VIEW:
+                return {
+                    ...state,
+                    page: Number(action.payload)
                 }
             default:
                 return {...state}

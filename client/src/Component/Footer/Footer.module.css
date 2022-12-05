@@ -9,7 +9,7 @@
 .column {
   font-size: 0.9em;
   width: 100%;
-  min-height: 100px;
+  min-height: 80px;
   display: flex;
   padding-top: 10px;
   padding-bottom: 20px;

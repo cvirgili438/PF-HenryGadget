@@ -7,6 +7,7 @@ const storages = require('./objectToAdd/storages.js');
 const types = require('./objectToAdd/types.js');
 const rams = require('./objectToAdd/ram.js');
 
+
 async function inicialProducts() {
     try {
         const arrayStorage = [
@@ -62,5 +63,6 @@ async function inicialProducts() {
         console.log(error, 'data not found')
     }
 }
+
 
 module.exports = { inicialProducts }

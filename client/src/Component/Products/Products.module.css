@@ -1,5 +1,16 @@
 .container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 15rem;
+}
+
+.paginated {
+  display: block;
+  
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background-size: cover;
+  min-height: 500px;
 }
