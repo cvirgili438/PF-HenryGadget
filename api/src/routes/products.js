@@ -20,10 +20,10 @@ router.get('/', async (req, res) => {
         return res.status(400).json({ err: 'Bad query.' });
 
     // Se chequea que se reciban solo opciones válidas
-    if (sortPrice && !(sortPrice === 'up' || sortPrice === 'down'))
+    if (sortPrice && !(sortPrice === 'Lower prices' || sortPrice === 'Higher prices'))
         return res.status(400).json({ err: 'Bad option in query sortPrice.' });
 
-    if (sortBrand && !(sortBrand === 'up' || sortBrand === 'down'))
+    if (sortBrand && !(sortBrand === 'Lower prices' || sortBrand === 'Higher prices'))
         return res.status(400).json({ err: 'Bad option in query sortBrand.' });
 
     if (limitPrice && limitPrice.length !== 0) {
