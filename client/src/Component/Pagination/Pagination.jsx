@@ -43,22 +43,24 @@ const stripedPagination = (totalPages, currentPage, maxPages) => {
 }
 
 const Pagination = () => {
-  const useQuery = () => new URLSearchParams(useLocation().search);
-  const queryActual = useQuery();
-  
-  const productsPerPage = 9; // ESTO HAY QUE CAMBIARLO CUANDO TENGAMOS MAS PRODUCTOS, TAMBIEN PODRIA ESTAR ALMACENADO EN LA BD COMO CONFIGURACION DE VISUALIZACION
-  const totalProducts = 9; // ESTO VA A VENIR DEL BACK EN UNA RUTA QUE DIGA CUANTOS PRODUCTOS HAY
-  const limit = queryActual.get('limit') || productsPerPage;
-  const offset = queryActual.get('offset') || 0;
-  
-  const [shownPages, setShownPages] = useState([2,3,4,5,6]);
 
-  const dispatch = useDispatch();
   const history = useHistory()
+  const { search } = useLocation()
+  const query = new URLSearchParams(search)
   
   const page = useSelector(state => state.page);
   const products = useSelector(state => state.filteredProducts);
 
+  const productsPerPage = 9; // ESTO HAY QUE CAMBIARLO CUANDO TENGAMOS MAS PRODUCTOS, TAMBIEN PODRIA ESTAR ALMACENADO EN LA BD COMO CONFIGURACION DE VISUALIZACION
+  const totalProducts = useSelector(state => state.totalProducts); // ESTO VA A VENIR DEL BACK EN UNA RUTA QUE DIGA CUANTOS PRODUCTOS HAY
+  
+  const limit = query.get('limit') || productsPerPage;
+  const offset = query.get('offset') || 0;
+  
+  const [shownPages, setShownPages] = useState([2,3,4,5,6]);
+
+  const dispatch = useDispatch();
+  
   const pages = Math.ceil(totalProducts / productsPerPage);
   const maxPages = 5;
 
@@ -68,11 +70,9 @@ const Pagination = () => {
     dispatch(setPageView(e.target.value));
     queryNew.limit = productsPerPage;
     queryNew.offset = e.target.value * productsPerPage - productsPerPage;
-    dispatch(getProductsByQuery(queryNew));
-    
-    let string = objectToQuery(queryNew)
-    history.push(`?${string}`)
-    dispatch(getProductsByQuery(queryNew))
+    let string = objectToQuery(queryNew);
+    dispatch(getProductsByQuery(`?${string}`));
+    history.push(`?${string}`);
   }
 
   const handleInputLess = (e) => {
@@ -84,10 +84,7 @@ const Pagination = () => {
   }
 
   useEffect(() => {
-    if (products.length === 0) {
-      dispatch(getProductsByQuery({limit: limit, offset: offset}));
-      dispatch(setPageView((offset / productsPerPage) + 1))
-    }
+    dispatch(setPageView((offset / productsPerPage) + 1))
     if(totalProducts < productsPerPage) {
       dispatch(setPageView(1))
     }

@@ -12,7 +12,8 @@ const inicialtate = {
     filteredProducts: [],
     productDetail: [],
     filters:{},
-    page: 1
+    page: 1,
+    totalProducts: 42
 
 }
 
