@@ -15,7 +15,7 @@ export const getAllProducts= ()=> async (dispatch)=>{
                 var json = await axios(URL + '/Products')
                 return dispatch({
                     type:GET_PRODUCTS,
-                    payload:json.data
+                    payload:json.data.result
                 })
             }
             catch(err){console.log(err)}
@@ -27,7 +27,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
         let json = await  axios(URL + '/Products')
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
-            payload:json.data,
+            payload:json.data.result,
             filter:false
         })
     }
@@ -46,7 +46,7 @@ export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un obj
         let json = await  axios(URL + `/Products${query}`)
         return dispatch({
             type:GET_PRODUCTS_BY_QUERY,
-            payload:json.data,
+            payload:json.data.result,
             filter:true
         })
     }
@@ -58,7 +58,7 @@ export const getProductById =(id) => async (dispatch) => {
         let res = await axios.get(URL + `/Products/${id}`)
         return dispatch({
             type:GET_PRODUCT_BY_ID,
-            payload:res.data
+            payload:res.data.result
         })
     } catch (er) {
         console.log(er)
