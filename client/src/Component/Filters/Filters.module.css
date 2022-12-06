@@ -38,7 +38,7 @@
 
 .options_container{
     background-color:rgb(247, 247, 247);
-    /* display: flex; */
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     transition: all .8s ease-in-out;
@@ -54,7 +54,7 @@
     height: 6rem;
 }
 .active_brand{
-    height: 22rem;
+    height: 55rem;
 }
 .active_storage{
     height: 8rem;
