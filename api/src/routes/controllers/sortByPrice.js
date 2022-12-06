@@ -1,6 +1,6 @@
 module.exports = (products, sortPrice) => {
 
-    if (sortPrice === 'up') {
+    if (sortPrice === 'Lower prices') {
         products.sort((first, second) => {
             if (first.price < second.price)
                 return -1
@@ -11,7 +11,7 @@ module.exports = (products, sortPrice) => {
         return products;
     }
 
-    if (sortPrice === 'down') {
+    if (sortPrice === 'Higher prices') {
         products.sort((first, second) => {
             if (first.price < second.price)
                 return 1
