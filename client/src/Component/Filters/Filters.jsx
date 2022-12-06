@@ -13,11 +13,13 @@ function Filters() {
   const { search } = useLocation()
   const filters = useSelector((state) => state.filters)
   const query = new URLSearchParams(search)
+
   let brand = query.get("brand")
   let type = query.get('type')
   let storage = query.get('storage')
   let price = query.get("sortPrice")
   let ram = query.get("ram")
+  
   const [active, setActive] = useState({
     category: true,
     brand: true,
@@ -55,7 +57,7 @@ function Filters() {
 
   const handleSelect = (e) => {
     if (e.target.name === 'sortPrice') {
-      e.target.value === 'Higher prices' ? query.set(e.target.name, "up") : query.set(e.target.name, "down");
+      e.target.value === 'Higher prices' ? query.set(e.target.name, "down") : query.set(e.target.name, "up");
       setSelect({ ...select, price: e.target.value })
       history.push({ search: query.toString() })
       dispatch(getProductsByQuery(search))
@@ -64,17 +66,29 @@ function Filters() {
     if (e.target.name === "type") {
       let withOutS = e.target.value.substring(0, e.target.value.length - 1)
       let toLower = withOutS[0].toLowerCase() + withOutS.slice(1)
+      if(query.get(e.target.name) === toLower){
+        query.delete(e.target.name)
+        history.push({ search: query.toString() })
+        setSelect({...select,[e.target.name]:""})
+        return
+      }
       setSelect({ ...select, [e.target.name]: toLower })
       query.set(e.target.name, toLower)
       history.push({ search: query.toString() })
       dispatch(getProductsByQuery(search))
       return
     }
+    if(query.get(e.target.name) === e.target.value){
+      query.delete(e.target.name)
+      history.push({ search: query.toString() })
+      setSelect({...select,[e.target.name]:""})
+      return
+    }
+
     setSelect({ ...select, [e.target.name]: e.target.value })
     query.set(e.target.name, e.target.value)
     history.push({ search: query.toString() })
     dispatch(getProductsByQuery(search))
-    console.log(search)
   }
 
   const handleClear = () => {
@@ -92,6 +106,8 @@ function Filters() {
     query.delete("type")
     query.delete("storage")
     query.delete("ram")
+    query.delete('offset')
+    query.delete('limit')
     history.push({ search: query.toString() })
     dispatch(getProductsByQuery(search))
   }
@@ -148,8 +164,8 @@ function Filters() {
           <MdKeyboardArrowDown className={active.price ? styles.arrow_active : ""} />
         </div>
         <div className={active.price ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          <input type='button' value='Higher prices' onClick={handleSelect} className={`${styles.input} ${select.price === 'Higher prices' ? styles.input_active : ""}`} name="sortPrice" />
-          <input type='button' value="Lower prices" onClick={handleSelect} name="sortPrice" className={`${styles.input} ${select.price === 'Lower prices' ? styles.input_active : ""}`} />
+          <input type='button' value="Higher prices" onClick={handleSelect} name="sortPrice" className={`${styles.input} ${select.price === 'Higher prices' ? styles.input_active : ""}`} />
+          <input type='button' value='Lower prices' onClick={handleSelect} className={`${styles.input} ${select.price === 'Lower prices' ? styles.input_active : ""}`} name="sortPrice" />
         </div>
       </div>
 
