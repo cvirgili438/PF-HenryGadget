@@ -1,4 +1,4 @@
-import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
+import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
 
 
 
@@ -57,6 +57,10 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     page: Number(action.payload)
+                }
+            case CREATE_PRODUCT:
+                return {
+                    ...state,
                 }
             default:
                 return {...state}

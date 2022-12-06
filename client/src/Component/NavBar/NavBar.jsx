@@ -41,13 +41,13 @@ const NavBar = () => {
   };
   useEffect(()=>{
     dispatch(getProductsByQuery(search))
-    if (pathname === '/Create/Product'){
-      setCrud({create:true})
-      return
-    }
-    else {
-      setCrud({create:false})
-    }
+    // if (pathname === '/Create/Product'){
+    //   setCrud({create:true})
+    //   return
+    // }
+    // else {
+    //   setCrud({create:false})
+    // }
   },[dispatch,pathname,search,crud]) 
 
 
@@ -79,11 +79,16 @@ const NavBar = () => {
         
           
         }
-        {
+        {/* {
           !crud.create ? (<Link to='/Create/Product' >
           <Button text='Create Product'  />
       </Link>) : <></>
-        }
+        } */}
+
+      <Link to='/Create/Product' >
+          <Button text='Create Product'  />
+      </Link>
+      
       </div>
       <div className={ styles.menu }>
         <Link to='/'>
