@@ -39,8 +39,8 @@ const NavBar = () => {
     dispatch(getProductsByQuery(search));
     setInput('');
   };
+
   useEffect(()=>{
-    dispatch(getProductsByQuery(search))
     if (pathname === '/Create/Product'){
       setCrud({create:true})
       return
@@ -48,8 +48,11 @@ const NavBar = () => {
     else {
       setCrud({create:false})
     }
-  },[dispatch,pathname,search,crud]) 
+  },[pathname]) 
 
+  useEffect(()=>{
+    dispatch(getProductsByQuery(search))
+  },[search])
 
   return (
     <div className={ styles.container }>
