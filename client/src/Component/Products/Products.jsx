@@ -7,7 +7,7 @@ import Filters from '../Filters/Filters';
 import styles from './Products.module.css';
 
 import Pagination from '../Pagination/Pagination.jsx';
-import Paginated from '../Paginated/Paginated';
+// import Paginated from '../Paginated/Paginated';
 
 const Products = () => {
   const products = useSelector(state => state.filteredProducts);
