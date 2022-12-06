@@ -59,6 +59,9 @@
 .active_storage{
     height: 8rem;
 }
+.active_ram{
+    height: 8rem;
+}
 
 .block_container_title{
     font-weight: 500;

@@ -50,6 +50,7 @@ export default function rootReducer(state = inicialtate,action){
                 types.type = action.payload.type.map(el =>{return el.name})
                 types.brand = action.payload.brand.map(el =>{return el.name})
                 types.storage = action.payload.storage.map(el =>{return el.size})
+                types.ram = action.payload.ram.map(el=>{return el.size})
                 return{
                     ...state,
                     filters: types
