@@ -70,12 +70,14 @@ export  const getAllFilters= ()=> async (dispatch)=>{
     let type = await axios(URL + `/Products/type`)
     let brand = await axios(URL + `/Products/brand`)
     let storage = await axios(URL + `/Products/storage`)
+    let ram = await axios(URL + `/Products/ram`)
     return dispatch({
         type:GET_TYPES,
         payload : {
             type: type.data.result,
             brand: brand.data.result,
-            storage: storage.data.result
+            storage: storage.data.result,
+            ram: ram.data.result
         }
     })
  }
