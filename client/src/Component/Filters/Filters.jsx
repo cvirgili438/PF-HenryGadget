@@ -57,7 +57,14 @@ function Filters() {
 
   const handleSelect = (e) => {
     if (e.target.name === 'sortPrice') {
-      e.target.value === 'Higher prices' ? query.set(e.target.name, "down") : query.set(e.target.name, "up");
+      if(query.get(e.target.name) === e.target.value){
+        console.log("adentro")
+        query.delete(e.target.name)
+        history.push({ search: query.toString() })
+        setSelect({...select,price:""})
+        return
+      }
+      query.set(e.target.name,e.target.value)
       setSelect({ ...select, price: e.target.value })
       history.push({ search: query.toString() })
       dispatch(getProductsByQuery(search))
