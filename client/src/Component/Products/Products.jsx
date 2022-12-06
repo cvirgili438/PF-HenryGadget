@@ -18,7 +18,7 @@ const Products = () => {
         <Filters />
       </div>
       <div className={ styles.paginated }>
-        <Paginated />
+        <Pagination />
         <div className={ styles.products }>
         {
           products
