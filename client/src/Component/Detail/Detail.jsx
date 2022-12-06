@@ -19,10 +19,16 @@ const Detail = () => {
 
     const productDetail = useSelector(state => state.productDetail);
 
+    const features = useSelector(state => state.filters);
+    
+    // console.log(features.storage);
+
+    console.log(productDetail);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getProductById(id));
+        dispatch(getProductById(id));        
     }, [dispatch, id]);
 
     let handleCount = (e) => {
@@ -49,7 +55,7 @@ const Detail = () => {
     }
     return (
 
-        <div className="container">
+        <div className={`container ${styles.container}`}>
             <MiniNav />
             <div className={`${styles.product_area}`}>
                 <div className={`col-xs-4 ${styles.item_photo}`}>
@@ -103,15 +109,15 @@ const Detail = () => {
                 <div className={`row`}>
                     <div className={`col p-3`}>
                         <strong>Almacenamiento</strong>
-                        <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>-n/a-</div>                        
+                        <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>{!productDetail.storage ? '-n/a-' : productDetail.storage.size }</div>                        
                     </div>
                     <div className={`col p-3`}>
                         <strong>Camara</strong>
-                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{ productDetail.camera }</div>                        
+                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{ !productDetail.camera ? '-n/a-' : productDetail.camera.size }</div>                        
                     </div>
                     <div className={`col p-3`}>
                         <strong>Procesador</strong>
-                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{ productDetail.processor }</div>
+                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{ !productDetail.processor ? '-n/a-' : productDetail.processor.size }</div>
                         </div>
                 </div>
 
