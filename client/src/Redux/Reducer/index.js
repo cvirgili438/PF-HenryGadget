@@ -1,4 +1,4 @@
-import {  GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
+import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
 
 
 
@@ -12,7 +12,8 @@ const inicialtate = {
     filteredProducts: [],
     productDetail: [],
     filters:{},
-    page: 1
+    page: 1,
+    totalProducts: 42
 
 }
 
@@ -49,6 +50,7 @@ export default function rootReducer(state = inicialtate,action){
                 types.type = action.payload.type.map(el =>{return el.name})
                 types.brand = action.payload.brand.map(el =>{return el.name})
                 types.storage = action.payload.storage.map(el =>{return el.size})
+                types.ram = action.payload.ram.map(el=>{return el.size})
                 return{
                     ...state,
                     filters: types
@@ -57,6 +59,10 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     page: Number(action.payload)
+                }
+            case CREATE_PRODUCT:
+                return {
+                    ...state,
                 }
             default:
                 return {...state}
