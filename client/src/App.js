@@ -4,6 +4,7 @@ import LandingPage from './Component/LandingPage/LandingPage.jsx';
 import NavBar from './Component/NavBar/NavBar';
 import Detail from './Component/Detail/Detail';
 import CreateProduct from './Component/CreateProduct/CreateProduct';
+import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
@@ -23,6 +24,9 @@ const App = () => {
         <Route exact path={'/Create/Product'}>
               <CreateProduct /> 
         </Route>   
+        <Route exact path={'/test'}>
+              <ProductCRUD /> 
+        </Route> 
         <Route exact path="/product/:id" component={Detail} />
       </div>
     </BrowserRouter>

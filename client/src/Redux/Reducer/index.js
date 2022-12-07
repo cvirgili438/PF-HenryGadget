@@ -1,4 +1,4 @@
-import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
+import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW, DELETE_PRODUCT } from "../Action"
 
 
 
@@ -63,6 +63,11 @@ export default function rootReducer(state = inicialtate,action){
             case CREATE_PRODUCT:
                 return {
                     ...state,
+                }
+            case DELETE_PRODUCT:
+                return {
+                    ...state,
+                    products: state.products.slice()
                 }
             default:
                 return {...state}
