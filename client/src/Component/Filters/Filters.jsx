@@ -115,6 +115,7 @@ function Filters() {
     query.delete("ram")
     query.delete('offset')
     query.delete('limit')
+    query.delete('name')
     history.push({ search: query.toString() })
     dispatch(getProductsByQuery(search))
   }
