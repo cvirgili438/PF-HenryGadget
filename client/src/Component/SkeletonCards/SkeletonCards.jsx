@@ -11,8 +11,7 @@ export default function SkeletonCards() {
         flexDirection: 'column',
         textAlign: 'center',
         width : 300,
-        opacity:0.7,
-        backgroundColor: '#4a4747a7',
+        opacity:0.9,       
         mb: 32,
         p: 5
       }}  >
@@ -22,7 +21,7 @@ export default function SkeletonCards() {
         <Box   sx={{
             alignContent: "center",
             mt: 'auto',
-            
+            width:200
         }}>
             <Skeleton variant='text' animation='wave' />
             <Skeleton variant='text' animation='wave' sx={{

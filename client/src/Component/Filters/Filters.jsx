@@ -4,6 +4,7 @@ import styles from "./Filters.module.css";
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { getAllFilters, getProductsByQuery } from "../../Redux/Action";
 import { useLocation, useHistory } from 'react-router-dom'
+import SkeletonFilter from "../SkeletonCards/SkeletonFilter";
 
 function Filters() {
 
@@ -130,7 +131,7 @@ function Filters() {
           <MdKeyboardArrowDown className={active.category ? styles.arrow_active : ""} />
         </div>
         <div className={active.category ? `${styles.options_container} ${styles.active}` : styles.options_container}>
-          {filters.type ? filters.type.map((e, i) => { return <input onClick={handleSelect} type='button' key={`type${i}`} name='type' className={`${styles.input} ${select.type === e ? styles.input_active : ""}`} value={`${e[0].toUpperCase()}${e.slice(1) + 's'}`} /> }) : (<h3>Loading</h3>)}
+          {filters.type ? filters.type.map((e, i) => { return <input onClick={handleSelect} type='button' key={`type${i}`} name='type' className={`${styles.input} ${select.type === e ? styles.input_active : ""}`} value={`${e[0].toUpperCase()}${e.slice(1) + 's'}`} /> }) : (<SkeletonFilter/>)}
         </div>
       </div>
 
@@ -140,7 +141,10 @@ function Filters() {
           <MdKeyboardArrowDown className={active.brand ? styles.arrow_active : ""} />
         </div>
         <div className={active.brand ? `${styles.options_container} ${styles.active_brand}` : styles.options_container}>
-          {filters.brand ? filters.brand.map((e, i) => { return <input onClick={handleSelect} className={`${styles.input} ${select.brand === e ? styles.input_active : ""}`} type='button' key={`type${i}`} name='brand' value={`${e}`} /> }) : (<h3>Loading</h3>)}
+          
+          {filters.brand ? filters.brand.map((e, i) => { return <input onClick={handleSelect} className={`${styles.input} ${select.brand === e ? styles.input_active : ""}`} type='button' key={`type${i}`} name='brand' value={`${e}`} /> }) : (Array.from(new Array(9)).map((e,i)=>{
+            return <SkeletonFilter key={i}/>
+          }))}
         </div>
       </div>
 
@@ -151,7 +155,7 @@ function Filters() {
           <MdKeyboardArrowDown className={active.storage ? styles.arrow_active : ""} />
         </div>
         <div className={active.storage ? `${styles.options_container} ${styles.active_storage}` : styles.options_container}>
-          {filters.storage ? filters.storage.map((e, i) => { return (<input onClick={handleSelect} type='button' key={`type${i}`} name='storage' value={`${e}`} className={`${styles.input} ${select.storage === e ? styles.input_active : ""}`} />) }) : (<h3>Loading</h3>)}
+          {filters.storage ? filters.storage.map((e, i) => { return (<input onClick={handleSelect} type='button' key={`type${i}`} name='storage' value={`${e}`} className={`${styles.input} ${select.storage === e ? styles.input_active : ""}`} />) }) : (<SkeletonFilter/>)}
         </div>
       </div>
 
@@ -161,7 +165,7 @@ function Filters() {
           <MdKeyboardArrowDown className={active.ram ? styles.arrow_active : ""} />
         </div>
         <div className={active.ram ? `${styles.options_container} ${styles.active_ram}` : styles.options_container}>
-          {filters.ram ? filters.ram.map((e,i) => {return(<input onClick={handleSelect} type='button' key={`type${i}`} name='ram' value={`${e}`} className={`${styles.input} ${select.ram === e ? styles.input_active : ""}`} />) }) : (<h3>Loading</h3>)}
+          {filters.ram ? filters.ram.map((e,i) => {return(<input onClick={handleSelect} type='button' key={`type${i}`} name='ram' value={`${e}`} className={`${styles.input} ${select.ram === e ? styles.input_active : ""}`} />) }) : (<SkeletonFilter/>)}
         </div>
       </div>
 
