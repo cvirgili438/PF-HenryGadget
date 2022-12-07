@@ -6,6 +6,7 @@ import Detail from './Component/Detail/Detail';
 import CreateProduct from './Component/CreateProduct/CreateProduct';
 import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import EditProduct from './Component/EditProduct/EditProduct';
 
 const App = () => {
   
@@ -27,6 +28,11 @@ const App = () => {
         <Route exact path={'/test'}>
               <ProductCRUD /> 
         </Route> 
+
+        <Route exact path={'/edit/:id'}>
+          <EditProduct /> 
+        </Route> 
+
         <Route exact path="/product/:id" component={Detail} />
       </div>
     </BrowserRouter>
