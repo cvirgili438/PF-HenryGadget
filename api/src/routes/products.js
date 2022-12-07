@@ -259,8 +259,13 @@ router.put('/:id', async (req, res) => {
         const product = await Product.findOne({
             where: {
                 id: id
-            }
+            }, paranoid: false
         });
+
+        if (product.deletedAt !== null) {
+            await product.restore();
+        }
+
         if (product === null) {
             return res.status(400).json({ err: `The enter id does not exist.` })
         }
