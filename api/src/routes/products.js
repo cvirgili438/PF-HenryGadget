@@ -11,9 +11,9 @@ const arrayIsNotNumbers = require('./controllers/arrayIsNotNumbers.js');
 const orderArrayNumbers = require('./controllers/orderArrayNumbers.js');
 
 router.get('/', async (req, res) => {
-    const { name, brand, type, limit, offset, sortPrice, sortBrand, ram } = req.query;
+    const { name, brand, type, limit, offset, sortPrice, sortBrand, ram, storage } = req.query;
     let { limitPrice } = req.body;
-    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand', 'ram'];
+    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand', 'ram', 'storage'];
 
     ////// Checkeo de datos entrantes. En su momento mocularizar.
     if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
@@ -59,6 +59,9 @@ router.get('/', async (req, res) => {
         }
         if (type) {
             condition.include[1].where = { name: { [Sequelize.Op.iLike]: `${type}` } }
+        }
+        if (storage) {
+            condition.include[2].where = { size: { [Sequelize.Op.iLike]: `${storage}` } }
         }
         if (ram) {
             condition.include[4].where = { size: { [Sequelize.Op.iLike]: `${ram}` } }
