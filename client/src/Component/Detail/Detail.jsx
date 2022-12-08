@@ -17,19 +17,14 @@ const Detail = () => {
 
     const [input, setInput] = useState({ value: 1 })
 
-    const productDetail = useSelector(state => state.productDetail);
-
-    const features = useSelector(state => state.filters);
-
-    // console.log(features.storage);   
+    const productDetail = useSelector(state => state.productDetail);  
+      
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getProductById(id));
     }, [dispatch, id]);
-
-    productDetail.img && productDetail.img.map(e => console.log(e))
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
@@ -53,6 +48,11 @@ const Detail = () => {
         }
         console.log(input.value);
     }
+
+    let handleImg = (e) => {
+        document.getElementById('mainImg').src = e.target.src
+    }
+
     return (
 
         <div className={`container ${styles.container}`}>
@@ -66,13 +66,13 @@ const Detail = () => {
                             productDetail.img.length === 0 ?
                                 <img className={styles.main_img} src={noImage} alt='Not available' />
                                 :
-                                <img className={styles.main_img} src={productDetail.img[0]} alt={productDetail.name} />
+                                <img id="mainImg" className={styles.main_img} src={productDetail.img[0]} alt={productDetail.name} />
                     }
                     <div className={`d-inline-flex p-2`}>                        
                         {                        
                            productDetail.img && productDetail.img.map(e => {
                                return (<div className={`w-25 border`}>                                    
-                                    <img className={`w-50`} src={e} alt={productDetail.name} />
+                                    <img onClick={e => handleImg(e)} className={`w-50`} src={e} alt={productDetail.name} />
                                 </div>)
                             })
                         }
