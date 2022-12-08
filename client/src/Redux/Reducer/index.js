@@ -1,25 +1,18 @@
+// CONSTANTES
 import {
+  inicialtate,
+  URL,
   CREATE_PRODUCT,
   GET_PRODUCTS_NAMES,
   GET_PRODUCTS,
   GET_PRODUCTS_BY_QUERY,
   GET_PRODUCT_BY_ID,
   GET_TYPES,
-  SET_PAGE_VIEW,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
-} from '../Action';
+  SET_PAGE_VIEW,
+} from '../Constants/index.js';
 
-const inicialtate = {
-  products: [],
-  productsNames: [],
-  filteredProducts: [],
-  productDetail: [],
-  filters: {},
-  page: 1,
-  totalProducts: 0,
-  lastMsg: '',
-};
 
 export default function rootReducer(state = inicialtate, action) {
   switch (action.type) {
@@ -27,7 +20,7 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         products: action.payload.result,
-        totalProducts: action.payload.total,
+        totalProducts: action.payload.total === 0 ? 1 : action.payload.total,
         lastMsg: action.payload.msg,
       };
     case GET_PRODUCTS_NAMES:
@@ -43,14 +36,14 @@ export default function rootReducer(state = inicialtate, action) {
           ...state,
           products: products,
           filteredProducts: filtered,
-          totalProducts: action.payload.total,
+          totalProducts: action.payload.total === 0 ? 1 : action.payload.total,
           lastMsg: action.payload.msg,
         };
       } else
         return {
           ...state,
           filteredProducts: action.payload.result,
-          totalProducts: action.payload.total,
+          totalProducts: action.payload.total === 0 ? 1 : action.payload.total,
           lastMsg: action.payload.msg,
         };
     case GET_PRODUCT_BY_ID:
@@ -76,11 +69,6 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         filters: types,
       };
-    case SET_PAGE_VIEW:
-      return {
-        ...state,
-        page: Number(action.payload),
-      };
     case CREATE_PRODUCT:
       return {
         ...state,
@@ -93,6 +81,11 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         // products: state.products.slice()
+      };
+    case SET_PAGE_VIEW:
+      return {
+        ...state,
+        page: Number(action.payload),
       };
     default:
       return { ...state };

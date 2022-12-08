@@ -1,17 +1,16 @@
 import axios from 'axios';
-import { objectToQuery } from '../../hooks/ObjectToQuery';
-export const GET_PRODUCTS = 'GET_PRODUCTS'
-export const GET_PRODUCTS_NAMES = 'GET_PRODUCTS_NAMES';
-export const GET_TYPES = 'GET_TYPES'
-export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
-export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
-export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
-export const CREATE_PRODUCT = 'CREATE_PRODUCT';
-export const DELETE_PRODUCT = 'DELETE_PRODUCT';
-export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
-export const URL = 'http://localhost:3001';
-// export const URL = 'http://192.168.0.170:3001'; // para pruebas
+import {
+  URL,
+  CREATE_PRODUCT,
+  GET_PRODUCTS_NAMES,
+  GET_PRODUCTS,
+  GET_PRODUCTS_BY_QUERY,
+  GET_PRODUCT_BY_ID,
+  GET_TYPES,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+} from '../Constants/index.js';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
 	// Traemos en un futuro, un array de Productos con sus caracteristicas 
@@ -41,7 +40,7 @@ export const getProductsNames= ()=> async (dispatch)=>{
 	}
 }
 
-export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
+export const getProductsByQuery = (query) => async (dispatch)=>{ // recibo un objeto query      
 	if (query === {} || !query) {
 		try {        
 			let json = await  axios(URL + '/Products')
@@ -100,15 +99,6 @@ export  const getAllFilters= ()=> async (dispatch)=>{
 	catch(er) {
 		console.log(er.messege)
 	}
-}
-
-export const setPageView = (page) => {
-	return function(dispatch) {
-		return dispatch({
-			type: SET_PAGE_VIEW,
-			payload: page
-    })
-  }
 }
 
 export function addProduct(payload) {

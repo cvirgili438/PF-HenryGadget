@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
-// import { getProductsByQuery } from '../../Redux/Action';
-
-// import { Link } from 'react-router-dom';
 import Products from '../Products/Products';
 import Footer from '../Footer/Footer';
-
+import Slider from '../Slider/Slider';
 
 import styles from './LandingPage.module.css';
-import Slider from '../Slider/Slider';
 
 
 const LandingPage = () => {

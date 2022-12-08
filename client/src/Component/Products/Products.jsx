@@ -5,10 +5,9 @@ import Product from '../Product/Product';
 import Filters from '../Filters/Filters';
 import SkeletonCards from '../SkeletonCards/SkeletonCards';
 
-import styles from './Products.module.css';
-
 import Pagination from '../Pagination/Pagination.jsx';
-// import Paginated from '../Paginated/Paginated';
+
+import styles from './Products.module.css';
 
 const Products = () => {
   const products = useSelector(state => state.filteredProducts);
