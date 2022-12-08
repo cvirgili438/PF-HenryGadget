@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
     },
     price: {
       type: DataTypes.FLOAT,
@@ -46,7 +45,6 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
-
   },
     {
       timestamps: true,
