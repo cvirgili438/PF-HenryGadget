@@ -8,12 +8,9 @@ async function decodeToken(req, res, next) {
 	}
 	try {
 		const decodeValue = await admin.auth().verifyIdToken(token);
-		console.log(decodeValue)
-		console.log(decodeValue.email)
-		let email = decodeValue.email;
-		const res = await axios.get(`http://localhost:3001/users?${email}`);
-		let rol = res.data.result[0].rol;
-		console.log(res.data.result[0].rol);
+		let uid = decodeValue.uid;
+		const res = await axios.get(`http://localhost:3001/users/${uid}`);
+		let rol = res.data.result.rol;
 
 		if (decodeValue && rol === 'admin') {
 			req.user = decodeValue;
