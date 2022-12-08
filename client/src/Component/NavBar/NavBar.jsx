@@ -4,7 +4,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { FaUserInjured } from 'react-icons/fa'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
 
-import { getProductsByQuery } from '../../Redux/Action/index.js'
+import { getProductsByQuery } from '../../Redux/Actions/products.js'
 
 import Button from '../Button/Button.jsx';
 import Input from "../Input/Input.jsx";
@@ -91,9 +91,9 @@ const NavBar = () => {
       </Link>) : <></>
         } */}
 
-      <Link to='/Create/Product' >
+      {/* <Link to='/Create/Product' >
           <Button text='Create Product'  />
-      </Link>
+      </Link> */}
       
       </div>
       <div className={ styles.menu }>

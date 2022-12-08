@@ -8,7 +8,7 @@ import { app } from '../../Firebase/firebase.config'
 import { FcGoogle } from 'react-icons/fc'
 import { GrFacebook } from 'react-icons/gr'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../Redux/Action';
+import { loginWithThirdParties } from '../../Redux/Actions/users';
 
 function ModalRegister(props) { 
     
@@ -18,10 +18,10 @@ function ModalRegister(props) {
         google: new GoogleAuthProvider(),
         facebook: new FacebookAuthProvider()
     }
-    const login = async (e)=>{
+    const login = async (e) => {
         if(e.target.id === "google"){
             const {user:{providerData}} = await signInWithPopup(firebaseAuth,provider.google)
-            dispatch(setUser(providerData[0]))
+            dispatch(loginWithThirdParties(providerData[0]))
             localStorage.setItem('user', JSON.stringify(providerData[0]))
             props.onHide()
         }
