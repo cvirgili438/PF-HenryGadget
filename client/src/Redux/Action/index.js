@@ -6,6 +6,7 @@ export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const SET_USER = 'SET_USER'
 
 export const URL = 'http://localhost:3001';
 // export const URL = 'http://192.168.0.170:3001'; // para pruebas
@@ -103,3 +104,13 @@ export const setPageView = (page) => {
     }
 }
 
+
+export const setUser = (payload)=> {
+    return async function (dispatch){
+        return dispatch({
+            type: SET_USER,
+            payload
+        }
+        )
+    }
+}

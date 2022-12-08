@@ -1,4 +1,4 @@
-import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
+import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW, SET_USER } from "../Action"
 
 
 
@@ -13,7 +13,8 @@ const inicialtate = {
     productDetail: [],
     filters:{},
     page: 1,
-    totalProducts: 42
+    totalProducts: 42,
+    user:[]
 
 }
 
@@ -63,6 +64,11 @@ export default function rootReducer(state = inicialtate,action){
             case CREATE_PRODUCT:
                 return {
                     ...state,
+                }
+            case SET_USER:
+                return {
+                    ...state,
+                    user:action.payload
                 }
             default:
                 return {...state}

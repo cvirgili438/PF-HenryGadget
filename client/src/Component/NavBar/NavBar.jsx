@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { FaUserInjured } from 'react-icons/fa'
+import { HiOutlineShoppingCart } from 'react-icons/hi'
 
 import { getProductsByQuery } from '../../Redux/Action/index.js'
 
@@ -14,6 +16,7 @@ import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 
 const NavBar = () => {
+  const state = useSelector(state=>state)
   const [input, setInput] = useState('');
   const [crud, setCrud] = useState({})
   const dispatch = useDispatch();
@@ -95,15 +98,19 @@ const NavBar = () => {
       </div>
       <div className={ styles.menu }>
         <Link to='/'>
-          <Button text='Cart' />
+         <HiOutlineShoppingCart className={styles.cart} />
         </Link>
         
-        <Button text='Login' onClick={()=>setModalShow(true)} />
-        <ModalRegister 
+        {state.user.photoURL 
+        ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button} referrerPolicy='no-referrer' /> 
+        :<FaUserInjured className={styles.login_button} onClick={()=>setModalShow(true)}/> }
+       
+        
+      </div>
+      <ModalRegister 
         show={modalShow}
         onHide={() => setModalShow(false)}
         />
-      </div>
     </div>
   )
 }
