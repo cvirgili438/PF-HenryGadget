@@ -11,9 +11,9 @@ const arrayIsNotNumbers = require('./controllers/arrayIsNotNumbers.js');
 const orderArrayNumbers = require('./controllers/orderArrayNumbers.js');
 
 router.get('/', async (req, res) => {
-    const { name, brand, type, limit, offset, sortPrice, sortBrand, ram } = req.query;
+    const { name, brand, type, limit, offset, sortPrice, sortBrand, ram, storage } = req.query;
     let { limitPrice } = req.body;
-    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand', 'ram'];
+    const listQueries = ['name', 'brand', 'type', 'limit', 'offset', 'sortPrice', 'sortBrand', 'ram', 'storage'];
 
     ////// Checkeo de datos entrantes. En su momento mocularizar.
     if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
         limitPrice = arrayIsNotNumbers(limitPrice);
         if (!limitPrice)
             return res.status(400).json({ err: 'One of the items is invalid.' });
-        
+
         limitPrice = orderArrayNumbers(limitPrice);
     }
     //////
@@ -60,6 +60,9 @@ router.get('/', async (req, res) => {
         if (type) {
             condition.include[1].where = { name: { [Sequelize.Op.iLike]: `${type}` } }
         }
+        if (storage) {
+            condition.include[2].where = { size: { [Sequelize.Op.iLike]: `${storage}` } }
+        }
         if (ram) {
             condition.include[4].where = { size: { [Sequelize.Op.iLike]: `${ram}` } }
         }
@@ -67,6 +70,9 @@ router.get('/', async (req, res) => {
             where.price = { [Sequelize.Op.between]: [limitPrice[0], limitPrice[1]] }
         }
         condition.where = where;
+
+        // Se calcula la cantidad total de elementos
+        const total = (await Product.findAll(condition)).length;
 
         if (limit && offset) {
             condition.limit = limit;
@@ -85,7 +91,7 @@ router.get('/', async (req, res) => {
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
 
-        res.status(200).json({ msg: 'Products obtained successfully.', result: products });
+        res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 
     } catch (error) {
         res.status(400).json({ err: 'Product not found.' })

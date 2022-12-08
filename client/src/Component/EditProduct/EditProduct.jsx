@@ -3,21 +3,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { addProduct } from '../../Redux/Actions/products.js';
+import { getProductsNames, editProduct, getProductById } from '../../Redux/Actions/products.js';
 
-import styles from './CreateProduct.module.css';
+import styles from './EditProduct.module.css';
 
-function CreateProduct() {
+function EditProduct() {
 
-  const products = useSelector(state => state.products)
-  let productsName = products.map(e => e.name);
-  console.log(productsName);
+  const { id } = useParams();
+  
+  const productDetail = useSelector(state => state.productDetail);
+  const products = useSelector(state => state.productsNames);
+
   const dispatch = useDispatch();
 
   const navigate = useHistory();
 
+  
   const [errors, setErrors] = useState({});
-
+  
   const [input, setInput] = useState({
     name: '',
     type: '',
@@ -33,12 +36,34 @@ function CreateProduct() {
     discount: '',
     img: []
   })
+  
+  useEffect(() => {
+    dispatch(getProductById(id));     
+    dispatch(getProductsNames());
+    setInput({
+      name: productDetail.name,
+      type: productDetail.type,
+      brand: productDetail.brand,
+      price: productDetail.price,
+      model: productDetail.model,
+      stock: productDetail.stock,
+      camera: productDetail.camera,
+      description: productDetail.description,
+      storage: productDetail.storage,
+      processor: productDetail.processor,
+      ram: productDetail.ram,
+      discount: productDetail.discount,
+      img: []
+    })
+
+  }, [dispatch, id, productDetail.name, productDetail.type, productDetail.brand, productDetail.price, productDetail.model, productDetail.stock, productDetail.camera,
+        productDetail.description, productDetail.storage, productDetail.processor, productDetail.ram, productDetail.discount]);
 
   function validate(input) {
     let errors = {};
     if (!input.name || input.name.length < 3) {
       errors.name = 'Product name is required';
-    }else if (productsName.some((e) => e.toLowerCase() === input.name.toLowerCase())) {
+    }else if (products.some((e) => e.toLowerCase() === input.name.toLowerCase())) {
       errors.name = 'Name already exist';
     }else if(!input.type){
       errors.type = 'Type is required';
@@ -50,20 +75,16 @@ function CreateProduct() {
         errors.model = 'Model is required';
     }else if(!input.stock || input.stock === 0){
         errors.stock = 'Stock is required';
-    }else if(!input.img[0] || input.img[0] === " "){
-      errors.img = 'Image is required';
-    }else if(
-      !/https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/.test(input.img)
-    )errors.img ="*Insert a valid URL: https:// or http:// or www."
+    }
+    // else if(!input.img[0] || input.img[0] === " "){
+    //   errors.img = 'Image is required';
+    // }
+    // else if(
+    //   !/https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/.test(input.img)
+    // ) errors.img ="*Insert a valid URL: https:// or http:// or www."
 
     return errors;
 };
-
-  useEffect(() => {
-
-    // dispatch(getCountriesForActivity(lookFor));
-    // dispatch(getActivities());
-}, [])
 
 
 function handleChange(e) {
@@ -92,17 +113,8 @@ function handleSubmit(e) {
   e.preventDefault();
   setErrors(validate(input));
   if (Object.keys(errors).length === 0) {
-      dispatch(addProduct(input))
-      alert('Product created successfully');
-      setInput({
-        name: '',
-        type: '',
-        brand: '',
-        price: '',
-        model: '',
-        stock: '',
-        img: []
-      })
+      dispatch(editProduct({id: id, data: input}))
+      alert('Product saved successfully');
   }
   return;
 }
@@ -111,7 +123,7 @@ function handleSubmit(e) {
     <div className={ styles.main }>
       <div className={styles.createDiv} >
             <div className='createSection'>
-                <h1 className={styles.title}>Create product</h1>
+                <h1 className={styles.title}>Edit product</h1>
             </div>
             <form  onSubmit={handleSubmit}>
               <div className={styles.formContainer}>
@@ -236,7 +248,7 @@ function handleSubmit(e) {
 
               </div>  
                 
-                <button className={styles.createBtn} type='submit' disabled={Object.keys(errors).length > 0 || input.name === "" ? true : false}>Create Product</button>
+                <button className={styles.createBtn} type='submit' disabled={Object.keys(errors).length > 0 || input.name === "" ? true : false}>Save changes</button>
             </form>
             
         </div>
@@ -244,4 +256,4 @@ function handleSubmit(e) {
   )
 }
 
-export default CreateProduct
+export default EditProduct;

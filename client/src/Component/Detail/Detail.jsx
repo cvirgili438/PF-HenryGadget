@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { getProductById } from '../../Redux/Action/index.js'
+import { getProductById } from '../../Redux/Actions/products.js'
 
 import MiniNav from '../MiniNav/MiniNav'
 import Separator from "../Separator/Separator";
