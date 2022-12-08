@@ -21,7 +21,7 @@ router.delete('/:id', async (req, res) => {
         });
         res.json({ msg: `The product with the name ${productToDelete.name} has been deleted.` })
     } catch (error) {
-        res.status(400).json({ err: error.message })
+        res.status(400).json({ err: error })
     }
 })
 

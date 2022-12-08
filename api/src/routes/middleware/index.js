@@ -21,7 +21,7 @@ async function decodeToken(req, res, next) {
 		}
 		return res.json({ message: 'Un authorize' });
 	} catch (e) {
-		return res.json({ message: 'Internal Error' });
+		return res.json({ message: 'What are you trying to do my friend? You are not worthy for this' });
 	}
 }
 
