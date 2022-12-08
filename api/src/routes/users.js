@@ -7,13 +7,10 @@ const { Sequelize } = require("sequelize");
 
 router.get('/', async (req, res) => {
     try {
-        const { email, rol, limit, offset } = req.query;
+        const { rol, limit, offset } = req.query;
         const condition = {};
         let where = {};
 
-        if (email) {
-            where.email = {[Sequelize.Op.iLike]: `%${email}%`}
-        }
         if (rol) {
             where.rol = {[Sequelize.Op.iLike]: `%${rol}%`}
         }
@@ -33,12 +30,12 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:uid', async (req, res) => {
     try {
-        const {id} = req.params;
-        const user = await User.findOne({where: {id}});
+        const {uid} = req.params;
+        const user = await User.findOne({where: {uid}});
         if (user === null) {
-            return res.status(400).json({err: `The enter id does not exist`})
+            return res.status(400).json({err: `The enter uid does not exist`})
         }
         res.status(200).json({msg: 'User successfully obtained.', result: user});
     } catch (error) {
@@ -48,51 +45,43 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req,res) => {
     try {
-        const {dni, firstName, lastName, email, phone} = req.body;
-        
-        const user = req.body;
-        await User.create(user);
-        res.status(201).json({msg: 'User created correctly.', result: user})
-    } catch (error) {
-        const {dni, firstName, lastName, email, phone} = req.body;
-        if (!dni || !firstName || !lastName || !email || !phone) {
-            return res.status(400).json({err: error.errors.map(e => e.message).join(', ')});
-        }
-        res.status(400).json({err: error.errors})
-    }
-})
+        const {uid, rol} = req.body;
 
-router.delete('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        console.log(id)
-        const userToDelete = await User.findOne({where: {id}});
-        console.log(userToDelete)
-        if (userToDelete === null) {
-            return res.status(400).json({err: `The user with id: ${id} does not exits.`})
-        }
-        await User.destroy({
-            where: {
-                id: id
-            }
-        });
-        res.json({msg: `The user with the email ${userToDelete.email} has been deleted.`})
+        let newUser = await User.create({uid, rol});
+        res.status(201).json({msg: 'User created correctly.', result: newUser})
     } catch (error) {
         res.status(400).json({err: error.message})
     }
 })
 
-
-
-router.put('/:id', async (req, res) => {
+router.delete('/:uid', async (req, res) => {
     try {
-        const {id} = req.params;
-        const user = await User.findOne({where: {id: id}});
-        if (user === null) {
-            return res.status(400).json({err: `Does not exist users with the enter id.`})
+        const { uid } = req.params;
+
+        const userToDelete = await User.findOne({where: {uid}});
+
+        if (userToDelete === null) {
+            return res.status(400).json({err: `The user with id: ${id} does not exits.`})
         }
-        const body = req.body;
-        await user.update(body,{where: {id}})
+        await User.destroy({
+            where: {uid}
+        });
+        res.json({msg: `The user has been deleted.`, result: userToDelete})
+    } catch (error) {
+        res.status(400).json({err: error.message})
+    }
+})
+
+router.put('/:uid', async (req, res) => {
+    try {
+        const {uid} = req.params;
+
+        const user = await User.findOne({where: {uid}});
+        if (user === null) {
+            return res.status(400).json({err: `Does not exist users with the enter uid.`})
+        }
+        const {rol} = req.body;
+        await user.update({rol},{where: {uid}})
         res.status(200).json({msg: 'User has been updated.'})
 
     } catch (error) {
