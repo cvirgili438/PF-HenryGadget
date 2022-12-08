@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { objectToQuery } from '../../hooks/ObjectToQuery';
 export const GET_PRODUCTS = 'GET_PRODUCTS'
+export const GET_PRODUCTS_NAMES = 'GET_PRODUCTS_NAMES';
 export const GET_TYPES = 'GET_TYPES'
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID'
 export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 export const URL = 'http://localhost:3001';
 // export const URL = 'http://192.168.0.170:3001'; // para pruebas
@@ -20,6 +23,18 @@ export const getAllProducts= ()=> async (dispatch)=>{
                 })
             }
             catch(err){console.log(err)}
+}
+
+export const getProductsNames= ()=> async (dispatch)=>{   
+    // Traemos en un futuro, un array de Productos con sus caracteristicas 
+          try{
+              var json = await axios(URL + '/Products')
+              return dispatch({
+                  type:GET_PRODUCTS_NAMES,
+                  payload:json.data.result
+              })
+          }
+          catch(err){console.log(err)}
 }
 
 export const getProductsByQuery = (query)=> async (dispatch)=>{ // recibo un objeto query      
@@ -101,5 +116,25 @@ export const setPageView = (page) => {
             response
         }
     }
+}
+
+export function editProduct(payload) {
+    return async function (dispatch) {
+        const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
+        return {
+            type: EDIT_PRODUCT,
+            response
+        }
+    }
+}
+
+export function deleteProduct(payload) {
+  return async function (dispatch) {
+      const response = await axios.delete(URL + `/Products/` + payload)
+      return {
+          type: DELETE_PRODUCT,
+          response
+      }
+  }
 }
 

@@ -88,9 +88,9 @@ const NavBar = () => {
       </Link>) : <></>
         } */}
 
-      <Link to='/Create/Product' >
+      {/* <Link to='/Create/Product' >
           <Button text='Create Product'  />
-      </Link>
+      </Link> */}
       
       </div>
       <div className={ styles.menu }>

@@ -1,4 +1,4 @@
-import {  CREATE_PRODUCT, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW } from "../Action"
+import {  CREATE_PRODUCT, GET_PRODUCTS_NAMES, GET_PRODUCTS,GET_PRODUCTS_BY_QUERY, GET_PRODUCT_BY_ID, GET_TYPES, SET_PAGE_VIEW, DELETE_PRODUCT, EDIT_PRODUCT } from "../Action"
 
 
 
@@ -9,6 +9,7 @@ const inicialtate = {
     // {brand: "Samsung", name :"Galaxy A23",price:"79.999,00",model:"SM-A235M",type:"smartphone", stock:"4",camera:"50", storage:"128",processor:"Qualcomm SM6225 8 núcleos 2,4 Ghz",description:"saraza"},
     // {}
             ],
+    productsNames: [],
     filteredProducts: [],
     productDetail: [],
     filters:{},
@@ -25,7 +26,12 @@ export default function rootReducer(state = inicialtate,action){
                 return {
                     ...state,
                     products : action.payload
-                }           
+                }  
+            case GET_PRODUCTS_NAMES:
+                return {
+                    ...state,
+                    productsNames: action.payload.map(e => e.name)
+                }         
             case GET_PRODUCTS_BY_QUERY:
                 if(action.filter === false){
                     let products = action.payload
@@ -63,6 +69,15 @@ export default function rootReducer(state = inicialtate,action){
             case CREATE_PRODUCT:
                 return {
                     ...state,
+                }
+            case EDIT_PRODUCT:
+                return {
+                    ...state,
+                }
+            case DELETE_PRODUCT:
+                return {
+                    ...state,
+                    // products: state.products.slice()
                 }
             default:
                 return {...state}
