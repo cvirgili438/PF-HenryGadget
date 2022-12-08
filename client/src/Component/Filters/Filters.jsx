@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import styles from "./Filters.module.css";
 import { MdKeyboardArrowDown } from 'react-icons/md'
-import { getAllFilters, getProductsByQuery } from "../../Redux/Action";
 import { useLocation, useHistory } from 'react-router-dom'
+
+import { getAllFilters, getProductsByQuery } from "../../Redux/Actions/products.js";
+
 import SkeletonFilter from "../SkeletonCards/SkeletonFilter";
+
+import styles from "./Filters.module.css";
 
 function Filters() {
 

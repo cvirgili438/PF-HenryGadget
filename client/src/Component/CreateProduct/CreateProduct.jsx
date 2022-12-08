@@ -1,9 +1,11 @@
 import React from 'react'
-import styles from './CreateProduct.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { addProduct } from '../../Redux/Action/index';
+
+import { addProduct } from '../../Redux/Actions/products.js';
+
+import styles from './CreateProduct.module.css';
 
 function CreateProduct() {
 

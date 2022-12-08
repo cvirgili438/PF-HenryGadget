@@ -1,9 +1,11 @@
 import React from 'react'
-import styles from './EditProduct.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { getProductsNames, editProduct, getProductById } from '../../Redux/Action/index';
+
+import { getProductsNames, editProduct, getProductById } from '../../Redux/Actions/products.js';
+
+import styles from './EditProduct.module.css';
 
 function EditProduct() {
 

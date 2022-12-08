@@ -7,7 +7,7 @@ import Checkbox from '../Checkbox/Checkbox';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
-import { getProductsByQuery, deleteProduct } from '../../Redux/Action';
+import { getProductsByQuery, deleteProduct } from '../../Redux/Actions/products.js';
 
 
 import styles from './ProductCRUD.module.css';
