@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { getProductById } from '../../Redux/Action/index.js'
+import { getProductById } from '../../Redux/Actions/products'
 
 import MiniNav from '../MiniNav/MiniNav'
 import Separator from "../Separator/Separator";
@@ -15,17 +15,22 @@ import noImage from '../../Assets/noImage.jpg';
 const Detail = () => {
     const { id } = useParams();
 
-    const [input, setInput] = useState({ value: 1 })
-
-    const productDetail = useSelector(state => state.productDetail);  
-      
-
+    const [input, setInput] = useState({ value: 1 })    
+   
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         dispatch(getProductById(id));
-    }, [dispatch, id]);
+    }, [dispatch]);
 
+    const details = useSelector(state => state.productDetail);  
+
+    let productDetail = {}    
+    
+    if (details.result) {
+        productDetail = details.result    
+    }
+    
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
             input.value === 0 ? setInput(
