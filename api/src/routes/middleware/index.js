@@ -9,7 +9,7 @@ async function decodeToken(req, res, next) {
 	console.log(token)
 	try {
 		const decodeValue = await admin.auth().verifyIdToken(token);
-		console.log(decodeValue)
+
 		let uid = decodeValue.uid;
 		const user = await User.findOne({where: {uid}});
 		let rol = user.rol
@@ -18,9 +18,9 @@ async function decodeToken(req, res, next) {
 			req.user = decodeValue;
 			return next();
 		}
-		return res.json({ message: 'Not authorized' });
+		return res.json({ msg: 'Not authorized' });
 	} catch (e) {
-		return res.json({ message: 'Not authorized' });
+		return res.json({ msg: 'Not authorized' });
 	}
 }
 

@@ -99,6 +99,7 @@ router.get('/', async (req, res) => {
 })
 
 
+
 router.get('/type', async (req, res) => {
     try {
         const types = await Type.findAll();
