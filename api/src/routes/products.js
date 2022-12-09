@@ -221,7 +221,7 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const product = req.body;
-    const { name, price, model, stock, type, brand, storage, img, ram} = req.body;
+    const { name, price, model, stock, type, brand, storage, img, ram } = req.body;
     if (!name || !model || !price || !stock || !type || !brand || !img)
         return res.status(400).json({ err: "Important information is missing from product." })
 
@@ -231,23 +231,25 @@ router.post('/', async (req, res) => {
         const [typeOfDevice, typeCreated] = await Type.findOrCreate({
             where: { name: type }
         });
+        await productCreated.setType(typeOfDevice);
 
         const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
             where: { name: brand }
         });
-
-        const [storageOfDevice, storageCreated] = await Storage.findOrCreate({
-            where: { size: storage }
-        })
-
-        const [ramOfDevice, ramCreated] = await Ram.findOrCreate({
-            where: { size: ram }
-        })
-
         await productCreated.setBrand(brandOfDevice);
-        await productCreated.setType(typeOfDevice);
-        await productCreated.setStorage(storageOfDevice);
-        await productCreated.setRam(ramOfDevice);
+
+        if (storage) {
+            const [storageOfDevice, storageCreated] = await Storage.findOrCreate({
+                where: { size: storage }
+            })
+            await productCreated.setStorage(storageOfDevice);
+        }
+        if (ram) {
+            const [ramOfDevice, ramCreated] = await Ram.findOrCreate({
+                where: { size: ram }
+            })
+            await productCreated.setRam(ramOfDevice);
+        }
 
         res.status(201).json({ msg: 'Product added correctly.', result: productCreated })
     } catch (error) {
