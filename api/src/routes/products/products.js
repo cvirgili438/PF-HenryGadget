@@ -98,46 +98,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/allProducts', async (req, res) => {
-    const { name, limit, offset, deleted } = req.query;
-    const listQueries = ['name', 'limit', 'offset', 'deleted'];
 
-    if (getDifferencesArray(Object.getOwnPropertyNames(req.query), listQueries).length !== 0)
-        return res.status(400).json({ err: 'Bad query.' });
-
-    try {
-        let condition = {
-            include: [
-                { model: Brand }, // include[0]
-                { model: Type }, // include[1]
-                { model: Storage }, // include[2]
-                { model: Review }, // include[3]
-                { model: Ram } // include[4]
-            ]
-        };
-
-        let where = {};
-
-        if (name) where.name = { [Sequelize.Op.iLike]: `%${name}%` }
-
-        if (deleted) where.deletedAt = { [Sequelize.Op.not]: null }
-
-        condition.where = where;
-        condition.paranoid = false;
-
-        const total = (await Product.findAll(condition)).length;
-
-        if (limit && offset) {
-            condition.limit = limit;
-            condition.offset = offset;
-        }
-
-        const allProducts = await Product.findAll(condition);
-        res.status(200).json({ msg: 'Products obtained successfully.', result: allProducts, total });
-    } catch (error) {
-        res.status(400).json({ err: error })
-    }
-})
 
 router.get('/type', async (req, res) => {
     try {
