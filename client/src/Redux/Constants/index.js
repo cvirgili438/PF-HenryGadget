@@ -1,7 +1,7 @@
 // CONEXION
 import { fetchUserData } from "../../Utils/fetchLocalStorageData";
 
-export const URL = 'http://localhost:3001';
+export const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 // export const URL = 'http://192.168.0.170:3001'; // para pruebas
 
 const userStorageData = fetchUserData()
