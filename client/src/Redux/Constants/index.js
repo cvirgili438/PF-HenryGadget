@@ -1,7 +1,10 @@
 // CONEXION
+import { fetchUserData } from "../../Utils/fetchLocalStorageData";
+
 export const URL = 'http://localhost:3001';
 // export const URL = 'http://192.168.0.170:3001'; // para pruebas
 
+const userStorageData = fetchUserData()
 // ESTADO INICIAL
 export const inicialtate = {
   products: [],
@@ -12,6 +15,7 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
+  user:userStorageData
 };
 
 // PRODUCTOS
@@ -25,7 +29,7 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 // USUARIOS
-
+export const SET_USER_LOGIN_THIRDPARTIES = 'SET_USER_LOGIN_THIRDPARTIES'
 
 // CARRITO
 

@@ -10,13 +10,78 @@
 .body_modal_container_inputs{
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
+    /* width: 100%; */
 }
 
 .body_modal_container_inputs input{
-    width: 20rem;
+    /* width: auto; */
+  width: 20rem;
 }
 
 .body_modal_button{
     margin-top: 1rem;
     width: 20rem;
+}
+
+.facebook_icon{
+    color:rgb(55, 55, 221);
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.google_icon{
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+}
+.google_icon:active{
+    transform: scale(0.85);
+}
+
+.body_modal_thirdparties{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    margin-bottom: 1rem;
+}
+
+.container_footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container_footer_button{
+    width: 100%;
+}
+
+.register_body_modal_container{
+    display:flex;
+    flex-direction: column;
+    width: 25rem;
+    margin: auto;
+}
+
+.register_body_modal_container_inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.register_inputs{
+    margin-top: 1rem;
+    height: 3rem;
+}
+
+.register_body_modal_container_nameInputs{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.register_container_footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }

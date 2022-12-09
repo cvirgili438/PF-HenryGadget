@@ -1,3 +1,4 @@
+
 // CONSTANTES
 import {
   inicialtate,
@@ -11,6 +12,7 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
+  SET_USER_LOGIN_THIRDPARTIES,
 } from '../Constants/index.js';
 
 
@@ -87,7 +89,13 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         page: Number(action.payload),
       };
+    case SET_USER_LOGIN_THIRDPARTIES:
+      return{
+        ...state,
+        user: action.payload
+      }
     default:
       return { ...state };
   }
 }
+
