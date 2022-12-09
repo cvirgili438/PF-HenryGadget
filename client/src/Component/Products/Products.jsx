@@ -1,17 +1,44 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import Product from '../Product/Product';
 import Filters from '../Filters/Filters';
 import SkeletonCards from '../SkeletonCards/SkeletonCards';
-
 import Pagination from '../Pagination/Pagination.jsx';
-
 import styles from './Products.module.css';
+import { useState,useEffect } from 'react';
+import { Typography } from '@mui/material';
+
 
 const Products = () => {
   const products = useSelector(state => state.filteredProducts);
+  const message = useSelector(state => state.lastMsg)
+  const [loading,setLoading]=useState(false)
+  const test = ()=>{
+    if(loading){array.map(e=>{
+      return (<SkeletonCards key={e} />) 
+    })}
+    if(!loading){
+      return (<Typography 
+        sx={{
+          mt:30,
+          ml:30,
+          mr:30,          
+        }}
+         variant='h3' >Products not found, try again</Typography>)
+    }
+  }
+  
+  
   const array = [1,2,3,4,5,6,7,8,9]
+  useEffect(()=>{
+    if(message === 'Products not found' ){
+      setLoading(false)
+      
+    }
+    if (message !=='Products not found' ){
+      setLoading(true)
+    }
+  },[products])
 
   return (
     <div className={ styles.container }>
@@ -39,10 +66,8 @@ const Products = () => {
                 )
               })
               )
-              :
-              array.map(e=>{
-                return (<SkeletonCards key={e} />)
-              })
+              : test()
+              
             }
         </div>
       </div>

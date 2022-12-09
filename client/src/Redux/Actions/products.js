@@ -63,7 +63,13 @@ export const getProductsByQuery = (query) => async (dispatch)=>{ // recibo un ob
 		})
 	}
 	catch(er) {
-		console.log(er.messege)
+		console.log(er.response.data)
+		if(er.message.includes('404')){
+		return dispatch({
+			type:GET_PRODUCTS_BY_QUERY,
+			payload:er.response.data,
+			filter:true
+		})}
 	}
 }
 

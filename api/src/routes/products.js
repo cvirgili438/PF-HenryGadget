@@ -90,7 +90,9 @@ router.get('/', async (req, res) => {
         // sortBrand up o down
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
-
+        if (products.length === 0 ){
+            return res.status(404).json({msg: 'Products not found',result:products, total})
+        }
         res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 
     } catch (error) {
