@@ -265,9 +265,6 @@ router.put('/:id', async (req, res) => {
         if (product === null)
         return res.status(400).json({ err: `The enter id does not exist.` })
 
-        if (product.deletedAt !== null)
-            await product.restore();
-
         const { type, brand, storage, ram } = req.body;
         if (type) {
             const [typeOfDevice, typeCreated] = await Type.findOrCreate({
