@@ -51,7 +51,10 @@ export const getProductsByQuery = (query) => async (dispatch)=>{ // recibo un ob
 			})
 		}
 		catch(er) {
-			console.log(er.messege)
+			
+			if (er.code === "ERR_NETWORK"){
+				return alert('Please Refresh the page with F5')
+			}
 		}
 	}
 	try {        
@@ -63,7 +66,9 @@ export const getProductsByQuery = (query) => async (dispatch)=>{ // recibo un ob
 		})
 	}
 	catch(er) {
-		console.log(er.response.data)
+		if (er.code === "ERR_NETWORK"){
+			return alert('Please Refresh the page with F5')
+		}
 		if(er.message.includes('404')){
 		return dispatch({
 			type:GET_PRODUCTS_BY_QUERY,
