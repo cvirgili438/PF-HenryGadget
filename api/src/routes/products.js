@@ -222,7 +222,7 @@ router.delete('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const product = req.body;
     const { name, price, model, stock, type, brand, storage, img, ram} = req.body;
-    if (!name || !model || !price || !stock || !type || !brand || !storage || !img || !ram)
+    if (!name || !model || !price || !stock || !type || !brand || !img)
         return res.status(400).json({ err: "Important information is missing from product." })
 
     try {
