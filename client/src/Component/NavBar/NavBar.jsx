@@ -14,19 +14,44 @@ import logo from '../../Assets/logo.png'
 import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
+import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
+import { loginWithThirdParties } from "../../Redux/Actions/users.js";
 
 const NavBar = () => {
-  const state = useSelector(state=>state)
+
   const [input, setInput] = useState('');
   const [crud, setCrud] = useState({})
-  const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
-  const handleInputChange = e => {
-    setInput(e.target.value);
-  };
+  const [displayOptions, setDisplayOptions] = useState(false)
+
+  const state = useSelector(state=>state)
+  const dispatch = useDispatch();
+
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
+
+
+  useEffect(()=>{
+    if (pathname === '/Create/Product'){
+      setCrud({create:true})
+      return
+    }
+    else {
+      setCrud({create:false})
+    }
+  },[pathname])
+
+  useEffect(()=>{
+    dispatch(getProductsByQuery(search))
+  },[search])
+
+
+
+
+  const handleInputChange = e => {
+    setInput(e.target.value);
+  };
   const handleSubmit = e => {
     e.preventDefault();
     query.set('name',input)    
@@ -43,20 +68,17 @@ const NavBar = () => {
     setInput('');
   };
 
-  useEffect(()=>{
-    if (pathname === '/Create/Product'){
-      setCrud({create:true})
-      return
-    }
-    else {
-      setCrud({create:false})
-    }
-  },[pathname])
+  const handleDisplayOptions = ()=> {
+    setDisplayOptions(!displayOptions)
+  }
 
-  useEffect(()=>{
-    dispatch(getProductsByQuery(search))
-  },[search])
+  const logOut = ()=>{
+    setDisplayOptions(!displayOptions)
+    localStorage.clear()
+    dispatch(loginWithThirdParties(null))
+  }
 
+ 
   return (
     <div className={ styles.container }>
       <img src={logo} alt='logo' className={ styles.logo }/>
@@ -101,10 +123,18 @@ const NavBar = () => {
          <HiOutlineShoppingCart className={styles.cart} />
         </Link>
         
-        {state.user.photoURL 
-        ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button} referrerPolicy='no-referrer' /> 
-        :<FaUserInjured className={styles.login_button} onClick={()=>setModalShow(true)}/> }
-       
+        {state.user !== null
+          ? (
+            <div>
+              <img src={state.user.photoURL} alt='avatar' className={styles.login_button} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+              {!displayOptions
+                ? null
+                : <ProfileOptions logOut={logOut}/>
+              }
+            </div>
+            )
+          :<FaUserInjured className={styles.login_button} onClick={()=>setModalShow(true)}/> 
+        }
         
       </div>
       <ModalRegister 

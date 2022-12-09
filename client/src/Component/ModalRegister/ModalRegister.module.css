@@ -50,4 +50,38 @@
 .container_footer{
     display: flex;
     justify-content: center;
+    width: 100%;
+}
+
+.container_footer_button{
+    width: 100%;
+}
+
+.register_body_modal_container{
+    display:flex;
+    flex-direction: column;
+    width: 25rem;
+    margin: auto;
+}
+
+.register_body_modal_container_inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.register_inputs{
+    margin-top: 1rem;
+    height: 3rem;
+}
+
+.register_body_modal_container_nameInputs{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.register_container_footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
