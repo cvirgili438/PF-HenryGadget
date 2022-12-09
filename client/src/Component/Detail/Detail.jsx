@@ -30,6 +30,27 @@ const Detail = () => {
     if (details.result) {
         productDetail = details.result    
     }
+    function handleCart(){
+        let cart
+        let storage = localStorage.getItem('cart')
+        if(storage === null || storage === undefined){
+            cart = [id]
+            let stringify = JSON.stringify(cart)
+            localStorage.setItem('cart',stringify)
+            return alert('The products is add to you cart')
+        }
+        else{
+            let parse= JSON.parse(storage)   
+            if(!parse.includes(id)){
+            parse.push(id)
+            let stringyfy = JSON.stringify(parse)
+            localStorage.setItem('cart', stringyfy)
+            return alert('The products is add to you cart')
+            } 
+            else return alert ('The product is already in your cart, please go to Cart seccion in the navigation bar')       
+           
+        }
+    }
     
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
@@ -113,7 +134,7 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`}>Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} >Agregar al carro</button>
                         <button className={`${styles.btn_success} btn btn-outline-success`}>Comprar</button>
                     </div>
                 </div>

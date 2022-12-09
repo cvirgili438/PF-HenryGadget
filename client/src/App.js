@@ -7,6 +7,7 @@ import CreateProduct from './Component/CreateProduct/CreateProduct';
 import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EditProduct from './Component/EditProduct/EditProduct';
+import Cart from './Component/Cart/Cart.jsx';
 
 const App = () => {
   
@@ -18,6 +19,9 @@ const App = () => {
             <NavBar/>
             <Route exact path={'/'}>
               <LandingPage /> 
+            </Route>
+            <Route path={'/Cart'}>
+              <Cart />
             </Route>
             
           </Route>

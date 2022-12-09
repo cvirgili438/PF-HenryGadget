@@ -119,7 +119,7 @@ const NavBar = () => {
       
       </div>
       <div className={ styles.menu }>
-        <Link to='/'>
+        <Link to='/Cart'>
          <HiOutlineShoppingCart className={styles.cart} />
         </Link>
         

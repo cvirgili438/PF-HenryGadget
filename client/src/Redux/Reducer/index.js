@@ -13,6 +13,7 @@ import {
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
   SET_USER_LOGIN_THIRDPARTIES,
+  SET_PRODUCTS_IN_CART
 } from '../Constants/index.js';
 
 
