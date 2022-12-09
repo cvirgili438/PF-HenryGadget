@@ -20,7 +20,7 @@ router.delete('/:id', async (req, res) => {
         });
         res.json({ msg: `The product with the name ${productToDelete.name} has been deleted.` })
     } catch (error) {
-        res.status(400).json({ err: error.message })
+        res.status(400).json({ err: error })
     }
 })
 
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
 
         res.status(201).json({ msg: 'Product added correctly.', result: productCreated })
     } catch (error) {
-        res.status(400).json({ err: error.message })
+        res.status(400).json({ err: error })
     }
 })
 
@@ -100,7 +100,7 @@ router.put('/:id', async (req, res) => {
         res.status(200).json({ msg: 'Updated.' })
 
     } catch (error) {
-        res.status(400).json({ err: error.message });
+        res.status(400).json({ err: error });
     }
 })
 
