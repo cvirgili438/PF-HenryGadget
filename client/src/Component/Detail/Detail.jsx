@@ -34,21 +34,45 @@ const Detail = () => {
         let cart
         let storage = localStorage.getItem('cart')
         if(storage === null || storage === undefined){
-            cart = [id]
+            cart = [{
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],
+                amount : input.value
+            }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart',stringify)
             return alert('The products is add to you cart')
         }
         else{
             let parse= JSON.parse(storage)   
-            if(!parse.includes(id)){
-            parse.push(id)
-            let stringyfy = JSON.stringify(parse)
-            localStorage.setItem('cart', stringyfy)
-            return alert('The products is add to you cart')
-            } 
-            else return alert ('The product is already in your cart, please go to Cart seccion in the navigation bar')       
-           
+            let cart = {
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],              
+            }
+            let filter = parse.filter(e => e.name === cart.name)
+            if(filter.length > 0 ){
+                let nuevo = {
+                    ...cart,
+                    amount: cart.amount+input.value
+                }
+                parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+            if(filter.length === 0 ){
+                let nuevo = {
+                    ...cart,
+                    amount:input.value
+                }
+                parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+                      
         }
     }
     
