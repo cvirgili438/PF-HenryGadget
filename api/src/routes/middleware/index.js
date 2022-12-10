@@ -6,10 +6,8 @@ async function decodeToken(req, res, next) {
 	if (req.headers.authorization) {
 		token = req.headers.authorization.split(' ')[1];
 	}
-	console.log(token)
 	try {
 		const decodeValue = await admin.auth().verifyIdToken(token);
-
 		let uid = decodeValue.uid;
 		const user = await User.findOne({where: {uid}});
 		let rol = user.rol
@@ -18,7 +16,7 @@ async function decodeToken(req, res, next) {
 			req.user = decodeValue;
 			return next();
 		}
-		return res.json({ msg: 'Not authorized' });
+		return res.json({ msg: 'Not authorized1' });
 	} catch (e) {
 		return res.json({ msg: 'Not authorized' });
 	}

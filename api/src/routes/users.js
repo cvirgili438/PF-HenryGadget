@@ -1,3 +1,4 @@
+const admin = require('./config/firebase-config')
 const { Router } = require('express');
 const router = Router();
 
@@ -43,11 +44,29 @@ router.get('/:uid', async (req, res) => {
     }
 })
 
+// Esta ruta es exclusiva admin
 router.post('/', async (req,res) => {
     try {
         const {uid, rol} = req.body;
 
         let newUser = await User.create({uid, rol});
+        res.status(201).json({msg: 'User created correctly.', result: newUser})
+    } catch (error) {
+        res.status(400).json({err: error.message})
+    }
+})
+
+//ruta para el login o registro valida si ya existe el usuario y sino lo crea como cliente
+router.post('/log', async (req, res) => {
+    let token = undefined
+	if (req.headers.authorization) {
+		token = req.headers.authorization.split(' ')[1];
+		console.log(token)
+	}
+    try {
+        const decodeValue = await admin.auth().verifyIdToken(token);
+        let uid = decodeValue.uid;
+        let newUser = await User.findOrCreate({where: {uid}});
         res.status(201).json({msg: 'User created correctly.', result: newUser})
     } catch (error) {
         res.status(400).json({err: error.message})
