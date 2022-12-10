@@ -37,10 +37,11 @@ const Detail = () => {
         let storage = localStorage.getItem('cart')
         if(storage === null || storage === undefined){
             cart = [{
+                idProduct: productDetail.id,
                 name: productDetail.name,
                 price:productDetail.price,
                 img: productDetail.img[0],
-                amount : input.value
+                quantity : input.value
             }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart',stringify)            
@@ -49,6 +50,7 @@ const Detail = () => {
         else{
             let parse= JSON.parse(storage)   
             let cart = {
+                idProduct: productDetail.id,
                 name: productDetail.name,
                 price:productDetail.price,
                 img: productDetail.img[0],              
@@ -60,11 +62,11 @@ const Detail = () => {
                 console.log('index',index)                
                 parse[index]={
                     ...parse[index],
-                    amount: filter[0].amount + input.value
+                    quantity: filter[0].quantity + input.value
                 }
                 // let nuevo = {
                 //     ...cart,
-                //     amount: cart.amount+input.value
+                //     quantity: cart.quantity+input.value
                 // }
                 // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
@@ -74,7 +76,7 @@ const Detail = () => {
             if(filter.length === 0 ){
                 let nuevo = {
                     ...cart,
-                    amount:input.value
+                    quantity:input.value
                 }
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
