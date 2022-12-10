@@ -1,4 +1,4 @@
-const { Product, Type, Storage, Ram, Brand } = require('../db');
+const { Product, Type, Storage, Ram, Brand, User } = require('../db');
 const products = require('./objectToAdd/products.js');
 const iphones = require('./objectToAdd/iphoneProducts')
 const review = require('./objectToAdd/reviews.js');
@@ -6,9 +6,16 @@ const brands = require('./objectToAdd/brands.js');
 const storages = require('./objectToAdd/storages.js');
 const types = require('./objectToAdd/types.js');
 const rams = require('./objectToAdd/ram.js');
+const userAdmin = { // proyectofinalhenrygadget@gmail.com
+    uid: 'ZTAC4VigPiX2a2VWQM939zMdSaF2',
+    rol: 'admin'
+};
 
 async function inicialProducts() {
     try {
+
+        await User.create(userAdmin);
+
         const arrayStorage = [
             await Storage.create(storages[0]),
             await Storage.create(storages[1]),
@@ -48,15 +55,15 @@ async function inicialProducts() {
 
             for (let j = i; j < i + 1; j++)
                 iphone.createReview(review[j]);
-            
+
             const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
-                where: {name: "Apple"}
-            });    
+                where: { name: "Apple" }
+            });
             iphone.setBrand(brandOfDevice);
             iphone.setType(arrayTypes[1]);
             iphone.setStorage(arrayStorage[Math.floor(Math.random() * storages.length - 1) + 1]);
             iphone.setRam(arrayRams[Math.floor(Math.random() * rams.length - 1) + 1]);
-            
+
         }
     } catch (error) {
         console.log(error, 'data not found')
