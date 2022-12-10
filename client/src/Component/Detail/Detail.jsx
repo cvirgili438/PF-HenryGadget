@@ -30,6 +30,51 @@ const Detail = () => {
     if (details.result) {
         productDetail = details.result    
     }
+    function handleCart(){
+        let cart
+        let storage = localStorage.getItem('cart')
+        if(storage === null || storage === undefined){
+            cart = [{
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],
+                amount : input.value
+            }]
+            let stringify = JSON.stringify(cart)
+            localStorage.setItem('cart',stringify)
+            return alert('The products is add to you cart')
+        }
+        else{
+            let parse= JSON.parse(storage)   
+            let cart = {
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],              
+            }
+            let filter = parse.filter(e => e.name === cart.name)
+            if(filter.length > 0 ){
+                let nuevo = {
+                    ...cart,
+                    amount: cart.amount+input.value
+                }
+                parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+            if(filter.length === 0 ){
+                let nuevo = {
+                    ...cart,
+                    amount:input.value
+                }
+                parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+                      
+        }
+    }
     
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
@@ -113,7 +158,7 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`}>Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} >Agregar al carro</button>
                         <button className={`${styles.btn_success} btn btn-outline-success`}>Comprar</button>
                     </div>
                 </div>
