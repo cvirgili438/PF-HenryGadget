@@ -14,6 +14,8 @@ import noImage from '../../Assets/noImage.jpg';
 
 const Detail = () => {
     const { id } = useParams();
+    
+    const user = useSelector(state => state.user)
 
     const [input, setInput] = useState({ value: 1 })    
    
@@ -42,6 +44,7 @@ const Detail = () => {
             }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart',stringify)
+            console.log(user)
             return alert('The products is add to you cart')
         }
         else{
@@ -51,13 +54,20 @@ const Detail = () => {
                 price:productDetail.price,
                 img: productDetail.img[0],              
             }
-            let filter = parse.filter(e => e.name === cart.name)
+            let filter = parse.filter(e => e.name ===  cart.name)
+            console.log('filter',filter)
             if(filter.length > 0 ){
-                let nuevo = {
-                    ...cart,
-                    amount: cart.amount+input.value
+                let index = parse.findIndex(e => e ===filter[0])
+                console.log('index',index)                
+                parse[index]={
+                    ...parse[index],
+                    amount: filter[0].amount + input.value
                 }
-                parse.push(nuevo)
+                // let nuevo = {
+                //     ...cart,
+                //     amount: cart.amount+input.value
+                // }
+                // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
                 return alert('The products is add to you cart')
@@ -96,7 +106,7 @@ const Detail = () => {
                 }
             )
         }
-        console.log(input.value);
+        
     }
 
     let handleImg = (e) => {
