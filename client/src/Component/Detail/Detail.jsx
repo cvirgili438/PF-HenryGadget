@@ -43,8 +43,7 @@ const Detail = () => {
                 amount : input.value
             }]
             let stringify = JSON.stringify(cart)
-            localStorage.setItem('cart',stringify)
-            console.log(user)
+            localStorage.setItem('cart',stringify)            
             return alert('The products is add to you cart')
         }
         else{
