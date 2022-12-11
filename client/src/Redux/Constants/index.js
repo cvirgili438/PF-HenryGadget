@@ -15,6 +15,8 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
+  localCart:[],
+  userCart:[],
   user:userStorageData
 };
 
@@ -32,7 +34,10 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const SET_USER_LOGIN_THIRDPARTIES = 'SET_USER_LOGIN_THIRDPARTIES'
 
 // CARRITO
-
+export const SET_LOCAL_CART = 'SET_LOCAL_CART'
+export const GET_USER_CART = 'GET_USER_CART'
+export const SET_USER_CART =  'SET_USER_CART'
+export const DELETE_USER_CART = 'DELETE_USER_CART'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';

@@ -14,6 +14,8 @@ import noImage from '../../Assets/noImage.jpg';
 
 const Detail = () => {
     const { id } = useParams();
+    
+    const user = useSelector(state => state.user)
 
     const [input, setInput] = useState({ value: 1 })    
    
@@ -29,6 +31,60 @@ const Detail = () => {
     
     if (details.result) {
         productDetail = details.result    
+    }
+    function handleCart(){
+        let cart
+        let storage = localStorage.getItem('cart')
+        if(storage === null || storage === undefined){
+            cart = [{
+                idProduct: productDetail.id,
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],
+                quantity : input.value
+            }]
+            let stringify = JSON.stringify(cart)
+            localStorage.setItem('cart',stringify)            
+            return alert('The products is add to you cart')
+        }
+        else{
+            let parse= JSON.parse(storage)   
+            let cart = {
+                idProduct: productDetail.id,
+                name: productDetail.name,
+                price:productDetail.price,
+                img: productDetail.img[0],              
+            }
+            let filter = parse.filter(e => e.name ===  cart.name)
+            console.log('filter',filter)
+            if(filter.length > 0 ){
+                let index = parse.findIndex(e => e ===filter[0])
+                console.log('index',index)                
+                parse[index]={
+                    ...parse[index],
+                    quantity: filter[0].quantity + input.value
+                }
+                // let nuevo = {
+                //     ...cart,
+                //     quantity: cart.quantity+input.value
+                // }
+                // parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+            if(filter.length === 0 ){
+                let nuevo = {
+                    ...cart,
+                    quantity:input.value
+                }
+                parse.push(nuevo)
+                let stringyfy = JSON.stringify(parse)
+                localStorage.setItem('cart', stringyfy)
+                return alert('The products is add to you cart')
+            }
+                      
+        }
     }
     
     let handleCount = (e) => {
@@ -51,7 +107,7 @@ const Detail = () => {
                 }
             )
         }
-        console.log(input.value);
+        
     }
 
     let handleImg = (e) => {
@@ -113,7 +169,7 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`}>Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} >Agregar al carro</button>
                         <button className={`${styles.btn_success} btn btn-outline-success`}>Comprar</button>
                     </div>
                 </div>
