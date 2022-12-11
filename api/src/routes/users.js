@@ -48,14 +48,10 @@ router.get('/:uid', async (req, res) => {
 
 
 //ruta para el login o registro valida si ya existe el usuario y sino lo crea como cliente
-router.post('/log', async (req, res) => {
-    let token = undefined
-	if (req.headers.authorization) {
-		token = req.headers.authorization.split(' ')[1];
-	}
+router.post('/log', decodeTokenNotAdmin, async (req, res) => {
+    
     try {
-        const decodeValue = await admin.auth().verifyIdToken(token);
-        let uid = decodeValue.uid;
+        let uid = req.user.uid;
         let newUser = await User.findOrCreate({where: {uid}});
         res.status(201).json({msg: 'User created correctly.', result: newUser})
     } catch (error) {
