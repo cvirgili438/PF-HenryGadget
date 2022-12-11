@@ -1,5 +1,8 @@
+const admin = require('./config/firebase-config')
 const { Router } = require('express');
 const router = Router();
+const decodeToken = require('./middleware/index');
+const decodeTokenNotAdmin = require('./middleware/authWithoutAdm')
 
 const { User, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
@@ -43,21 +46,27 @@ router.get('/:uid', async (req, res) => {
     }
 })
 
-router.post('/', async (req,res) => {
-    try {
-        const {uid, rol} = req.body;
 
-        let newUser = await User.create({uid, rol});
+//ruta para el login o registro valida si ya existe el usuario y sino lo crea como cliente
+router.post('/log', decodeTokenNotAdmin, async (req, res) => {
+    
+    try {
+        let uid = req.user.uid;
+        let newUser = await User.findOrCreate({where: {uid}});
         res.status(201).json({msg: 'User created correctly.', result: newUser})
     } catch (error) {
         res.status(400).json({err: error.message})
     }
 })
 
-router.delete('/:uid', async (req, res) => {
+//debe recibir el token en el headers, no es necesario ser admin
+router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
     try {
+        let uidFire = req.user.uid;
         const { uid } = req.params;
-
+        if (uid !== uidFire) {
+            return res.status(400).json({err: 'The uid from the params and firebase does not match'})
+        }
         const userToDelete = await User.findOne({where: {uid}});
 
         if (userToDelete === null) {
@@ -72,7 +81,8 @@ router.delete('/:uid', async (req, res) => {
     }
 })
 
-router.put('/:uid', async (req, res) => {
+//ruta meramente de admin
+router.put('/:uid', decodeToken, async (req, res) => {
     try {
         const {uid} = req.params;
 
@@ -88,7 +98,7 @@ router.put('/:uid', async (req, res) => {
         if (error.parent.detail) {
             return res.status(400).json({err: error.parent.detail});
         }
-        res.status(400).json({err: error.message});
+        res.status(400).json({err: error});
     }
 })
 

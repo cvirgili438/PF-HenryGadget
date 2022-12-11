@@ -18,4 +18,4 @@ async function decodeTokenNotAdmin(req, res, next) {
 	}
 }
 
-module.exports = decodeTokenNotAdmin
+module.exports = decodeTokenNotAdmin;
