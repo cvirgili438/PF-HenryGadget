@@ -13,7 +13,7 @@ import {
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
   SET_USER_LOGIN_THIRDPARTIES,
-  SET_PRODUCTS_IN_CART
+  SET_LOCAL_CART,
 } from '../Constants/index.js';
 
 
@@ -95,6 +95,11 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         user: action.payload
       }
+      case SET_LOCAL_CART:
+        return{
+          ...state,
+          localCart:action.payload
+        }
     default:
       return { ...state };
   }

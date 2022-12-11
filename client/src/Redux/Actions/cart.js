@@ -1,13 +1,17 @@
 import axios from "axios";
 
-import { URL,SET_PRODUCTS_IN_CART } from "../Constants";
+import { URL,SET_LOCAL_CART } from "../Constants";
 
 
-export const setProductsInCart = (payload)=>(dispatch)=>{
-            try{
-               
-            }
-            catch(error){
-                console.log(error)
-            }
+
+export const setLocalCart = (payload)=>(dispatch)=>{
+        try{
+            return dispatch({
+                type: SET_LOCAL_CART,
+                payload:payload
+            })
+        }
+        catch(error){
+            console.log(error)
+        }
 }

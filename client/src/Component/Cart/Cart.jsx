@@ -1,8 +1,8 @@
-import { Skeleton, Typography } from '@mui/material';
+import { Menu, Skeleton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setProductsInCart } from '../../Redux/Actions/cart';
+import { setLocalCart } from '../../Redux/Actions/cart';
 import style from './Cart.module.css'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
 import Button from '@mui/material/Button';
@@ -12,18 +12,30 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
+
 
 const Cart = () => {
         const dispatch = useDispatch()
-        let storage = localStorage.getItem('cart')
-        const cart = useSelector(state => state.cart)
+        let storage = JSON.parse(localStorage.getItem('cart'))
+        const localCart = useSelector(state => state.localCart)
         const user = useSelector(state => state.user)
-
+        const userCart = useSelector(state => state.userCart)
+        const totalPrice= (cart)=>{
+            let price= 0
+            cart.map(e=>{
+              return price = price + e.price
+            })
+            return price
+        }
        
         useEffect(()=>{
-        
-        },[])
+        if(user === [] || user === undefined || user === null){
+          dispatch(setLocalCart(storage))
+        }
+        if(user){
+          
+        }
+        },[user,storage])
 
 
         //de aqui a adelante es  estados sobre el boton en si
@@ -103,23 +115,32 @@ const Cart = () => {
                     {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-                    {cart.length > 0 ?  cart.map((e,i) => {
+                    {localCart.length > 0 ?  localCart?.map((e,i) => {
                       return <MenuItem key={'menu'+i}>
                         <Box sx={{
                           display:'flex',
-                          flexDirection: 'column'
+                          flexDirection: 'row'
                         }} >
-                        <img width='30%' src={e.img} alt={<Skeleton variant='rectangular' width='30%' />}/>
+                        <img width='30%' 
+                        height='30px' 
+                        src={e.img} 
+                        alt={<Skeleton variant='rectangular'  />}/>
                         <Box  sx={{
-                          display:'flex',
-                          flexDirection:'row'
+                          display:'grid',
+                          gridAutoRows:'auto'
+                          
                         }}>
                           <Typography variant='h6' >{e.name}</Typography>
-                          <Typography variant='subtitle1' >{e.price}</Typography>
-                        </Box>
+                          <Typography variant='subtitle1' sx={{
+                            
+                          }} > Price ${e.price}</Typography>
+                          </Box>
                         </Box>
                       </MenuItem>
                     }):<MenuItem>You haven't products in your Cart</MenuItem>}
+                    {localCart.length > 0 ? <MenuItem sx={{
+                      color:'red',
+                    }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
                 </ClickAwayListener>
