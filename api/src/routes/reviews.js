@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const authWithoutAdm = require('./middleware/authWithoutAdm')
 
 const { Product, Review, User } = require('../db.js');
 
@@ -33,6 +34,9 @@ router.get('/', async (req,res)=> {                                             
         res.status(400).json({err: error.message});
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
