@@ -2,7 +2,7 @@ const admin = require('./config/firebase-config')
 const { Router } = require('express');
 const router = Router();
 const decodeToken = require('./middleware/index');
-const decodeTokenNotAdmin = require('./middleware/index')
+const decodeTokenNotAdmin = require('./middleware/authWithoutAdm')
 
 const { User, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
@@ -48,14 +48,10 @@ router.get('/:uid', async (req, res) => {
 
 
 //ruta para el login o registro valida si ya existe el usuario y sino lo crea como cliente
-router.post('/log', async (req, res) => {
-    let token = undefined
-	if (req.headers.authorization) {
-		token = req.headers.authorization.split(' ')[1];
-	}
+router.post('/log', decodeTokenNotAdmin, async (req, res) => {
+    
     try {
-        const decodeValue = await admin.auth().verifyIdToken(token);
-        let uid = decodeValue.uid;
+        let uid = req.user.uid;
         let newUser = await User.findOrCreate({where: {uid}});
         res.status(201).json({msg: 'User created correctly.', result: newUser})
     } catch (error) {
@@ -66,8 +62,11 @@ router.post('/log', async (req, res) => {
 //debe recibir el token en el headers, no es necesario ser admin
 router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
     try {
+        let uidFire = req.user.uid;
         const { uid } = req.params;
-
+        if (uid !== uidFire) {
+            return res.status(400).json({err: 'The uid from the params and firebase does not match'})
+        }
         const userToDelete = await User.findOne({where: {uid}});
 
         if (userToDelete === null) {
