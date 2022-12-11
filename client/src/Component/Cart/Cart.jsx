@@ -29,10 +29,10 @@ const Cart = () => {
         }
        
         useEffect(()=>{
-        if(user === [] || user === undefined || user === null){
+        if((user === [] || user === undefined || user === null)&& storage ){
           dispatch(setLocalCart(storage))
         }
-        if(user){
+        if(user && storage){
           dispatch(getUserCart(user.uid))
           if(userCart.length === 0 ){
             dispatch(setLocalCart(storage))
@@ -43,10 +43,7 @@ const Cart = () => {
             dispatch(setLocalCart(storage))
             dispatch(setUserCart(storage,user.uid))
           }
-          if(userCart.length > 0 && localCart.length === 0 ){
-            
-          }
-
+          
         }
         },[user])
 
@@ -123,12 +120,9 @@ const Cart = () => {
                     sx={{
                       display:'flex',
                       flexDirection:'column'
-                    }}
-                  >                    
-                    {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-                    {localCart.length > 0 ?  localCart?.map((e,i) => {
+                    }}                  >                    
+                   
+                    {localCart.length > 0?  localCart?.map((e,i) => {
                       return <MenuItem key={'menu'+i}>
                         <Box sx={{
                           display:'flex',
@@ -150,7 +144,7 @@ const Cart = () => {
                           </Box>
                         </Box>
                       </MenuItem>
-                    }):<MenuItem>You haven't products in your Cart</MenuItem>}
+                    }):<MenuItem>You have no items in your shopping cart</MenuItem>}
                     {localCart.length > 0 ? <MenuItem sx={{
                       color:'red',
                     }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
