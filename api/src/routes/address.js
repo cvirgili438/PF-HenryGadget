@@ -1,7 +1,11 @@
 const { Router } = require('express');
 const router = Router();
+const authWithoutAdm = require('./middleware/authWithoutAdm')
 
 const { User, Address } = require('../db.js');
+
+//protejo todas las rutas ya que no es de nuestro interes que las vean quienes no estan autentificados
+router.use(authWithoutAdm);
 
 router.get('/', async(req,res) => {                                             // localhost:3001/address (get)
     const {idUser} = req.body;                                                  // Requiere user id para buscar las direcciones de un usuario en especifico
