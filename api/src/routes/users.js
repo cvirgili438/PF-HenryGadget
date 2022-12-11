@@ -2,7 +2,7 @@ const admin = require('./config/firebase-config')
 const { Router } = require('express');
 const router = Router();
 const decodeToken = require('./middleware/index');
-const decodeTokenNotAdmin = require('./middleware/index')
+const decodeTokenNotAdmin = require('./middleware/authWithoutAdm')
 
 const { User, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
@@ -62,8 +62,11 @@ router.post('/log', decodeTokenNotAdmin, async (req, res) => {
 //debe recibir el token en el headers, no es necesario ser admin
 router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
     try {
+        let uidFire = req.user.uid;
         const { uid } = req.params;
-
+        if (uid !== uidFire) {
+            return res.status(400).json({err: 'The uid from the params and firebase does not match'})
+        }
         const userToDelete = await User.findOne({where: {uid}});
 
         if (userToDelete === null) {
