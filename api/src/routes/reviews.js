@@ -41,6 +41,10 @@ router.use(authWithoutAdm);
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
     const reviewDataValidate = reviewData || false;                                             // Validacion en caso de que reviewData sea null, evitar que rompa el servidor
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) {
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     if(!idProduct || !idUser) return res.status(400).json({err: 'Missing data.'});               // Si falta algun id devuelve un error.
     if(!reviewDataValidate) return res.status(400).json({err: 'Review data is missing.'});       // Revisa que si hayan pasado ReviewData
@@ -60,11 +64,17 @@ router.post('/', async (req,res) => {                                           
     }
 })
 
-router.delete('/admin/:idReview', async (req,res) => {                                                              // Localhost:3001/admin/id (soft delete) 
+router.delete('/:idReview', async (req,res) => {                                                              // Localhost:3001/admin/id (soft delete) 
     const {idReview} = req.params;                                                                                  // Solicitamos id por params                           
+    const {idUser} = req.body;
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     try {
         const reviewToDelete = await Review.findByPk(idReview);                                                     // Buscamos la review por id para verificar luego
+
         if(idReview && reviewToDelete){                                                                             // Validamos que nos hayan pasado tanto id por params y que si exista en la db
             await Review.destroy({where: {id: idReview}})                                                           // Si si existe eliminamos y devolvemos mensaje apropiado
             res.status(200).json({msg: 'Review deleted correctly.', result: idReview})
@@ -78,8 +88,13 @@ router.delete('/admin/:idReview', async (req,res) => {                          
 
 router.put('/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
     const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
-    const {reviewData} = req.body;
+    const {reviewData, idUser} = req.body;
     const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
+
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
     if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
