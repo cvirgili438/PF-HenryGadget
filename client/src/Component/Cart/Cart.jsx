@@ -2,7 +2,7 @@ import { Menu, Skeleton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserCart, setLocalCart } from '../../Redux/Actions/cart';
+import { deleteUserCart, getUserCart, setLocalCart, setUserCart } from '../../Redux/Actions/cart';
 import style from './Cart.module.css'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
 import Button from '@mui/material/Button';
@@ -36,6 +36,12 @@ const Cart = () => {
           dispatch(getUserCart(user.uid))
           if(userCart.length === 0 ){
             dispatch(setLocalCart(storage))
+            dispatch(setUserCart(storage,user.uid))
+          }
+          if(userCart.length > 0 && localCart.length > 0){
+            dispatch(deleteUserCart(user.uid))
+            dispatch(setLocalCart(storage))
+            dispatch(setUserCart(storage,user.uid))
           }
 
         }
