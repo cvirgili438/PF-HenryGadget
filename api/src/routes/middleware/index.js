@@ -6,10 +6,8 @@ async function decodeToken(req, res, next) {
 	if (req.headers.authorization) {
 		token = req.headers.authorization.split(' ')[1];
 	}
-	console.log(token)
 	try {
 		const decodeValue = await admin.auth().verifyIdToken(token);
-
 		let uid = decodeValue.uid;
 		const user = await User.findOne({where: {uid}});
 		let rol = user.rol
