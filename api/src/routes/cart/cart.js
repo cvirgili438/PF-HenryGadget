@@ -8,15 +8,15 @@ const getTotal = require('./controllers/getTotal.js');
 router.get('/', async(req,res) => {                                                                         //localhost:3001/carts (get)
     const {idUser} = req.body;                                                                              // Para hacer el get requeriremos unicamente el usuario id
     
-    if(!idUser) return res.status(400).json({msg: 'user id is missing'});                                   // Pequeña validacion para asegurarnos que pasen el id solicitado
+    if(!idUser) return res.status(400).json({err: 'user id is missing'});                                   // Pequeña validacion para asegurarnos que pasen el id solicitado
     
     try {
         const user = await User.findByPk(idUser);                                                           // Buscamos el usuario para verificar luego que si exista un usuario con ese id
         const cart = await Cart.findOne({where: {userId: idUser}, include: Product})                        // Bucamos el carrito relacionado con ese usuario para saber si existe y tambien para luego ser pasado como respuesta para el front (este carrito incluye ya los productos)
     
-        if(!user) return res.status(404).json({msg: `The user with id: ${idUser} doesn't exist`})           // Pequeñas validaciones en caso de que no tenga carrito o no exista el usuario
+        if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`})           // Pequeñas validaciones en caso de que no tenga carrito o no exista el usuario
         if(!cart){
-            return res.status(404).json({msg: `The user with id: ${idUser} doesn't have an active cart`})
+            return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
         }
 
         const total = await getTotal(cart.products, cart.id);                                               // Buscamos el total del carrito, lo cual utilizamos una funcion (mayor documentacion en ./controllers/getTotal.js)
@@ -32,8 +32,8 @@ router.get('/', async(req,res) => {                                             
 router.post('/', async(req,res) => {                                                                                //localhost:3001/carts (post)
     const {idProduct, idUser, quantity} = req.body;                                                                 // Requerimos id de usuario y product y la cantidad de cuanto de ese producto.
 
-    if(!idProduct || !idUser) return res.status(400).json({msg: 'Important information is missing'});               // Validamos que nos hayan pasado todos los datos solicitados
-    if(typeof quantity !== 'number') return res.status(400).json({msg: 'Quantity is missing'});
+    if(!idProduct || !idUser) return res.status(400).json({err: 'Important information is missing'});               // Validamos que nos hayan pasado todos los datos solicitados
+    if(typeof quantity !== 'number') return res.status(400).json({err: 'Quantity is missing'});
 
     try {
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Buscamos al usuario utilizando el id proporsionado e incluimos el posible carrito que tenga el usuario
@@ -86,7 +86,7 @@ router.post('/', async(req,res) => {                                            
 router.delete('/', async(req,res) => {                                          // localhost:3001/carts (delete)
     const {idUser} = req.body;                                                  // Requerimos el id del usuario por body
 
-    if(!idUser)return res.status(400).json({msg: 'User id is missing'});        // Verificamos que hayan pasado idUser
+    if(!idUser)return res.status(400).json({err: 'User id is missing'});        // Verificamos que hayan pasado idUser
 
     try {
         const userExist = User.findByPk(idUser);                                // Buscamos el usuarior por id para verificar que si exista
