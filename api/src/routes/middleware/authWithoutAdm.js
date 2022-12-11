@@ -1,5 +1,4 @@
 const admin = require('../config/firebase-config');
-const { User } = require('../../db.js')
 
 async function decodeTokenNotAdmin(req, res, next) {
 	let token = undefined
