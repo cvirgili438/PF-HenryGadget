@@ -2,7 +2,7 @@ import { Menu, Skeleton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLocalCart } from '../../Redux/Actions/cart';
+import { getUserCart, setLocalCart } from '../../Redux/Actions/cart';
 import style from './Cart.module.css'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
 import Button from '@mui/material/Button';
@@ -23,7 +23,7 @@ const Cart = () => {
         const totalPrice= (cart)=>{
             let price= 0
             cart.map(e=>{
-              return price = price + e.price
+              return price = price + (e.price*(e.quantity))
             })
             return price
         }
@@ -33,9 +33,13 @@ const Cart = () => {
           dispatch(setLocalCart(storage))
         }
         if(user){
-          
+          dispatch(getUserCart(user.uid))
+          if(userCart.length === 0 ){
+            dispatch(setLocalCart(storage))
+          }
+
         }
-        },[user,storage])
+        },[user])
 
 
         //de aqui a adelante es  estados sobre el boton en si
@@ -130,7 +134,7 @@ const Cart = () => {
                           gridAutoRows:'auto'
                           
                         }}>
-                          <Typography variant='h6' >{e.name}</Typography>
+                          <Typography variant='h6' >{e.quantity}u.  of {e.name}</Typography>
                           <Typography variant='subtitle1' sx={{
                             
                           }} > Price ${e.price}</Typography>
