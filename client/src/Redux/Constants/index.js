@@ -1,7 +1,7 @@
 // CONEXION
 import { fetchUserData } from "../../Utils/fetchLocalStorageData";
 
-export const URL = 'http://localhost:3001';
+export const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 // export const URL = 'http://192.168.0.170:3001'; // para pruebas
 
 const userStorageData = fetchUserData()
@@ -15,8 +15,11 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
-  user:userStorageData,
   loading: false
+  localCart:[],
+  userCart:[],
+  user:userStorageData
+
 };
 
 // PRODUCTOS
@@ -33,7 +36,10 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
 
 // CARRITO
-
+export const SET_LOCAL_CART = 'SET_LOCAL_CART'
+export const GET_USER_CART = 'GET_USER_CART'
+export const SET_USER_CART =  'SET_USER_CART'
+export const DELETE_USER_CART = 'DELETE_USER_CART'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';

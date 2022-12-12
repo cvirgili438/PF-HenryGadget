@@ -16,7 +16,12 @@ import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
+
 import { loginApp } from "../../Redux/Actions/users.js";
+
+import Cart from "../Cart/Cart.jsx";
+import { style } from "@mui/system";
+
 
 const NavBar = () => {
 
@@ -120,9 +125,10 @@ const NavBar = () => {
       
       </div>
       <div className={ styles.menu }>
-        <Link to='/'>
+        {/* <Link to='/Cart'>
          <HiOutlineShoppingCart className={styles.cart} />
-        </Link>
+        </Link> */}
+        <Cart />
         
         {state.user !== null
           ? (

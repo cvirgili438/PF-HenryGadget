@@ -19,6 +19,7 @@ li.active {
 }
 .item_photo{
     display:flex;
+    flex-direction: column;
     justify-content:center;
     align-items:center;
     border-right:1px solid #f6f6f6;

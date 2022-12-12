@@ -14,6 +14,9 @@ import {
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
+  SET_LOCAL_CART,
+  GET_USER_CART,
+  SET_USER_CART,
 } from '../Constants/index.js';
 
 
@@ -100,6 +103,21 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         loading:!state.loading
       }
+      case SET_LOCAL_CART:
+        return{
+          ...state,
+          localCart:action.payload
+        }
+      case GET_USER_CART:
+        return {
+          ...state,
+          userCart:action.payload
+        }
+      case SET_USER_CART:
+        return {
+          ...state,
+          userCart : action.payload       
+        }
     default:
       return { ...state };
   }
