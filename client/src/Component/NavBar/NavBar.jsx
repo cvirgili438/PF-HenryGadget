@@ -17,7 +17,7 @@ import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
 
-import { loginApp } from "../../Redux/Actions/users.js";
+import { setUserInFrontState } from "../../Redux/Actions/users.js";
 
 import Cart from "../Cart/Cart.jsx";
 import { style } from "@mui/system";
@@ -81,7 +81,7 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(loginApp(null))
+    dispatch(setUserInFrontState(null))
   }
 
  
