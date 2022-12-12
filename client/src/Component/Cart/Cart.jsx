@@ -43,7 +43,9 @@ const Cart = () => {
             dispatch(setLocalCart(storage))
             dispatch(setUserCart(storage,user.uid))
           }
+        if(userCart.length > 0 && localCart.length === 0 ){
           
+        }
         }
         },[user,localStorage.getItem('cart')])
 
