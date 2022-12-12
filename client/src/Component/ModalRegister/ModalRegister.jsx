@@ -55,11 +55,16 @@ function ModalRegister(props) {
     if (e.target.id === "google") {
       const {
         user: { providerData },
+        _tokenResponse:{ idToken }
       } = await signInWithPopup(firebaseAuth, provider.google);
-      console.log(providerData[0])
-      dispatch(setUserInFrontState(providerData[0]));
-      localStorage.setItem("user", JSON.stringify(providerData[0]));
-      props.onHide();
+      dispatch(loginApp(idToken))
+      .then(res=>{
+        providerData[0].rol = res.result[0].rol
+        localStorage.setItem("user", JSON.stringify(providerData[0]));
+        dispatch(setUserInFrontState(providerData[0]));
+      })
+      .finllay(()=>props.onHide())
+      
     }
     if (e.target.id === "facebook") {
       const {
@@ -80,13 +85,18 @@ function ModalRegister(props) {
     const password = input.password;
     dispatch(setIsLoading(!isLoading))
     try{
-      const {user: {providerData},  _tokenResponse:{idToken}} = await createUserWithEmailAndPassword(firebaseAuth,email,password)
+      const {user: {providerData, uid},  _tokenResponse:{idToken}} = await createUserWithEmailAndPassword(firebaseAuth,email,password)
       await updateProfile(firebaseAuth.currentUser,{
         displayName:name
       })
-      localStorage.setItem("user", JSON.stringify(providerData[0]));
-      dispatch(setUserInFrontState(providerData[0]))
-      dispatch(loginApp(idToken)).then(res=> console.log("esto es del front PA",res))
+      dispatch(loginApp(idToken)).then(res=> {
+          providerData[0].rol = res.result[0].rol
+          providerData[0].uid = uid
+          localStorage.setItem("user", JSON.stringify(providerData[0]));
+          dispatch(setUserInFrontState(providerData[0]))
+          console.log(providerData[0])
+        }
+      )
       dispatch(setIsLoading(!isLoading)).then(()=> setTimeout(()=>{
         props.onHide()
         setDisplayRegisterModal(!displayRegisterModal);
@@ -103,16 +113,20 @@ function ModalRegister(props) {
     const email = input.email_login
     const password = input.password_login
     try{
-      const {user:{providerData}, _tokenResponse:{idToken}} = await signInWithEmailAndPassword(firebaseAuth,email,password);
+      const {user: {providerData, uid}, _tokenResponse:{idToken}} = await signInWithEmailAndPassword(firebaseAuth,email,password);
       dispatch(loginApp(idToken))
       .then(res=> {
         providerData[0].rol = res.result[0].rol
+        providerData[0].uid = uid
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]))
        }
       )
-      dispatch(setIsLoading(!isLoading))
-      setInput(initialState)
+      .finally(()=>{
+        dispatch(setIsLoading(!isLoading))
+        setInput(initialState)
+      })
+      
       props.onHide()
     }catch(e){
       console.log(e.message)
