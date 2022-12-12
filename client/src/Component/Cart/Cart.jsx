@@ -45,7 +45,7 @@ const Cart = () => {
           }
           
         }
-        },[user])
+        },[user,localStorage.getItem('cart')])
 
 
         //de aqui a adelante es  estados sobre el boton en si
