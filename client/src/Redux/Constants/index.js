@@ -15,7 +15,7 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
-  loading: false
+  loading: false,
   localCart:[],
   userCart:[],
   user:userStorageData
