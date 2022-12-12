@@ -1,12 +1,21 @@
 const { Router } = require('express');
 const router = Router();
+const authWithoutAdm = require('./middleware/authWithoutAdm')
 
 const { User, Address } = require('../db.js');
+
+//protejo todas las rutas ya que no es de nuestro interes que las vean quienes no estan autentificados
+router.use(authWithoutAdm);
 
 router.get('/', async(req,res) => {                                             // localhost:3001/address (get)
     const {idUser} = req.body;                                                  // Requiere user id para buscar las direcciones de un usuario en especifico
 
     if(!idUser) return res.status(400).json({err: 'No user id was provided.'});  // Muestra un mensaje apropiado en caso de que no pasen ningun ID
+
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     try {
         const user = await User.findByPk(idUser, {include: Address});           // Buscamos el usuario por id incluyendo sus address.
@@ -27,6 +36,11 @@ router.post('/', async(req,res) => {                                            
         return res.status(404).json({err: "Important information is missing from address as street, city, region or postal code."});
     };
 
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
+
     try {
         const user = await User.findByPk(idUser);                                                                                   // Encontramos el usuario por id al cual le queremos agregar la direccion
 
@@ -44,10 +58,16 @@ router.post('/', async(req,res) => {                                            
 })
 
 router.put('/', async(req,res) => {                                                                                     // localhost:3001/address (put)
-    const {idAddress, address} = req.body;                                                                              // Requerimos tanto el id de la direccion y la nueva direccion por body.
+    const {idAddress, address, idUser} = req.body;                                                                              // Requerimos tanto el id de la direccion y la nueva direccion por body.
 
     if(!idAddress) return res.status(404).json({err: 'Address id is missing.'});                                         // Pequeñas validaciones para verificar que todos los datos fueron enviados
     if(!address) return res.status(404).json({err: "New address data is missing."});
+
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
+
     try {
         const addressToUpdate = await Address.findByPk(idAddress);                                                      // Buscamos la direccion a actualizar por id
 
@@ -64,6 +84,12 @@ router.put('/', async(req,res) => {                                             
 
 router.delete('/:idAddress', async(req,res) => {                                                                        // localhost:3001/address (delete)
     const {idAddress} = req.params;                                                                                     // Requerimos el id de la address a eliminar por params
+
+    const {idUser} = req.body;
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     try {
         const addressToDelete = await Address.findByPk(idAddress);                                                      // Buscamos que la address exista
