@@ -10,11 +10,11 @@ function ProfileOptions(props) {
         <div className={styles.container}>
             <div className={styles.container_options}>
                 <FaUserCog/>
-                <span className={styles.container_options_span}>My account</span>
+                <span className={styles.container_options_span}>Account</span>
             </div>
             <div className={styles.container_options}>
                 <FaShoppingCart/>
-                <span className={styles.container_options_span}>Mis compras</span>
+                <span className={styles.container_options_span}>Orders</span>
             </div>
 
             <div className={styles.divider}></div>

@@ -1,9 +1,9 @@
-import {SET_USER_LOGIN_THIRDPARTIES} from '../Constants/index'
+import { SET_USER_LOGIN } from '../Constants/index'
 
-export const loginWithThirdParties = (payload)=>{
+export const loginApp = (payload)=>{
     return async function(dispatch){
         return dispatch({
-            type: SET_USER_LOGIN_THIRDPARTIES,
+            type: SET_USER_LOGIN,
             payload
         })
     }

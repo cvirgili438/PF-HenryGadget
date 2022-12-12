@@ -12,7 +12,8 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
-  SET_USER_LOGIN_THIRDPARTIES,
+  SET_USER_LOGIN,
+  SET_LOADING,
 } from '../Constants/index.js';
 
 
@@ -89,10 +90,15 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         page: Number(action.payload),
       };
-    case SET_USER_LOGIN_THIRDPARTIES:
+    case SET_USER_LOGIN :
       return{
         ...state,
         user: action.payload
+      }
+    case SET_LOADING:
+      return{
+        ...state,
+        loading:!state.loading
       }
     default:
       return { ...state };

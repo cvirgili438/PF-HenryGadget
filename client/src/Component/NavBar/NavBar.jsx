@@ -3,6 +3,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { FaUserInjured } from 'react-icons/fa'
 import { HiOutlineShoppingCart } from 'react-icons/hi'
+import { FiUserCheck } from 'react-icons/fi'
 
 import { getProductsByQuery } from '../../Redux/Actions/products.js'
 
@@ -15,7 +16,7 @@ import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
-import { loginWithThirdParties } from "../../Redux/Actions/users.js";
+import { loginApp } from "../../Redux/Actions/users.js";
 
 const NavBar = () => {
 
@@ -75,7 +76,7 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(loginWithThirdParties(null))
+    dispatch(loginApp(null))
   }
 
  
@@ -126,7 +127,11 @@ const NavBar = () => {
         {state.user !== null
           ? (
             <div>
-              <img src={state.user.photoURL} alt='avatar' className={styles.login_button} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+              {state.user.photoURL
+              ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+              : <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions}/>
+              }
+             
               {!displayOptions
                 ? null
                 : <ProfileOptions logOut={logOut}/>

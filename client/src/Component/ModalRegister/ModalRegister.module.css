@@ -1,5 +1,4 @@
 
-
 .body_modal_container{
     width: 100%;
     display: flex;
@@ -84,4 +83,8 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+}
+
+.register_container_footer_button{
+    width: 10rem;
 }

@@ -15,7 +15,8 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
-  user:userStorageData
+  user:userStorageData,
+  loading: false
 };
 
 // PRODUCTOS
@@ -29,10 +30,11 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 // USUARIOS
-export const SET_USER_LOGIN_THIRDPARTIES = 'SET_USER_LOGIN_THIRDPARTIES'
+export const SET_USER_LOGIN = 'SET_USER_LOGIN'
 
 // CARRITO
 
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
+export const SET_LOADING = 'SET_LOADING'
