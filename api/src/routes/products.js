@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
         limitPrice = arrayIsNotNumbers(limitPrice);
         if (!limitPrice)
             return res.status(400).json({ err: 'One of the items is invalid.' });
-        
+
         limitPrice = orderArrayNumbers(limitPrice);
     }
     //////
@@ -71,6 +71,9 @@ router.get('/', async (req, res) => {
         }
         condition.where = where;
 
+        // Se calcula la cantidad total de elementos
+        const total = (await Product.findAll(condition)).length;
+
         if (limit && offset) {
             condition.limit = limit;
             condition.offset = offset;
@@ -87,8 +90,10 @@ router.get('/', async (req, res) => {
         // sortBrand up o down
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
-
-        res.status(200).json({ msg: 'Products obtained successfully.', result: products });
+        if (products.length === 0 ){
+            return res.status(404).json({msg: 'Products not found',result:products, total})
+        }
+        res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 
     } catch (error) {
         res.status(400).json({ err: 'Product not found.' })

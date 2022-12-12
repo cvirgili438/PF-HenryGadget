@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { FaUserInjured } from 'react-icons/fa'
+import { HiOutlineShoppingCart } from 'react-icons/hi'
+import { FiUserCheck } from 'react-icons/fi'
 
-import { getProductsByQuery } from '../../Redux/Action/index.js'
+import { getProductsByQuery } from '../../Redux/Actions/products.js'
 
 import Button from '../Button/Button.jsx';
 import Input from "../Input/Input.jsx";
@@ -12,18 +15,49 @@ import logo from '../../Assets/logo.png'
 import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
+import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
+
+import { loginApp } from "../../Redux/Actions/users.js";
+
+import Cart from "../Cart/Cart.jsx";
+import { style } from "@mui/system";
+
 
 const NavBar = () => {
+
   const [input, setInput] = useState('');
   const [crud, setCrud] = useState({})
-  const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
-  const handleInputChange = e => {
-    setInput(e.target.value);
-  };
+  const [displayOptions, setDisplayOptions] = useState(false)
+
+  const state = useSelector(state=>state)
+  const dispatch = useDispatch();
+
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
+
+
+  useEffect(()=>{
+    if (pathname === '/Create/Product'){
+      setCrud({create:true})
+      return
+    }
+    else {
+      setCrud({create:false})
+    }
+  },[pathname])
+
+  useEffect(()=>{
+    dispatch(getProductsByQuery(search))
+  },[search])
+
+
+
+
+  const handleInputChange = e => {
+    setInput(e.target.value);
+  };
   const handleSubmit = e => {
     e.preventDefault();
     query.set('name',input)    
@@ -40,20 +74,17 @@ const NavBar = () => {
     setInput('');
   };
 
-  useEffect(()=>{
-    if (pathname === '/Create/Product'){
-      setCrud({create:true})
-      return
-    }
-    else {
-      setCrud({create:false})
-    }
-  },[pathname])
+  const handleDisplayOptions = ()=> {
+    setDisplayOptions(!displayOptions)
+  }
 
-  useEffect(()=>{
-    dispatch(getProductsByQuery(search))
-  },[search])
+  const logOut = ()=>{
+    setDisplayOptions(!displayOptions)
+    localStorage.clear()
+    dispatch(loginApp(null))
+  }
 
+ 
   return (
     <div className={ styles.container }>
       <img src={logo} alt='logo' className={ styles.logo }/>
@@ -88,22 +119,39 @@ const NavBar = () => {
       </Link>) : <></>
         } */}
 
-      <Link to='/Create/Product' >
+      {/* <Link to='/Create/Product' >
           <Button text='Create Product'  />
-      </Link>
+      </Link> */}
       
       </div>
       <div className={ styles.menu }>
-        <Link to='/'>
-          <Button text='Cart' />
-        </Link>
+        {/* <Link to='/Cart'>
+         <HiOutlineShoppingCart className={styles.cart} />
+        </Link> */}
+        <Cart />
         
-        <Button text='Login' onClick={()=>setModalShow(true)} />
-        <ModalRegister 
+        {state.user !== null
+          ? (
+            <div>
+              {state.user.photoURL
+              ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+              : <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions}/>
+              }
+             
+              {!displayOptions
+                ? null
+                : <ProfileOptions logOut={logOut}/>
+              }
+            </div>
+            )
+          :<FaUserInjured className={styles.login_button} onClick={()=>setModalShow(true)}/> 
+        }
+        
+      </div>
+      <ModalRegister 
         show={modalShow}
         onHide={() => setModalShow(false)}
         />
-      </div>
     </div>
   )
 }

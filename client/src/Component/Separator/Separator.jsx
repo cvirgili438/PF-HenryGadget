@@ -1,6 +1,6 @@
 import React from "react";
-import styles from './Separator.module.css'
 
+import styles from './Separator.module.css'
 
 const Separator = ( {title}) => {
     return (

@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 import { objectToQuery } from '../../hooks/ObjectToQuery'
 
 
-import { setPageView } from '../../Redux/Action';
-import { getProductsByQuery } from '../../Redux/Action';
+import { setPageView } from '../../Redux/Actions/index.js';
+import { getProductsByQuery } from '../../Redux/Actions/products.js';
 
 import styles from './Pagination.module.css'
 

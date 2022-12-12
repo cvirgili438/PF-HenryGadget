@@ -6,7 +6,7 @@
   display: flex;
   width: 100%;
   padding: 10px;
-  background: rgb(125, 125, 125);
+  background: rgb(244, 244, 244);
   position: fixed;
   z-index: 100;
 }
@@ -24,4 +24,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.login_button{
+  width: 2.6rem;
+  height: 2.6rem;
+  border:none;
+  color:grey;
+  margin-right: 2rem;
+  margin-left: 1rem;
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+.login_button:active{
+  transform: scale(0.8);
+}
+
+.cart{
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 100%;
+  border:none;
+  color:grey;
+  margin-right: 2rem;
+  margin-left: 1rem;
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+.cart:active{
+  transform: scale(0.8);
 }
