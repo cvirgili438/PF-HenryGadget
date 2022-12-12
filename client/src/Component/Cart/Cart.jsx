@@ -31,22 +31,22 @@ const Cart = () => {
         }
        // dSV9EBqJ4qZZ5jHrjGzlWu7paha2
         useEffect(()=>{
-        if((user === [] || user === undefined || user === null)&& storage ){
-          dispatch(setLocalCart(storage))
-        }
+        
         if(!user){
+          dispatch(setLocalCart(storage))
           setLoggin(false)
         }
         if(user){
-          setLoggin(true)
           if(storage){
+            dispatch(setLocalCart(storage))}
+          if(storage && localCart.length > 0 ){
             dispatch(deleteUserCart(user.uid))
+            dispatch(setUserCart(storage,user.uid))
+            
+            
           }
           dispatch(getUserCart(user.uid))
-          if(userCart){
-
-          }
-          
+          setLoggin(true)
         }
         },[user,localStorage.getItem('cart')])
 
@@ -87,7 +87,7 @@ const Cart = () => {
         }, [open]);
     return (
       <div >
-        <button onClick={e => dispatch(deleteUserCart('dSV9EBqJ4qZZ5jHrjGzlWu7paha2'))}>hola</button>
+        <button onClick={e => dispatch(getUserCart('dSV9EBqJ4qZZ5jHrjGzlWu7paha2'))}>hola</button>
         <Button
           ref={anchorRef}
           id="composition-button"

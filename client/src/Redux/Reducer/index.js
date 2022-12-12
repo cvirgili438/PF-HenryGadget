@@ -114,6 +114,7 @@ export default function rootReducer(state = inicialtate, action) {
           userCart:action.payload
         }
       case SET_USER_CART:
+        console.log(action.payload)
         return {
           ...state,
           userCart : action.payload       

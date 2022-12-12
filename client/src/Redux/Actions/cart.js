@@ -6,6 +6,9 @@ import { URL,SET_LOCAL_CART, GET_USER_CART, SET_USER_CART, DELETE_USER_CART } fr
 
 export const setLocalCart = (payload)=>(dispatch)=>{
         try{
+            if (payload === null || payload === undefined){
+                return
+            }
             return dispatch({
                 type: SET_LOCAL_CART,
                 payload:payload
@@ -17,7 +20,8 @@ export const setLocalCart = (payload)=>(dispatch)=>{
 }
 export const getUserCart = (userId)=> async(dispatch)=>{
     try{
-        let json = await axios.get(`${URL}/carts`,{idUser: userId})
+        let json = await axios.get(`${URL}/carts`,{params:{idUser: userId}})
+        console.log(json)
         return dispatch({
             type: GET_USER_CART,
             payload:json.data
@@ -35,12 +39,14 @@ export const setUserCart = (payload,idUser)=>  (dispatch)=>{
                 idUser: idUser,
                 idProduct:e.idProduct,
                  quantity:e.quantity })
-                    
+            
         })
+        
         Promise.All(json).then(()=>setTimeout(console.log('done'),2000))
+        console.log(json)
         return dispatch({
             type: SET_USER_CART,
-            payload:json        })
+            payload:json })
     }
     catch(error){
         console.log(error)
@@ -48,7 +54,8 @@ export const setUserCart = (payload,idUser)=>  (dispatch)=>{
 }
 export const deleteUserCart= (uid) =>async(dispatch) =>{
     try{
-        let deleted = await axios.delete(`${URL}/carts`,{idUser:uid})
+       
+        let deleted = await axios.delete(`${URL}/carts`,{data:{idUser:uid}})
         return dispatch({
             type:DELETE_USER_CART
         })
