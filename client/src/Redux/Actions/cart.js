@@ -17,7 +17,7 @@ export const setLocalCart = (payload)=>(dispatch)=>{
 }
 export const getUserCart = (userId)=> async(dispatch)=>{
     try{
-        let json = await axios.get(`${URL}/cart`,{idUser: userId})
+        let json = await axios.get(`${URL}/carts`,{idUser: userId})
         return dispatch({
             type: GET_USER_CART,
             payload:json.data
@@ -27,17 +27,17 @@ export const getUserCart = (userId)=> async(dispatch)=>{
         console.log(error)
     }
 }
-export const setUserCart = (payload,idUser)=> async (dispatch)=>{
+export const setUserCart = (payload,idUser)=>  (dispatch)=>{
     try{
        
-        let  json = await payload.map(async (e) =>{
-            let res = await axios.post(`${URL}/cart`,{
+        let  json =  payload.map(async (e) =>{
+            let res =  axios.post(`${URL}/carts`,{
                 idUser: idUser,
-                idProduct:payload.idProduct,
-                 quantity:payload.quantity })
-            return res.data.cart
-           
+                idProduct:e.idProduct,
+                 quantity:e.quantity })
+                    
         })
+        Promise.All(json).then(()=>setTimeout(console.log('done'),2000))
         return dispatch({
             type: SET_USER_CART,
             payload:json        })
@@ -46,9 +46,9 @@ export const setUserCart = (payload,idUser)=> async (dispatch)=>{
         console.log(error)
     }
 }
-export const deleteUserCart= (idUser) =>async(dispatch) =>{
+export const deleteUserCart= (uid) =>async(dispatch) =>{
     try{
-        let deleted = await axios.delete(`${URL}/cart`,{idUser:idUser})
+        let deleted = await axios.delete(`${URL}/carts`,{idUser:uid})
         return dispatch({
             type:DELETE_USER_CART
         })

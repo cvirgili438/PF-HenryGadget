@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import { useState } from 'react';
 
 
 const Cart = () => {
@@ -20,6 +21,7 @@ const Cart = () => {
         const localCart = useSelector(state => state.localCart)
         const user = useSelector(state => state.user)
         const userCart = useSelector(state => state.userCart)
+        const [loggin,setLoggin] = useState(false)
         const totalPrice= (cart)=>{
             let price= 0
             cart.map(e=>{
@@ -27,25 +29,24 @@ const Cart = () => {
             })
             return price
         }
-       
+       // dSV9EBqJ4qZZ5jHrjGzlWu7paha2
         useEffect(()=>{
         if((user === [] || user === undefined || user === null)&& storage ){
           dispatch(setLocalCart(storage))
         }
-        if(user && storage){
-          dispatch(getUserCart(user.uid))
-          if(userCart.length === 0 ){
-            dispatch(setLocalCart(storage))
-            dispatch(setUserCart(storage,user.uid))
-          }
-          if(userCart.length > 0 && localCart.length > 0){
-            dispatch(deleteUserCart(user.uid))
-            dispatch(setLocalCart(storage))
-            dispatch(setUserCart(storage,user.uid))
-          }
-        if(userCart.length > 0 && localCart.length === 0 ){
-           // FALTA TERMINAR ESTA PARTE JUNTO CON SU ACTION 
+        if(!user){
+          setLoggin(false)
         }
+        if(user){
+          setLoggin(true)
+          if(storage){
+            dispatch(deleteUserCart(user.uid))
+          }
+          dispatch(getUserCart(user.uid))
+          if(userCart){
+
+          }
+          
         }
         },[user,localStorage.getItem('cart')])
 
@@ -86,6 +87,7 @@ const Cart = () => {
         }, [open]);
     return (
       <div >
+        <button onClick={e => dispatch(deleteUserCart('dSV9EBqJ4qZZ5jHrjGzlWu7paha2'))}>hola</button>
         <Button
           ref={anchorRef}
           id="composition-button"
