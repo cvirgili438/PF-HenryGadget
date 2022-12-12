@@ -2,7 +2,8 @@
 
 import {
   URL,
-	SET_PAGE_VIEW
+	SET_PAGE_VIEW,
+	SET_LOADING
 } from '../Constants/index.js';
 
 
@@ -13,4 +14,12 @@ export const setPageView = (page) => {
 			payload: page
     })
   }
+}
+
+export const setIsLoading = ()=>{
+	return async function(dispatch){
+		return dispatch({
+			type:SET_LOADING
+		})
+	}
 }

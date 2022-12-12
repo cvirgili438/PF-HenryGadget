@@ -15,7 +15,11 @@ export const inicialtate = {
   page: 1,
   totalProducts: 1,
   lastMsg: '',
+  loading: false
+  localCart:[],
+  userCart:[],
   user:userStorageData
+
 };
 
 // PRODUCTOS
@@ -29,10 +33,14 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 // USUARIOS
-export const SET_USER_LOGIN_THIRDPARTIES = 'SET_USER_LOGIN_THIRDPARTIES'
+export const SET_USER_LOGIN = 'SET_USER_LOGIN'
 
 // CARRITO
-
+export const SET_LOCAL_CART = 'SET_LOCAL_CART'
+export const GET_USER_CART = 'GET_USER_CART'
+export const SET_USER_CART =  'SET_USER_CART'
+export const DELETE_USER_CART = 'DELETE_USER_CART'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
+export const SET_LOADING = 'SET_LOADING'
