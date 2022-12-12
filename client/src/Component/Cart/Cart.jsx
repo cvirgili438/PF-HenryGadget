@@ -43,9 +43,12 @@ const Cart = () => {
             dispatch(setLocalCart(storage))
             dispatch(setUserCart(storage,user.uid))
           }
+          if(userCart.length > 0 && localCart.length === 0 ){
+            
+          }
           
         }
-        },[user])
+        },[user,localStorage.getItem('cart')])
 
 
         //de aqui a adelante es  estados sobre el boton en si
