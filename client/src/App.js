@@ -20,9 +20,7 @@ const App = () => {
             <Route exact path={'/'}>
               <LandingPage /> 
             </Route>
-            <Route path={'/Cart'}>
-              <Cart />
-            </Route>
+            
             
           </Route>
         </Switch>  
