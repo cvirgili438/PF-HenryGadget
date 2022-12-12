@@ -44,7 +44,7 @@ const Cart = () => {
             dispatch(setUserCart(storage,user.uid))
           }
         if(userCart.length > 0 && localCart.length === 0 ){
-          
+           // FALTA TERMINAR ESTA PARTE JUNTO CON SU ACTION 
         }
         }
         },[user,localStorage.getItem('cart')])
