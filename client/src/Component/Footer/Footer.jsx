@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <div className={ styles.container }>
       <div className={ styles.column }>
-        Column<br />Contact info / mail / phone / social 
+        HenryGadget v0.1<br />Contact: testmail@testmail.com<br /> 
       </div>
       <div className={ styles.column }>
         Column<br />Legal notice / more info / etc 
