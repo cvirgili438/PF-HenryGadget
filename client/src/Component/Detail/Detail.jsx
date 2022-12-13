@@ -49,7 +49,7 @@ const Detail = () => {
             localStorage.setItem('cart', stringify)
         if(user){
             dispatch(setUserCart(cart,user.uid))
-            dispatch(getUserCart(user.uid))
+            .then(()=>dispatch(getUserCart(user.uid)))
         }
 
             
@@ -82,7 +82,7 @@ const Detail = () => {
                 localStorage.setItem('cart', stringyfy)
                 if(user){
                     dispatch(setUserCart(parse,user.uid))
-                    dispatch(getUserCart(user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
                 }
                 
                 
@@ -98,7 +98,7 @@ const Detail = () => {
                 localStorage.setItem('cart', stringyfy)
                 if(user){
                     dispatch(setUserCart(parse,user.uid))
-                    dispatch(getUserCart(user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
                 }
                 
 
