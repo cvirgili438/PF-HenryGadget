@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Button from '../Button/Button';
-import travolta from './../../Assets/pulp-fiction-john-travolta.gif';
+import travolta from './../../Assets/john-travolta-perdido.gif';
 
 import styles from './Page404.module.css';
 
