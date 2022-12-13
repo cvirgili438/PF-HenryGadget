@@ -57,10 +57,12 @@ const NavBar = () => {
 
   const handleInputChange = e => {
     setInput(e.target.value);
+
   };
   const handleSubmit = e => {
     e.preventDefault();
-    query.set('name',input)    
+    query.set('name',input)   
+    query.set('offset', 0) 
     dispatch(getProductsByQuery(search));
     history.push({search:query.toString()})
   };
