@@ -17,10 +17,11 @@ import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
 
-import { loginApp } from "../../Redux/Actions/users.js";
+import { setUserInFrontState } from "../../Redux/Actions/users.js";
 
 import Cart from "../Cart/Cart.jsx";
 import { style } from "@mui/system";
+import { clearCarts } from "../../Redux/Actions/cart.js";
 
 
 const NavBar = () => {
@@ -57,10 +58,12 @@ const NavBar = () => {
 
   const handleInputChange = e => {
     setInput(e.target.value);
+
   };
   const handleSubmit = e => {
     e.preventDefault();
-    query.set('name',input)    
+    query.set('name',input)   
+    query.set('offset', 0) 
     dispatch(getProductsByQuery(search));
     history.push({search:query.toString()})
   };
@@ -81,7 +84,8 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(loginApp(null))
+    dispatch(clearCarts());
+    dispatch(setUserInFrontState(null))
   }
 
  
