@@ -63,7 +63,7 @@ function ModalRegister(props) {
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]));
       })
-      .finllay(()=>props.onHide())
+      .finally(()=>props.onHide())
       
     }
     if (e.target.id === "facebook") {

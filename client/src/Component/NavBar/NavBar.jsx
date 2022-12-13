@@ -21,6 +21,7 @@ import { setUserInFrontState } from "../../Redux/Actions/users.js";
 
 import Cart from "../Cart/Cart.jsx";
 import { style } from "@mui/system";
+import { clearCarts } from "../../Redux/Actions/cart.js";
 
 
 const NavBar = () => {
@@ -81,6 +82,7 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
+    dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
   }
 

@@ -12,6 +12,7 @@ import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
 
 
+
 const Detail = () => {
     const { id } = useParams();
     
@@ -32,7 +33,7 @@ const Detail = () => {
     if (details.result) {
         productDetail = details.result    
     }
-    function handleCart(){
+    function handleCart() {
         let cart
         let storage = localStorage.getItem('cart')
         if(storage === null || storage === undefined){
@@ -44,11 +45,14 @@ const Detail = () => {
                 quantity : input.value
             }]
             let stringify = JSON.stringify(cart)
-            localStorage.setItem('cart',stringify)            
+            localStorage.setItem('cart', stringify)
+
+            
             return alert('The products is add to you cart')
-        }
-        else{
-            let parse= JSON.parse(storage)   
+        
+        } else {
+
+            let parse= JSON.parse(storage); 
             let cart = {
                 idProduct: productDetail.id,
                 name: productDetail.name,
@@ -71,6 +75,8 @@ const Detail = () => {
                 // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
+                
+                
                 return alert('The products is add to you cart')
             }
             if(filter.length === 0 ){
@@ -81,6 +87,9 @@ const Detail = () => {
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
+
+                
+
                 return alert('The products is add to you cart')
             }
                       
@@ -131,8 +140,8 @@ const Detail = () => {
                     }
                     <div className={`d-inline-flex p-2`}>                        
                         {                        
-                           productDetail.img && productDetail.img.map(e => {
-                               return (<div className={`w-25 border`}>                                    
+                           productDetail.img && productDetail.img.map((e, i) => {
+                               return (<div className={`w-25 border`} key={i}>                                    
                                     <img onClick={e => handleImg(e)} className={`w-50`} src={e} alt={productDetail.name} />
                                 </div>)
                             })
@@ -161,7 +170,7 @@ const Detail = () => {
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
                         <div>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
-                            <input value={input.value} />
+                            <input value={input.value} readOnly />
 
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>
                         </div>
