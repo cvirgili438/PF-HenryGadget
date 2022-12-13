@@ -25,11 +25,11 @@ function Filters() {
   let ram = query.get("ram")
   
   const [active, setActive] = useState({
-    category: true,
-    brand: true,
-    storage: true,
-    price: true,
-    ram: true
+    category: false,
+    brand: false,
+    storage: false,
+    price: false,
+    ram: false
   })
 
   const [select, setSelect] = useState({

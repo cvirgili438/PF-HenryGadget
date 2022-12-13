@@ -33,7 +33,7 @@ const Detail = () => {
         productDetail = details.result    
     }
 
-    console.log(productDetail);
+    // console.log(productDetail);
     function handleCart(){
         let cart
         let storage = localStorage.getItem('cart')
