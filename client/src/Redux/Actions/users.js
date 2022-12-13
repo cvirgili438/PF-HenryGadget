@@ -12,7 +12,7 @@ export const setUserInFrontState = (payload)=>{
 export const loginApp = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch("http://localhost:3001/users/log",{
+            const response = await fetch(URL + "/users/log",{
                 method: "POST",
                 headers:{
                     "Accept": "application/json",

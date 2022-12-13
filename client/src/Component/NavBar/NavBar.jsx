@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch , useSelector } from 'react-redux';
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { FiUserCheck } from 'react-icons/fi'
 import { getProductsByQuery } from '../../Redux/Actions/products.js'
-// import Button from '../Button/Button.jsx';
+// import Button from '../Button/Button.jsx'; 
 import logo from '../../Assets/logo.png'
 import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
@@ -16,6 +16,7 @@ import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
 import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
+import { clearCarts } from "../../Redux/Actions/cart.js";
 
 const NavBar = () => {
 
@@ -51,10 +52,12 @@ const NavBar = () => {
 
   const handleInputChange = e => {
     setInput(e.target.value);
+
   };
   const handleSubmit = e => {
     e.preventDefault();
-    query.set('name',input)    
+    query.set('name',input)   
+    query.set('offset', 0) 
     dispatch(getProductsByQuery(search));
     history.push({search:query.toString()})
   };
@@ -75,14 +78,14 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
+    dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
   }
 
  
   return (
     <div className={ styles.container }>
-      <img src={logo} alt='logo' className={ styles.logo }/>
-        {/* <Button  text={'Back'}  onClick={history.goBack}/> */}
+      <Link to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
       <div className={ styles.center }>
           <SearchBar 
             type='text'

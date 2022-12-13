@@ -10,6 +10,8 @@ import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 
 import noImage from '../../Assets/noImage.jpg';
+import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
+
 
 
 const Detail = () => {
@@ -32,7 +34,7 @@ const Detail = () => {
     if (details.result) {
         productDetail = details.result    
     }
-    function handleCart(){
+    function handleCart() {
         let cart
         let storage = localStorage.getItem('cart')
         if(storage === null || storage === undefined){
@@ -44,11 +46,18 @@ const Detail = () => {
                 quantity : input.value
             }]
             let stringify = JSON.stringify(cart)
-            localStorage.setItem('cart',stringify)            
-            return alert('The products is add to you cart')
+            localStorage.setItem('cart', stringify)
+        if(user){
+            dispatch(setUserCart(cart,user.uid))
+            .then(()=>dispatch(getUserCart(user.uid)))
         }
-        else{
-            let parse= JSON.parse(storage)   
+
+            
+            return alert('The products is add to you cart')
+        
+        } else {
+
+            let parse= JSON.parse(storage); 
             let cart = {
                 idProduct: productDetail.id,
                 name: productDetail.name,
@@ -71,6 +80,12 @@ const Detail = () => {
                 // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
+                if(user){
+                    dispatch(setUserCart(parse,user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
+                }
+                
+                
                 return alert('The products is add to you cart')
             }
             if(filter.length === 0 ){
@@ -81,6 +96,12 @@ const Detail = () => {
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
+                if(user){
+                    dispatch(setUserCart(parse,user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
+                }
+                
+
                 return alert('The products is add to you cart')
             }
                       
@@ -117,7 +138,6 @@ const Detail = () => {
     return (
 
         <div className={`container ${styles.container}`}>
-            <MiniNav />
             <div className={`${styles.product_area}`}>
                 <div className={`col-xs-4 ${styles.item_photo}`}>                    
                     {
@@ -131,8 +151,8 @@ const Detail = () => {
                     }
                     <div className={`d-inline-flex p-2`}>                        
                         {                        
-                           productDetail.img && productDetail.img.map(e => {
-                               return (<div className={`w-25 border`}>                                    
+                           productDetail.img && productDetail.img.map((e, i) => {
+                               return (<div className={`w-25 border`} key={i}>                                    
                                     <img onClick={e => handleImg(e)} className={`w-50`} src={e} alt={productDetail.name} />
                                 </div>)
                             })
@@ -154,14 +174,14 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
-                            <div className={`${styles.attr2}`}>-n/a-</div>
+                        <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div>
                     </div>
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
                         <div>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
-                            <input value={input.value} />
+                            <input value={input.value} readOnly />
 
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>
                         </div>
@@ -184,11 +204,11 @@ const Detail = () => {
                     </div>
                     <div className={`col p-3`}>
                         <strong>Camara</strong>
-                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera}</div>
                     </div>
                     <div className={`col p-3`}>
                         <strong>Procesador</strong>
-                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor}</div>
                     </div>
                 </div>
 
