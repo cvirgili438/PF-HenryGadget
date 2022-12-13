@@ -10,6 +10,7 @@ import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 
 import noImage from '../../Assets/noImage.jpg';
+import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
 
 
 
@@ -48,6 +49,10 @@ const Detail = () => {
             }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart', stringify)
+        if(user){
+            dispatch(setUserCart(cart,user.uid))
+            .then(()=>dispatch(getUserCart(user.uid)))
+        }
 
 
             return alert('The products is add to you cart')
@@ -77,8 +82,12 @@ const Detail = () => {
                 // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
-
-
+                if(user){
+                    dispatch(setUserCart(parse,user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
+                }
+                
+                
                 return alert('The products is add to you cart')
             }
             if (filter.length === 0) {
@@ -89,8 +98,11 @@ const Detail = () => {
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
-
-
+                if(user){
+                    dispatch(setUserCart(parse,user.uid))
+                    .then(()=>dispatch(getUserCart(user.uid)))
+                }
+                
 
                 return alert('The products is add to you cart')
             }
@@ -128,7 +140,6 @@ const Detail = () => {
     return (
 
         <div className={`container ${styles.container}`}>
-            <MiniNav />
             <div className={`${styles.product_area}`}>
                 <div className={`col-xs-4 ${styles.item_photo}`}>
                     {

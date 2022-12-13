@@ -20,7 +20,7 @@ export const setLocalCart = (payload)=>(dispatch)=>{
 }
 export const getUserCart = (userId)=> async(dispatch)=>{
     try{
-        let json = await axios.get(`${URL}/carts`,{params:{idUser: 'NqfQiSDhpFaAzh9v7ULz6aW34x33'}})
+        let json = await axios.get(`${URL}/carts`,{params:{idUser: userId}})
         
         return dispatch({
             type: GET_USER_CART,
@@ -38,7 +38,7 @@ export const setUserCart = (payload, idUser)=> async (dispatch)=>{
         for (let x = 0; x < payload.length; x++) {
           // console.log(idUser, payload[x].idProduct, payload[x].quantity);
           await axios.post(`${URL}/carts`, {
-                                            idUser: 'NqfQiSDhpFaAzh9v7ULz6aW34x33',
+                                            idUser: idUser,
                                             idProduct: payload[x].idProduct,
                                             quantity: payload[x].quantity
           })
@@ -92,4 +92,8 @@ export const refreshCarts = () => {
 			payload: []
     })
   }
+}
+
+export const setLocalCartWithUser = (payload) => (dispatch)=>{
+
 }
