@@ -64,11 +64,13 @@ function Filters() {
       if(query.get(e.target.name) === e.target.value){
         console.log("adentro")
         query.delete(e.target.name)
+        query.set('offset', 0) 
         history.push({ search: query.toString() })
         setSelect({...select,price:""})
         return
       }
       query.set(e.target.name,e.target.value)
+      query.set('offset', 0) 
       setSelect({ ...select, price: e.target.value })
       history.push({ search: query.toString() })
       dispatch(getProductsByQuery(search))
@@ -79,18 +81,21 @@ function Filters() {
       let toLower = withOutS[0].toLowerCase() + withOutS.slice(1)
       if(query.get(e.target.name) === toLower){
         query.delete(e.target.name)
+        query.set('offset', 0) 
         history.push({ search: query.toString() })
         setSelect({...select,[e.target.name]:""})
         return
       }
       setSelect({ ...select, [e.target.name]: toLower })
       query.set(e.target.name, toLower)
+      query.set('offset', 0) 
       history.push({ search: query.toString() })
       dispatch(getProductsByQuery(search))
       return
     }
     if(query.get(e.target.name) === e.target.value){
       query.delete(e.target.name)
+      query.set('offset', 0) 
       history.push({ search: query.toString() })
       setSelect({...select,[e.target.name]:""})
       return
@@ -98,6 +103,7 @@ function Filters() {
 
     setSelect({ ...select, [e.target.name]: e.target.value })
     query.set(e.target.name, e.target.value)
+    query.set('offset', 0) 
     history.push({ search: query.toString() })
     dispatch(getProductsByQuery(search))
   }
