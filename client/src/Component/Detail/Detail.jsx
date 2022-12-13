@@ -126,7 +126,6 @@ const Detail = () => {
     return (
 
         <div className={`container ${styles.container}`}>
-            <MiniNav />
             <div className={`${styles.product_area}`}>
                 <div className={`col-xs-4 ${styles.item_photo}`}>                    
                     {
