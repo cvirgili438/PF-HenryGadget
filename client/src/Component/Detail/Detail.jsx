@@ -16,34 +16,36 @@ import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
 
 const Detail = () => {
     const { id } = useParams();
-    
+
     const user = useSelector(state => state.user)
 
-    const [input, setInput] = useState({ value: 1 })    
-   
+    const [input, setInput] = useState({ value: 1 })
+
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         dispatch(getProductById(id));
     }, [dispatch]);
 
-    const details = useSelector(state => state.productDetail);  
+    const details = useSelector(state => state.productDetail);
 
-    let productDetail = {}    
-    
+    let productDetail = {}
+
     if (details.result) {
-        productDetail = details.result    
+        productDetail = details.result
     }
+
+    console.log(productDetail);
     function handleCart() {
         let cart
         let storage = localStorage.getItem('cart')
-        if(storage === null || storage === undefined){
+        if (storage === null || storage === undefined) {
             cart = [{
                 idProduct: productDetail.id,
                 name: productDetail.name,
-                price:productDetail.price,
+                price: productDetail.price,
                 img: productDetail.img[0],
-                quantity : input.value
+                quantity: input.value
             }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart', stringify)
@@ -52,24 +54,24 @@ const Detail = () => {
             .then(()=>dispatch(getUserCart(user.uid)))
         }
 
-            
+
             return alert('The products is add to you cart')
-        
+
         } else {
 
-            let parse= JSON.parse(storage); 
+            let parse = JSON.parse(storage);
             let cart = {
                 idProduct: productDetail.id,
                 name: productDetail.name,
-                price:productDetail.price,
-                img: productDetail.img[0],              
+                price: productDetail.price,
+                img: productDetail.img[0],
             }
-            let filter = parse.filter(e => e.name ===  cart.name)
-            console.log('filter',filter)
-            if(filter.length > 0 ){
-                let index = parse.findIndex(e => e ===filter[0])
-                console.log('index',index)                
-                parse[index]={
+            let filter = parse.filter(e => e.name === cart.name)
+            console.log('filter', filter)
+            if (filter.length > 0) {
+                let index = parse.findIndex(e => e === filter[0])
+                console.log('index', index)
+                parse[index] = {
                     ...parse[index],
                     quantity: filter[0].quantity + input.value
                 }
@@ -88,10 +90,10 @@ const Detail = () => {
                 
                 return alert('The products is add to you cart')
             }
-            if(filter.length === 0 ){
+            if (filter.length === 0) {
                 let nuevo = {
                     ...cart,
-                    quantity:input.value
+                    quantity: input.value
                 }
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
@@ -104,10 +106,10 @@ const Detail = () => {
 
                 return alert('The products is add to you cart')
             }
-                      
+
         }
     }
-    
+
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
             input.value === 0 ? setInput(
@@ -128,7 +130,7 @@ const Detail = () => {
                 }
             )
         }
-        
+
     }
 
     let handleImg = (e) => {
@@ -139,7 +141,7 @@ const Detail = () => {
 
         <div className={`container ${styles.container}`}>
             <div className={`${styles.product_area}`}>
-                <div className={`col-xs-4 ${styles.item_photo}`}>                    
+                <div className={`col-xs-4 ${styles.item_photo}`}>
                     {
                         !productDetail.img ?
                             <img className={styles.main_img} src={noImage} alt='Not available' />
@@ -149,10 +151,10 @@ const Detail = () => {
                                 :
                                 <img id="mainImg" className={styles.main_img} src={productDetail.img[0]} alt={productDetail.name} />
                     }
-                    <div className={`d-inline-flex p-2`}>                        
-                        {                        
-                           productDetail.img && productDetail.img.map((e, i) => {
-                               return (<div className={`w-25 border`} key={i}>                                    
+                    <div className={`d-inline-flex p-2`}>
+                        {
+                            productDetail.img && productDetail.img.map((e, i) => {
+                                return (<div className={`w-25 border`} key={i}>
                                     <img onClick={e => handleImg(e)} className={`w-50`} src={e} alt={productDetail.name} />
                                 </div>)
                             })
@@ -175,25 +177,25 @@ const Detail = () => {
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
                         <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
-                        </div>
-                    </div>
+                        </div >
+                    </div >
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
                         <div>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
                             <input value={input.value} readOnly />
-
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>
                         </div>
                     </div>
 
-                    {/* <!-- Botones de compra --> */}
+                        {/* <!-- Botones de compra --> */ }
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} >Agregar al carro</button>
                         <button className={`${styles.btn_success} btn btn-outline-success`}>Comprar</button>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
+        
             <div>
                 <Separator title='Descripción' />
 
@@ -217,7 +219,7 @@ const Detail = () => {
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
