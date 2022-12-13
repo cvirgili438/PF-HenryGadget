@@ -18,6 +18,7 @@ import { useState } from 'react';
 const Cart = () => {
         const dispatch = useDispatch()
         let storage = JSON.parse(localStorage.getItem('cart'))
+        let userStore =  JSON.parse(localStorage.getItem('user'))
         const localCart = useSelector(state => state.localCart)
         const user = useSelector(state => state.user)
         const userCart = useSelector(state => state.userCart)
@@ -50,7 +51,7 @@ const Cart = () => {
             // if (userCart) {
             // }
           }
-        }, [dispatch]);
+        }, [localStorage.getItem('cart'),user]);
 
 
         //de aqui a adelante es  estados sobre el boton en si
