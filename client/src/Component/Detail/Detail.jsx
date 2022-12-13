@@ -184,11 +184,11 @@ const Detail = () => {
                     </div>
                     <div className={`col p-3`}>
                         <strong>Camara</strong>
-                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera}</div>
                     </div>
                     <div className={`col p-3`}>
                         <strong>Procesador</strong>
-                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor}</div>
                     </div>
                 </div>
 
