@@ -154,7 +154,7 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
-                            <div className={`${styles.attr2}`}>-n/a-</div>
+                        <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div>
                     </div>
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
@@ -184,11 +184,11 @@ const Detail = () => {
                     </div>
                     <div className={`col p-3`}>
                         <strong>Camara</strong>
-                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera}</div>
                     </div>
                     <div className={`col p-3`}>
                         <strong>Procesador</strong>
-                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor.size}</div>
+                        <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor}</div>
                     </div>
                 </div>
 
