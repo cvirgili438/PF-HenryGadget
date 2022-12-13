@@ -8,6 +8,7 @@ import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EditProduct from './Component/EditProduct/EditProduct';
 import Cart from './Component/Cart/Cart.jsx';
+import Page404 from './Component/Page404/Page404';
 
 const App = () => {
   
@@ -20,15 +21,13 @@ const App = () => {
             <Route exact path={'/'}>
               <LandingPage /> 
             </Route>
-            
-            
           </Route>
         </Switch>  
         <Route exact path={'/Create/Product'}>
-              <CreateProduct /> 
+          <CreateProduct /> 
         </Route>   
         <Route exact path={'/test'}>
-              <ProductCRUD /> 
+          <ProductCRUD /> 
         </Route> 
 
         <Route exact path={'/edit/:id'}>
@@ -36,6 +35,10 @@ const App = () => {
         </Route> 
 
         <Route exact path="/product/:id" component={Detail} />
+        
+        <Route path="*">
+          <Page404 />
+        </Route >
       </div>
     </BrowserRouter>
   );

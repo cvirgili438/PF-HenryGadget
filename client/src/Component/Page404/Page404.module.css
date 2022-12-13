@@ -1,0 +1,45 @@
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.detail {
+  text-align: center;
+  border-radius: 15px;
+  width: 85%;
+  margin-top: 4vh;
+  max-width: 550px;
+  min-width: 260px;
+  padding-bottom: 10px;
+}
+
+.detail.Light {
+  background: rgb(223, 233, 233);
+  border: 2px solid rgb(0, 0, 0);
+  box-shadow:
+    0 0 0 3px rgb(179, 179, 179),
+    0 0 0 5px rgb(230, 230, 230);
+  color: rgb(25, 25, 25);
+}
+
+.text404 {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 8em;
+}
+
+.msg1 {
+  font-size: 1.7em;
+  margin-bottom: 0px;
+}
+
+.msg2 {
+  font-size: 1.1em;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+.image {
+  max-height: 350px;
+}
