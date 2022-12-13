@@ -30,25 +30,27 @@ const Cart = () => {
             return price
         }
        // dSV9EBqJ4qZZ5jHrjGzlWu7paha2
-        useEffect(()=>{
-        
-        if(!user){
-          dispatch(setLocalCart(storage))
-          setLoggin(false)
-        }
-        if(user){
-          if(storage){
-            dispatch(setLocalCart(storage))}
-          if(storage && localCart.length > 0 ){
-            dispatch(deleteUserCart(user.uid))
-            dispatch(setUserCart(storage,user.uid))
-            
-            
+        useEffect(() => {
+          
+          if ((user === [] || user === undefined || user === null) && storage) {
+            dispatch(setLocalCart(storage));
           }
-          dispatch(getUserCart(user.uid))
-          setLoggin(true)
-        }
-        },[user,localStorage.getItem('cart')])
+          
+          if (user) {                                     // si el usuario esta logueado
+            
+            if (storage) {                                // si hay un carrito en el localstorage
+              dispatch(setUserCart(storage, user.uid))    // lo mando a la BD
+              
+            } else {                                      // si no hay nada en el localstorage
+              if (localCart.length === 0) {               // y no hay nada en el carrito local
+                dispatch(getUserCart(user.uid));          // traigo el carrito de la BD
+              }
+            }
+            // dispatch(getUserCart(user.uid));
+            // if (userCart) {
+            // }
+          }
+        }, [dispatch]);
 
 
         //de aqui a adelante es  estados sobre el boton en si
@@ -87,7 +89,7 @@ const Cart = () => {
         }, [open]);
     return (
       <div >
-        <button onClick={e => dispatch(getUserCart('dSV9EBqJ4qZZ5jHrjGzlWu7paha2'))}>hola</button>
+        {/* <button onClick={e => dispatch(deleteUserCart('dSV9EBqJ4qZZ5jHrjGzlWu7paha2'))}>hola</button> */}
         <Button
           ref={anchorRef}
           id="composition-button"
