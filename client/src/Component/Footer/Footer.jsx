@@ -1,6 +1,6 @@
 import React from "react";
 import Newslatter from "../Newslatter/Newslatter";
-
+import MoreInfo from "../MoreInfo/MoreInfo";
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -8,6 +8,7 @@ const Footer = () => {
   return (
     <div>
       <Newslatter />
+      <MoreInfo />
 
       <div className={styles.container}>
         <div className={styles.column}>
