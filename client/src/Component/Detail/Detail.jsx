@@ -154,7 +154,7 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
-                            <div className={`${styles.attr2}`}>-n/a-</div>
+                        <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div>
                     </div>
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
