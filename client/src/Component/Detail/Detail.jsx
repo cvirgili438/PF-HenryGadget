@@ -10,7 +10,7 @@ import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 
 import noImage from '../../Assets/noImage.jpg';
-import { setUserCart } from "../../Redux/Actions/cart";
+import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
 
 
 
@@ -49,6 +49,7 @@ const Detail = () => {
             localStorage.setItem('cart', stringify)
         if(user){
             dispatch(setUserCart(cart,user.uid))
+            dispatch(getUserCart(user.uid))
         }
 
             
@@ -81,6 +82,7 @@ const Detail = () => {
                 localStorage.setItem('cart', stringyfy)
                 if(user){
                     dispatch(setUserCart(parse,user.uid))
+                    dispatch(getUserCart(user.uid))
                 }
                 
                 
@@ -96,6 +98,7 @@ const Detail = () => {
                 localStorage.setItem('cart', stringyfy)
                 if(user){
                     dispatch(setUserCart(parse,user.uid))
+                    dispatch(getUserCart(user.uid))
                 }
                 
 
