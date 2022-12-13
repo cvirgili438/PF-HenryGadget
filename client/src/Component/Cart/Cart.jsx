@@ -17,8 +17,7 @@ import { useState } from 'react';
 
 const Cart = () => {
         const dispatch = useDispatch()
-        let storage = JSON.parse(localStorage.getItem('cart'))
-        let userStore =  JSON.parse(localStorage.getItem('user'))
+        let storage = JSON.parse(localStorage.getItem('cart'))        
         const localCart = useSelector(state => state.localCart)
         const user = useSelector(state => state.user)
         const userCart = useSelector(state => state.userCart)
