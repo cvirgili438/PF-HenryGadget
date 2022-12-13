@@ -1,11 +1,10 @@
-import { Menu, Skeleton, Typography } from '@mui/material';
+import { Menu, Skeleton, Typography, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserCart, getUserCart, setLocalCart, setUserCart } from '../../Redux/Actions/cart';
 import style from './Cart.module.css'
-import { HiOutlineShoppingCart } from 'react-icons/hi'
-import Button from '@mui/material/Button';
+import { TiShoppingCart } from 'react-icons/ti'
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import Paper from '@mui/material/Paper';
@@ -86,7 +85,7 @@ const Cart = () => {
         }, [open]);
     return (
       <div >
-        <Button
+        <IconButton
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? 'composition-menu' : undefined}
@@ -94,8 +93,8 @@ const Cart = () => {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-           <HiOutlineShoppingCart className={style.cart}/>
-        </Button>
+           <TiShoppingCart className={style.cart}/>
+        </IconButton>
         <Popper
           open={open}
           anchorEl={anchorRef.current}

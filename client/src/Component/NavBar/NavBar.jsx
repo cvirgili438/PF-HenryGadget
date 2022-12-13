@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch , useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { FaUserInjured } from 'react-icons/fa'
-import { HiOutlineShoppingCart } from 'react-icons/hi'
+import { useHistory, useLocation } from "react-router-dom";
 import { FiUserCheck } from 'react-icons/fi'
-
 import { getProductsByQuery } from '../../Redux/Actions/products.js'
-
-import Button from '../Button/Button.jsx';
-import Input from "../Input/Input.jsx";
-
+// import Button from '../Button/Button.jsx';
 import logo from '../../Assets/logo.png'
-
 import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
-
 import { setUserInFrontState } from "../../Redux/Actions/users.js";
-
 import Cart from "../Cart/Cart.jsx";
-import { style } from "@mui/system";
-
+import Button from '@mui/material/Button';
+import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
+import { BsArrowBarRight } from 'react-icons/bs'
+import SearchBar from "../SearchBar/SearchBar.jsx";
+import { IconButton } from "@mui/material";
 
 const NavBar = () => {
 
@@ -88,54 +82,30 @@ const NavBar = () => {
   return (
     <div className={ styles.container }>
       <img src={logo} alt='logo' className={ styles.logo }/>
-      <Button  text={'Back'}  onClick={history.goBack}/>
+        {/* <Button  text={'Back'}  onClick={history.goBack}/> */}
       <div className={ styles.center }>
-        <Input
-          type='text'
-          name='name'
-          placeholder="Type text..."
-          value={input}
-          onChange={handleInputChange}
+          <SearchBar 
+            type='text'
+            name='name'
+            placeholder="Search..."
+            value={input}
+            onChange={handleInputChange}
+            onClick={[handleClear,handleSubmit]}
+            input={input}
           />
-        {
-          input ?
-          <Button text='❌' onClick={handleClear} />
-          :
-          <></>
-        }
-        {
-          !input
-          ?
-          <Button text='Search' disabled={ true } />
-          :
-          
-          <Button text='Search' onClick={handleSubmit} />
-        
-          
-        }
-        {/* {
-          !crud.create ? (<Link to='/Create/Product' >
-          <Button text='Create Product'  />
-      </Link>) : <></>
-        } */}
-
-      {/* <Link to='/Create/Product' >
-          <Button text='Create Product'  />
-      </Link> */}
-      
       </div>
       <div className={ styles.menu }>
-        {/* <Link to='/Cart'>
-         <HiOutlineShoppingCart className={styles.cart} />
-        </Link> */}
         <Cart />
-        
         {state.user !== null
           ? (
             <div>
               {state.user.photoURL
-              ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
-              : <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions}/>
+              ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+              : (
+                <IconButton style={{margin:'0 2rem 0 2rem'}}>
+                  <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions}/> 
+                </IconButton>
+              )
               }
              
               {!displayOptions
@@ -144,9 +114,10 @@ const NavBar = () => {
               }
             </div>
             )
-          :<FaUserInjured className={styles.login_button} onClick={()=>setModalShow(true)}/> 
+          :
+              <Button variant='contained' size='medium' endIcon={<BsArrowBarRight/>} sx={Button_contained_primary} onClick={()=>setModalShow(true)}> Log in </Button> 
         }
-        
+
       </div>
       <ModalRegister 
         show={modalShow}

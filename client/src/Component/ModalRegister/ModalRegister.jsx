@@ -63,7 +63,7 @@ function ModalRegister(props) {
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]));
       })
-      .finllay(()=>props.onHide())
+      .finally(()=>props.onHide())
       
     }
     if (e.target.id === "facebook") {
@@ -161,7 +161,7 @@ function ModalRegister(props) {
                 <label>Password</label>
                 <input onChange={handleInput} value={input.password_login} name='password_login' type="password" />
               </div>
-              <Button variant="primary" onClick={handleLogin} className={styles.body_modal_button}>
+              <Button variant="dark" onClick={handleLogin} className={styles.body_modal_button}>
                 Login
               </Button>
               <Separator title="Or sign in with" />
@@ -180,7 +180,7 @@ function ModalRegister(props) {
               {/* <Button onClick={props.onHide}>Close</Button> */}
               <Button
                 className={styles.container_footer_button}
-                variant="primary"
+                variant="dark"
                 size="lg"
                 onClick={handleDisplayRegisterModal}
               >
@@ -214,7 +214,7 @@ function ModalRegister(props) {
               {/* <Button onClick={props.onHide}>Close</Button> */}
               <Button
                 className={styles.register_container_footer_button}
-                variant="primary"
+                variant="dark"
                 size="lg"
                 onClick={handleDisplayRegisterModal}
               >
