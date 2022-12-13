@@ -91,7 +91,7 @@ const NavBar = () => {
  
   return (
     <div className={ styles.container }>
-      <img src={logo} alt='logo' className={ styles.logo }/>
+      <Link to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
       <Button  text={'Back'}  onClick={history.goBack}/>
       <div className={ styles.center }>
         <Input
