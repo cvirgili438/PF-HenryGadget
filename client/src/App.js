@@ -1,44 +1,35 @@
 import './App.css';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import LandingPage from './Component/LandingPage/LandingPage.jsx';
-import NavBar from './Component/NavBar/NavBar';
-import Detail from './Component/Detail/Detail';
-import CreateProduct from './Component/CreateProduct/CreateProduct';
-import ProductCRUD from './Component/ProductCRUD/ProductCRUD';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EditProduct from './Component/EditProduct/EditProduct';
-import Cart from './Component/Cart/Cart.jsx';
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+import NavBar from './Component/NavBar/NavBar.jsx';
+import LandingPage from './Component/LandingPage/LandingPage.jsx';
+import Detail from './Component/Detail/Detail';
 import Page404 from './Component/Page404/Page404';
 
 const App = () => {
-  
   return (
     <BrowserRouter >
       <div className="App">
-        <Switch >
-          <Route  path='/'>
-            <NavBar/>
-            <Route exact path={'/'}>
-              <LandingPage /> 
-            </Route>
+        <Switch>
+
+          <Route exact path='/'>
+            <NavBar />
+            <Route exact path='/' component={LandingPage} />
           </Route>
-        </Switch>  
-        <Route exact path={'/Create/Product'}>
-          <CreateProduct /> 
-        </Route>   
-        <Route exact path={'/test'}>
-          <ProductCRUD /> 
-        </Route> 
 
-        <Route exact path={'/edit/:id'}>
-          <EditProduct /> 
-        </Route> 
+          <Route path='/product'>
+            <NavBar />
+            <Route path="/product/:id" component={Detail} />
+          </Route>
 
-        <Route exact path="/product/:id" component={Detail} />
-        
-        <Route path="*">
-          <Page404 />
-        </Route >
+          <Route path="*">
+            <Page404 />
+          </Route >
+
+        </Switch>
+
       </div>
     </BrowserRouter>
   );
