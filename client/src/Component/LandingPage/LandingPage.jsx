@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Products from '../Products/Products';
-import Footer from '../Footer/Footer';
 import Slider from '../Slider/Slider';
 
 import styles from './LandingPage.module.css';
@@ -27,7 +26,6 @@ const LandingPage = () => {
           {/* </>
         } */}
         <div className={ styles.footer }>
-          <Footer />
         </div>
       </div>         
     </div>
