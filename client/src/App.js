@@ -8,6 +8,7 @@ import LandingPage from './Component/LandingPage/LandingPage.jsx';
 import Detail from './Component/Detail/Detail';
 import Footer from './Component/Footer/Footer.jsx';
 import Page404 from './Component/Page404/Page404';
+import CartPage from './Component/CartPage/CartPage';
 
 const App = () => {
   return (
@@ -26,6 +27,10 @@ const App = () => {
             <Route path="/product/:id" component={Detail} />
             <Footer />
           </Route>
+
+          <Route path='/cartpage'>
+            <CartPage />
+          </Route >
 
           <Route path="*">
             <Page404 />
