@@ -13,26 +13,13 @@ const App = () => {
   return (
     <BrowserRouter >
       <div className="App">
+        <NavBar />
         <Switch>
-
-          <Route exact path='/'>
-            <NavBar />
-            <Route exact path='/' component={LandingPage} />
-            <Footer />
-          </Route>
-
-          <Route path='/product'>
-            <NavBar />
-            <Route path="/product/:id" component={Detail} />
-            <Footer />
-          </Route>
-
-          <Route path="*">
-            <Page404 />
-          </Route >
-
+          <Route exact path='/' component={LandingPage} />
+          <Route path="/product/:id" component={Detail} />
+          <Route path="*" component={Page404} />
         </Switch>
-
+        <Footer />
       </div>
     </BrowserRouter>
   );
