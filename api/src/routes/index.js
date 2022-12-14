@@ -7,6 +7,7 @@ const reviews = require('./reviews.js')
 const users = require('../routes/users');
 const address = require('../routes/address.js');
 const carts = require('../routes/cart/cart');
+const order = require('../routes/order/order')
 const router = Router();
 
 // Configurar los routers
@@ -16,7 +17,8 @@ router.use('/products', products);
 router.use('/reviews', reviews);
 router.use('/users', users);
 router.use('/address', address);
-router.use('/carts', carts)
+router.use('/carts', carts);
+router.use('/orders', order);
 
 router.get('/', (req, res) => {
     res.status(200).send("HenryGadget");

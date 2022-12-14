@@ -12,7 +12,7 @@ router.get('/', async(req,res) => {                                             
     
     try {
         const user = await User.findByPk(idUser);                                                           // Buscamos el usuario para verificar luego que si exista un usuario con ese id
-        const cart = await Cart.findOne({where: {userId: idUser}, include: Product})                        // Bucamos el carrito relacionado con ese usuario para saber si existe y tambien para luego ser pasado como respuesta para el front (este carrito incluye ya los productos)
+        const cart = await Cart.findOne({where: {userUid: idUser}, include: Product})                        // Bucamos el carrito relacionado con ese usuario para saber si existe y tambien para luego ser pasado como respuesta para el front (este carrito incluye ya los productos)
     
         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`})           // Pequeñas validaciones en caso de que no tenga carrito o no exista el usuario
         if(!cart){
@@ -21,7 +21,7 @@ router.get('/', async(req,res) => {                                             
 
         const total = await getTotal(cart.products, cart.id);                                               // Buscamos el total del carrito, lo cual utilizamos una funcion (mayor documentacion en ./controllers/getTotal.js)
         await Cart.update({total}, {where: {id: cart.id}});                                                 // Actualizamos el carrito para tener el total correcto, tomando en cuenta cantidades de cada producto y el precio de cada uno de estos
-        const result = await Cart.findOne({where: {userId: idUser}, include: Product});                     // Volvemos a solicitar el carrito pero esta vez ya actualizado, esto es necesario ya que el anterior carrito lo utilizamos para partir 
+        const result = await Cart.findOne({where: {userUid: idUser}, include: Product});                     // Volvemos a solicitar el carrito pero esta vez ya actualizado, esto es necesario ya que el anterior carrito lo utilizamos para partir 
                                                                                                             // de ahi las actualizaciones, pero esos cambios no se quedan guardados en esa variable, por ello lo busco nuevamente para luego ser enviado
         res.send(result);
     } catch (error) {
@@ -96,7 +96,7 @@ router.delete('/', async(req,res) => {                                          
             return;
         }
         
-        const deleteCart = Cart.destroy({where: {userId: idUser}});             // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
+        const deleteCart = Cart.destroy({where: {userUid: idUser}});             // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
         res.status(200).json({msg: 'Cart deleted succesfuly', cart: deleteCart});
         return;
     } catch (error) {
