@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 
-import Checkbox from '../Checkbox/Checkbox';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
+import Checkbox from '../../Checkbox/Checkbox';
+import Input from '../../Input/Input';
+import Button from '../../Button/Button';
 
-import { getProductsByQuery, deleteProduct } from '../../Redux/Actions/products.js';
+import { getProductsByQuery, deleteProduct } from '../../../Redux/Actions/products.js';
 
 
 import styles from './ProductCRUD.module.css';
@@ -116,8 +116,8 @@ const ProductCRUD = () => {
               <th>Brand</th>
               <th>Model</th>
               <th>Type</th>
-              <th>Camera</th>
-              <th>Description</th>
+              
+              
               <th>Price</th>
               <th>Discount</th>
               <th>Rating</th>
@@ -142,8 +142,8 @@ const ProductCRUD = () => {
                   <td>{ p.brand.name }</td>
                   <td>{ p.model }</td>
                   <td>{ p.typeID }</td>
-                  <td>{ p.camera }</td>
-                  <td>{ p.description }</td>
+                  
+                  
                   <td>$ { p.price.toLocaleString() }</td>
                   <td>{ p.typeID }</td>
                   <td>-</td>
