@@ -33,6 +33,7 @@ const App = () => {
             <Route path="/product/:id" component={Detail} />
             <Footer />
           </Route>
+          
           <Route path='/admin'>
             <DashboardAdmin />
             <Route path='/admin/products' component={ProductCRUD} />
