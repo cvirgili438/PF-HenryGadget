@@ -136,6 +136,27 @@ router.get('/ram', async (req, res) => {
     }
 })
 
+router.get('/stock', async (req, res) => {
+    try {
+        const { group } = req.body;
+        const products = await Product.findAll({
+            where: {
+            id: {[Sequelize.Op.in]: group} 
+            },
+            include: [
+                { model: Brand }, // include[0]
+                { model: Type }, // include[1]
+                { model: Storage }, // include[2]
+                { model: Review }, // include[3]
+                { model: Ram } // include[4]
+            ]
+            });
+        res.status(200).json({ msg: 'Products obtained successfully.', result: products });
+    } catch (error) {
+        res.status(400).json({ err: error })
+    }
+})
+
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -160,4 +181,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+
+
 module.exports = router;
+
