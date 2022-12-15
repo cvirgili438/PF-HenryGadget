@@ -142,7 +142,14 @@ router.get('/:id', async (req, res) => {
         const product = await Product.findOne({
             where: {
                 id: id
-            }
+            },
+            include: [
+                { model: Brand }, // include[0]
+                { model: Type }, // include[1]
+                { model: Storage }, // include[2]
+                { model: Review }, // include[3]
+                { model: Ram } // include[4]
+            ]
         });
         if (product === null) {
             return res.status(400).json({ err: `The enter id does not exist.` })

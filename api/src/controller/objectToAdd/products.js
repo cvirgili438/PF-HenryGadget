@@ -30,6 +30,9 @@ module.exports = [
         model: 'Note 12 Pro+',
         type: 'smartphones',
         stock: 13,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg']
     },
@@ -39,6 +42,9 @@ module.exports = [
         model: 'X4 Pro 5G',
         type: 'smartphones',
         stock: 4,
+        camera: '100Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg']
     },
@@ -48,6 +54,9 @@ module.exports = [
         model: 'ROG Phone 6',
         type: 'smartphones',
         stock: 4,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-01.jpg',
             'https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-02.jpg']
     },
@@ -57,6 +66,9 @@ module.exports = [
         model: 'X30',
         type: 'smartphones',
         stock: 6,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/nokia/nokia-x30-5g-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/nokia/nokia-x30-5g-2.jpg']
     },
@@ -66,6 +78,9 @@ module.exports = [
         model: 'S62',
         type: 'smartphones',
         stock: 2,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-2.jpg']
     },
@@ -75,6 +90,9 @@ module.exports = [
         model: 'x90',
         type: 'smartphones',
         stock: 1,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-2.jpg']
     },
@@ -84,6 +102,9 @@ module.exports = [
         model: 'Axon 40 SE',
         type: 'smartphones',
         stock: 1,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/zte/blade-v40s-00.jpg',
             'https://fdn2.gsmarena.com/vv/pics/zte/zte-axon-40-se-2.jpg']
     },
@@ -93,6 +114,9 @@ module.exports = [
         model: 'Ace Pro',
         type: 'smartphones',
         stock: 16,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-2.jpg']
     },
@@ -102,6 +126,9 @@ module.exports = [
         model: 'Sony Xperia 5 I',
         type: 'headphones',
         stock: 0,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-5-iv-ecru-white.jpg']
     },
     {
@@ -110,6 +137,9 @@ module.exports = [
         model: 'Samsung Galaxy M13 5G',
         type: 'headphones',
         stock: 0,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg']
     },
     {
@@ -118,6 +148,9 @@ module.exports = [
         model: 'Huawei Pocket SG',
         type: 'headphones',
         stock: 0,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-lite-2.jpg']
     },
     {
@@ -126,6 +159,9 @@ module.exports = [
         model: 'LG W41 Pro',
         type: 'headphones',
         stock: 7,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/lg/lg-w41-pro-1.jpg']
     },
     {
@@ -134,6 +170,9 @@ module.exports = [
         model: 'HTC Wildfire E2 Plu',
         type: 'headphones',
         stock: 4,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg']
     },
     {
@@ -142,6 +181,9 @@ module.exports = [
         model: 'Honor 80',
         type: 'headphones',
         stock: 5,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/honor/honor-80-pro-2.jpg']
     },
     {
@@ -150,6 +192,9 @@ module.exports = [
         model: 'Realme 10 Pro',
         type: 'headphones',
         stock: 13,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg']
     },
     {
@@ -158,6 +203,9 @@ module.exports = [
         model: 'BlackBerry KEY2 LE',
         type: 'headphones',
         stock: 24,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/blackberry/blackberry-key2-le-1.jpg']
     },
     {
@@ -166,6 +214,9 @@ module.exports = [
         model: 'Meizu 18s',
         type: 'headphones',
         stock: 34,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/meizu/meizu-18s-1.jpg']
     },
     {
@@ -174,6 +225,9 @@ module.exports = [
         model: 'Microsoft Surface Duo',
         type: 'headphones',
         stock: 5,
+        camera: '10Mpx',
+        processor: 'OctaCore',
+        description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg']
     },
 ]

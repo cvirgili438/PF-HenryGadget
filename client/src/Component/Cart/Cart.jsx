@@ -1,6 +1,7 @@
-import { Menu, Skeleton, Typography, IconButton } from '@mui/material';
+import { Menu, Skeleton, Typography, IconButton, Link } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect} from 'react';
+// import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserCart, getUserCart, setLocalCart, setUserCart } from '../../Redux/Actions/cart';
 import style from './Cart.module.css'
@@ -153,6 +154,7 @@ const Cart = () => {
                     {localCart.length > 0 ? <MenuItem sx={{
                       color:'red',
                     }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
+                    <MenuItem><Typography variant='button' display="block" gutterBottom ><Link href='/cartpage' color="inherit" underline="none">Open cart</Link></Typography></MenuItem>
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
                 </ClickAwayListener>
