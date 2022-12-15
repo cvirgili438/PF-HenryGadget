@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
+import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
 
 import MiniNav from '../MiniNav/MiniNav'
@@ -16,11 +16,8 @@ import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
 
 const Detail = () => {
     const { id } = useParams();
-
     const user = useSelector(state => state.user)
-
-    const [input, setInput] = useState({ value: 1 })
-
+    const [input, setInput] = useState({ value: 0 })
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -28,14 +25,13 @@ const Detail = () => {
     }, [dispatch]);
 
     const details = useSelector(state => state.productDetail);
-
-    let productDetail = {}
+    let productDetail = {}    
 
     if (details.result) {
-        productDetail = details.result
-    }
-
-    console.log(productDetail);
+        productDetail = details.result        
+    }   
+    
+    // console.log(productDetail);
     function handleCart() {
         let cart
         let storage = localStorage.getItem('cart')
@@ -49,10 +45,10 @@ const Detail = () => {
             }]
             let stringify = JSON.stringify(cart)
             localStorage.setItem('cart', stringify)
-        if(user){
-            dispatch(setUserCart(cart,user.uid))
-            .then(()=>dispatch(getUserCart(user.uid)))
-        }
+            if (user) {
+                dispatch(setUserCart(cart, user.uid))
+                    .then(() => dispatch(getUserCart(user.uid)))
+            }
 
 
             return alert('The products is add to you cart')
@@ -82,12 +78,12 @@ const Detail = () => {
                 // parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
-                if(user){
-                    dispatch(setUserCart(parse,user.uid))
-                    .then(()=>dispatch(getUserCart(user.uid)))
+                if (user) {
+                    dispatch(setUserCart(parse, user.uid))
+                        .then(() => dispatch(getUserCart(user.uid)))
                 }
-                
-                
+
+
                 return alert('The products is add to you cart')
             }
             if (filter.length === 0) {
@@ -98,11 +94,11 @@ const Detail = () => {
                 parse.push(nuevo)
                 let stringyfy = JSON.stringify(parse)
                 localStorage.setItem('cart', stringyfy)
-                if(user){
-                    dispatch(setUserCart(parse,user.uid))
-                    .then(()=>dispatch(getUserCart(user.uid)))
+                if (user) {
+                    dispatch(setUserCart(parse, user.uid))
+                        .then(() => dispatch(getUserCart(user.uid)))
                 }
-                
+
 
                 return alert('The products is add to you cart')
             }
@@ -130,12 +126,24 @@ const Detail = () => {
                 }
             )
         }
+    }
 
+    let handlerChange = (e) => {
+
+        setInput(
+            {
+                value: e.target.value.toString()
+            }
+        )       
     }
 
     let handleImg = (e) => {
         document.getElementById('mainImg').src = e.target.src
     }
+
+    let lowStock = () => {
+        return (input.value > productDetail.stock && true)
+    }    
 
     return (
 
@@ -162,7 +170,7 @@ const Detail = () => {
 
                     </div>
                 </div>
-                <div className={`col-xs-5`} style={{ border: '0px solid gray' }}>
+                <div className={`col-xs-5 w-75`} style={{ border: '0px solid gray' }}>
                     {/* <!-- Datos del vendedor y titulo del producto --> */}
                     <h3>{productDetail.name}</h3>
                     <h5 style={{ color: '#337ab7' }}>{productDetail.name}</h5>
@@ -176,26 +184,32 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
                         <h6 className="title-attr"><small>CAPACIDAD</small></h6>
                         <div>
-                        <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
+                            <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div >
                     </div >
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
-                        <div>
+                        <Box>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
-                            <input value={input.value} readOnly />
-                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>
-                        </div>
+                            <input onChange={e => handlerChange(e)} value={input.value} />
+                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>                            
+                        </Box>
+                            {lowStock() && <Alert xs={{
+                                width: 100
+                            }}
+                            variant="outlined" severity="error">
+                            There is not enough stock!
+                        </Alert>}
                     </div>
 
-                        {/* <!-- Botones de compra --> */ }
+                    {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} >Agregar al carro</button>
-                        <button className={`${styles.btn_success} btn btn-outline-success`}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock()} >Agregar al carro</button>                        
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock()}>Comprar</button>
                     </div>
                 </div >
             </div >
-        
+
             <div>
                 <Separator title='Descripción' />
 
