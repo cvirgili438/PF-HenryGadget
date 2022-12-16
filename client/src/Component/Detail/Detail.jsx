@@ -21,14 +21,9 @@ const Detail = () => {
 
     useEffect(() => {
         dispatch(getProductById(id));
-    }, [dispatch]);
+    }, []);
 
-    const details = useSelector(state => state.productDetail);
-    let productDetail = {}    
-
-    if (details.result) {
-        productDetail = details.result        
-    }   
+    let productDetail = useSelector(state => state.productDetail);
     
     // console.log(productDetail);
     function handleCart() {
