@@ -3,15 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
+import { addProductCart } from "../../Utils/cart/cartCrud.js";
 
 import Separator from "../Separator/Separator";
-
 import styles from "./Detail.module.css";
-
 import noImage from '../../Assets/noImage.jpg';
-import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
-
-
 
 const Detail = () => {
     const { id } = useParams();
@@ -25,79 +21,8 @@ const Detail = () => {
 
     let productDetail = useSelector(state => state.productDetail);
     
-    // console.log(productDetail);
     function handleCart() {
-        let cart
-        let storage = localStorage.getItem('cart')
-        if (storage === null || storage === undefined) {
-            cart = [{
-                idProduct: productDetail.id,
-                name: productDetail.name,
-                price: productDetail.price,
-                img: productDetail.img[0],
-                quantity: input.value
-            }]
-            let stringify = JSON.stringify(cart)
-            localStorage.setItem('cart', stringify)
-            if (user) {
-                dispatch(setUserCart(cart, user.uid))
-                    .then(() => dispatch(getUserCart(user.uid)))
-            }
-
-
-            return alert('The products is add to you cart')
-
-        } else {
-
-            let parse = JSON.parse(storage);
-            let cart = {
-                idProduct: productDetail.id,
-                name: productDetail.name,
-                price: productDetail.price,
-                img: productDetail.img[0],
-            }
-            let filter = parse.filter(e => e.name === cart.name)
-            console.log('filter', filter)
-            if (filter.length > 0) {
-                let index = parse.findIndex(e => e === filter[0])
-                console.log('index', index)
-                parse[index] = {
-                    ...parse[index],
-                    quantity: filter[0].quantity + input.value
-                }
-                // let nuevo = {
-                //     ...cart,
-                //     quantity: cart.quantity+input.value
-                // }
-                // parse.push(nuevo)
-                let stringyfy = JSON.stringify(parse)
-                localStorage.setItem('cart', stringyfy)
-                if (user) {
-                    dispatch(setUserCart(parse, user.uid))
-                        .then(() => dispatch(getUserCart(user.uid)))
-                }
-
-
-                return alert('The products is add to you cart')
-            }
-            if (filter.length === 0) {
-                let nuevo = {
-                    ...cart,
-                    quantity: input.value
-                }
-                parse.push(nuevo)
-                let stringyfy = JSON.stringify(parse)
-                localStorage.setItem('cart', stringyfy)
-                if (user) {
-                    dispatch(setUserCart(parse, user.uid))
-                        .then(() => dispatch(getUserCart(user.uid)))
-                }
-
-
-                return alert('The products is add to you cart')
-            }
-
-        }
+        addProductCart(productDetail.id, user && user.uid, input.value);
     }
 
     let handleCount = (e) => {
