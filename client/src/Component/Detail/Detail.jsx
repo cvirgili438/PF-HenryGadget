@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
 
-import MiniNav from '../MiniNav/MiniNav'
 import Separator from "../Separator/Separator";
 
 import styles from "./Detail.module.css";
