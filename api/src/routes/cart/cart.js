@@ -33,7 +33,7 @@ router.post('/', async(req,res) => {                                            
     const {idProduct, idUser, quantity} = req.body;                                                                 // Requerimos id de usuario y product y la cantidad de cuanto de ese producto.
 
     if(!idProduct || !idUser) return res.status(400).json({err: 'Important information is missing'});               // Validamos que nos hayan pasado todos los datos solicitados
-    if(typeof quantity !== 'number') return res.status(400).json({err: 'Quantity is missing'});
+    if(typeof Number(quantity) !== 'number') return res.status(400).json({err: 'Quantity is missing'});
 
     try {
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Buscamos al usuario utilizando el id proporsionado e incluimos el posible carrito que tenga el usuario
@@ -47,8 +47,6 @@ router.post('/', async(req,res) => {                                            
             const productExist = await Product_cart.findOne({where: {                                               // Buscamos si el producto pasado por id ya existe en el carrito de ese usuario, si no existe productExist sera null si existe pues guardara la instancia de Product_cart
                 [Op.and]: [{productId: idProduct}, {cartId: userCart.id}]
              }})
-
-             console.log(productExist.quantity)
             
             if(productExist && quantity === 0){                                                                     // En caso de que la cantidad pasada sea 0 querremos eliminar el producto del carrito
                 await Product_cart.destroy({where: {                                                                
