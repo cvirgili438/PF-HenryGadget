@@ -47,6 +47,8 @@ router.post('/', async(req,res) => {                                            
             const productExist = await Product_cart.findOne({where: {                                               // Buscamos si el producto pasado por id ya existe en el carrito de ese usuario, si no existe productExist sera null si existe pues guardara la instancia de Product_cart
                 [Op.and]: [{productId: idProduct}, {cartId: userCart.id}]
              }})
+
+             console.log(productExist.quantity)
             
             if(productExist && quantity === 0){                                                                     // En caso de que la cantidad pasada sea 0 querremos eliminar el producto del carrito
                 await Product_cart.destroy({where: {                                                                
@@ -56,7 +58,7 @@ router.post('/', async(req,res) => {                                            
             }
 
             if(productExist){                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
-                const result = await Product_cart.update({quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
+                const result = await Product_cart.update({quantity: productExist.quantity + quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
                 res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
                 return;
             }
