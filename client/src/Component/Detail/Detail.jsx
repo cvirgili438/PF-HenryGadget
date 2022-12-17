@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Alert, Box } from "@mui/material";
+import { Alert, Box, Container, Divider, Paper, Stack } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
-
+import { product_area, item_photo, img_mini } from "./UtilDetail";
 import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
@@ -54,9 +54,9 @@ const Detail = () => {
 
     return (
 
-        <div className={`container ${styles.container}`}>
-            <div className={`${styles.product_area}`}>
-                <div className={`col-xs-4 ${styles.item_photo}`}>
+        <Container>
+            <Box sx={product_area}>
+                <Box sx={item_photo}>
                     {
                         !productDetail.img ?
                             <img className={styles.main_img} src={noImage} alt='Not available' />
@@ -66,17 +66,21 @@ const Detail = () => {
                                 :
                                 <img id="mainImg" className={styles.main_img} src={productDetail.img[0]} alt={productDetail.name} />
                     }
-                    <div className={`d-inline-flex p-2`}>
+                    <Stack
+                        mt={5}
+                        direction="row"
+                        divider={<Divider orientation="vertical" flexItem />}
+                        spacing={1}>
                         {
                             productDetail.img && productDetail.img.map((e, i) => {
-                                return (<div className={`w-25 border`} key={i}>
-                                    <img onClick={e => handleImg(e)} className={`w-50`} src={e} alt={productDetail.name} />
-                                </div>)
+                                return (
+                                    <Paper sx={img_mini} key={i}>
+                                        <img onClick={e => handleImg(e)} style={{ width: '5rem' }} src={e} alt={productDetail.name} />
+                                    </Paper>)
                             })
                         }
-
-                    </div>
-                </div>
+                    </Stack>
+                </Box>
                 <div className={`col-xs-5 w-75`} style={{ border: '0px solid gray' }}>
                     {/* <!-- Datos del vendedor y titulo del producto --> */}
                     <h3>{productDetail.name}</h3>
@@ -101,12 +105,12 @@ const Detail = () => {
                             <input onChange={e => handlerChange(e)} value={input.value} />
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
                         </Box>
-                        {lowStock && <Alert xs={{width: 100}}
+                        {lowStock && <Alert xs={{ width: 100 }}
                             variant="outlined" severity="error">
                             There is not enough stock!
                         </Alert>}
 
-                        {input.value === '' && <Alert xs={{width: 100}}
+                        {input.value === '' && <Alert xs={{ width: 100 }}
                             variant="outlined" severity="error">
                             Stock must not be empty.
                         </Alert>}
@@ -118,7 +122,7 @@ const Detail = () => {
                         <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
                     </div>
                 </div >
-            </div >
+            </Box>
 
             <div>
                 <Separator title='Descripción' />
@@ -143,7 +147,7 @@ const Detail = () => {
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
                 </div>
             </div>
-        </div >
+        </Container >
     )
 }
 
