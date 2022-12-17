@@ -8,6 +8,8 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
+    "@stripe/react-stripe-js": "^1.16.1",
+    "@stripe/stripe-js": "^1.46.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.1",
