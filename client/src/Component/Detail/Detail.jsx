@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
-import { addProductCart } from "../../Utils/cart/cartCrud.js";
+import { addProductCart, getQuantity } from "../../Utils/cart/cartCrud.js";
 
 import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
@@ -48,7 +48,7 @@ const Detail = () => {
     }
 
     let lowStock = () => {
-        return (input.value > productDetail.stock && true)
+        return (input.value > (productDetail.stock - getQuantity(productDetail.id)) && true)
     }
 
     return (
