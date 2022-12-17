@@ -27,7 +27,7 @@ const Cart = () => {
         useEffect(() => {
           if (user) {
             if (sendAllCart(localCart, user.uid))
-            cleanCart(user.uid);
+            cleanCart(null);
           }
         }, [user]);
 
