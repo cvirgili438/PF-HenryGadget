@@ -15,7 +15,6 @@ import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
 import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
-import { clearCarts } from "../../Redux/Actions/cart.js";
 
 const NavBar = () => {
 
@@ -64,7 +63,6 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
   }
 

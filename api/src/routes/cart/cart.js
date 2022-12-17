@@ -33,7 +33,7 @@ router.post('/', async(req,res) => {                                            
     const {idProduct, idUser, quantity} = req.body;                                                                 // Requerimos id de usuario y product y la cantidad de cuanto de ese producto.
 
     if(!idProduct || !idUser) return res.status(400).json({err: 'Important information is missing'});               // Validamos que nos hayan pasado todos los datos solicitados
-    if(typeof quantity !== 'number') return res.status(400).json({err: 'Quantity is missing'});
+    if(typeof Number(quantity) !== 'number') return res.status(400).json({err: 'Quantity is missing'});
 
     try {
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Buscamos al usuario utilizando el id proporsionado e incluimos el posible carrito que tenga el usuario
@@ -56,7 +56,7 @@ router.post('/', async(req,res) => {                                            
             }
 
             if(productExist){                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
-                const result = await Product_cart.update({quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
+                const result = await Product_cart.update({quantity: productExist.quantity + quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
                 res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
                 return;
             }

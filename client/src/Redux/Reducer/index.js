@@ -1,4 +1,3 @@
-
 // CONSTANTES
 import {
   inicialtate,
@@ -13,12 +12,7 @@ import {
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
-  SET_LOADING,
-  SET_LOCAL_CART,
-  GET_USER_CART,
-  SET_USER_CART,
-  CLEAR_CARTS,
-  REFRESH_CARTS,
+  SET_LOADING
 } from '../Constants/index.js';
 
 
@@ -105,35 +99,6 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         loading:!state.loading
       }
-      case SET_LOCAL_CART:
-        return{
-          ...state,
-          localCart:action.payload
-        }
-      case GET_USER_CART:
-        return {
-          ...state,
-          userCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}}),
-          localCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}})
-        }
-      case SET_USER_CART:
-        return {
-          ...state,
-          userCart : action.payload,
-          localCart: action.payload      
-        }
-        case CLEAR_CARTS:
-          return {
-            ...state,
-            localCart: [],
-            userCart: []
-          };
-        case REFRESH_CARTS:
-          return {
-            ...state,
-            localCart: state.localCart.map(c => c),
-            userCart: state.userCart.map(c => c)
-          }
     default:
       return { ...state };
   }
