@@ -33,10 +33,10 @@ const Detail = () => {
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
             input.value === 1 ? setInput({ value: 1 })
-                : setInput({ value: input.value - 1 })
+                : setInput({ value: parseInt(input.value) - 1 })
         }
         else if (e.target.id === 'plus' || e.target.id === 'i-plus') {
-            setInput({ value: input.value + 1 })
+            setInput({ value: parseInt(input.value) + 1 })
         }
     }
 
