@@ -29,7 +29,7 @@ export async function getAllCart(idUser) {
         }
         else {
             let storage = JSON.parse(localStorage.getItem('cart')) || [];
-            let algo = storage.map(async (el) => {
+            let result = storage.map(async (el) => {
                 let product = await getProductDB(el.idProduct);
                 return {
                     idProduct: product.data.result.id,
@@ -39,7 +39,7 @@ export async function getAllCart(idUser) {
                     quantity: el.quantity
                 };
             });
-            return (await Promise.all(algo));
+            return (await Promise.all(result));
         }
     }
     catch (e) {
@@ -72,4 +72,12 @@ export async function cleanCart(idUser) {
     }
     else
         localStorage.removeItem('cart');
+};
+
+export function getQuantity(idProduct) {
+    let storage = JSON.parse(localStorage.getItem('cart')) || [];
+    let result = storage.find(el => {
+        return el.idProduct === idProduct
+    });
+    return (result && result.quantity) || 0;
 };
