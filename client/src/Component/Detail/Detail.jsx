@@ -13,11 +13,16 @@ const Detail = () => {
     const { id } = useParams();
     const user = useSelector(state => state.user)
     const [input, setInput] = useState({ value: 1 })
+    const [lowStock, setLowStock] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getProductById(id));
     }, []);
+
+    useEffect(async () => {
+        setLowStock(input.value > (productDetail.stock - await getQuantity(productDetail.id, user && user.uid)));
+    }, [input]);
 
     let productDetail = useSelector(state => state.productDetail);
 
@@ -45,10 +50,6 @@ const Detail = () => {
 
     let handleImg = (e) => {
         document.getElementById('mainImg').src = e.target.src
-    }
-
-    let lowStock = () => {
-        return (input.value > (productDetail.stock - getQuantity(productDetail.id)) && true)
     }
 
     return (
@@ -100,7 +101,7 @@ const Detail = () => {
                             <input onChange={e => handlerChange(e)} value={input.value} />
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
                         </Box>
-                        {lowStock() && <Alert xs={{width: 100}}
+                        {lowStock && <Alert xs={{width: 100}}
                             variant="outlined" severity="error">
                             There is not enough stock!
                         </Alert>}
@@ -113,8 +114,8 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock() || input.value === ''} >Agregar al carro</button>
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock() || input.value === ''}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock || input.value === ''} >Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
                     </div>
                 </div >
             </div >
