@@ -12,7 +12,7 @@ import noImage from '../../Assets/noImage.jpg';
 const Detail = () => {
     const { id } = useParams();
     const user = useSelector(state => state.user)
-    const [input, setInput] = useState({ value: 0 })
+    const [input, setInput] = useState({ value: 1 })
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const Detail = () => {
     }
 
     let lowStock = () => {
-        return (input.value > productDetail.stock && true)
+        return (input.value === 0 || input.value > productDetail.stock && true)
     }    
 
     return (
