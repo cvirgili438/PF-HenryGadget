@@ -73,7 +73,7 @@ export async function cleanCart(idUser) {
         localStorage.removeItem('cart');
 };
 
-export async function getQuantity(idProduct, idUser) {
+export async function getQuantityProductCart(idProduct, idUser) {
     try {
         if (idUser) {
             let cart = await getAllCartDB(idUser).then(result => result);

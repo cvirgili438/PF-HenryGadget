@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
-import { addProductCart, getQuantity } from "../../Utils/cart/cartCrud.js";
+import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
 
 import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
@@ -21,7 +21,7 @@ const Detail = () => {
     }, []);
 
     useEffect(async () => {
-        setLowStock(input.value > (productDetail.stock - await getQuantity(productDetail.id, user && user.uid)));
+        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
     }, [input]);
 
     let productDetail = useSelector(state => state.productDetail);
