@@ -61,7 +61,7 @@ router.post('/', async(req,res) => {                                            
                 productExist.quantity + quantity > stock ? // Se checkea que no suepere el stock. 
                 add = stock :
                 add = productExist.quantity + quantity;
-                const result = await Product_cart.update({quantity: add}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
+                const result = await Product_cart.update({quantity: add}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca.
                 res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
                 return;
             }
