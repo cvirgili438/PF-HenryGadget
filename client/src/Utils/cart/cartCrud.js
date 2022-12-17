@@ -55,7 +55,6 @@ export function sendAllCart(localCart, idUser) {
         return true
     }
     catch (e) {
-        console.log('error en catch', e)
         return false;
     }
 };
@@ -74,10 +73,21 @@ export async function cleanCart(idUser) {
         localStorage.removeItem('cart');
 };
 
-export function getQuantity(idProduct) {
-    let storage = JSON.parse(localStorage.getItem('cart')) || [];
-    let result = storage.find(el => {
-        return el.idProduct === idProduct
-    });
-    return (result && result.quantity) || 0;
+export async function getQuantity(idProduct, idUser) {
+    try {
+        if (idUser) {
+            let cart = await getAllCartDB(idUser).then(result => result);
+            let result = cart.data.products.filter(el => el.id === idProduct);
+            return ((result && result[0].product_cart.quantity) || 0);
+        }
+        else {
+            let storage = JSON.parse(localStorage.getItem('cart')) || [];
+            let result = storage.find(el => el.idProduct === idProduct);
+            return (result && result.quantity) || 0;
+        }
+    }
+    catch (error) {
+        return 0;
+    }
+
 };
