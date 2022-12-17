@@ -78,7 +78,6 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
   }
 
