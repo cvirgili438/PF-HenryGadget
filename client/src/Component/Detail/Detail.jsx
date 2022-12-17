@@ -20,40 +20,27 @@ const Detail = () => {
     }, []);
 
     let productDetail = useSelector(state => state.productDetail);
-    
+
     function handleCart() {
         addProductCart(productDetail.id, user && user.uid, input.value);
     }
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
-            input.value === 0 ? setInput(
-                {
-                    value: 0
-                }
-            ) :
-                setInput(
-                    {
-                        value: input.value - 1
-                    }
-                )
+            input.value === 1 ? setInput({ value: 1 })
+                : setInput({ value: input.value - 1 })
         }
         else if (e.target.id === 'plus' || e.target.id === 'i-plus') {
-            setInput(
-                {
-                    value: input.value + 1
-                }
-            )
+            setInput({ value: input.value + 1 })
         }
     }
 
     let handlerChange = (e) => {
-
-        setInput(
-            {
-                value: e.target.value.toString()
-            }
-        )       
+        if (!e.target.value.match(/^[1-9]\d*$/)) {
+            e.target.value = '';
+            setInput({ value: '' })
+        }
+        setInput({ value: e.target.value.toString() })
     }
 
     let handleImg = (e) => {
@@ -61,8 +48,8 @@ const Detail = () => {
     }
 
     let lowStock = () => {
-        return (input.value === 0 || input.value > productDetail.stock && true)
-    }    
+        return (input.value > productDetail.stock && true)
+    }
 
     return (
 
@@ -109,22 +96,25 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
                         <Box>
-                            <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
+                            <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i id="i-minus" className="bi bi-caret-left"></i></button>
                             <input onChange={e => handlerChange(e)} value={input.value} />
-                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>                            
+                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
                         </Box>
-                            {lowStock() && <Alert xs={{
-                                width: 100
-                            }}
+                        {lowStock() && <Alert xs={{width: 100}}
                             variant="outlined" severity="error">
                             There is not enough stock!
+                        </Alert>}
+
+                        {input.value === '' && <Alert xs={{width: 100}}
+                            variant="outlined" severity="error">
+                            Stock must not be empty.
                         </Alert>}
                     </div>
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock()} >Agregar al carro</button>                        
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock()}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock() || input.value === ''} >Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock() || input.value === ''}>Comprar</button>
                     </div>
                 </div >
             </div >
