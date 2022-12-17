@@ -1,0 +1,25 @@
+.container{
+    box-sizing: border-box;
+    padding-top: 8rem;
+    display: flex;
+}
+
+.subcontainer1{
+    background-color: white;
+    width: 65vw;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    border: 1px solid gray;
+    max-height: 150px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.subcontainer2{
+    background-color: rgb(235, 231, 231);
+    width: 35vw;
+    padding:  30px 15px;
+    border-radius: 20px;
+}
