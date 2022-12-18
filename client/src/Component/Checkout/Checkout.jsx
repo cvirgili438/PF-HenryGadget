@@ -6,6 +6,8 @@ import CheckoutForm from "./CheckoutForm.jsx";
 import { useSelector } from "react-redux";
 import { getAllCart } from "../../Utils/cart/cartCrud";
 import suma from "./controllers/controller.js";
+import { Box, Skeleton } from "@mui/material";
+import { useRef } from "react";
 
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -16,11 +18,13 @@ const stripePromise = loadStripe("pk_test_51MG4j9KeVpay6lghl5aFDksbQDvpIDC8wZESV
 export default function Checkout() {
   const [clientSecret, setClientSecret] = useState("");
   const user = useSelector(state =>state.user)
-    
+  let total = useRef(0)
   useEffect(async () => {
     // Create PaymentIntent as soon as the page loads
-    let items = await getAllCart()
+    const items = await getAllCart()
     console.log(items)
+    total.current=suma(items)
+    
     
     fetch("http://localhost:3001/checkout", {
       method: "POST",
@@ -41,11 +45,22 @@ export default function Checkout() {
 
   return (
     <div className={`container ${styles.container}`}>
+        <Box sx={{
+            display:'flex',
+            flexDirection:'row',
+            ml:10,
+            mr :10,
+            justifyContent:'space-evenly'
+        }} >
+            <Box>
+                <h3>total price to pay is  {total.current}</h3>
+            </Box>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
       )}
+      </Box>
     </div>
   );
 }
