@@ -4,6 +4,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import styles from './Checkout.module.css'
 import CheckoutForm from "./CheckoutForm.jsx";
 import { useSelector } from "react-redux";
+import { getAllCart } from "../../Utils/cart/cartCrud";
+import suma from "./controllers/controller.js";
 
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -14,13 +16,16 @@ const stripePromise = loadStripe("pk_test_51MG4j9KeVpay6lghl5aFDksbQDvpIDC8wZESV
 export default function Checkout() {
   const [clientSecret, setClientSecret] = useState("");
   const user = useSelector(state =>state.user)
-
-  useEffect(() => {
+    
+  useEffect(async () => {
     // Create PaymentIntent as soon as the page loads
+    let items = await getAllCart()
+    console.log(items)
+    
     fetch("http://localhost:3001/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: '' }),
+      body: JSON.stringify({ items: suma(items)}),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));

@@ -4,26 +4,19 @@ const router = Router();
 const stripe= require("stripe")('sk_test_51MG4j9KeVpay6lghLnhDscQlcxyPJhV3CUuQ3fELiDkZc9yAZsRsuJiqcha92gTQA7rXRHOD4HYw7dwig4tT5fUG00bgfUk2gQ');
 
 
-
-const calculateOrderAmount = (items) => {
-    // Replace this constant with a calculation of the order's amount
-    // Calculate the order total on the server to prevent
-    // people from directly manipulating the amount on the client
-    let suma 
-    items.map(e =>{
-        suma = suma + e.price
-    })
-    return suma
-    
-  };
-  
   
 router.post("/", async (req, res) => {
-    const { items } = req.body;
-    console.log(items)  
-    // Create a PaymentIntent with the order amount and currency
+    const {items} = req.body
+    console.log(items)
+    // let nuevoArray = items.map(e => e.price*e.quantity)
+    // let sum = 0
+    // for(let i = 0; i< nuevoArray.length;i++){
+    //     sum = sum+nuevoArray[i]
+    // }
+    
+    
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(items),
+      amount: items,
       currency: "usd",
       automatic_payment_methods: {
         enabled: true,
