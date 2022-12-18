@@ -1,6 +1,7 @@
 import { Skeleton, Typography, IconButton, Link } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect, useState} from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import style from './Cart.module.css'
 import { TiShoppingCart } from 'react-icons/ti'
@@ -15,6 +16,7 @@ import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js
 const Cart = () => {     
         let [localCart, setLocalCart] = useState([]);
         const user = useSelector(state => state.user)
+        const history = useHistory();
 
         const totalPrice= (cart)=>{
             let price= 0
@@ -136,7 +138,7 @@ const Cart = () => {
                     {localCart?.length > 0 ? <MenuItem sx={{
                       color:'red',
                     }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
-                    <MenuItem><Typography variant='button' display="block" gutterBottom ><Link href='/cartpage' color="inherit" underline="none">Open cart</Link></Typography></MenuItem>
+                    <MenuItem><Typography variant='button' display="block" gutterBottom onClick={() => history.push("/cartpage")} >Open cart</Typography></MenuItem>
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
                 </ClickAwayListener>
