@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import styles from './CartPage.module.css'
 
 import Button from '@mui/material/Button';
@@ -15,95 +16,114 @@ import { Input } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Grid from '@mui/material/Grid';
 
-import { useDispatch, useSelector } from 'react-redux';
-// import { cartProducts } from '../../Redux/Actions/cart';
+import { useDispatch, useSelector, } from 'react-redux';
+import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js';
+import { addProductCart } from '../../Utils/cart/cartCrud.js';
+import CartPageUnit from './CartPageUnit/CartPageUnit';
 
 
 const CartPage = () => {
 
-  const dispatch = useDispatch()
-  let cartlocal = JSON.parse(localStorage.getItem('cart'))   
-  console.log(cartlocal)  
+  const history = useHistory();
 
-  const productInCart = cartlocal.map(e => e.idProduct)
-  console.log(productInCart) 
+  let [localCart, setLocalCart] = useState([]);
+  const user = useSelector(state => state.user)
 
- 
+  // const dispatch = useDispatch()
+  // let cartlocal = JSON.parse(localStorage.getItem('cart'))   
+  // console.log(cartlocal)  
+  console.log(localCart)
+  console.log(user)
 
-  const cart = useSelector(state => state.cartProducts)
-  console.log(cart.result)
-
-  // if (cart === [] && productInCart !== []) {
-  //   dispatch(cartProducts(productInCart))
-  // }
-
-  useEffect(() => {
-    
-  }, [])
+  const totalPrice= (cart)=>{
+    let price= 0
+    cart.map(e=>{
+      return price = price + (e.price*(e.quantity))
+    })
+    return price
+  }
 
   
 
-  let handleCount = (e) => {
-
-
-  }
-
-  let handlerChange = (e) => {
-
-
-  }
+  useEffect(async () => {
+    setLocalCart(await getAllCart(user && user.uid));
+    // console.log(localCart)
+  }, [])
 
   return (
-    <Box className={styles.container}>
-
-      <Box 
-      className={styles.subcontainer1}
-      >
-        <Box>
-          <img  style={{width: "80px", margin: "20px"}} alt=""/>
-        </Box>
-        <Box>
-          <Grid 
-            container 
-            justifyContent="space-between" 
-          >
-            <Grid item xs={6}>
-              <Box>
-                <Typography variant='h6'>{}</Typography>
-                <Typography variant='body1'>Model: </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item  xs={6}>
-              <Box>
-                <Typography variant='h6'>Total parcial: ${} </Typography>
-                <Typography variant='h6'>Total unitario: ${} </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Box 
-          sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
-          >
-            
-            <Box>
-                <Button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><RemoveIcon onClick={e => handleCount(e)} ></RemoveIcon></Button>
-                <Input  
-                  sx={{width: "40px", border: "1px solid gray"}}
-                  onChange={e => handlerChange(e)}  />
-                <Button 
-                 onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><AddIcon  onClick={e => handleCount(e)} ></AddIcon></Button>                            
-            </Box>
-
-            <Box>
-              <Button aria-label="delete">
-                <DeleteForeverIcon />
-              </Button>
-            </Box>
-            
-          </Box>
-        </Box>
+    <Box className={styles.mainContainer}>
+    {(localCart.length === 0) ? (
+      <Box className={styles.vacio}>
+        <Typography variant='h2'>Tu carrito esta vacio</Typography>
+        <Button 
+          variant="contained" 
+          size='large' 
+          sx={{borderRadius: "10px", marginTop: "20px"}}
+          onClick={() => history.push("/")}>
+            Continuar comprando
+        </Button>
       </Box>
+    ) : (
+      <Box className={styles.container}>
+
+      <Box>
+        {localCart?.map((el, index) => {
+          return(
+            <CartPageUnit item={el} user={user} localCart={localCart} setLocalCart={setLocalCart} index={index}/>
+            // <Box key={index} className={styles.subcontainer1} >
+            //   <Box>
+            //     <img src={el.img} style={{width: "80px", margin: "20px"}} alt=""/>
+            //   </Box>
+            //   <Box>
+            //     <Grid 
+            //       container 
+            //       justifyContent="space-between" 
+            //     >
+            //       <Grid item xs={6}>
+            //         <Box>
+            //           <Typography variant='h6'>{el.name}</Typography>
+            //           <Typography variant='body1'>Model: ${el.model}</Typography>
+            //         </Box>
+            //       </Grid>
+
+            //       <Grid item  xs={6}>
+            //         <Box>
+            //           <Typography variant='h6'>Total parcial: ${el.price} </Typography>
+            //           <Typography variant='h6'>Total unitario: ${el.price * el.quantity} </Typography>
+            //         </Box>
+            //       </Grid>
+            //     </Grid>
+
+            //     <Box 
+            //     sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
+            //     >
+                  
+            //       <Box>
+            //           <Button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><RemoveIcon onClick={e => handleCount(e)} ></RemoveIcon></Button>
+            //           <Input  
+            //             type='number'
+            //             sx={{width: "40px", border: "1px solid gray"}}
+            //             value={el.quantity}
+            //             onChange={e => handlerChange(e)}  />
+            //           <Button 
+            //           onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><AddIcon  onClick={e => handleCount(e)} ></AddIcon></Button>                            
+            //       </Box>
+
+            //       <Box>
+            //         <Button aria-label="delete">
+            //           <DeleteForeverIcon />
+            //         </Button>
+            //       </Box>
+                  
+            //     </Box>
+            //   </Box>
+            // </Box>
+            
+          )
+        })}
+      </Box>
+      
+      
 
       {/* total section */}
 
@@ -120,7 +140,7 @@ const CartPage = () => {
         </Box>
         <Box sx={{display: "flex", justifyContent: "space-between", margin: "20px 0", borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box><Typography variant='h3'>Total</Typography></Box>
-          <Box><Typography variant='h3'>$</Typography></Box>
+          <Box><Typography variant='h3'>$ {totalPrice(localCart)}</Typography></Box>
         </Box>
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='body1' align='left'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</Typography>
@@ -152,6 +172,9 @@ const CartPage = () => {
         
       </Box>
       
+    </Box>
+    )}
+
     </Box>
   )
 }
