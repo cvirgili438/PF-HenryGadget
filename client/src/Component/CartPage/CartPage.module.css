@@ -4,18 +4,15 @@
 
 .vacio{
     padding: 50px;
-    
 }
 
 .container{
     box-sizing: border-box;
-    /* padding-top: 8rem; */
     display: flex;
 }
 
 .subcontainer1{
     background-color: white;
-    /* width: 65vw; */
     display: flex;
     flex-direction: row;
     gap: 20px;

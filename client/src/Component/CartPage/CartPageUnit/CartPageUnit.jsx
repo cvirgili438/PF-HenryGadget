@@ -21,10 +21,6 @@ const CartPageUnit = (props) => {
     let [quantityl, setQuantity] = useState(props.item.quantity || 0)
     let [remove, setRemove] = useState(false)
 
-    // useEffect(async () => {
-    //     setLocalCart(await getAllCart(user && user.uid));
-    //     // console.log(localCart)
-    //   }, [])
 
     useEffect(async () => {
         if (remove) {
@@ -44,7 +40,6 @@ const CartPageUnit = (props) => {
         else if (e.target.id === 'plus') {
             setQuantity(Number(quantityl) + 1)
         }
-        // setQuantity(e.target.value)
     }
     
       let handlerChange = (e) => {
@@ -54,9 +49,6 @@ const CartPageUnit = (props) => {
       let handlerDelete = (e) => {
         setRemove(true)
       }
-    //   console.log(props)
-    //   console.log(props.item.img)
-      console.log(props.localCart[props.index], props.index)
 
   return (
     <Box key={props.item.idProduct} className={styles.subcontainer1} >

@@ -1,6 +1,5 @@
 .subcontainer1{
     background-color: white;
-    /* width: 65vw; */
     display: flex;
     flex-direction: row;
     gap: 20px;

@@ -10,15 +10,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { ListItemText } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import { Input } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Grid from '@mui/material/Grid';
 
-import { useDispatch, useSelector, } from 'react-redux';
-import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js';
-import { addProductCart } from '../../Utils/cart/cartCrud.js';
+import { useSelector, } from 'react-redux';
+import { getAllCart } from '../../Utils/cart/cartCrud.js';
 import CartPageUnit from './CartPageUnit/CartPageUnit';
 
 
@@ -28,12 +22,6 @@ const CartPage = () => {
 
   let [localCart, setLocalCart] = useState([]);
   const user = useSelector(state => state.user)
-
-  // const dispatch = useDispatch()
-  // let cartlocal = JSON.parse(localStorage.getItem('cart'))   
-  // console.log(cartlocal)  
-  console.log(localCart)
-  console.log(user)
 
   const totalPrice= (cart)=>{
     let price= 0
@@ -69,56 +57,13 @@ const CartPage = () => {
       <Box>
         {localCart?.map((el, index) => {
           return(
-            <CartPageUnit item={el} user={user} localCart={localCart} setLocalCart={setLocalCart} index={index}/>
-            // <Box key={index} className={styles.subcontainer1} >
-            //   <Box>
-            //     <img src={el.img} style={{width: "80px", margin: "20px"}} alt=""/>
-            //   </Box>
-            //   <Box>
-            //     <Grid 
-            //       container 
-            //       justifyContent="space-between" 
-            //     >
-            //       <Grid item xs={6}>
-            //         <Box>
-            //           <Typography variant='h6'>{el.name}</Typography>
-            //           <Typography variant='body1'>Model: ${el.model}</Typography>
-            //         </Box>
-            //       </Grid>
-
-            //       <Grid item  xs={6}>
-            //         <Box>
-            //           <Typography variant='h6'>Total parcial: ${el.price} </Typography>
-            //           <Typography variant='h6'>Total unitario: ${el.price * el.quantity} </Typography>
-            //         </Box>
-            //       </Grid>
-            //     </Grid>
-
-            //     <Box 
-            //     sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
-            //     >
-                  
-            //       <Box>
-            //           <Button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><RemoveIcon onClick={e => handleCount(e)} ></RemoveIcon></Button>
-            //           <Input  
-            //             type='number'
-            //             sx={{width: "40px", border: "1px solid gray"}}
-            //             value={el.quantity}
-            //             onChange={e => handlerChange(e)}  />
-            //           <Button 
-            //           onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><AddIcon  onClick={e => handleCount(e)} ></AddIcon></Button>                            
-            //       </Box>
-
-            //       <Box>
-            //         <Button aria-label="delete">
-            //           <DeleteForeverIcon />
-            //         </Button>
-            //       </Box>
-                  
-            //     </Box>
-            //   </Box>
-            // </Box>
-            
+            <CartPageUnit 
+              item={el} 
+              user={user} 
+              localCart={localCart} 
+              setLocalCart={setLocalCart} 
+              index={index}
+            />
           )
         })}
       </Box>
