@@ -48,6 +48,15 @@ const Cart = () => {
       
           setOpen(false);
         };
+
+        const handleOpenCart = (event) => {
+          if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+          }
+      
+          setOpen(false);
+          history.push("/cartpage")
+        };
       
         function handleListKeyDown(event) {
           if (event.key === 'Tab') {
@@ -138,7 +147,7 @@ const Cart = () => {
                     {localCart?.length > 0 ? <MenuItem sx={{
                       color:'red',
                     }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
-                    <MenuItem><Typography variant='button' display="block" gutterBottom onClick={() => history.push("/cartpage")} >Open cart</Typography></MenuItem>
+                    <MenuItem onClick={handleOpenCart}><Typography variant='button' display="block" gutterBottom  >Open cart</Typography></MenuItem>
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
                 </ClickAwayListener>
