@@ -13,6 +13,30 @@ export function addProductCart(idProduct, idUser, quantity) {
     }
 };
 
+export function updateProductCart(idProduct, idUser, quantity){
+    if (idUser) { // Logueado
+        sendDB(idProduct, idUser, quantity)
+            .catch(data => console.log('Error enviar producto: ', data));
+    }
+    else { // No logueado
+        let storage = JSON.parse(localStorage.getItem('cart')) || []; // Vector de productos
+        storage.find(el => el.idProduct === idProduct).quantity = quantity;
+        localStorage.setItem('cart', JSON.stringify(storage));
+    }
+}
+
+export function deleteProductCart(idProduct, idUser, quantity){
+    if (idUser) { // Logueado
+        sendDB(idProduct, idUser, quantity)
+            .catch(data => console.log('Error enviar producto: ', data));
+    } 
+    else { // No logueado
+        let storage = JSON.parse(localStorage.getItem('cart')) || []; // Vector de productos
+        let result = storage.filter(el => el.idProduct !== idProduct)
+        localStorage.setItem('cart', JSON.stringify(result));
+    }
+}
+
 export async function getAllCart(idUser) {
     try {
         if (idUser) {
@@ -36,6 +60,9 @@ export async function getAllCart(idUser) {
                     name: product.data.result.name,
                     price: product.data.result.price,
                     img: product.data.result.img[0],
+                    model: product.data.result.model,
+                    stock: product.data.result.stock,
+                    discount: product.data.result.discount,
                     quantity: el.quantity
                 };
             });
