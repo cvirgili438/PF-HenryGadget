@@ -18,9 +18,8 @@ const CartPageUnit = (props) => {
 
     const user = useSelector(state => state.user)
 
-    let [quantityl, setQuantity] = useState(props.item.quantity || 0)
+    let [quantityl, setQuantity] = useState(props.item.quantity)
     let [remove, setRemove] = useState(false)
-
 
     useEffect(async () => {
         if (remove) {
@@ -69,8 +68,8 @@ const CartPageUnit = (props) => {
 
             <Grid item  xs={6}>
             <Box>
-                <Typography variant='h6'>Total parcial: ${props.item.price} </Typography>
-                <Typography variant='h6'>Total unitario: ${props.item.price * quantityl} </Typography>
+                <Typography variant='h6'>Total unitario: ${props.item.price} </Typography>
+                <Typography variant='h6'>Total parcial: ${props.item.price * quantityl} </Typography>
             </Box>
             </Grid>
         </Grid>

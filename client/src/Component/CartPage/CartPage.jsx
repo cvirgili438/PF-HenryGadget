@@ -31,11 +31,19 @@ const CartPage = () => {
     return price
   }
 
+  const totalDiscount = (cart) => {
+    let discount = 0;
+    cart.map(e => {
+      return discount = discount + (e.price * (e.discount/100))
+    })
+    return discount
+  }
+
+  console.log(localCart)
   
 
   useEffect(async () => {
     setLocalCart(await getAllCart(user && user.uid));
-    // console.log(localCart)
   }, [])
 
   return (
@@ -58,6 +66,7 @@ const CartPage = () => {
         {localCart?.map((el, index) => {
           return(
             <CartPageUnit 
+              key={el.idProduct}
               item={el} 
               user={user} 
               localCart={localCart} 
@@ -76,16 +85,16 @@ const CartPage = () => {
         <Box sx={{borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <Box><Typography variant='body1'>Total parcial</Typography></Box>
-            <Box><Typography variant='body1'>$</Typography></Box>
+            <Box><Typography variant='body1'>$ {totalPrice(localCart)}</Typography></Box>
           </Box>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <Box><Typography variant='body1'>Descuento parcial</Typography></Box>
-            <Box><Typography variant='body1'>$</Typography></Box>
+            <Box><Typography variant='body1'>Total descuento</Typography></Box>
+            <Box><Typography variant='body1'>$ {totalDiscount(localCart)}</Typography></Box>
           </Box>
         </Box>
         <Box sx={{display: "flex", justifyContent: "space-between", margin: "20px 0", borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box><Typography variant='h3'>Total</Typography></Box>
-          <Box><Typography variant='h3'>$ {totalPrice(localCart)}</Typography></Box>
+          <Box><Typography variant='h3'>$ {totalPrice(localCart) - totalDiscount(localCart)}</Typography></Box>
         </Box>
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='body1' align='left'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</Typography>
