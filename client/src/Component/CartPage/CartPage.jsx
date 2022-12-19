@@ -101,6 +101,7 @@ const CartPage = () => {
         </Box>
         <Button variant="contained" size='large' fullWidth
            sx={{borderRadius: "10px"}}
+           onClick={() => history.push("/checkout")}
         >
           Continuar
         </Button> 
