@@ -18,8 +18,9 @@ export const inicialtate = {
   loading: false,
   localCart:[],
   userCart:[],
-  user:userStorageData
-
+  user:userStorageData,
+  users:[],
+  reviews:[]
 };
 
 // PRODUCTOS
@@ -34,6 +35,8 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
+export const GET_USERS = 'GET_USERS'
+export const GET_REVIEWS = 'GET_REVIEWS'
 
 // CARRITO
 export const SET_LOCAL_CART = 'SET_LOCAL_CART'

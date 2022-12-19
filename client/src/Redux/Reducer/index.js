@@ -19,6 +19,8 @@ import {
   SET_USER_CART,
   CLEAR_CARTS,
   REFRESH_CARTS,
+  GET_USERS,
+  GET_REVIEWS
 } from '../Constants/index.js';
 
 
@@ -134,6 +136,16 @@ export default function rootReducer(state = inicialtate, action) {
             localCart: state.localCart.map(c => c),
             userCart: state.userCart.map(c => c)
           }
+        case GET_USERS:
+            return {
+              ...state,
+              users: action.payload
+            }
+          case GET_REVIEWS:
+            return {
+              ...state,
+              reviews: action.payload
+            }
     default:
       return { ...state };
   }

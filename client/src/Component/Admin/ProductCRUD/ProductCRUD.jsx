@@ -67,7 +67,7 @@ const ProductCRUD = () => {
 
   return (
     <div className={ styles.container }>
-      <div className={ styles.statistics }>
+      {/* <div className={ styles.statistics }>
         <div className={ styles.statisticsCard}>
           <div className={ styles.statisticsCardTitle }>Total products</div>
           <div className={ styles.statisticsCardContent }>{ products.length }</div>
@@ -84,7 +84,7 @@ const ProductCRUD = () => {
           <div className={ styles.statisticsCardTitle }>Suspended</div>
           <div className={ styles.statisticsCardContent }>0</div>
         </div>
-      </div>
+      </div> */}
       <div className={ styles.managebar }>
         <div>
           With {selected.length} selected: { selected.length <= 3 ?
