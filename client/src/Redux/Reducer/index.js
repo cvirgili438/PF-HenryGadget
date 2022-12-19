@@ -14,7 +14,13 @@ import {
   SET_USER_LOGIN,
   SET_LOADING,
   GET_USERS,
-  GET_REVIEWS
+  GET_REVIEWS,
+  CHANGE_REVIEW_VISIBLE,
+  SET_LOCAL_CART,
+  SET_USER_CART,
+  GET_USER_CART,
+  CLEAR_CARTS,
+  REFRESH_CARTS,
 } from '../Constants/index.js';
 
 
@@ -130,6 +136,22 @@ export default function rootReducer(state = inicialtate, action) {
             localCart: state.localCart.map(c => c),
             userCart: state.userCart.map(c => c)
           }
+          case GET_USERS:
+            return {
+              ...state,
+              users: action.payload
+            }
+          case GET_REVIEWS:
+            return {
+              ...state,
+              reviews: action.payload
+            }
+          case CHANGE_REVIEW_VISIBLE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
     default:
       return { ...state };
   }

@@ -9,7 +9,7 @@ router.get('/', async (req,res)=> {                                             
 
     try {
         if(!Object.keys(req.body).length) {                                             // En caso de que no nos pasen ningun parametro devolver todas las reviews
-            const result = await Review.findAll();  
+            const result = await Review.findAll({order: [['id', 'ASC']]});  
             
             result.length === 0                                                         // Si no hay reviews disponibles devolvera un array vacio, se valida y muestra msg apropiado, misma logica aplica para todos los casos
             ? res.status(404).json({err: "There are no reviews available."})
@@ -36,7 +36,7 @@ router.get('/', async (req,res)=> {                                             
 })
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+// router.use(authWithoutAdm);
 
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
@@ -107,6 +107,35 @@ router.put('/:idReview', async (req,res) => {                                   
         }
         const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el comment
         res.status(200).json({msg: `Review with id: ${idReview} was updated`, result: reviewUpdated})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.put('/visible/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
+    const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
+    // const {reviewData, idUser} = req.body;
+    // const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
+
+    // let uidFire = req.user.uid;
+    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    // }
+
+    // if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
+    // if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
+    
+    try { 
+        const review = await Review.findByPk(idReview);
+        if(!review){
+            res.status(404).json({err: `Review with id: ${idReview} doesn't exist.`});
+            return;
+        }
+        let newReview = false;
+        if (review.visible === false) newReview = true; 
+        const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});                                         // Se actualiza el comment
+        const reviews = await Review.findAll({order: [['id', 'ASC']]});
+        res.status(200).json({msg: `Review with id: ${idReview} has changed visibility to ${newReview}`, result: reviews})
     } catch (error) {
         res.status(400).json({err: error})
     }

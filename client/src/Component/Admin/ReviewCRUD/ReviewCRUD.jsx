@@ -11,7 +11,7 @@ import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
 import { getReviews } from '../../../Redux/Actions/users.js';
-
+import { changeReviewVisible } from '../../../Redux/Actions/users.js'; // en linea aparte por si separamos las actions de las reviews en otro archivo
 
 import styles from './ReviewCRUD.module.css';
 
@@ -30,8 +30,16 @@ const ReviewCRUD = () => {
     setInput(e.target.value);
   };
 
-  const handleSubmitDelete = async e => {
-    // await dispatch(deleteProduct(e.target.value));
+  const handleChangeVisible = async e => {
+    console.log(e.target.checked)
+    // if (!e.target.checked) {
+    //   if (visible.indexOf(e.target.id) === -1) {
+    //     setVisible([...visible, e.target.id]);
+    //   }
+    // } else {
+    //   setVisible(visible.filter(item => item !== e.target.id));
+    // }
+    await dispatch(changeReviewVisible(e.target.id));
     // await dispatch(getProductsByQuery(`?limit=20&offset=0`))
   };
 
@@ -109,7 +117,7 @@ const ReviewCRUD = () => {
                   <td>{ ['iPhone 12', 'Airpods', 'Tablet motomoto', 'Cargador'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ p.comment }</td>
                   <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
-                  <td><Switch {...label} defaultChecked /></td>
+                  <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
                 </tr>
               ))
             }

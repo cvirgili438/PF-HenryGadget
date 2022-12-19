@@ -39,6 +39,7 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
 export const GET_USERS = 'GET_USERS'
 export const GET_REVIEWS = 'GET_REVIEWS'
+export const CHANGE_REVIEW_VISIBLE = 'CHANGE_REVIEW_VISIBLE'
 
 // CARRITO
 export const SET_LOCAL_CART = 'SET_LOCAL_CART'

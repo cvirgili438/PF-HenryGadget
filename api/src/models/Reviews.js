@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    visible: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   },
     {
       timestamps: true,
