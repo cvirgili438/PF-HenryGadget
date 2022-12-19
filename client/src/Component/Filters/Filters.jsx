@@ -42,12 +42,8 @@ function Filters() {
 
 
   useEffect(() => {
-    dispatch(getProductsByQuery(search))
     dispatch(getAllFilters())
-  }, [dispatch, select])
-
-
-
+  }, [])
 
   const toggle = (e) => {
 
@@ -62,18 +58,16 @@ function Filters() {
   const handleSelect = (e) => {
     if (e.target.name === 'sortPrice') {
       if(query.get(e.target.name) === e.target.value){
-        console.log("adentro")
         query.delete(e.target.name)
-        query.set('offset', 0) 
         history.push({ search: query.toString() })
         setSelect({...select,price:""})
         return
       }
       query.set(e.target.name,e.target.value)
-      query.set('offset', 0) 
+      query.delete('offset');
+      query.delete('limit');
       setSelect({ ...select, price: e.target.value })
       history.push({ search: query.toString() })
-      dispatch(getProductsByQuery(search))
       return
     }
     if (e.target.name === "type") {
@@ -81,21 +75,23 @@ function Filters() {
       let toLower = withOutS[0].toLowerCase() + withOutS.slice(1)
       if(query.get(e.target.name) === toLower){
         query.delete(e.target.name)
-        query.set('offset', 0) 
+        query.delete('offset');
+        query.delete('limit');
         history.push({ search: query.toString() })
         setSelect({...select,[e.target.name]:""})
         return
       }
       setSelect({ ...select, [e.target.name]: toLower })
       query.set(e.target.name, toLower)
-      query.set('offset', 0) 
+      query.delete('offset');
+      query.delete('limit');
       history.push({ search: query.toString() })
-      dispatch(getProductsByQuery(search))
       return
     }
     if(query.get(e.target.name) === e.target.value){
       query.delete(e.target.name)
-      query.set('offset', 0) 
+      query.delete('offset');
+      query.delete('limit');
       history.push({ search: query.toString() })
       setSelect({...select,[e.target.name]:""})
       return
@@ -103,9 +99,9 @@ function Filters() {
 
     setSelect({ ...select, [e.target.name]: e.target.value })
     query.set(e.target.name, e.target.value)
-    query.set('offset', 0) 
+    query.delete('offset');
+    query.delete('limit');
     history.push({ search: query.toString() })
-    dispatch(getProductsByQuery(search))
   }
 
   const handleClear = () => {
@@ -117,7 +113,6 @@ function Filters() {
       price: "",
       ram:""
     })
-
     query.delete("brand")
     query.delete("sortPrice")
     query.delete("type")
@@ -127,7 +122,7 @@ function Filters() {
     query.delete('limit')
     query.delete('name')
     history.push({ search: query.toString() })
-    dispatch(getProductsByQuery(search))
+    dispatch(getProductsByQuery(''))
   }
 
   return (
@@ -137,7 +132,7 @@ function Filters() {
 
       <div className={styles.block_container}>
         <div className={styles.block_container_title} id="category" onClick={toggle} >
-          Categegory
+          Category
           <MdKeyboardArrowDown className={active.category ? styles.arrow_active : ""} />
         </div>
         <div className={active.category ? `${styles.options_container} ${styles.active}` : styles.options_container}>

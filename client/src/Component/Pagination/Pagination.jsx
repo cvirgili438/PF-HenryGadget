@@ -5,10 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
 import { objectToQuery } from '../../hooks/ObjectToQuery'
-
-
 import { setPageView } from '../../Redux/Actions/index.js';
-import { getProductsByQuery } from '../../Redux/Actions/products.js';
 
 import styles from './Pagination.module.css'
 
@@ -64,15 +61,11 @@ const Pagination = () => {
   const pages = Math.ceil(totalProducts / productsPerPage);
   const maxPages = 5;
 
-  const queryNew = useQueryParams();
-
   const handleInputChange = (e) => {
     dispatch(setPageView(e.target.value));
-    queryNew.limit = productsPerPage;
-    queryNew.offset = e.target.value * productsPerPage - productsPerPage;
-    let string = objectToQuery(queryNew);
-    dispatch(getProductsByQuery(`?${string}`));
-    history.push(`?${string}`);
+    query.set('limit', productsPerPage);
+    query.set('offset', e.target.value * productsPerPage - productsPerPage);
+    history.push({ search: query.toString() });
   }
 
   const handleInputLess = (e) => {
@@ -92,7 +85,7 @@ const Pagination = () => {
       dispatch(setPageView(pages))
     }
     setShownPages(stripedPagination(pages, page, maxPages))
-  }, [products, page, totalProducts, pages, limit, offset, dispatch]);
+  }, [products, totalProducts, pages, limit, offset, dispatch]);
   
   // SOBRE LO QUE SIGUE... NO PREGUNTEN, FUNCIONA OK 😁
   return (

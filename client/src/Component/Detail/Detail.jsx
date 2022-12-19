@@ -3,147 +3,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Box } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
+import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
 
-import MiniNav from '../MiniNav/MiniNav'
 import Separator from "../Separator/Separator";
-
 import styles from "./Detail.module.css";
-
 import noImage from '../../Assets/noImage.jpg';
-import { getUserCart, setUserCart } from "../../Redux/Actions/cart";
-
-
 
 const Detail = () => {
     const { id } = useParams();
     const user = useSelector(state => state.user)
-    const [input, setInput] = useState({ value: 0 })
+    const [input, setInput] = useState({ value: 1 })
+    const [lowStock, setLowStock] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getProductById(id));
-    }, [dispatch]);
+    }, []);
 
-    const details = useSelector(state => state.productDetail);
-    let productDetail = {}    
+    useEffect(async () => {
+        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
+    }, [input]);
 
-    if (details.result) {
-        productDetail = details.result        
-    }   
-    
-    // console.log(productDetail);
+    let productDetail = useSelector(state => state.productDetail);
+
     function handleCart() {
-        let cart
-        let storage = localStorage.getItem('cart')
-        if (storage === null || storage === undefined) {
-            cart = [{
-                idProduct: productDetail.id,
-                name: productDetail.name,
-                price: productDetail.price,
-                img: productDetail.img[0],
-                quantity: input.value
-            }]
-            let stringify = JSON.stringify(cart)
-            localStorage.setItem('cart', stringify)
-            if (user) {
-                dispatch(setUserCart(cart, user.uid))
-                    .then(() => dispatch(getUserCart(user.uid)))
-            }
-
-
-            return alert('The products is add to you cart')
-
-        } else {
-
-            let parse = JSON.parse(storage);
-            let cart = {
-                idProduct: productDetail.id,
-                name: productDetail.name,
-                price: productDetail.price,
-                img: productDetail.img[0],
-            }
-            let filter = parse.filter(e => e.name === cart.name)
-            console.log('filter', filter)
-            if (filter.length > 0) {
-                let index = parse.findIndex(e => e === filter[0])
-                console.log('index', index)
-                parse[index] = {
-                    ...parse[index],
-                    quantity: filter[0].quantity + input.value
-                }
-                // let nuevo = {
-                //     ...cart,
-                //     quantity: cart.quantity+input.value
-                // }
-                // parse.push(nuevo)
-                let stringyfy = JSON.stringify(parse)
-                localStorage.setItem('cart', stringyfy)
-                if (user) {
-                    dispatch(setUserCart(parse, user.uid))
-                        .then(() => dispatch(getUserCart(user.uid)))
-                }
-
-
-                return alert('The products is add to you cart')
-            }
-            if (filter.length === 0) {
-                let nuevo = {
-                    ...cart,
-                    quantity: input.value
-                }
-                parse.push(nuevo)
-                let stringyfy = JSON.stringify(parse)
-                localStorage.setItem('cart', stringyfy)
-                if (user) {
-                    dispatch(setUserCart(parse, user.uid))
-                        .then(() => dispatch(getUserCart(user.uid)))
-                }
-
-
-                return alert('The products is add to you cart')
-            }
-
-        }
+        addProductCart(productDetail.id, user && user.uid, input.value);
     }
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
-            input.value === 0 ? setInput(
-                {
-                    value: 0
-                }
-            ) :
-                setInput(
-                    {
-                        value: input.value - 1
-                    }
-                )
+            input.value === 1 ? setInput({ value: 1 })
+                : setInput({ value: input.value - 1 })
         }
         else if (e.target.id === 'plus' || e.target.id === 'i-plus') {
-            setInput(
-                {
-                    value: input.value + 1
-                }
-            )
+            setInput({ value: input.value + 1 })
         }
     }
 
     let handlerChange = (e) => {
-
-        setInput(
-            {
-                value: e.target.value.toString()
-            }
-        )       
+        if (!e.target.value.match(/^[1-9]\d*$/)) {
+            e.target.value = '';
+            setInput({ value: '' })
+        }
+        setInput({ value: e.target.value.toString() })
     }
 
     let handleImg = (e) => {
         document.getElementById('mainImg').src = e.target.src
     }
-
-    let lowStock = () => {
-        return (input.value > productDetail.stock && true)
-    }    
 
     return (
 
@@ -190,22 +97,25 @@ const Detail = () => {
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
                         <Box>
-                            <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i onClick={e => handleCount(e)} id="i-minus" className="bi bi-caret-left"></i></button>
+                            <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i id="i-minus" className="bi bi-caret-left"></i></button>
                             <input onChange={e => handlerChange(e)} value={input.value} />
-                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i onClick={e => handleCount(e)} id="i-plus" className="bi bi-caret-right"></i></button>                            
+                            <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
                         </Box>
-                            {lowStock() && <Alert xs={{
-                                width: 100
-                            }}
+                        {lowStock && <Alert xs={{width: 100}}
                             variant="outlined" severity="error">
                             There is not enough stock!
+                        </Alert>}
+
+                        {input.value === '' && <Alert xs={{width: 100}}
+                            variant="outlined" severity="error">
+                            Stock must not be empty.
                         </Alert>}
                     </div>
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock()} >Agregar al carro</button>                        
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock()}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock || input.value === ''} >Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
                     </div>
                 </div >
             </div >
