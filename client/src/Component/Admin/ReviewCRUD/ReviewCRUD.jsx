@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Switch from '@mui/material/Switch';
 import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
 import { getReviews } from '../../../Redux/Actions/users.js';
-import { changeReviewVisible } from '../../../Redux/Actions/users.js'; // en linea aparte por si separamos las actions de las reviews en otro archivo
+import { changeReviewVisible, changeReviewArchive } from '../../../Redux/Actions/users.js'; // en linea aparte por si separamos las actions de las reviews en otro archivo
 
 import styles from './ReviewCRUD.module.css';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const ReviewCRUD = () => {
   const [input, setInput] = useState('');
@@ -30,17 +26,16 @@ const ReviewCRUD = () => {
     setInput(e.target.value);
   };
 
-  const handleChangeVisible = async e => {
-    console.log(e.target.checked)
-    // if (!e.target.checked) {
-    //   if (visible.indexOf(e.target.id) === -1) {
-    //     setVisible([...visible, e.target.id]);
-    //   }
-    // } else {
-    //   setVisible(visible.filter(item => item !== e.target.id));
-    // }
-    await dispatch(changeReviewVisible(e.target.id));
-    // await dispatch(getProductsByQuery(`?limit=20&offset=0`))
+  const handleChangeVisible = e => {
+    dispatch(changeReviewVisible(e.target.id));
+  };
+
+  const handleChangeArchive = e => {
+    dispatch(changeReviewArchive([e.target.value]));
+  };
+
+  const handleSubmiteMultipleArchive = e => {
+    dispatch(changeReviewArchive(selected));
   };
 
   const handleSubmitFilterScore = e => {
@@ -51,7 +46,7 @@ const ReviewCRUD = () => {
     setScore(null);
   };
 
-  const handleInputProducts = e => {
+  const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
         setSelected([...selected, e.target.name]);
@@ -59,7 +54,6 @@ const ReviewCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
-
   };
 
   useEffect(() => {
@@ -71,13 +65,7 @@ const ReviewCRUD = () => {
       
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: { selected.length <= 3 ?
-            <>
-              <Button text='To landing' disabled={true} />
-              <Button text='Hide' disabled={true} />
-            </>
-            :
-            null }
+          With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
           Filter by product: <Input type='text' name='review' value={input} onChange={handleInputChange} />
@@ -92,7 +80,7 @@ const ReviewCRUD = () => {
         <table className={ styles.table }>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>n</th>
               <th>Select</th>
               <th>From</th>
               <th>Location</th>
@@ -100,7 +88,7 @@ const ReviewCRUD = () => {
               <th>Review</th>
               <th>Rating</th>
               <th>Visible</th>
-              
+              <th>Archive</th>
             </tr>
           </thead>
           <tbody>
@@ -111,13 +99,14 @@ const ReviewCRUD = () => {
               .map((p, i) => (
                 <tr key={ p.id }>
                   <td>{ i + 1 }</td>
-                  <td><Checkbox name={ p.id } onChange={ handleInputProducts } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                   <td>{ ['Alex', 'Marty', 'Melman', 'Gloria'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ ['Argentina', 'Colombia', 'Chile', 'Ecuador'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ ['iPhone 12', 'Airpods', 'Tablet motomoto', 'Cargador'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ p.comment }</td>
                   <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
                   <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
+                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
                 </tr>
               ))
             }

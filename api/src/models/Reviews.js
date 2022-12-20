@@ -21,6 +21,10 @@ module.exports = (sequelize) => {
     visible: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    archived: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   },
     {

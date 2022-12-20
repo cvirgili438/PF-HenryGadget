@@ -16,6 +16,7 @@ import {
   GET_USERS,
   GET_REVIEWS,
   CHANGE_REVIEW_VISIBLE,
+  CHANGE_REVIEW_ARCHIVE,
   SET_LOCAL_CART,
   SET_USER_CART,
   GET_USER_CART,
@@ -147,6 +148,12 @@ export default function rootReducer(state = inicialtate, action) {
               reviews: action.payload
             }
           case CHANGE_REVIEW_VISIBLE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
+          case CHANGE_REVIEW_ARCHIVE:
             return {
               ...state,
               reviews: action.payload.result,

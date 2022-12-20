@@ -1,4 +1,4 @@
-import { SET_USER_LOGIN , GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, URL} from '../Constants/index'
+import { SET_USER_LOGIN , GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, URL} from '../Constants/index'
 
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
@@ -82,6 +82,29 @@ export const changeReviewVisible = (payload) => {
             const data = await response.json()
             return dispatch({
                 type: CHANGE_REVIEW_VISIBLE,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+}
+
+export const changeReviewArchive = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/reviews/archive/',
+            {
+                method: 'PUT',
+                body: JSON.stringify({'ids': payload}) ,
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: CHANGE_REVIEW_ARCHIVE,
                 payload: data
             })
         }catch(e){
