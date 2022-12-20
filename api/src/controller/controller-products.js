@@ -6,33 +6,18 @@ const brands = require('./objectToAdd/brands.js');
 const storages = require('./objectToAdd/storages.js');
 const types = require('./objectToAdd/types.js');
 const rams = require('./objectToAdd/ram.js');
-const userAdmin = { // proyectofinalhenrygadget@gmail.com
-    uid: 'ZTAC4VigPiX2a2VWQM939zMdSaF2',
-    rol: 'admin'
-};
-
+const users= require('./objectToAdd/users.js'); 
 
 async function inicialProducts() {
     try {
 
-        await User.create(userAdmin);
+        await User.bulkCreate(users);
 
-        const arrayStorage = [
-            await Storage.create(storages[0]),
-            await Storage.create(storages[1]),
-            await Storage.create(storages[2])
-        ];
+        const arrayStorage = await Storage.bulkCreate(storages);
 
-        const arrayRams = [
-            await Ram.create(rams[0]),
-            await Ram.create(rams[1]),
-            await Ram.create(rams[2])
-        ];
+        const arrayRams = await Ram.bulkCreate(rams);
 
-        const arrayTypes = [
-            await Type.create(types[0]), // Headphone
-            await Type.create(types[1]) // Smartphone
-        ];
+        const arrayTypes = await Type.bulkCreate(types);
 
         for (let i = 0; i < products.length; i++) {
             let produc = await Product.create(products[i]);
@@ -42,10 +27,10 @@ async function inicialProducts() {
 
             produc.createBrand(brands[i]);
 
-            if (i < 2)
-                produc.setType(arrayTypes[0]);
+            if (i <= 2)
+                produc.setType(arrayTypes[0]); // Headphone
             else {
-                produc.setType(arrayTypes[1]);
+                produc.setType(arrayTypes[1]); // Smartphone
                 produc.setStorage(arrayStorage[Math.floor(Math.random() * storages.length - 1) + 1]);
                 produc.setRam(arrayRams[Math.floor(Math.random() * rams.length - 1) + 1]);
             }
