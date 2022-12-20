@@ -108,4 +108,3 @@ package-lock.json
 
 # Se ignora JSON con config Firebase
 api/src/routes/config/serviceAccount.json
-api/src/routes/config/firebase.config.js

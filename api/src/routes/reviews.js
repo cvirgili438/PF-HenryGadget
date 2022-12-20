@@ -87,18 +87,8 @@ router.delete('/:idReview', async (req,res) => {                                
     }
 })
 
-router.put('/visible/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
-    const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
-    // const {reviewData, idUser} = req.body;
-    // const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
-
-    // let uidFire = req.user.uid;
-    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    // }
-
-    // if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
-    // if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
+router.put('/visible/:idReview', async (req,res) => {
+    const {idReview} = req.params;
     
     try { 
         const review = await Review.findByPk(idReview);
@@ -108,7 +98,7 @@ router.put('/visible/:idReview', async (req,res) => {                           
         }
         let newReview = false;
         if (review.visible === false) newReview = true; 
-        const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});                                         // Se actualiza el comment
+        const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});
         const reviews = await Review.findAll({where: {archived: false}}, {order: [['comment', 'ASC']]});
         res.status(200).json({msg: `Review with id: ${idReview} has changed visibility to ${newReview}`, result: reviews})
     } catch (error) {
@@ -116,33 +106,20 @@ router.put('/visible/:idReview', async (req,res) => {                           
     }
 })
 
-router.put('/archive/', async (req,res) => {                                                                                   //localhost:3001/id (put update)
-    // const {idReview} = req.params;  
+router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
-    // const {reviewData, idUser} = req.body;
-    // const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
-    
-    // let uidFire = req.user.uid;
-    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    // }
-    
-    // if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
-    // if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
-    
+
     try { 
         const review = await Review.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
         review.forEach(element => {
-            console.log(element.dataValues.id)     
-            // VER QUE PASA ACA ROMPE SI DESCOMENTO ESTAS 4 LINEAS                                                             
-            // if(!ids.incudes(element.dataValues.id)){
-            //     res.status(404).json({err: `Review with id: ${element.dataValues.id} doesn't exist. Cancelling operation.`});
-            //     return;
-            // }
+            if(!ids.includes(element.dataValues.id)){
+                res.status(404).json({err: `Review with id: ${element.dataValues.id} doesn't exist. Cancelling operation.`});
+                return;
+            }
         });
         let newReview = true;
         if (review[0].archived === true) newReview = false; 
-        const reviewUpdated = await Review.update({archived: newReview}, {where: {id: {[Sequelize.Op.in]: ids}}});                                         // Se actualiza el comment
+        const reviewUpdated = await Review.update({archived: newReview}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const reviews = await Review.findAll({where: {archived: false}}, {order: [['comment', 'ASC']]});
         res.status(200).json({msg: `${review.length} review/s changed archived property to ${newReview}`, result: reviews})
     } catch (error) {
