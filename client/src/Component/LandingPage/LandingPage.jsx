@@ -1,31 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-import NavBar from '../NavBar/NavBar';
+import React, { useEffect } from 'react';
 import Products from '../Products/Products';
-import Footer from '../Footer/Footer';
-
+import Slider from '../Slider/Slider';
 import styles from './LandingPage.module.css';
+import Aos from 'aos'
+import 'aos/dist/aos.css'
+import OurServices from '../OurServices/OurServices';
 
 
 const LandingPage = () => {
+  // const featured = useSelector(state => state.featured); // para cuando haya productos destacados
+  useEffect(()=>{
+    Aos.init({
+    })
+  },[])
 
   return (
-    <div className={ styles.container }>   
-      <div className={ styles.header }>
-        <NavBar />
-      </div>
-      <div className={ styles.main }>
-        <h1>Bienvenidos xD</h1>
-        <Link to= '/home'>
-            <button>Inicio</button>
-        </Link>
-        <Products />
-      </div>
-      <div className={ styles.footer }>
-        <Footer />
-      </div>         
-    </div>
+    <section className={ styles.container }>   
+      <Slider/> 
+
+      <section className={ styles.main }>
+       <Products />
+      </section>  
+
+      <section>
+        <OurServices/>
+      </section>
+
+    </section>
   )
 }
 

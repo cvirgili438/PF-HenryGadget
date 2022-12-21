@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const { Product, Review, Brand, Storage, Type, Ram } = require('../../db.js');
+const { Product, Review, Brand, Storage, Type, Ram } = require('../../db');
 const { Sequelize } = require("sequelize");
 
 const getDifferencesArray = require('./controllers/getDifferencesArray.js');
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
     if (sortPrice && !(sortPrice === 'Lower prices' || sortPrice === 'Higher prices'))
         return res.status(400).json({ err: 'Bad option in query sortPrice.' });
 
-    if (sortBrand && !(sortBrand === 'up' || sortBrand === 'down'))
+    if (sortBrand && !(sortBrand === 'Lower prices' || sortBrand === 'Higher prices'))
         return res.status(400).json({ err: 'Bad option in query sortBrand.' });
 
     if (limitPrice && limitPrice.length !== 0) {
@@ -90,15 +90,15 @@ router.get('/', async (req, res) => {
         // sortBrand up o down
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
-
+        if (products.length === 0 ){
+                return res.status(404).json({msg: 'Products not found',result:products, total})
+            }
         res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 
     } catch (error) {
         res.status(400).json({ err: 'Product not found.' })
     }
 })
-
-
 
 router.get('/type', async (req, res) => {
     try {
@@ -136,21 +136,43 @@ router.get('/ram', async (req, res) => {
     }
 })
 
+router.get('/stock', async (req, res) => {
+    try {
+        const { group } = req.query;
+        const groupb = JSON.parse(group)
+        const products = await Product.findAll({
+            where: {
+            id: {[Sequelize.Op.in]: groupb} 
+            },
+            include: [
+                { model: Brand }, // include[0]
+                { model: Type }, // include[1]
+                { model: Storage }, // include[2]
+                { model: Review }, // include[3]
+                { model: Ram } // include[4]
+            ]
+            });
+        res.status(200).json({ msg: 'Products obtained successfully.', result: products });
+    } catch (error) {
+        res.status(400).json({ err: error })
+    }
+})
+
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        let condition = {
-            where: { id: id },
+        const product = await Product.findOne({
+            where: {
+                id: id
+            },
             include: [
-                { model: Brand },
-                { model: Type },
-                { model: Storage },
-                { model: Review },
-                { model: Ram }
+                { model: Brand }, // include[0]
+                { model: Type }, // include[1]
+                { model: Storage }, // include[2]
+                { model: Review }, // include[3]
+                { model: Ram } // include[4]
             ]
-        };
-
-        const product = await Product.findOne(condition);
+        });
         if (product === null) {
             return res.status(400).json({ err: `The enter id does not exist.` })
         }
@@ -160,4 +182,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+
+
 module.exports = router;
+

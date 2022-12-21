@@ -11,6 +11,7 @@ const userAdmin = { // proyectofinalhenrygadget@gmail.com
     rol: 'admin'
 };
 
+
 async function inicialProducts() {
     try {
 
@@ -69,5 +70,6 @@ async function inicialProducts() {
         console.log(error, 'data not found')
     }
 }
+
 
 module.exports = { inicialProducts }

@@ -5,6 +5,9 @@ module.exports = [
           model: '14 Pro Max',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png']
       },
     {
@@ -13,6 +16,9 @@ module.exports = [
           model: '14 Pro',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-colors.png']
       },
     {
@@ -21,6 +27,9 @@ module.exports = [
           model: '14 Plus',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-plus-colors.png']
       },
     {
@@ -29,6 +38,9 @@ module.exports = [
           model: '14',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-colors.png']
       },
     {
@@ -37,6 +49,9 @@ module.exports = [
           model: 'SE (3rd generation)',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-se-3rd-gen-colors.png']
       },
     {
@@ -45,6 +60,9 @@ module.exports = [
           model: '13 Pro Max',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-pro-max-colors.png']
       },
     {
@@ -53,6 +71,9 @@ module.exports = [
           model: '13 Pro',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-pro-colors.png']
       },
     {
@@ -61,6 +82,9 @@ module.exports = [
           model: '13',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-colors.png']
       },
     {
@@ -69,6 +93,9 @@ module.exports = [
           model: '13 mini',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-iphone13-mini-colors.png']
       },
     {
@@ -77,6 +104,9 @@ module.exports = [
           model: '12 Pro Max',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone12promax/iphone12-pro-max-colors.jpg']
       },
     {
@@ -85,6 +115,9 @@ module.exports = [
           model: '12 Pro',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone12pro/iphone12-pro-colors.jpg']
       },
     {
@@ -93,6 +126,9 @@ module.exports = [
           model: '12',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-colors.png']
       },
     {
@@ -101,6 +137,9 @@ module.exports = [
           model: '12 mini',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-mini-colors.png']
       },
     {
@@ -109,6 +148,9 @@ module.exports = [
           model: 'SE (2nd generation)',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone_se/iphone-se-2nd-gen-colors.jpg']
       },
     {
@@ -117,6 +159,9 @@ module.exports = [
           model: '11 Pro',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro.jpg']
       },
     {
@@ -125,6 +170,9 @@ module.exports = [
           model: '11 Pro Max',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro-max.jpg']
       },
     {
@@ -133,6 +181,9 @@ module.exports = [
           model: '11',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11-colors.jpg']
       },
     {
@@ -141,6 +192,9 @@ module.exports = [
           model: 'XS',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xs-colors.jpg']
       },
     {
@@ -149,6 +203,9 @@ module.exports = [
           model: 'XS Max',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xs-max-colors.jpg']
       },
     {
@@ -157,6 +214,9 @@ module.exports = [
           model: 'XR',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xr/identify-iphone-xr-colors.jpg']
       },
     {
@@ -165,6 +225,9 @@ module.exports = [
           model: 'X',
           type: 'smartphones',
           stock: 13,
+          camera: '10Mpx',
+          processor: 'OctaCore',
+          description: 'Alguna muy buena descripción sobre el producto.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-x-colors.jpg']
       },
   
