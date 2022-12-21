@@ -14,7 +14,7 @@ router.get('/', async(req,res) => {                                             
     try {
         const user = await User.findByPk(idUser);                                               // Buscamos al usuario por el id pasado
         
-        if(!user) return res.status(404).json({msg: `User with id: ${idUser} doesn't exist`});  // Validamos que el usuario exista sino devolvemos mensaje de error apropiado
+        if(!user) return res.status(404).json({err: `User with id: ${idUser} doesn't exist`});  // Validamos que el usuario exista sino devolvemos mensaje de error apropiado
 
         const orders = await Order.findAll({where: {userUid: idUser},include: Product});        // Buscamos toda orden que tenga como userUid el id del usuario pasado por body, incluimos productos tambien
 
