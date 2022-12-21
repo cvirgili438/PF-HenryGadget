@@ -74,7 +74,7 @@ router.put('/', async(req,res) => {                                             
         const result = await Order.findByPk(idOrder)
         res.status(200).json({msg: 'The order was updated succesfuly', order: result})
     } catch (error) {
-        res.status(400).json({msg: 'An error ocurred in database', err: error})
+        res.status(400).json({err: 'An error ocurred in database', err: error})
     }
 })
 
