@@ -12,6 +12,7 @@ import Stepper from '../Stepper.jsx'
 
 import { getAllCart } from "../../../Utils/cart/cartCrud.js";
 import suma from "../controllers/controller.js";
+import { URL } from "../../../Redux/Constants";
 
 
 
@@ -25,21 +26,15 @@ export default function Payment() {
     const user = useSelector(state =>state.user)
     let total = useRef(0)
 
-
-
-
-
-
-
 useEffect(async () => {
     // Create PaymentIntent as soon as the page loads
-    if(true){
-      const items = await getAllCart()
+    if(user.uid){
+      const items = await getAllCart(user.uid)
       console.log(items)
       total.current=suma(items)
     
     
-      fetch("http://localhost:3001/checkout", {
+      fetch(URL+"/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: suma(items)}),

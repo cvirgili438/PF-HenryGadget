@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const { Op } = require("sequelize");
 const router = Router();
-const stripe= require("stripe")('sk_test_51MG4j9KeVpay6lghLnhDscQlcxyPJhV3CUuQ3fELiDkZc9yAZsRsuJiqcha92gTQA7rXRHOD4HYw7dwig4tT5fUG00bgfUk2gQ');
+const API_KEY = process.env.API_KEY
+const stripe= require("stripe")(API_KEY);
 
 
   

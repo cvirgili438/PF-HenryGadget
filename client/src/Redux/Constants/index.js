@@ -50,4 +50,5 @@ export const SET_LOADING = 'SET_LOADING'
 
 //checkout
 
-export const SET_ADRESS= 'SET_ADRESS'
+export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
+export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'

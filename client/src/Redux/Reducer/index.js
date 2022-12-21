@@ -13,7 +13,8 @@ import {
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
-  SET_ADRESS
+  SET_LOCAL_ADRESS,
+  SET_USER_ADDRESS
 } from '../Constants/index.js';
 
 
@@ -100,10 +101,15 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         loading:!state.loading
       }
-    case SET_ADRESS:
+    case SET_LOCAL_ADRESS:
       return {
         ...state,
         adress: action.payload
+      }
+    case SET_USER_ADDRESS:
+      return {
+        ...state,
+        adress:action.payload
       }
     default:
       return { ...state };

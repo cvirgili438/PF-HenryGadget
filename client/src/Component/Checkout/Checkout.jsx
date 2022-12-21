@@ -1,30 +1,27 @@
 import React, { useState, useEffect,useRef } from "react";
-import { useSelector } from "react-redux";
-
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import { Box, Button, Skeleton} from "@mui/material";
-
-
+import {  Button } from "@mui/material";
 import styles from './Checkout.module.css'
-import CheckoutForm from "./CheckoutForm.jsx";
 import Steppers from './Stepper.jsx'
-
-import { getAllCart } from "../../Utils/cart/cartCrud";
-import suma from "./controllers/controller.js";
 import Purchase from "./Steps/Purchase.jsx";
 import Adress from "./Steps/Adress.jsx";
 import Payment from "./Steps/Payment.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddress } from "../../Redux/Actions/checkout";
 
 
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const stripePromise = loadStripe("pk_test_51MG4j9KeVpay6lghl5aFDksbQDvpIDC8wZESVybDbtRc87wWpUynzmcp4UI5AgNRRzaU7o3VybGtWLQKMd0NBeXC005CZYGKTb");
+const API_KEY = process.env.API_KEY
+const stripePromise = loadStripe(API_KEY);
 
 export default function Checkout() {
   const [active,setActive]=useState(0)
+  const user = useSelector(state => state.user)
+  const address = useSelector(state=>state.adress)
+  const dispatch = useDispatch()
   function verification (num){
     switch(num){
       case 0:
@@ -34,6 +31,15 @@ export default function Checkout() {
       case 2 :
         return (<Payment />)
     }
+  }
+  function handleButton (e){
+    e.preventDefault();
+    if(active === 1 ){
+      dispatch(setAddress({idUser:user.uid,address:address}))
+      return setActive(active+1)
+    }
+    return setActive(active+1)
+    
   }
 
   return (
@@ -50,7 +56,7 @@ export default function Checkout() {
         Back
       </Button>
       <Button id="stepper-button"
-      onClick={e =>setActive(active +1)}
+      onClick={e =>handleButton(e)}
       variant="contained" sx={{
         backgroundColor: 'black',
         color:'white'
