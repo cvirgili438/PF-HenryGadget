@@ -12,12 +12,7 @@ module.exports = (sequelize) => {
     total: {
       type: DataTypes.FLOAT,
       allowNull: false,
-    },
-    paid: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },     
+    }    
   },
   {
     timestamps: true,

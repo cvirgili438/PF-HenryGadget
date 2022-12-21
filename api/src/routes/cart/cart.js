@@ -96,7 +96,8 @@ router.delete('/', async(req,res) => {                                          
             return;
         }
         
-        const deleteCart = Cart.destroy({where: {userUid: idUser}});             // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
+
+        const deleteCart = await Cart.destroy({where: {userUid: idUser}});      // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
         res.status(200).json({msg: 'Cart deleted succesfuly', cart: deleteCart});
         return;
     } catch (error) {
