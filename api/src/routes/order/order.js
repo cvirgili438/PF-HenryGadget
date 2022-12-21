@@ -95,7 +95,7 @@ router.delete('/', async(req,res) => {                                          
         res.status(200).json({msg: 'Order deleted succesfuly', order: deleteOrder});
         return;
     } catch (error) {
-        res.status(400).json({msg: 'Error happened in database', err: error})
+        res.status(400).json({err: 'Error happened in database', err: error})
     }
 })
 
