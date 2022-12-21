@@ -68,7 +68,7 @@ router.put('/', async(req,res) => {                                             
     try {
         const orderExist = await Order.findByPk(idOrder);
 
-        if(!orderExist) return res.status(404).json({msg: `The order with id: ${idOrder} doesn't exist`});
+        if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
         await Order.update({status}, {where: {id: idOrder}});
 
         const result = await Order.findByPk(idOrder)
