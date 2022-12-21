@@ -18,7 +18,8 @@ export const inicialtate = {
   loading: false,
   localCart:[],
   userCart:[],
-  user:userStorageData
+  user:userStorageData,
+  adress:{}
 
 };
 
@@ -46,3 +47,7 @@ export const REFRESH_CARTS = 'REFRESH_CARTS'
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const SET_LOADING = 'SET_LOADING'
+
+//checkout
+
+export const SET_ADRESS= 'SET_ADRESS'

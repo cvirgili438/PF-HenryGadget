@@ -51,7 +51,7 @@ useEffect(async () => {
   }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: 'night',
   };
   const options = {
     clientSecret,

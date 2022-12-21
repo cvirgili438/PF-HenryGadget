@@ -9,6 +9,7 @@ export default function Adress() {
     setInput({
       [event.target.id]:event.target.value
     })
+    
 
   }
 
@@ -40,6 +41,7 @@ export default function Adress() {
           id="city"
           label="City"          
           variant="standard"
+          onChange={e => handleInput(e)}
                    
         />
         <TextField
@@ -48,6 +50,7 @@ export default function Adress() {
           id="postalCode"
           label="Postal Code"          
           variant="standard"
+          onChange={e => handleInput(e)}
                    
         />
         <TextField
@@ -56,6 +59,7 @@ export default function Adress() {
           id="adress"
           label="Adress"          
           variant='standard'
+          onChange={e => handleInput(e)}
                    
         />
         </Box>
