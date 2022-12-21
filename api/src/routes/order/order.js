@@ -63,7 +63,7 @@ router.put('/', async(req,res) => {                                             
     const {idOrder, status} = req.body;                                                                   //
 
     if(!idOrder) return res.status(400).json({msg: "Order id is missing"});
-    if(!status) return res.status(400).json({msg: 'Status is missing'});
+    if(!status) return res.status(400).json({err: 'Status is missing'});
 
     try {
         const orderExist = await Order.findByPk(idOrder);
