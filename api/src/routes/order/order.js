@@ -87,7 +87,7 @@ router.delete('/', async(req,res) => {                                          
         const orderExist = await Order.findByPk(idOrder);                           // Buscamos la orden por id para verificar que si exista
 
         if(!orderExist){                                                            // En caso de que no exista lo notificamos
-            res.status(404).json({msg: `The order with id: ${idOrder} doesn't exist`});
+            res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
             return;
         }
         
