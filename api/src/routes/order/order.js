@@ -55,7 +55,7 @@ router.post('/', async (req,res) => {                                           
         const result = await Order.findByPk(newOrder.id, {include: Product});                                       // Enviamos msg de confirmacion apropiado
         res.status(200).json({msg: 'Order created succesfuly', order: result});
     } catch (error) {
-        res.status(400).json({msg: 'An error happened in database', err: error});
+        res.status(400).json({err: 'An error happened in database', err: error});
     }
 })
 
