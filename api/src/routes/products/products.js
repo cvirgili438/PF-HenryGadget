@@ -138,10 +138,11 @@ router.get('/ram', async (req, res) => {
 
 router.get('/stock', async (req, res) => {
     try {
-        const { group } = req.body;
+        const { group } = req.query;
+        const groupb = JSON.parse(group)
         const products = await Product.findAll({
             where: {
-            id: {[Sequelize.Op.in]: group} 
+            id: {[Sequelize.Op.in]: groupb} 
             },
             include: [
                 { model: Brand }, // include[0]

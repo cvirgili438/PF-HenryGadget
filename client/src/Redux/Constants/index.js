@@ -18,8 +18,9 @@ export const inicialtate = {
   loading: false,
   localCart:[],
   userCart:[],
+  cartProducts: [],
   user:userStorageData,
-  adress:{}
+  adress:{},
 
 };
 
@@ -43,6 +44,7 @@ export const SET_USER_CART =  'SET_USER_CART'
 export const DELETE_USER_CART = 'DELETE_USER_CART'
 export const CLEAR_CARTS = 'CLEAR_CARTS'
 export const REFRESH_CARTS = 'REFRESH_CARTS'
+export const CART_PRODUCTS = 'CART_PRODUCTS'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';

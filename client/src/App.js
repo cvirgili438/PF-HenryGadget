@@ -29,6 +29,8 @@ const App = () => {
           <Route exact path='/' component={LandingPage} />
           <Route path="/product/:id" component={Detail} />
           <Route  path={'/Checkout'}  component={Checkout}  />
+          <Route path="/cartpage" component={CartPage} />
+
           <Route path='/admin'>
             <DashboardAdmin />
             <Route path='/admin/products' component={ProductCRUD} />
