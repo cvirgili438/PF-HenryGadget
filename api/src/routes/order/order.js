@@ -19,7 +19,7 @@ router.get('/', async(req,res) => {                                             
         const orders = await Order.findAll({where: {userUid: idUser},include: Product});        // Buscamos toda orden que tenga como userUid el id del usuario pasado por body, incluimos productos tambien
 
         orders.length === 0                                                                     // Validamos que el query anterior haya encontrado alguna orden, si si devolvemos las ordenes encontradas, sino devolvemmos mensaje de error apropiado
-        ? res.status(404).json({msg: `User with id: ${idUser} doesn't have any orders`})
+        ? res.status(404).json({err: `User with id: ${idUser} doesn't have any orders`})
         : res.status(200).json({msg: `Order from user with id: ${idUser}`, orders});
     } catch (error) {
         res.status(400).json({msg: 'An error ocurred in database', err: error})
