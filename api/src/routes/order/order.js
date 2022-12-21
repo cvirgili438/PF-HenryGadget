@@ -22,7 +22,7 @@ router.get('/', async(req,res) => {                                             
         ? res.status(404).json({err: `User with id: ${idUser} doesn't have any orders`})
         : res.status(200).json({msg: `Order from user with id: ${idUser}`, orders});
     } catch (error) {
-        res.status(400).json({msg: 'An error ocurred in database', err: error})
+        res.status(400).json({err: 'An error ocurred in database', err: error})
     }
 })
 
