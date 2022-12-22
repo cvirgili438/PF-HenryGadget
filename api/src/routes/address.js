@@ -29,17 +29,18 @@ router.get('/', async(req,res) => {                                             
 
 router.post('/', async(req,res) => {                                                                                                // localhost:3001/address (post)
     const {idUser, address} = req.body;                                                                                             // Requerimos usuario y la direccion como objeto por body
-    const addressValidate = address || false;                                                                                       // Pequeño short circuit para evitar que si no pasan el address rompa el servidor
-
     if(!idUser) return res.status(404).json({err: "User id is missing."});                                                           // Validaciones en caso de que falte algun dato y devuelve un msg apropiado
-    if(!addressValidate.street || !addressValidate.city || !addressValidate. region || !addressValidate.postalCode){
-        return res.status(404).json({err: "Important information is missing from address as street, city, region or postal code."});
-    };
 
     let uidFire = req.user.uid;
     if (idUser !== uidFire) { // Se verifica que coincidan los uid.
         return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
     }
+    
+    const addressValidate = address || false;                                                                                       // Pequeño short circuit para evitar que si no pasan el address rompa el servidor
+
+    if(!addressValidate.name || !addressValidate.street || !addressValidate.city || !addressValidate.region || !addressValidate.postalCode){
+        return res.status(404).json({err: "Important information is missing from address as name, street, city, region or postal code."});
+    };
 
     try {
         const user = await User.findByPk(idUser);                                                                                   // Encontramos el usuario por id al cual le queremos agregar la direccion
