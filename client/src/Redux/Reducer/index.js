@@ -14,7 +14,16 @@ import {
   SET_USER_LOGIN,
   SET_LOADING,
   SET_LOCAL_ADRESS,
-  SET_USER_ADDRESS
+  SET_USER_ADDRESS,
+  GET_USERS,
+  GET_REVIEWS,
+  CHANGE_REVIEW_VISIBLE,
+  CHANGE_REVIEW_ARCHIVE,
+  SET_LOCAL_CART,
+  SET_USER_CART,
+  GET_USER_CART,
+  CLEAR_CARTS,
+  REFRESH_CARTS,
 } from '../Constants/index.js';
 
 
@@ -111,6 +120,57 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         adress:action.payload
       }
+      case SET_LOCAL_CART:
+        return{
+          ...state,
+          localCart:action.payload
+        }
+      case GET_USER_CART:
+        return {
+          ...state,
+          userCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}}),
+          localCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}})
+        }
+      case SET_USER_CART:
+        return {
+          ...state,
+          userCart : action.payload,
+          localCart: action.payload      
+        }
+        case CLEAR_CARTS:
+          return {
+            ...state,
+            localCart: [],
+            userCart: []
+          };
+        case REFRESH_CARTS:
+          return {
+            ...state,
+            localCart: state.localCart.map(c => c),
+            userCart: state.userCart.map(c => c)
+          }
+          case GET_USERS:
+            return {
+              ...state,
+              users: action.payload
+            }
+          case GET_REVIEWS:
+            return {
+              ...state,
+              reviews: action.payload
+            }
+          case CHANGE_REVIEW_VISIBLE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
+          case CHANGE_REVIEW_ARCHIVE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
     default:
       return { ...state };
   }

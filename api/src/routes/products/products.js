@@ -91,7 +91,7 @@ router.get('/', async (req, res) => {
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
         if (products.length === 0 ){
-                return res.status(404).json({msg: 'Products not found',result:products, total})
+                return res.status(404).json({msg: 'Products not found',result: products, total: 0})
             }
         res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 

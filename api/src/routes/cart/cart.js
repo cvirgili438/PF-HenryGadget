@@ -56,7 +56,12 @@ router.post('/', async(req,res) => {                                            
             }
 
             if(productExist){                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
-                const result = await Product_cart.update({quantity: productExist.quantity + quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
+                const {stock} = await Product.findOne({where: {id: productExist.productId}}); // Se busca el stock del producto.
+                let add; // Cantidad a modificar
+                productExist.quantity + quantity > stock ? // Se checkea que no suepere el stock. 
+                add = stock :
+                add = productExist.quantity + quantity;
+                const result = await Product_cart.update({quantity: add}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca.
                 res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
                 return;
             }
@@ -96,7 +101,8 @@ router.delete('/', async(req,res) => {                                          
             return;
         }
         
-        const deleteCart = Cart.destroy({where: {userUid: idUser}});             // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
+
+        const deleteCart = await Cart.destroy({where: {userUid: idUser}});      // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
         res.status(200).json({msg: 'Cart deleted succesfuly', cart: deleteCart});
         return;
     } catch (error) {

@@ -1,3 +1,4 @@
+
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
@@ -10,13 +11,17 @@ module.exports = (sequelize) => {
       primaryKey:true,     
     },
     status: {
-      type: DataTypes.ENUM('in cart','paid', 'preparing', 'on route', 'shipped', 'canceled','done'),
+      type: DataTypes.ENUM('processing', 'packed', 'delayed', 'shipped', 'canceled','done'),
       allowNull: false,
     },
     trackingNumber: {
       type: DataTypes.STRING,
       allowNull: true,
-    },     
+    },
+    total: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    }
   },
   {
     timestamps: true,
@@ -25,4 +30,3 @@ module.exports = (sequelize) => {
     paranoid: true,
   });
 };
-

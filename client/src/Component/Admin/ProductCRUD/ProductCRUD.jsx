@@ -39,7 +39,7 @@ const ProductCRUD = () => {
   //   history.push(`?${string}`);
   // }
 
-  const handleInputProducts = e => {
+  const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
         setSelected([...selected, e.target.name]);
@@ -67,7 +67,7 @@ const ProductCRUD = () => {
 
   return (
     <div className={ styles.container }>
-      <div className={ styles.statistics }>
+      {/* <div className={ styles.statistics }>
         <div className={ styles.statisticsCard}>
           <div className={ styles.statisticsCardTitle }>Total products</div>
           <div className={ styles.statisticsCardContent }>{ products.length }</div>
@@ -84,7 +84,7 @@ const ProductCRUD = () => {
           <div className={ styles.statisticsCardTitle }>Suspended</div>
           <div className={ styles.statisticsCardContent }>0</div>
         </div>
-      </div>
+      </div> */}
       <div className={ styles.managebar }>
         <div>
           With {selected.length} selected: { selected.length <= 3 ?
@@ -133,7 +133,7 @@ const ProductCRUD = () => {
               .filter(p => p.name.toLowerCase().includes(input.toLowerCase()))
               .map(p => (
                 <tr key={ p.id }>
-                  <td><Checkbox name={ p.id } onChange={ handleInputProducts } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                   <td><img src={ p.img[0] } alt={ p.name } className={ styles.productImage } /></td>
                   <td>{ p.name }</td>
                   <td><span className={ `${ styles.available } ${ p.stock === 0 ? styles.textNO : p.stock < 10 ? styles.textLOW : styles.textYES} ` }>
