@@ -44,7 +44,7 @@ const CartPage = () => {
 
   useEffect(async () => {
     setLocalCart(await getAllCart(user && user.uid));
-  }, [])
+  }, [user])
 
   return (
     <Box className={styles.mainContainer}>
