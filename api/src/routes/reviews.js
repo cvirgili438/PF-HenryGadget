@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./middleware/authWithoutAdm')
+const { Sequelize } = require("sequelize");
 
 const { Product, Review, User } = require('../db.js');
 
@@ -9,7 +10,7 @@ router.get('/', async (req,res)=> {                                             
 
     try {
         if(!Object.keys(req.body).length) {                                             // En caso de que no nos pasen ningun parametro devolver todas las reviews
-            const result = await Review.findAll();  
+            const result = await Review.findAll({where: {archived: false}}, {order: [['comment', 'ASC']]});  
             
             result.length === 0                                                         // Si no hay reviews disponibles devolvera un array vacio, se valida y muestra msg apropiado, misma logica aplica para todos los casos
             ? res.status(404).json({err: "There are no reviews available."})
@@ -36,7 +37,7 @@ router.get('/', async (req,res)=> {                                             
 })
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+// router.use(authWithoutAdm);
 
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
@@ -86,6 +87,46 @@ router.delete('/:idReview', async (req,res) => {                                
     }
 })
 
+router.put('/visible/:idReview', async (req,res) => {
+    const {idReview} = req.params;
+    
+    try { 
+        const review = await Review.findByPk(idReview);
+        if(!review){
+            res.status(404).json({err: `Review with id: ${idReview} doesn't exist.`});
+            return;
+        }
+        let newReview = false;
+        if (review.visible === false) newReview = true; 
+        const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});
+        const reviews = await Review.findAll({where: {archived: false}}, {order: [['comment', 'ASC']]});
+        res.status(200).json({msg: `Review with id: ${idReview} has changed visibility to ${newReview}`, result: reviews})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.put('/archive/', async (req,res) => {
+    const {ids} = req.body;     
+
+    try { 
+        const review = await Review.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
+        review.forEach(element => {
+            if(!ids.includes(element.dataValues.id)){
+                res.status(404).json({err: `Review with id: ${element.dataValues.id} doesn't exist. Cancelling operation.`});
+                return;
+            }
+        });
+        let newReview = true;
+        if (review[0].archived === true) newReview = false; 
+        const reviewUpdated = await Review.update({archived: newReview}, {where: {id: {[Sequelize.Op.in]: ids}}});
+        const reviews = await Review.findAll({where: {archived: false}}, {order: [['comment', 'ASC']]});
+        res.status(200).json({msg: `${review.length} review/s changed archived property to ${newReview}`, result: reviews})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
 router.put('/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
     const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
     const {reviewData, idUser} = req.body;
@@ -111,6 +152,5 @@ router.put('/:idReview', async (req,res) => {                                   
         res.status(400).json({err: error})
     }
 })
-
 
 module.exports = router;

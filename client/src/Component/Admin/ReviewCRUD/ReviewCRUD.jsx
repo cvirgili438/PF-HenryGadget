@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Switch from '@mui/material/Switch';
 import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getProductsByQuery, deleteProduct } from '../../../Redux/Actions/products.js';
-
+import { getReviews } from '../../../Redux/Actions/users.js';
+import { changeReviewVisible, changeReviewArchive } from '../../../Redux/Actions/users.js'; // en linea aparte por si separamos las actions de las reviews en otro archivo
 
 import styles from './ReviewCRUD.module.css';
 
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
-const UserCRUD = () => {
+const ReviewCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
+  const [score, setScore] = useState(null);
 
-  const products = useSelector(state => state.filteredProducts);
+  const reviews = useSelector(state => state.reviews);
   
   const dispatch = useDispatch();
 
@@ -29,21 +26,27 @@ const UserCRUD = () => {
     setInput(e.target.value);
   };
 
-  const handleSubmitDelete = async e => {
-    await dispatch(deleteProduct(e.target.value));
-    await dispatch(getProductsByQuery(`?limit=20&offset=0`))
+  const handleChangeVisible = e => {
+    dispatch(changeReviewVisible(e.target.id));
   };
 
-  // const handleInputChange = (e) => {
-  //   dispatch(setPageView(e.target.value));
-  //   queryNew.limit = productsPerPage;
-  //   queryNew.offset = e.target.value * productsPerPage - productsPerPage;
-  //   let string = objectToQuery(queryNew);
-  //   dispatch(getProductsByQuery(`?${string}`));
-  //   history.push(`?${string}`);
-  // }
+  const handleChangeArchive = e => {
+    dispatch(changeReviewArchive([e.target.value]));
+  };
 
-  const handleInputProducts = e => {
+  const handleSubmiteMultipleArchive = e => {
+    dispatch(changeReviewArchive(selected));
+  };
+
+  const handleSubmitFilterScore = e => {
+    setScore(e.target.value);
+  };
+
+  const handleSubmitAllReviews = e => {
+    setScore(null);
+  };
+
+  const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
         setSelected([...selected, e.target.name]);
@@ -51,80 +54,59 @@ const UserCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
-
   };
 
   useEffect(() => {
-    dispatch(getProductsByQuery(`?limit=20&offset=0`))
+    dispatch(getReviews())
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(setPageView((offset / productsPerPage) + 1))
-  //   if(totalProducts < productsPerPage) {
-  //     dispatch(setPageView(1))
-  //   }
-  //   if (page > pages) {
-  //     dispatch(setPageView(pages))
-  //   }
-  //   setShownPages(stripedPagination(pages, page, maxPages))
-  // }, [products, page, totalProducts, pages, limit, offset, dispatch]);
 
   return (
     <div className={ styles.container }>
       
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: { selected.length <= 3 ?
-            <>
-              <Button text='To landing' disabled={true} />
-              {/* <Button text='Suspend' /> */}
-              <Button text='Delete' disabled={true} />
-            </>
-            :
-            null }
+          With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
-          Filter by name: <Input type='text' name='country' value={input} onChange={handleInputChange} />
+          Filter by product: <Input type='text' name='review' value={input} onChange={handleInputChange} />
         </div>
-        <Link to='/Create/Product' >
-          <Button text='Create Product'  />
-        </Link> 
-        <Button text='Back to admin' />
+        <div>
+          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
+          <Button text='All' onClick={handleSubmitAllReviews} />
+        </div>
       </div>
       <div className={ styles.tableContainer }>
 
         <table className={ styles.table }>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>n</th>
               <th>Select</th>
               <th>From</th>
               <th>Location</th>
               <th>Product</th>
               <th>Review</th>
               <th>Rating</th>
-              <th>Suspend</th>
-              
+              <th>Visible</th>
+              <th>Archive</th>
             </tr>
           </thead>
           <tbody>
             {
-              // products
-              // .filter(p => p.name.toLowerCase().includes(input.toLowerCase()))
-              [1,2,3,4,5].map(p => (
-                <tr key={ p }>
-                  <td>{ p }</td>
-                  <td><Checkbox name={ p } onChange={ handleInputProducts } defaultChecked={selected.includes(p) ? true : false}/></td>
+              reviews
+              .filter(p => p.comment.toLowerCase().includes(input.toLowerCase()))
+              .filter(p => score === null ? p : +p.score === +score)
+              .map((p, i) => (
+                <tr key={ p.id }>
+                  <td>{ i + 1 }</td>
+                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                   <td>{ ['Alex', 'Marty', 'Melman', 'Gloria'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ ['Argentina', 'Colombia', 'Chile', 'Ecuador'][Math.floor(Math.random() * 4)] }</td>
                   <td>{ ['iPhone 12', 'Airpods', 'Tablet motomoto', 'Cargador'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['Espectacular', 'Una porqueria', 'Lo quiero', 'No compren en HenryGadget son estafadores'][Math.floor(Math.random() * 4)] }</td>
-                  <td>
-                    {/* <Stack spacing={1}> */}
-                      <Rating name="rating" defaultValue={ p } precision={1} readOnly='true' />
-                      {/* </Stack> */}
-                      </td>
-                  <td><Switch {...label} defaultChecked /></td>
+                  <td>{ p.comment }</td>
+                  <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
+                  <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
+                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
                 </tr>
               ))
             }
@@ -135,4 +117,4 @@ const UserCRUD = () => {
   );
 };
 
-export default UserCRUD;
+export default ReviewCRUD;
