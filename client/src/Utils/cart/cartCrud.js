@@ -1,5 +1,5 @@
 import { addItem } from './controllers/addItem.js';
-import { sendDB, getAllCartDB, getProductDB, deleteCart } from './controllers/conectDB.js';
+import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart } from './controllers/conectDB.js';
 
 export function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado
@@ -15,7 +15,7 @@ export function addProductCart(idProduct, idUser, quantity) {
 
 export function updateProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
-        sendDB(idProduct, idUser, quantity)
+        setDB(idProduct, idUser, quantity)
             .catch(data => console.log('Error enviar producto: ', data));
     }
     else { // No logueado
@@ -27,7 +27,7 @@ export function updateProductCart(idProduct, idUser, quantity){
 
 export function deleteProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
-        sendDB(idProduct, idUser, quantity)
+        setDB(idProduct, idUser, quantity)
             .catch(data => console.log('Error enviar producto: ', data));
     } 
     else { // No logueado
@@ -47,6 +47,7 @@ export async function getAllCart(idUser) {
                     name: el.name,
                     price: el.price,
                     img: el.img[0],
+                    discount: el.discount,
                     quantity: el.product_cart.quantity
                 }
             });
