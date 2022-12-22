@@ -57,19 +57,20 @@ router.post('/', async(req,res) => {                                            
                  return res.status(200).json({msg: 'Product was deleted succesfuly'})
             }
 
-            if(productExist){                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
-                let result = null;
+            if (productExist) {                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
+                const { stock } = await Product.findOne({ where: { id: productExist.productId } }); // Se busca el stock del producto.
+                let add; // Cantidad a modificar
                 if (set) {
-                    result = await Product_cart.update({quantity: quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
-                }else{
-                    const { stock } = await Product.findOne({ where: { id: productExist.productId } }); // Se busca el stock del producto.
-                    let add; // Cantidad a modificar
+                    quantity > stock ? // Se checkea que no suepere el stock. 
+                        add = stock :
+                        add = quantity;
+                } else {
                     productExist.quantity + quantity > stock ? // Se checkea que no suepere el stock. 
                         add = stock :
                         add = productExist.quantity + quantity;
-                    result = await Product_cart.update({ quantity: add }, { where: { id: productExist.id } });               
                 }
-                res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
+                const result = await Product_cart.update({ quantity: add }, { where: { id: productExist.id } });
+                res.status(200).json({ msg: 'Product updated succesfully', cart: result });                           // Mensaje de confirmacion
                 return;
             }
 
