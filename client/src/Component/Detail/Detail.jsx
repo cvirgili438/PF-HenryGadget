@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Alert, Box, Container, Divider, Paper, Stack } from "@mui/material";
+import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
 import { product_area, item_photo, img_mini } from "./UtilDetail";
@@ -14,6 +14,7 @@ const Detail = () => {
     const user = useSelector(state => state.user)
     const [input, setInput] = useState({ value: 1 })
     const [lowStock, setLowStock] = useState(false);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,6 +26,15 @@ const Detail = () => {
     }, [input]);
 
     let productDetail = useSelector(state => state.productDetail);
+    // let reviews = productDetail.reviews
+
+    function averageProductRating(reviews) {
+        let acu = 0;
+        for (const review of reviews) {
+            acu += parseInt(review.score)
+        }
+        return acu / reviews.length
+    }
 
     function handleCart() {
         addProductCart(productDetail.id, user && user.uid, input.value);
@@ -125,27 +135,55 @@ const Detail = () => {
             </Box>
 
             <div>
-                <Separator title='Descripción' />
+                <Separator title='Características' />
 
-                <div className={`row`}>
-                    <div className={`col p-3`}>
+                <Grid container spacing={1}>
+                    <Grid item xs={4}>
                         <strong>Almacenamiento</strong>
                         <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
-                    </div>
-                    <div className={`col p-3`}>
+                    </Grid>
+                    <Grid item xs={4}>
                         <strong>Camara</strong>
                         <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera}</div>
-                    </div>
-                    <div className={`col p-3`}>
+                    </Grid>
+                    <Grid item xs={4}>
                         <strong>Procesador</strong>
                         <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor}</div>
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
 
-                <Separator title='Comentarios' />
+                <Separator title='Descripción' />
                 <div className={`container`}>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
                 </div>
+
+                <Separator title={'Opiniones del producto'} />
+                <Grid container >
+                    <Grid container xs={3}>
+                        <Grid item xs={2}>
+                            <Typography
+                                component="h1">{averageProductRating(productDetail.reviews).toFixed(1)}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Rating
+                                sx={{mt: 1}}
+                                name="read-only"
+                                value={averageProductRating(productDetail.reviews)}
+                                precision={0.5}
+                                readOnly
+                            />
+                        </Grid>
+
+                    </Grid>
+                    <Grid item xs={6}>
+                        {productDetail.reviews.map(e => {
+                            return(
+                            <p key={e.id}>{e.comment}</p>)}    
+                        )}
+                        
+                    </Grid>
+                </Grid>
             </div>
         </Container >
     )
