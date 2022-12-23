@@ -3,7 +3,16 @@ import { URL } from '../../../Redux/Constants/index.js';
 
 export async function sendDB(idProduct, idUser, quantity) {
     try {
-        return await axios.post(`${URL}/carts`, { idProduct, idUser, quantity });
+        return await axios.post(`${URL}/carts/`, { idProduct, idUser, quantity });
+    }
+    catch (error) {
+        return error;
+    }
+};
+
+export async function setDB(idProduct, idUser, quantity) {
+    try {
+        return await axios.post(`${URL}/carts/`, { idProduct, idUser, quantity, set: true });
     }
     catch (error) {
         return error;

@@ -23,9 +23,9 @@ const CartPageUnit = (props) => {
 
     useEffect(async () => {
         if (remove) {
-            deleteProductCart(props.item.idProduct, props.user, 0)
+            deleteProductCart(props.item.idProduct, props.user && props.user.uid, 0)
         }else{
-            updateProductCart(props.item.idProduct, props.user, quantityl)
+            updateProductCart(props.item.idProduct, props.user && props.user.uid, quantityl)
         }
         
         props.setLocalCart(await getAllCart(user && user.uid));

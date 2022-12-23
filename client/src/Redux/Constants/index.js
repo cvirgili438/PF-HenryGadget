@@ -21,7 +21,8 @@ export const inicialtate = {
   users:[],
   reviews:[],
   cartProducts: [],
-  user:userStorageData
+  user:userStorageData,
+  adress:{},
 
 };
 
@@ -54,3 +55,8 @@ export const CART_PRODUCTS = 'CART_PRODUCTS'
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const SET_LOADING = 'SET_LOADING'
+
+//checkout
+
+export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
+export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'

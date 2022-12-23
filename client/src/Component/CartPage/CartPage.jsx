@@ -40,11 +40,12 @@ const CartPage = () => {
   }
 
   console.log(localCart)
+  console.log(totalPrice(localCart), totalDiscount (localCart))
   
 
   useEffect(async () => {
     setLocalCart(await getAllCart(user && user.uid));
-  }, [])
+  }, [user])
 
   return (
     <Box className={styles.mainContainer}>

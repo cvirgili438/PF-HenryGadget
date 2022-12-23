@@ -13,6 +13,8 @@ import {
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
+  SET_LOCAL_ADRESS,
+  SET_USER_ADDRESS,
   GET_USERS,
   GET_REVIEWS,
   CHANGE_REVIEW_VISIBLE,
@@ -107,6 +109,16 @@ export default function rootReducer(state = inicialtate, action) {
       return{
         ...state,
         loading:!state.loading
+      }
+    case SET_LOCAL_ADRESS:
+      return {
+        ...state,
+        adress: action.payload
+      }
+    case SET_USER_ADDRESS:
+      return {
+        ...state,
+        adress:action.payload
       }
       case SET_LOCAL_CART:
         return{

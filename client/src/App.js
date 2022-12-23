@@ -16,6 +16,8 @@ import OrderCRUD from './Component/Admin/OrderCRUD/OrderCRUD.jsx';
 import MailingCRUD from './Component/Admin/MailingCRUD/MailingCRUD.jsx';
 import ReviewCRUD from './Component/Admin/ReviewCRUD/ReviewCRUD.jsx';
 import UserCRUD from './Component/Admin/UserCRUD/UserCRUD.jsx';
+import Checkout from './Component/Checkout/Checkout';
+import Steppers from './Component/Checkout/Stepper';
 
 const App = () => {
   return (
@@ -23,9 +25,12 @@ const App = () => {
       <div className="App">
         <NavBar />
         <Switch>
+          <Route path={'/step'}  component={Steppers}  /> 
           <Route exact path='/' component={LandingPage} />
           <Route path="/product/:id" component={Detail} />
+          <Route  path={'/Checkout'}  component={Checkout}  />
           <Route path="/cartpage" component={CartPage} />
+
           <Route path='/admin'>
             <DashboardAdmin />
             <Route path='/admin/products' component={ProductCRUD} />
