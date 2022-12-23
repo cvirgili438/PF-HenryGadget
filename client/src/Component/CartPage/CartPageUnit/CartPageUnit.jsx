@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { Input } from '@mui/material';
+import { Input, Alert } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Grid from '@mui/material/Grid';
 
@@ -20,6 +20,8 @@ const CartPageUnit = (props) => {
 
     let [quantityl, setQuantity] = useState(props.item.quantity)
     let [remove, setRemove] = useState(false)
+    let [checkStock, setCheckStock] = useState(false)
+    console.log(props.item.stock)
 
     useEffect(async () => {
         if (remove) {
@@ -30,6 +32,10 @@ const CartPageUnit = (props) => {
         
         props.setLocalCart(await getAllCart(user && user.uid));
     }, [quantityl, remove])
+
+    useEffect(() => {
+        setCheckStock(quantityl > props.item.stock)
+    }, [quantityl])
 
     let handleCount = (e) => {
         if (e.target.id === 'minus') {
@@ -75,9 +81,12 @@ const CartPageUnit = (props) => {
         </Grid>
 
         <Box 
-        sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
+        // sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
         >
-            
+        
+        <Box
+            sx={{display: "flex", justifyContent: "space-around", width: "50vw", marginTop: "20px"}}
+        >
             <Box>
                 <Button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}>
                     <RemoveIcon id="minus" />
@@ -97,6 +106,16 @@ const CartPageUnit = (props) => {
                 <DeleteForeverIcon />
             </Button>
             </Box>
+
+        </Box>
+            <Box>
+                {checkStock && <Alert xs={{ width: 100 }} sx={{marginTop: "10px"}}
+                    variant="outlined" severity="error">
+                    There is not enough stock!
+                </Alert>}
+            </Box>
+            
+            
             
         </Box>
         </Box>
