@@ -136,10 +136,10 @@ const Cart = () => {
                           gridAutoRows:'auto'
                           
                         }}>
-                          <Typography variant='h6' >{e.quantity}u.  of {e.name}</Typography>
+                         <Typography variant='h6' > {e.name} {`($${e.price})`} ||  {e.quantity} units </Typography>
                           <Typography variant='subtitle1' sx={{
                             
-                          }} > Price ${e.price}</Typography>
+                          }} > Price ${e.price*e.quantity}</Typography>
                           </Box>
                         </Box>
                       </MenuItem>
