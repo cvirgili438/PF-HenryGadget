@@ -55,7 +55,7 @@ const Cart = () => {
           }
       
           setOpen(false);
-          history.push("/cartpage")
+          history.push("/checkout")
         };
       
         function handleListKeyDown(event) {
