@@ -9,6 +9,7 @@ const address = require('../routes/address.js');
 const carts = require('../routes/cart/cart');
 const checkout = require('../routes/checkout/checkout.js')
 const order = require('../routes/order/order')
+const newsletter = require('./newsletter.js');
 const router = Router();
 
 // Configurar los routers
@@ -21,7 +22,7 @@ router.use('/address', address);
 router.use('/carts', carts)
 router.use('/checkout',checkout)
 router.use('/orders', order);
-
+router.use('/newsletter', newsletter);
 
 router.get('/', (req, res) => {
     res.status(200).send("HenryGadget");
