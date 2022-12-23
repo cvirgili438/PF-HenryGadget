@@ -38,9 +38,6 @@ const CartPage = () => {
     })
     return discount
   }
-
-  console.log(localCart)
-  console.log(totalPrice(localCart), totalDiscount (localCart))
   
 
   useEffect(async () => {
