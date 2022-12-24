@@ -63,4 +63,13 @@ async function addContactToList(email, listID) {
     return sgClient.request(request);
 }
 
-module.exports = { addEmail, getContactByEmail, getListID, addContactToList };
+async function deleteContactFromList(listID, contact) {
+    const request = {
+        url: `/v3/marketing/lists/${listID}/contacts`,
+        method: 'DELETE',
+        qs: { "contact_ids": contact.id }
+    }
+    await sgClient.request(request);
+}
+
+module.exports = { addEmail, getContactByEmail, getListID, addContactToList, deleteContactFromList };
