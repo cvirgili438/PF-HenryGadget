@@ -8,7 +8,7 @@ const {
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
-    HTML_SUBSCRIBE,
+    htmlSubscribe,
     HTML_CONFIRM,
     HTML_UNSUBSCRIBE
 } = require('./constants/dataToSendMail.js');
@@ -35,7 +35,7 @@ router.post('/subscribe', async (req, res) => {
         to: email,
         from: EMAIL_FROM_NEWSLETTER,
         subject: SUBJECT_SUBSCRIBE,
-        html: `Hello subscripter, Thank you for subscribing to our newsletter. Please complete and confirm your subscription by <a href="${confirmationURL}"> clicking here</a>.`
+        html: htmlSubscribe(confirmationURL)
     }
 
     try {
