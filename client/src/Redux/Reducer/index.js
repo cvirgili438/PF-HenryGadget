@@ -24,6 +24,7 @@ import {
   GET_USER_CART,
   CLEAR_CARTS,
   REFRESH_CARTS,
+  SET_ORDER,
 } from '../Constants/index.js';
 
 
@@ -171,6 +172,12 @@ export default function rootReducer(state = inicialtate, action) {
               reviews: action.payload.result,
               lastMsg: action.payload.msg
             }
+          case SET_ORDER : 
+          return{
+            ...state,
+            lastMsg: action.payload.msg,
+            order: action.payload.result
+          }
     default:
       return { ...state };
   }
