@@ -29,4 +29,38 @@ async function getCustomFieldID(sgClient, customFieldName) {
     return response[1].custom_fields.find(x => x.name === customFieldName).id;
 };
 
-module.exports = { addEmail };
+async function getContactByEmail(email) {
+    const request = {
+        url: `/v3/marketing/contacts/search/emails`,
+        method: 'POST',
+        body: { "emails": [email] }
+    }
+    const response = await sgClient.request(request);
+
+    if (response[1].result[email]) return response[1].result[email].contact;
+    else return null;
+};
+
+async function getListID(listName) {
+    const request = {
+        url: `/v3/marketing/lists`,
+        method: 'GET',
+    }
+    const response = await sgClient.request(request);
+    return response[1].result.find(x => x.name === listName).id;
+}
+
+async function addContactToList(email, listID) {
+    const data = {
+        "list_ids": [listID],
+        "contacts": [{ "email": email }]
+    };
+    const request = {
+        url: `/v3/marketing/contacts`,
+        method: 'PUT',
+        body: data
+    }
+    return sgClient.request(request);
+}
+
+module.exports = { addEmail, getContactByEmail, getListID, addContactToList };
