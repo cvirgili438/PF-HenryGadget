@@ -3,14 +3,21 @@ const router = express.Router();
 
 const { sgMail, sgClient } = require('../config/sendgrid-config.js');
 
+const {
+    EMAIL_FROM_NEWSLETTER,
+    SUBJECT_SUBSCRIBE,
+    SUBJECT_CONFIRM,
+    SUBJECT_UNSUBSCRIBE,
+    HTML_SUBSCRIBE,
+    HTML_CONFIRM,
+    HTML_UNSUBSCRIBE
+} = require('./constants/dataToSendMail.js');
+
 const { addEmail,
     getContactByEmail,
     getListID,
     addContactToList,
     deleteContactFromList } = require('./controlers/controllersNewsletter.js');
-
-// router.use(express.urlencoded({extended: true}));
-// router.use(express.json());
 
 router.post('/subscribe', async (req, res) => {
     const { email } = req.body;
@@ -26,8 +33,8 @@ router.post('/subscribe', async (req, res) => {
     // Datos para el mail que enviará la API SendGrid.
     const msg = {
         to: email,
-        from: 'proyectofinalhenrygadget@gmail.com',
-        subject: `HenryGadget: Confirm your subscription to our newsletter`,
+        from: EMAIL_FROM_NEWSLETTER,
+        subject: SUBJECT_SUBSCRIBE,
         html: `Hello subscripter, Thank you for subscribing to our newsletter. Please complete and confirm your subscription by <a href="${confirmationURL}"> clicking here</a>.`
     }
 
@@ -66,9 +73,9 @@ router.post('/confirm', async (req, res) => {
 
         const msg = {
             to: email,
-            from: 'proyectofinalhenrygadget@gmail.com',
-            subject: `HenryGadget: Subscription succeed.`,
-            html: `Thank you for subscribing to our newsletter.`
+            from: EMAIL_FROM_NEWSLETTER,
+            subject: SUBJECT_CONFIRM,
+            html: HTML_CONFIRM
         }
         await sgMail.send(msg);
 
@@ -98,9 +105,9 @@ router.post('/unsubscribe', async (req, res) => {
 
             const msg = {
                 to: email,
-                from: 'proyectofinalhenrygadget@gmail.com',
-                subject: `HenryGadget: Unsubscribe succeed.`,
-                html: `I'm sorry you have to go. Thanks for being with us. You can subscribe anytime you want.`
+                from: EMAIL_FROM_NEWSLETTER,
+                subject: SUBJECT_UNSUBSCRIBE,
+                html: HTML_UNSUBSCRIBE
             }
             await sgMail.send(msg);
 
