@@ -38,9 +38,6 @@ const CartPage = () => {
     })
     return discount
   }
-
-  console.log(localCart)
-  console.log(totalPrice(localCart), totalDiscount (localCart))
   
 
   useEffect(async () => {
@@ -100,12 +97,6 @@ const CartPage = () => {
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='body1' align='left'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</Typography>
         </Box>
-        <Button variant="contained" size='large' fullWidth
-           sx={{borderRadius: "10px"}}
-           onClick={() => history.push("/checkout")}
-        >
-          Continuar
-        </Button> 
 
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='subtitle1' align='left'>Puede pagar con:</Typography>
