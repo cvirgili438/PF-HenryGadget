@@ -6,7 +6,8 @@ const { sgMail, sgClient } = require('../config/sendgrid-config.js');
 const { addEmail,
     getContactByEmail,
     getListID,
-    addContactToList } = require('./controlers/controllersNewsletter.js');
+    addContactToList,
+    deleteContactFromList } = require('./controlers/controllersNewsletter.js');
 
 // router.use(express.urlencoded({extended: true}));
 // router.use(express.json());
@@ -55,12 +56,12 @@ router.post('/confirm', async (req, res) => {
         if (contact === null)
             return res.status(400).json({ err: 'Contact not found.' });
 
-        if (contact.custom_fields.ConfirmNumber === req.query.confirmNumber) {
+        if (contact.custom_fields.confirmNumber === parseInt(confirmNumber)) {
             const listID = await getListID('NewsLetter-HenryGadget');
             await addContactToList(email, listID);
         }
         else {
-            res.status(400).json({ err: 'Confirmation number does not match' });
+            return res.status(400).json({ err: 'Confirmation number does not match' });
         }
 
         const msg = {
@@ -79,8 +80,39 @@ router.post('/confirm', async (req, res) => {
     }
 });
 
-router.post('/unsubscribe', (req, res) => {
-    res.json('unsubscribe');
+router.post('/unsubscribe', async (req, res) => {
+    const { email, confirmNumber } = req.body;
+    if (!email)
+        return res.status(400).json({ err: 'Email parameter missing.' });
+    if (!confirmNumber)
+        return res.status(400).json({ err: 'ConfirmNumber parameter missing.' });
+
+    try {
+        const contact = await getContactByEmail(email);
+        if (contact === null)
+            return res.status(400).json({ err: 'Contact not found.' });
+
+        if (contact.custom_fields.confirmNumber === parseInt(confirmNumber)) {
+            const listID = await getListID('NewsLetter-HenryGadget');
+            await deleteContactFromList(listID, contact);
+
+            const msg = {
+                to: email,
+                from: 'proyectofinalhenrygadget@gmail.com',
+                subject: `HenryGadget: Unsubscribe succeed.`,
+                html: `I'm sorry you have to go. Thanks for being with us. You can subscribe anytime you want.`
+            }
+            await sgMail.send(msg);
+
+            res.json({ msg: 'You have been successfully unsubscribed.' });
+        }
+        else
+            return res.status(400).json({ err: 'Confirmation number does not match or contact is not subscribed' });
+    }
+    catch (error) {
+        console.error(error)
+        res.json({ err: 'An error has occurred.' });
+    }
 });
 
 module.exports = router;
