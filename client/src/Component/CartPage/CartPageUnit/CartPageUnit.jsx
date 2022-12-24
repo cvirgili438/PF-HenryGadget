@@ -33,7 +33,7 @@ const CartPageUnit = (props) => {
         }
         
         props.setLocalCart(await getAllCart(user && user.uid));
-    }, [quantityl, remove])
+    }, [quantityl, remove, user])
 
    
 
