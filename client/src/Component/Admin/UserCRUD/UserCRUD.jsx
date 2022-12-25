@@ -58,7 +58,7 @@ const UserCRUD = () => {
           With {selected.length} selected: <Button text='Active/suspend' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleActive }/>
         </div>
         <div>
-          Filter by name: <Input type='text' name='user' value={input} onChange={handleInputChange} />
+          Filter by name or locations: <Input type='text' name='user' value={input} onChange={handleInputChange} />
         </div>
       </div>
       <div className={ styles.tableContainer }>
