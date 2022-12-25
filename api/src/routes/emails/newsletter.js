@@ -5,6 +5,7 @@ const { sgMail, sgClient } = require('../config/sendgrid-config.js');
 
 const {
     EMAIL_FROM_NEWSLETTER,
+    NAME_NEWSLETTER,
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
@@ -64,7 +65,7 @@ router.post('/confirm', async (req, res) => {
             return res.status(400).json({ err: 'Contact not found.' });
 
         if (contact.custom_fields.confirmNumber === parseInt(confirmNumber)) {
-            const listID = await getListID('NewsLetter-HenryGadget');
+            const listID = await getListID(NAME_NEWSLETTER);
             await addContactToList(email, listID);
         }
         else {
@@ -100,7 +101,7 @@ router.post('/unsubscribe', async (req, res) => {
             return res.status(400).json({ err: 'Contact not found.' });
 
         if (contact.custom_fields.confirmNumber === parseInt(confirmNumber)) {
-            const listID = await getListID('NewsLetter-HenryGadget');
+            const listID = await getListID(NAME_NEWSLETTER);
             await deleteContactFromList(listID, contact);
 
             const msg = {
