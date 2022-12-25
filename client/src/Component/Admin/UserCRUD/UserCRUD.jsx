@@ -3,16 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Switch from '@mui/material/Switch';
 
-
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getUsers } from '../../../Redux/Actions/users';
+import { getUsers, changeUserActive, changeUserAdmin } from '../../../Redux/Actions/users';
 
 import styles from './UserCRUD.module.css';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const UserCRUD = () => {
   const [input, setInput] = useState('');
@@ -26,11 +23,17 @@ const UserCRUD = () => {
     setInput(e.target.value);
   };
 
-  const handleSubmitDelete = async e => {
-    // await dispatch(deleteProduct(e.target.value));
-    // await dispatch(getProductsByQuery(`?limit=20&offset=0`))
+  const handleChangeActive = e => {
+    dispatch(changeUserActive([e.target.id]));
   };
 
+  const handleSubmiteMultipleActive = e => {
+    dispatch(changeUserActive(selected));
+  };
+
+  const handleChangeAdmin = e => {
+    dispatch(changeUserAdmin(e.target.id));
+  };
 
   const handleInputUsers = e => {
     if (e.target.checked) {
@@ -52,12 +55,7 @@ const UserCRUD = () => {
       
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: { selected.length <= 3 ?
-            <>
-              <Button text='Suspend' disabled={true} />
-            </>
-            :
-            null }
+          With {selected.length} selected: <Button text='Active/suspend' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleActive }/>
         </div>
         <div>
           Filter by name: <Input type='text' name='user' value={input} onChange={handleInputChange} />
@@ -68,15 +66,14 @@ const UserCRUD = () => {
         <table className={ styles.table }>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>N°</th>
               <th>Select</th>
               <th>Avatar</th>
               <th>Name</th>
               <th>Surname</th>
               <th>Location</th>
-              <th>Orders</th>
-              <th>Suspend</th>
-              
+              <th>Active</th>
+              <th>Admin</th>
             </tr>
           </thead>
           <tbody>
@@ -91,8 +88,8 @@ const UserCRUD = () => {
                   <td>{ p.uid }</td>
                   <td>{ p.uid }</td>
                   <td>Argentina</td>
-                  <td>{ Math.floor(Math.random() * 5) }</td>
-                  <td><Switch {...label} defaultChecked /></td>
+                  <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.uid } /></td>
+                  <td><Switch checked={ p.rol === 'admin' ? true : false } onChange={ handleChangeAdmin } id={ p.uid } /></td>
                 </tr>
               ))
             }
