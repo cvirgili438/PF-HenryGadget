@@ -123,4 +123,7 @@ router.post('/unsubscribe', async (req, res) => {
     }
 });
 
+const sendEmail = require('./sendMail.js');
+router.use('/sendmail', sendEmail);
+
 module.exports = router;
