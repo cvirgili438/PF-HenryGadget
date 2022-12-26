@@ -124,22 +124,47 @@ router.post('/unsubscribe', async (req, res) => {
 });
 
 router.post('/sendmail', async (req, res) => {
-    const { html, subject } = req.body;
-    if (!html)
-        return res.status(400).json({ err: 'Html parameter missing.' });
+    const { text, subject } = req.body;
+    if (!text)
+        return res.status(400).json({ err: 'Text parameter missing.' });
     if (!subject)
         return res.status(400).json({ err: 'Subject parameter missing.' });
 
     try {
-        const listId = await getListID(NAME_NEWSLETTER);
-        const listConstacs = await getContactsFromList(listId);
- 
+        // const listId = await getListID(NAME_NEWSLETTER);
+        // const listConstacs = await getContactsFromList(listId);
+        let personalizations = [
+            {
+                to: [
+                {
+                  email: "ferb@e.email"
+                }
+              ],
+              dynamic_template_data: {
+                textBody: text,
+                unsubscribeLink: "ttp://localhost:3001"
+              }
+            },
+                        {
+              to: [
+                {
+                  email: "ferb@autistici.org"
+                }
+              ],
+              dynamic_template_data: {
+                textBody: text,
+                unsubscribeLink: "http://localhost:3000"
+              }
+            }
+          ];
+
         const msg = {
-            personalizations: listConstacs,
-            from: EMAIL_FROM_NEWSLETTER,
-            subject: subject,
-            html: html
+            personalizations,
+            template_id: "d-6f40d484fddb4b98966a70d03ea3a122",
+            from: {email: EMAIL_FROM_NEWSLETTER},
+            subject: subject
         }
+
         await sgMail.send(msg);
 
         res.json({ msg: 'Email send.' });
