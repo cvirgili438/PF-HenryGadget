@@ -1,7 +1,7 @@
 const { sgMail, sgClient } = require('../../config/sendgrid-config.js');
 
 async function addEmail(email, confirmNumber) {
-    const customFieldID = await getCustomFieldID(sgClient, 'confirmNumber');
+    const customFieldID = await getCustomFieldID('confirmNumber');
     const data = {
         "contacts": [{
             "email": email,
@@ -21,7 +21,7 @@ async function addEmail(email, confirmNumber) {
 
 // Para obtener el Id del campo personalizado que hemos creado
 // para verificación de código.
-async function getCustomFieldID(sgClient, customFieldName) {
+async function getCustomFieldID(customFieldName) {
     const request = {
         url: `/v3/marketing/field_definitions`,
         method: 'GET',
