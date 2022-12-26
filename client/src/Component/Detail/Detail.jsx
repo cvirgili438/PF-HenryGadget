@@ -8,7 +8,8 @@ import { product_area, item_photo, img_mini } from "./UtilDetail";
 import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
-import { AverageRating } from "../../Utils/Rating/controller";
+import { AverageRating, IndexScore } from "../../Utils/Rating/controller";
+import StarIcon from '@mui/icons-material/Star';
 
 const Detail = () => {
     const { id } = useParams();
@@ -17,6 +18,9 @@ const Detail = () => {
     const [input, setInput] = useState({ value: 1 })
     const [lowStock, setLowStock] = useState(false);
     const reviews = productDetail.reviews;
+
+    // reviews && console.log(IndexScore(reviews));
+    // reviews && console.log(reviews);
 
     const dispatch = useDispatch();
 
@@ -28,7 +32,7 @@ const Detail = () => {
         setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
     }, [input]);
 
-   
+
     function handleCart() {
         addProductCart(productDetail.id, user && user.uid, input.value);
     }
@@ -151,27 +155,44 @@ const Detail = () => {
                 </div>
 
                 <Separator title={'Opiniones del producto'} />
-                <Grid container >
+                <Grid container sx={{pb:5}} >
                     <Grid container item xs={3}>
                         <Grid item xs={2}>
                             <Typography
+                                fontSize={40}
+                                fontWeight={600}
                                 component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <Rating                                
+                            <Rating
+                                sx={{ pt: 2 }}
                                 name="read-only"
-                                value={reviews ? AverageRating(reviews).toFixed(1) : 1}
+                                value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
                                 precision={0.5}
                                 readOnly
                             />
+                            <Grid item xs={12}>
+                                {`${reviews && reviews.length} Reviews`}
+                            </Grid>
                         </Grid>
                         <Grid item xs={12}>
-
+                            {reviews && IndexScore(reviews).map((e, i) => {
+                                return (<Grid key={i} item xs={8}>
+                                    <Box sx={{ pt: 1 }}>
+                                        <LinearProgress
+                                            variant="determinate"
+                                            value={e}
+                                        /> {i + 1} <StarIcon
+                                            fontSize="small"
+                                            sx={{ color: "#d1cfcb" }}
+                                        />
+                                    </Box>
+                                </Grid>)
+                            })}
                         </Grid>
-
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sx={{ py: 3 }}>
                         {reviews ? reviews.map(e => {
                             return (
                                 <p key={e.id}>{e.comment}</p>

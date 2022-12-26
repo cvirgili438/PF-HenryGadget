@@ -9,14 +9,18 @@ export const AverageRating = (reviews) => {
 
 }
 
-export const ReviewsForRating = (reviews) => {
+export const IndexScore = (reviews) => {
     let scores = [1,2,3,4,5]    
-    let cout = 0
-    scores.map(e => {
-        for (const review of reviews) {
-            review.score === 1?console.log('despues sigo') : console.log('despues sigo');;
+    const index = scores.map(e => {
+        let count = 0
+        for (const review of reviews) { 
+            if (review.score == e) {
+                count++
+            }
         }
+        return count * 100 /reviews.length
     })
+    return index
 }
 
 
