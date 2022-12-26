@@ -1,6 +1,8 @@
 const admin = require('./config/firebase-config')
 const { Router } = require('express');
 const router = Router();
+const authWithoutAdm = require('./middleware/authWithoutAdm')
+
 const decodeToken = require('./middleware/index');
 const decodeTokenNotAdmin = require('./middleware/authWithoutAdm')
 
