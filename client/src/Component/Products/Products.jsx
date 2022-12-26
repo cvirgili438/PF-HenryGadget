@@ -13,7 +13,7 @@ const Products = () => {
   const products = useSelector(state => state.filteredProducts);
   const message = useSelector(state => state.lastMsg)
   const [loading,setLoading]=useState(false)
- 
+ console.log(products);
   
   
   const array = [1,2,3,4,5,6,7,8,9]

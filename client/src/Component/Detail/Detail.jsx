@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating } from "@mui/material";
+import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
 import { getProductById } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
 import { product_area, item_photo, img_mini } from "./UtilDetail";
 import Separator from "../Separator/Separator";
 import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
+import { AverageRating } from "../../Utils/Rating/controller";
 
 const Detail = () => {
     const { id } = useParams();
     const user = useSelector(state => state.user)
+    const productDetail = useSelector(state => state.productDetail);
     const [input, setInput] = useState({ value: 1 })
     const [lowStock, setLowStock] = useState(false);
+    const reviews = productDetail.reviews;
 
     const dispatch = useDispatch();
 
@@ -25,17 +28,7 @@ const Detail = () => {
         setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
     }, [input]);
 
-    let productDetail = useSelector(state => state.productDetail);
-    // let reviews = productDetail.reviews
-
-    function averageProductRating(reviews) {
-        let acu = 0;
-        for (const review of reviews) {
-            acu += parseInt(review.score)
-        }
-        return acu / reviews.length
-    }
-
+   
     function handleCart() {
         addProductCart(productDetail.id, user && user.uid, input.value);
     }
@@ -159,29 +152,33 @@ const Detail = () => {
 
                 <Separator title={'Opiniones del producto'} />
                 <Grid container >
-                    <Grid container xs={3}>
+                    <Grid container item xs={3}>
                         <Grid item xs={2}>
                             <Typography
-                                component="h1">{averageProductRating(productDetail.reviews).toFixed(1)}
+                                component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <Rating
-                                sx={{mt: 1}}
+                            <Rating                                
                                 name="read-only"
-                                value={averageProductRating(productDetail.reviews)}
+                                value={reviews ? AverageRating(reviews).toFixed(1) : 1}
                                 precision={0.5}
                                 readOnly
                             />
                         </Grid>
+                        <Grid item xs={12}>
+
+                        </Grid>
 
                     </Grid>
                     <Grid item xs={6}>
-                        {productDetail.reviews.map(e => {
-                            return(
-                            <p key={e.id}>{e.comment}</p>)}    
-                        )}
-                        
+                        {reviews ? reviews.map(e => {
+                            return (
+                                <p key={e.id}>{e.comment}</p>
+                            )
+                        }
+                        ) : <p>-n/a-</p>}
+
                     </Grid>
                 </Grid>
             </div>
