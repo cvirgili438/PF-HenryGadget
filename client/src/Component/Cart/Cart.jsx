@@ -1,9 +1,8 @@
-import { Menu, Skeleton, Typography, IconButton, Link } from '@mui/material';
+import { Skeleton, Typography, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
-import React,{useEffect} from 'react';
-// import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteUserCart, getUserCart, setLocalCart, setUserCart } from '../../Redux/Actions/cart';
+import React,{useEffect, useState} from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import style from './Cart.module.css'
 import { TiShoppingCart } from 'react-icons/ti'
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -12,16 +11,13 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { useState } from 'react';
+import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js';
 
-
-const Cart = () => {
-        const dispatch = useDispatch()
-        let storage = JSON.parse(localStorage.getItem('cart'))        
-        const localCart = useSelector(state => state.localCart)
+const Cart = () => {     
+        let [localCart, setLocalCart] = useState([]);
         const user = useSelector(state => state.user)
-        const userCart = useSelector(state => state.userCart)
-        const [loggin,setLoggin] = useState(false)
+        const history = useHistory();
+
         const totalPrice= (cart)=>{
             let price= 0
             cart.map(e=>{
@@ -29,29 +25,13 @@ const Cart = () => {
             })
             return price
         }
-       // dSV9EBqJ4qZZ5jHrjGzlWu7paha2
-        useEffect(() => {
-          
-          if ((user === [] || user === undefined || user === null) && storage) {
-            dispatch(setLocalCart(storage));
-          }
-          
-          if (user) {                                     // si el usuario esta logueado
-            
-            if (storage) {                                // si hay un carrito en el localstorage
-              dispatch(setUserCart(storage, user.uid))    // lo mando a la BD
-              
-            } else {                                      // si no hay nada en el localstorage
-              if (localCart.length === 0) {               // y no hay nada en el carrito local
-                dispatch(getUserCart(user.uid));          // traigo el carrito de la BD
-              }
-            }
-            // dispatch(getUserCart(user.uid));
-            // if (userCart) {
-            // }
-          }
-        }, [localStorage.getItem('cart'),user]);
 
+        useEffect(() => {
+          if (user) {
+            if (sendAllCart(localCart, user.uid))
+            cleanCart(null);
+          }
+        }, [user]);
 
         //de aqui a adelante es  estados sobre el boton en si
         const [open, setOpen] = React.useState(false);
@@ -68,6 +48,15 @@ const Cart = () => {
       
           setOpen(false);
         };
+
+        const handleOpenCart = (event) => {
+          if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+          }
+      
+          setOpen(false);
+          history.push("/checkout")
+        };
       
         function handleListKeyDown(event) {
           if (event.key === 'Tab') {
@@ -80,13 +69,17 @@ const Cart = () => {
       
         // return focus to the button when we transitioned from !open -> open
         const prevOpen = React.useRef(open);
-        React.useEffect(() => {
+        React.useEffect(async () => {
           if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
           }
-      
+
+          if(open)
+          setLocalCart(await getAllCart(user && user.uid));
+
           prevOpen.current = open;
         }, [open]);
+
     return (
       <div >
 
@@ -128,7 +121,7 @@ const Cart = () => {
                       flexDirection:'column'
                     }}                  >                    
                    
-                    {localCart.length > 0?  localCart?.map((e,i) => {
+                    {localCart?.length > 0?  localCart?.map((e,i) => {
                       return <MenuItem key={'menu'+i}>
                         <Box sx={{
                           display:'flex',
@@ -143,18 +136,18 @@ const Cart = () => {
                           gridAutoRows:'auto'
                           
                         }}>
-                          <Typography variant='h6' >{e.quantity}u.  of {e.name}</Typography>
+                         <Typography variant='h6' > {e.name} {`($${e.price})`} ||  {e.quantity} units </Typography>
                           <Typography variant='subtitle1' sx={{
                             
-                          }} > Price ${e.price}</Typography>
+                          }} > Price ${e.price*e.quantity}</Typography>
                           </Box>
                         </Box>
                       </MenuItem>
                     }):<MenuItem>You have no items in your shopping cart</MenuItem>}
-                    {localCart.length > 0 ? <MenuItem sx={{
+                    {localCart?.length > 0 ? <MenuItem sx={{
                       color:'red',
                     }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
-                    <MenuItem><Typography variant='button' display="block" gutterBottom ><Link href='/cartpage' color="inherit" underline="none">Open cart</Link></Typography></MenuItem>
+                    <MenuItem onClick={handleOpenCart}><Typography variant='button' display="block" gutterBottom  >Open cart</Typography></MenuItem>
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
                 </ClickAwayListener>

@@ -91,7 +91,7 @@ router.get('/', async (req, res) => {
         if (sortBrand)
             products = sortByBrand(products, sortBrand);
         if (products.length === 0 ){
-                return res.status(404).json({msg: 'Products not found',result:products, total})
+                return res.status(404).json({msg: 'Products not found',result: products, total: 0})
             }
         res.status(200).json({ msg: 'Products obtained successfully.', result: products, total });
 
@@ -138,10 +138,11 @@ router.get('/ram', async (req, res) => {
 
 router.get('/stock', async (req, res) => {
     try {
-        const { group } = req.body;
+        const { group } = req.query;
+        const groupb = JSON.parse(group)
         const products = await Product.findAll({
             where: {
-            id: {[Sequelize.Op.in]: group} 
+            id: {[Sequelize.Op.in]: groupb} 
             },
             include: [
                 { model: Brand }, // include[0]

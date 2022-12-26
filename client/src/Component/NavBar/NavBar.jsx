@@ -3,7 +3,6 @@ import { useDispatch , useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { FiUserCheck } from 'react-icons/fi'
 import { getProductsByQuery } from '../../Redux/Actions/products.js'
-// import Button from '../Button/Button.jsx'; 
 import logo from '../../Assets/logo.png'
 import styles from './NavBar.module.css';
 import ModalRegister from "../ModalRegister/ModalRegister.jsx";
@@ -24,34 +23,22 @@ import { app } from "../../Firebase/firebase.config";
 const NavBar = () => {
 
   const [input, setInput] = useState('');
-  const [crud, setCrud] = useState({})
   const [modalShow, setModalShow] = useState(false);
   const [displayOptions, setDisplayOptions] = useState(false)
 
   const state = useSelector(state=>state)
   const dispatch = useDispatch();
 
-  const {search,pathname} = useLocation()
+  const {search} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
 
-
   useEffect(()=>{
-    if (pathname === '/Create/Product'){
-      setCrud({create:true})
-      return
-    }
-    else {
-      setCrud({create:false})
-    }
-  },[pathname])
-
-  useEffect(()=>{
-    dispatch(getProductsByQuery(search))
+    if(!search && state.filteredProducts.length === 0)
+      dispatch(getProductsByQuery(search))
+    if(search)
+      dispatch(getProductsByQuery(search))
   },[search])
-
-
-
 
   const handleInputChange = e => {
     setInput(e.target.value);
@@ -60,8 +47,7 @@ const NavBar = () => {
   const handleSubmit = e => {
     e.preventDefault();
     query.set('name',input)   
-    query.set('offset', 0) 
-    dispatch(getProductsByQuery(search));
+    query.set('offset', 0)
     history.push({search:query.toString()})
   };
 
@@ -70,8 +56,8 @@ const NavBar = () => {
     
     query.delete("name")
     history.push({search:query.toString()})
-    dispatch(getProductsByQuery(search));
     setInput('');
+    dispatch(getProductsByQuery(search));
   };
 
   const handleDisplayOptions = ()=> {
@@ -82,7 +68,6 @@ const NavBar = () => {
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
-    dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
     signOut(firebaseAuth).catch(e=>{console.log(e)})
   }

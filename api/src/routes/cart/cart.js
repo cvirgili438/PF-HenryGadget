@@ -29,11 +29,13 @@ router.get('/', async(req,res) => {                                             
     }
 });
 
+
 router.post('/', async(req,res) => {                                                                                //localhost:3001/carts (post)
-    const {idProduct, idUser, quantity} = req.body;                                                                 // Requerimos id de usuario y product y la cantidad de cuanto de ese producto.
+    const {idProduct, idUser, quantity, set} = req.body;    
+                                                            // Requerimos id de usuario y product y la cantidad de cuanto de ese producto.
 
     if(!idProduct || !idUser) return res.status(400).json({err: 'Important information is missing'});               // Validamos que nos hayan pasado todos los datos solicitados
-    if(typeof quantity !== 'number') return res.status(400).json({err: 'Quantity is missing'});
+    if(typeof Number(quantity) !== 'number') return res.status(400).json({err: 'Quantity is missing'});
 
     try {
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Buscamos al usuario utilizando el id proporsionado e incluimos el posible carrito que tenga el usuario
@@ -55,9 +57,20 @@ router.post('/', async(req,res) => {                                            
                  return res.status(200).json({msg: 'Product was deleted succesfuly'})
             }
 
-            if(productExist){                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
-                const result = await Product_cart.update({quantity}, {where: {id: productExist.id}});               // Como ya existe no lo podemos volver a asignar sino que toca actualizarlo y eso es lo que hacemos aca, le pasamos la nueva cantidad recibida
-                res.status(200).json({msg: 'Product updated succesfully', cart: result});                           // Mensaje de confirmacion
+            if (productExist) {                                                                                       // Bastante intuitivo si productExist es true es porque existe y aja se hace un proceso distinto (esta situacion se dara cuando quieren actualizar la cantidad de un producto ya agregado)
+                const { stock } = await Product.findOne({ where: { id: productExist.productId } }); // Se busca el stock del producto.
+                let add; // Cantidad a modificar
+                if (set) {
+                    quantity > stock ? // Se checkea que no suepere el stock. 
+                        add = stock :
+                        add = quantity;
+                } else {
+                    productExist.quantity + quantity > stock ? // Se checkea que no suepere el stock. 
+                        add = stock :
+                        add = productExist.quantity + quantity;
+                }
+                const result = await Product_cart.update({ quantity: add }, { where: { id: productExist.id } });
+                res.status(200).json({ msg: 'Product updated succesfully', cart: result });                           // Mensaje de confirmacion
                 return;
             }
 
@@ -79,7 +92,7 @@ router.post('/', async(req,res) => {                                            
         const result = await User.findByPk(idUser, {include: Cart});                                                // Mensaje de confirmacion
         res.status(201).json({msg: 'Cart created succesfully and product added', cart: result});
     } catch (error) { 
-        res.status(400).send({msg: "An error happened on database", err: error});
+        res.status(400).send({msg: "An error happened on database", err: error.message});
     }
 });
 
@@ -96,7 +109,8 @@ router.delete('/', async(req,res) => {                                          
             return;
         }
         
-        const deleteCart = Cart.destroy({where: {userUid: idUser}});             // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
+
+        const deleteCart = await Cart.destroy({where: {userUid: idUser}});      // En caso de que si exista simplemente lo eliminamos y devolvemos mensaje apropiado
         res.status(200).json({msg: 'Cart deleted succesfuly', cart: deleteCart});
         return;
     } catch (error) {

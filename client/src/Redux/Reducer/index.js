@@ -1,4 +1,3 @@
-
 // CONSTANTES
 import {
   inicialtate,
@@ -14,11 +13,18 @@ import {
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
+  SET_LOCAL_ADRESS,
+  SET_USER_ADDRESS,
+  GET_USERS,
+  GET_REVIEWS,
+  CHANGE_REVIEW_VISIBLE,
+  CHANGE_REVIEW_ARCHIVE,
   SET_LOCAL_CART,
-  GET_USER_CART,
   SET_USER_CART,
+  GET_USER_CART,
   CLEAR_CARTS,
   REFRESH_CARTS,
+  SET_ORDER,
 } from '../Constants/index.js';
 
 
@@ -105,6 +111,16 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         loading:!state.loading
       }
+    case SET_LOCAL_ADRESS:
+      return {
+        ...state,
+        adress: action.payload
+      }
+    case SET_USER_ADDRESS:
+      return {
+        ...state,
+        adress:action.payload
+      }
       case SET_LOCAL_CART:
         return{
           ...state,
@@ -133,6 +149,34 @@ export default function rootReducer(state = inicialtate, action) {
             ...state,
             localCart: state.localCart.map(c => c),
             userCart: state.userCart.map(c => c)
+          }
+          case GET_USERS:
+            return {
+              ...state,
+              users: action.payload
+            }
+          case GET_REVIEWS:
+            return {
+              ...state,
+              reviews: action.payload
+            }
+          case CHANGE_REVIEW_VISIBLE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
+          case CHANGE_REVIEW_ARCHIVE:
+            return {
+              ...state,
+              reviews: action.payload.result,
+              lastMsg: action.payload.msg
+            }
+          case SET_ORDER : 
+          return{
+            ...state,
+            lastMsg: action.payload.msg,
+            order: action.payload.result
           }
     default:
       return { ...state };
