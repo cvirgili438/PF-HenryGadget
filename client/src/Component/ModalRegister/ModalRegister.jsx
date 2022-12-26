@@ -54,17 +54,19 @@ function ModalRegister(props) {
   const login = async (e) => {
     if (e.target.id === "google") {
       const {
-        user: { providerData },
+        user: { providerData ,uid },
         _tokenResponse:{ idToken }
       } = await signInWithPopup(firebaseAuth, provider.google);
+      console.log(uid)  
       dispatch(loginApp(idToken))
       .then(res=>{
         providerData[0].rol = res.result[0].rol
+        providerData[0].uid = uid
+        console.log(uid)
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]));
       })
       .finally(()=>props.onHide())
-      
     }
     if (e.target.id === "facebook") {
       const {

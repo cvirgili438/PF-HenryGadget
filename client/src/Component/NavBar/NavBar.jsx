@@ -17,6 +17,9 @@ import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
 import { clearCarts } from "../../Redux/Actions/cart.js";
+import { getAuth, signOut } from 'firebase/auth'
+import { app } from "../../Firebase/firebase.config";
+
 
 const NavBar = () => {
 
@@ -75,11 +78,13 @@ const NavBar = () => {
     setDisplayOptions(!displayOptions)
   }
 
+  const firebaseAuth = getAuth(app)
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
     dispatch(clearCarts());
     dispatch(setUserInFrontState(null))
+    signOut(firebaseAuth).catch(e=>{console.log(e)})
   }
 
  
