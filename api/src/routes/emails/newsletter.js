@@ -123,7 +123,30 @@ router.post('/unsubscribe', async (req, res) => {
     }
 });
 
-const sendEmail = require('./sendMail.js');
-router.use('/sendmail', sendEmail);
+router.post('/sendmail', async (req, res) => {
+    const { html, subject } = req.body;
+    if (!html)
+        return res.status(400).json({ err: 'Html parameter missing.' });
+    if (!subject)
+        return res.status(400).json({ err: 'Subject parameter missing.' });
+
+    try {
+        const listId = await getListID(NAME_NEWSLETTER);
+        const listConstacs = await getContactsFromList(listId);
+ 
+        const msg = {
+            personalizations: listConstacs,
+            from: EMAIL_FROM_NEWSLETTER,
+            subject: subject,
+            html: html
+        }
+        await sgMail.send(msg);
+
+        res.json({ msg: 'Email send.' });
+    }
+    catch (error) {
+        res.status(400).json({ err: 'Error to send mail.', error });
+    }
+});
 
 module.exports = router;
