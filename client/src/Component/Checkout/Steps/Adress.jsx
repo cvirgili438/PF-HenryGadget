@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TextField,Box } from '@mui/material'
 import { useDispatch } from 'react-redux';
 import { setLocalAdress } from '../../../Redux/Actions/checkout';
@@ -9,10 +9,25 @@ export default function Adress() {
   const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:''})
   const input = useRef({region:'',city:'',postalCode:'',street:'',name:''})
   const dispatch = useDispatch()
+  const stepperButton = document.getElementById('stepper-button')  
+  useEffect(()=>{
+    let {region,city,postalCode,street,name} = input.current
+    if(region === '' || city === '' || postalCode === '' || street === '' || name === ''){
+      if(stepperButton.className.includes(' Mui-disabled')) {return}
+      else return stepperButton.className= stepperButton.className.concat(' Mui-disabled')
+    }
+    if(region !== '' || city !== '' || postalCode !== '' || street !== '' || name !== ''){
+      if(!stepperButton.className.includes(' Mui-disabled')){return }
+      let location = stepperButton.className.indexOf(' Mui-disabled')
+      return stepperButton.className= stepperButton.className.slice(0,location)
+    }
+     
+    
+  },[inputt])
   
   function handleInput(event){
     event.preventDefault();
-    setInputt({
+    setInputt({...inputt,
       [event.target.id]:event.target.value
     })
     input.current = {...input.current,[event.target.id]:event.target.value}

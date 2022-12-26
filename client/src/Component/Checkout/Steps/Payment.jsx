@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { Box, Skeleton} from "@mui/material";
+import { Box, CircularProgress, Skeleton} from "@mui/material";
 
 
 import styles from '../Checkout.module.css'
@@ -63,8 +63,8 @@ useEffect(async () => {
         justifyContent:'space-evenly'
     }} >
         <Box>
-        <h3>total price to pay is  {total.current}U$D</h3>
-        <h3>prueba</h3>
+        
+        {total.current === 0 ? <CircularProgress /> : <h3>total price to pay is  {total.current}U$D</h3>}
         </Box>
         
   {clientSecret && (
