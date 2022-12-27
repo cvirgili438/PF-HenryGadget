@@ -11,7 +11,9 @@ const {
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
+    SUBJECT_SENDMAIL,
     htmlSubscribe,
+    HTML_UNSUBSCRIBE,
     HTML_CONFIRM
 } = require('./constants/dataToSendMail.js');
 const generatePersonalizations = require('./controllers/generatePersonalizations.js');
@@ -54,12 +56,13 @@ router.post('/confirm', async (req, res) => {
     if (!code)
         return res.status(400).json({ err: 'ConfirmNumber parameter missing.' });
 
+    // Data para enviar mail SendGrid.
     const msg = {
         to: email,
         from: EMAIL_FROM_NEWSLETTER,
         subject: SUBJECT_CONFIRM,
         html: HTML_CONFIRM
-    }
+    };
 
     try {
         const contact = await Newsletter.findOne({ where: { email } });
@@ -69,8 +72,9 @@ router.post('/confirm', async (req, res) => {
         if (contact.confirm)
             return res.status(400).json({ err: 'Contact already subscribed.' });
 
+        // Se verifica que el código sea el mismo.
         if (contact.code === code) {
-            await sgMail.send(msg);
+            await sgMail.send(msg); // Se envia mail.
             await Newsletter.update({ confirm: true }, { where: { email } });
             res.json({ msg: 'Added successfully.' });
         }
@@ -91,20 +95,22 @@ router.post('/unsubscribe', async (req, res) => {
     if (!code)
         return res.status(400).json({ err: 'ConfirmNumber parameter missing.' });
 
+    // Data para enviar mail SendGrid.
     const msg = {
         to: email,
         from: EMAIL_FROM_NEWSLETTER,
         subject: SUBJECT_UNSUBSCRIBE,
         html: HTML_UNSUBSCRIBE
-    }
+    };
 
     try {
         const contact = await Newsletter.findOne({ where: { email } });
         if (!contact)
             return res.status(400).json({ err: 'Contact not found.' });
 
+        // Se verifica que el código sea el mismo.
         if (contact.code === code) {
-            await sgMail.send(msg);
+            await sgMail.send(msg); // Se envia mail.
             await contact.destroy();
             res.json({ msg: 'You have been successfully unsubscribed.' });
         }
@@ -128,16 +134,16 @@ router.post('/sendmail', async (req, res) => {
         let contacs = await Newsletter.findAll(
             { where: { confirm: true }, attributes: ['email', 'code'] }
         );
-        let personalizations = generatePersonalizations(contacs, req.headers.origin, text);
+        // Formato para enviar los mails.
+        let personalizations = generatePersonalizations(contacs, req.headers.origin, text, SUBJECT_SENDMAIL + subject);
 
         const msg = {
             personalizations,
             template_id: PERSONALIZATION_ID,
-            from: { email: EMAIL_FROM_NEWSLETTER, name: "HenryGadget" },
-            subject: subject
-        }
+            from: EMAIL_FROM_NEWSLETTER
+        };
 
-        await sgMail.send(msg);
+        await sgMail.send(msg); // Se envía el mail.
 
         res.json({ msg: 'Email send.' });
     }
