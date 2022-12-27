@@ -7,14 +7,14 @@ const { sgMail } = require('../config/sendgrid-config.js');
 
 const {
     EMAIL_FROM_NEWSLETTER,
-    NAME_NEWSLETTER,
+    PERSONALIZATION_ID,
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
     htmlSubscribe,
-    HTML_CONFIRM,
-    HTML_UNSUBSCRIBE
+    HTML_CONFIRM
 } = require('./constants/dataToSendMail.js');
+const generatePersonalizations = require('./controllers/generatePersonalizations.js');
 
 router.post('/subscribe', async (req, res) => {
     const { email } = req.body;
@@ -125,35 +125,15 @@ router.post('/sendmail', async (req, res) => {
         return res.status(400).json({ err: 'Subject parameter missing.' });
 
     try {
-        let personalizations = [
-            {
-                to: [
-                    {
-                        email: "ferb@e.email"
-                    }
-                ],
-                dynamic_template_data: {
-                    textBody: text,
-                    unsubscribeLink: "ttp://localhost:3001"
-                }
-            },
-            {
-                to: [
-                    {
-                        email: "ferb@autistici.org"
-                    }
-                ],
-                dynamic_template_data: {
-                    textBody: text,
-                    unsubscribeLink: "http://localhost:3000"
-                }
-            }
-        ];
+        let contacs = await Newsletter.findAll(
+            { where: { confirm: true }, attributes: ['email', 'code'] }
+        );
+        let personalizations = generatePersonalizations(contacs, req.headers.origin, text);
 
         const msg = {
             personalizations,
-            template_id: "d-6f40d484fddb4b98966a70d03ea3a122",
-            from: { email: EMAIL_FROM_NEWSLETTER },
+            template_id: PERSONALIZATION_ID,
+            from: { email: EMAIL_FROM_NEWSLETTER, name: "HenryGadget" },
             subject: subject
         }
 
