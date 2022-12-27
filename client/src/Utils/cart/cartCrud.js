@@ -48,6 +48,7 @@ export async function getAllCart(idUser) {
                     price: el.price,
                     img: el.img[0],
                     discount: el.discount,
+                    stock: el.stock,
                     quantity: el.product_cart.quantity
                 }
             });

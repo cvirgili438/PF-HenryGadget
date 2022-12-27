@@ -38,13 +38,15 @@ const CartPage = () => {
     })
     return discount
   }
-
-  console.log(localCart)
-  console.log(totalPrice(localCart), totalDiscount (localCart))
   
 
   useEffect(async () => {
     setLocalCart(await getAllCart(user && user.uid));
+    let button = document.getElementById('stepper-button')
+    if(button.className.includes(' Mui-disabled')){
+      let location = button.className.indexOf(' Mui-disabled')
+      button.className = button.className.slice(0,location)
+    }
   }, [user])
 
   return (
@@ -100,12 +102,6 @@ const CartPage = () => {
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='body1' align='left'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</Typography>
         </Box>
-        <Button variant="contained" size='large' fullWidth
-           sx={{borderRadius: "10px"}}
-           onClick={() => history.push("/checkout")}
-        >
-          Continuar
-        </Button> 
 
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='subtitle1' align='left'>Puede pagar con:</Typography>
