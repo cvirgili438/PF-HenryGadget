@@ -18,6 +18,8 @@ import ReviewCRUD from './Component/Admin/ReviewCRUD/ReviewCRUD.jsx';
 import UserCRUD from './Component/Admin/UserCRUD/UserCRUD.jsx';
 import Checkout from './Component/Checkout/Checkout';
 import Steppers from './Component/Checkout/Stepper';
+import NewsLetterConfirm from './Component/Newslatter/NewsLetterConfirm.jsx';
+import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.jsx';
 
 const App = () => {
   return (
@@ -30,7 +32,9 @@ const App = () => {
           <Route path="/product/:id" component={Detail} />
           <Route  path={'/Checkout'}  component={Checkout}  />
           <Route path="/cartpage" component={CartPage} />
-
+          <Route path="/NewsletterConfirm" component={NewsLetterConfirm} />
+          <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
+          
           <Route path='/admin'>
             <DashboardAdmin />
             <Route path='/admin/products' component={ProductCRUD} />
