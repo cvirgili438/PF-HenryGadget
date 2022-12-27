@@ -1,4 +1,4 @@
-module.exports = function generatePersonalizations(contacs, URL, text) {
+module.exports = function generatePersonalizations(contacs, URL, text, subject) {
     return contacs.map(el => {
         // Parámetros para la URL de confirmación.
         const params = new URLSearchParams({ code: el.code, email: el.email });
@@ -7,6 +7,7 @@ module.exports = function generatePersonalizations(contacs, URL, text) {
         return {
             to: [{ email: el.email }],
             dynamic_template_data: {
+                subject,
                 textBody: text,
                 unsubscribeLink: confirmationURL
             }
@@ -14,28 +15,3 @@ module.exports = function generatePersonalizations(contacs, URL, text) {
     });
 
 };
-
-// let personalizations = [
-//     {
-//         to: [
-//             {
-//                 email: "ferb@e.email"
-//             }
-//         ],
-//         dynamic_template_data: {
-//             textBody: text,
-//             unsubscribeLink: "ttp://localhost:3001"
-//         }
-//     },
-//     {
-//         to: [
-//             {
-//                 email: "ferb@autistici.org"
-//             }
-//         ],
-//         dynamic_template_data: {
-//             textBody: text,
-//             unsubscribeLink: "http://localhost:3000"
-//         }
-//     }
-// ];
