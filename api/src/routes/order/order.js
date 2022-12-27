@@ -8,7 +8,7 @@ const { deleteStock } = require('./controller.js');
 
 
 router.get('/', async(req,res) => {                                                             // localhost:3001/orders (get)
-    const {idUser} = req.body;                                                                  // Requerimos el id del usuario por body
+    const {idUser} = req.query;                                                                  // Requerimos el id del usuario por body
     
     if(!idUser) return res.status(404).json({err: 'User id is missing'});                       // Validamos que si nos pasen el id del usuario
     

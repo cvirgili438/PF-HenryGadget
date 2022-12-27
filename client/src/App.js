@@ -19,6 +19,7 @@ import UserCRUD from './Component/Admin/UserCRUD/UserCRUD.jsx';
 import Checkout from './Component/Checkout/Checkout';
 import Steppers from './Component/Checkout/Stepper';
 import Payment from './Component/Payment/Payment';
+import Orders from './Component/Orders/Orders';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route  path={'/Checkout'}  component={Checkout}  />
           <Route path="/cartpage" component={CartPage} />
           <Route  path={'/payment'} component={Payment}  />
+          <Route  path={'/orders'} component={Orders}  />
 
           <Route path='/admin'>
             <DashboardAdmin />
