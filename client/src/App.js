@@ -16,9 +16,11 @@ import OrderCRUD from './Component/Admin/OrderCRUD/OrderCRUD.jsx';
 import MailingCRUD from './Component/Admin/MailingCRUD/MailingCRUD.jsx';
 import ReviewCRUD from './Component/Admin/ReviewCRUD/ReviewCRUD.jsx';
 import UserCRUD from './Component/Admin/UserCRUD/UserCRUD.jsx';
+import CreateProduct from './Component/CreateProduct/CreateProduct.jsx'
 import Checkout from './Component/Checkout/Checkout';
 import Steppers from './Component/Checkout/Stepper';
 import Payment from './Component/Payment/Payment';
+
 
 const App = () => {
   return (
@@ -40,6 +42,7 @@ const App = () => {
             <Route path='/admin/mailing' component={MailingCRUD} />
             <Route path='/admin/reviews' component={ReviewCRUD} />
             <Route path='/admin/users' component={UserCRUD} />
+            <Route path='/admin/createproduct' component={CreateProduct}/>
           </Route>         
           <Route path="*" component={Page404} />
         </Switch>
