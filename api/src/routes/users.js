@@ -84,26 +84,6 @@ router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
     }
 })
 
-//ruta meramente de admin
-// router.put('/:uid', decodeToken, async (req, res) => {
-//     try {
-//         const {uid} = req.params;
-
-//         const user = await User.findOne({where: {uid}});
-//         if (user === null) {
-//             return res.status(400).json({err: `Does not exist users with the enter uid.`})
-//         }
-//         const {rol} = req.body;
-//         await user.update({rol},{where: {uid}})
-//         res.status(200).json({msg: 'User has been updated.'})
-
-//     } catch (error) {
-//         if (error.parent.detail) {
-//             return res.status(400).json({err: error.parent.detail});
-//         }
-//         res.status(400).json({err: error});
-//     }
-// })
 
 //se pasa middleware para proteger rutas de users para suspender o cambiar modo
 router.use(authWithoutAdm);
@@ -113,7 +93,7 @@ router.put('/active/', async (req,res) => {
     
     try { 
         const user = await User.findAll({where: {uid: {[Sequelize.Op.in]: ids}}});
-        console.log(ids);
+        
         user.forEach(element => {
             if(!ids.includes(element.dataValues.uid)){
                 res.status(404).json({err: `User with id: ${element.dataValues.uid} doesn't exist. Cancelling operation.`});
@@ -132,7 +112,7 @@ router.put('/active/', async (req,res) => {
 
 router.put('/admin/:idUser', async (req,res) => {
     const {idUser} = req.params;
-    console.log(idUser)
+    
     try { 
         const user = await User.findByPk(idUser);
         if(!user){
