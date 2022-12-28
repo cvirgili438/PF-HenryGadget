@@ -76,6 +76,7 @@ export async function getAllCart(idUser) {
     }
 };
 
+// Función que solo se llama cuando el cliente está logueado.
 export function sendAllCart(localCart, idUser) {
     try {
         localCart?.map(async (el) => {
