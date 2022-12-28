@@ -16,8 +16,6 @@ const Orders = () => {
 
     const order = useSelector(state => state.order)
     const userid = useSelector(state => state.user.uid)
-    console.log(order)
-    console.log(userid)
 
     useEffect(() => {
         dispatch(getOrders(userid))

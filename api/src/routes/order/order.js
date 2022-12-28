@@ -27,39 +27,6 @@ router.get('/', async(req,res) => {                                             
     }
 })
 
-// router.post('/', async (req,res) => {                                                                               // localhost:3001/orders (post) !! SE ENTIENDE QUE PARA ESTA PARTE EL CARRITO YA SE PAGO !!
-//     const {idUser} = req.body;                                                                                      // Requerimos el id del usuario por body
-
-//     if(!idUser) return res.status(400).json({err: 'User id is missing'});                                           // Validamos que nos hayan pasado el id solicitado
-
-//     try {
-//         const user = await User.findByPk(idUser, {include: Cart});                                                  // Con el id del usuario buscamos al usuario y su carrito(si este existe).
-//         const userCart = await Cart.findByPk(user.cart.id, {include: Product});                                     // Con el id del carrito encontrado en el user.cart buscamos el carrito incluyendo los productos en el. 
-//         const products = userCart.products                                                                          // Guardamos los productos en una variable.
-
-//         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`});                  // Validamos que existan tanto usuario como que el usuario tiene carrito 
-//         if(!userCart) return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
-
-//         const newOrder = await Order.create({status: 'processing', total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
-//         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
-
-//         for (const product of products) {       
-//             const idProduct = product.id                                                                            // Iteramos sobre los productos del carrito 
-//             const productToAdd = await Product.findByPk(product.id);                                                // Buscamos el producto por su id para tener toda su informacion
-//             await newOrder.addProduct(productToAdd);                                                                // y vinculamos cada producto a la orden anteriormente creada
-       
-//             await deleteStock(idProduct, userCart.id);                                                              // Eliminamos el stock dependiendo de la cantidad de productos comprada
-//         };
-
-//         const deletedCart = await Cart.destroy({where: {id: userCart.id}});                                         // En esta instancia ya tendremos la orden creada vinculada al usuario con total traido del carrito y todos los mismos productos que tenia el carrito, nos quedaria eliminar el carrito para que ya simplemente quede la orden.
-
-//         const result = await Order.findByPk(newOrder.id, {include: Product});                                       // Enviamos msg de confirmacion apropiado
-//         res.status(200).json({msg: 'Order created succesfuly', order: result});
-//     } catch (error) {
-//         res.status(400).json({err: 'An error happened in database', err: error});
-//     }
-// })
-
 router.post('/', async (req,res) => {                                                                               // localhost:3001/orders (post) !! SE ENTIENDE QUE PARA ESTA PARTE EL CARRITO YA SE PAGO !!
     const {idUser} = req.body;                                                                                      // Requerimos el id del usuario por body
 
