@@ -8,6 +8,8 @@ import {
   GET_PRODUCTS_BY_QUERY,
   GET_PRODUCT_BY_ID,
   GET_TYPES,
+  GET_ALL_PRODUCTS,
+  CHANGE_PRODUCT_ACTIVE,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   SET_PAGE_VIEW,
@@ -93,11 +95,24 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
       };
+      case CHANGE_PRODUCT_ACTIVE:
+        return {
+          ...state,
+          products: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+        case GET_ALL_PRODUCTS:
+          return {
+            ...state,
+            products: action.payload.result,
+            lastMsg: action.payload.msg
+          }
     case DELETE_PRODUCT:
       return {
         ...state,
-        // products: state.products.slice()
-      };
+        products: action.payload.result,
+        lastMsg: action.payload.msg
+      }
     case SET_PAGE_VIEW:
       return {
         ...state,

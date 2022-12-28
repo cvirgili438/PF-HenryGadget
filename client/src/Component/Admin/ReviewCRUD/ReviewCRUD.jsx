@@ -94,7 +94,11 @@ const ReviewCRUD = () => {
           <tbody>
             {
               reviews
-              .filter(p => p.comment.toLowerCase().includes(input.toLowerCase()) || p.product.name.toLowerCase().includes(input.toLowerCase()) || p.product.model.toLowerCase().includes(input.toLowerCase()))
+              .filter(p => p.comment.toLowerCase().includes(input.toLowerCase())
+                          ||
+                          p.product.name.toLowerCase().includes(input.toLowerCase())
+                          ||
+                          p.product.model.toLowerCase().includes(input.toLowerCase()))
               .filter(p => score === null ? p : +p.score === +score)
               .map((p, i) => (
                 <tr key={ p.id }>
