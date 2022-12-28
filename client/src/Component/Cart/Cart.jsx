@@ -28,7 +28,7 @@ const Cart = () => {
 
         useEffect(() => {
           if (user) {
-            if (sendAllCart(localCart, user.uid))
+            sendAllCart(JSON.parse(localStorage.getItem('cart')) || [], user.uid)
             cleanCart(null);
           }
         }, [user]);
