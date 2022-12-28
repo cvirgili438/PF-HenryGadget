@@ -4,7 +4,7 @@ import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart } from './control
 export async function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado
         try {
-            await sendDB(idProduct, idUser, quantity)
+            return await sendDB(idProduct, idUser, quantity)
         }
         catch (error) {
             console.log('Error enviar producto: ', error.mesagge)
@@ -81,12 +81,10 @@ export async function getAllCart(idUser) {
 };
 
 // Función que solo se llama cuando el cliente está logueado.
-export function sendAllCart(storage, idUser) {
+export async function sendAllCart(storage, idUser) {
     try {
-        storage?.map(async (el) => {
-            await sendDB(el.idProduct, idUser, el.quantity);
-        });
-        return true
+        for (const item of storage)
+            await sendDB(item.idProduct, idUser, item.quantity);
     }
     catch (e) {
         return false;

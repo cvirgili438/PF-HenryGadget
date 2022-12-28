@@ -26,9 +26,9 @@ const Cart = () => {
             return price
         }
 
-        useEffect(() => {
+        useEffect(async () => {
           if (user) {
-            sendAllCart(JSON.parse(localStorage.getItem('cart')) || [], user.uid)
+            await sendAllCart(JSON.parse(localStorage.getItem('cart')) || [], user.uid);
             cleanCart(null);
           }
         }, [user]);
