@@ -1,10 +1,14 @@
 import { addItem } from './controllers/addItem.js';
 import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart } from './controllers/conectDB.js';
 
-export function addProductCart(idProduct, idUser, quantity) {
+export async function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado
-        sendDB(idProduct, idUser, quantity)
-            .catch(data => console.log('Error enviar producto: ', data));
+        try {
+            await sendDB(idProduct, idUser, quantity)
+        }
+        catch (error) {
+            console.log('Error enviar producto: ', error.mesagge)
+        }
     }
     else { // No logueado
         let storage = JSON.parse(localStorage.getItem('cart')) || []; // Vector de productos
@@ -77,9 +81,9 @@ export async function getAllCart(idUser) {
 };
 
 // Función que solo se llama cuando el cliente está logueado.
-export function sendAllCart(localCart, idUser) {
+export function sendAllCart(storage, idUser) {
     try {
-        localCart?.map(async (el) => {
+        storage?.map(async (el) => {
             await sendDB(el.idProduct, idUser, el.quantity);
         });
         return true
