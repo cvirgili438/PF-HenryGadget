@@ -10,7 +10,7 @@ export const inicialtate = {
   products: [],
   productsNames: [],
   filteredProducts: [],
-  productDetail: [],
+  productDetail: {},
   filters: {},
   page: 1,
   totalProducts: 1,
@@ -36,6 +36,7 @@ export const GET_PRODUCTS_BY_QUERY= 'GET_PRODUCTS_BY_QUERY'
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
+export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'

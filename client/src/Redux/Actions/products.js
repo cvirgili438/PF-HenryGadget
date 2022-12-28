@@ -10,6 +10,7 @@ import {
   GET_TYPES,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
+  CLEAR_PRODUCT
 } from '../Constants/index.js';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -142,3 +143,8 @@ export function deleteProduct(payload) {
   }
 }
 
+export function clearProduct() {
+	return {
+		type: CLEAR_PRODUCT
+	}
+};
