@@ -10,6 +10,7 @@ import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
 import { AverageRating, IndexScore } from "../../Utils/Rating/controller";
 import StarIcon from '@mui/icons-material/Star';
+import RecipeReviewCard from "../ReviewCard/ReviewCard";
 
 const Detail = () => {
     const { id } = useParams();
@@ -155,18 +156,18 @@ const Detail = () => {
                 </div>
 
                 <Separator title={'Opiniones del producto'} />
-                <Grid container sx={{pb:5}} >
-                    <Grid container item xs={3}>
-                        <Grid item xs={2}>
+                <Grid container >
+                    <Grid container item xs={4}>
+                        <Grid item xs={2} sx={{maxHeight: '4rem', margin: 0}}>
                             <Typography
                                 fontSize={40}
                                 fontWeight={600}
                                 component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
                             </Typography>
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={10} sx={{maxHeight: '4rem', margin: 0}}>
                             <Rating
-                                sx={{ pt: 2 }}
+                                // sx={{ pt: 2 }}
                                 name="read-only"
                                 value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
                                 precision={0.5}
@@ -192,10 +193,13 @@ const Detail = () => {
                             })}
                         </Grid>
                     </Grid>
-                    <Grid item xs={6} sx={{ py: 3 }}>
+                    <Grid item xs={8} sx={{ py: 3 }}>
                         {reviews ? reviews.map(e => {
                             return (
-                                <p key={e.id}>{e.comment}</p>
+                            <Box key={e.id} >
+                                <RecipeReviewCard key={e.id} review={e} />
+                            </Box>
+                                // <p key={e.id}>{e.comment}</p>
                             )
                         }
                         ) : <p>-n/a-</p>}

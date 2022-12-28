@@ -18,6 +18,7 @@ export const inicialtate = {
   loading: false,
   localCart:[],
   userCart:[],
+  userFromDb:{},
   users:[],
   reviews:[],
   cartProducts: [],
@@ -40,6 +41,7 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
 export const GET_USERS = 'GET_USERS'
+export const GET_USER_BY_ID = 'GET_USER_BY_ID'
 export const GET_REVIEWS = 'GET_REVIEWS'
 export const CHANGE_REVIEW_VISIBLE = 'CHANGE_REVIEW_VISIBLE'
 export const CHANGE_REVIEW_ARCHIVE = 'CHANGE_REVIEW_ARCHIVE'

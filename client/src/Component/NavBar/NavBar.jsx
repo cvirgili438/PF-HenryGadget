@@ -15,7 +15,7 @@ import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
 import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
-import { clearCarts } from "../../Redux/Actions/cart.js";
+// import { clearCarts } from "../../Redux/Actions/cart.js";
 import { getAuth, signOut } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
 
