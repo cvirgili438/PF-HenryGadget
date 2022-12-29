@@ -65,8 +65,8 @@ Product.belongsTo(Ram);
 Product.belongsToMany(Cart, {through: 'product_cart'}); //N to N relation stablished
 Cart.belongsToMany(Product, {through: 'product_cart'});
 
-Product.belongsToMany(Order, {through: 'product_order'}); //N to N relation stablished
-Order.belongsToMany(Product, {through: 'product_order'});
+Product.belongsToMany(Order, {through: 'Product_order'}); //N to N relation stablished
+Order.belongsToMany(Product, {through: 'Product_order'});
 
 User.hasOne(Cart); 
 Cart.belongsTo(User);

@@ -23,7 +23,6 @@ const OrderDetail = () => {
     const history = useHistory();
     const order = useSelector(state => state.order)
     const info = order?.find(el => el.id === id);  
-    console.log(order)
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

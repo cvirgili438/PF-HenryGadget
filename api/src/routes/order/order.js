@@ -3,7 +3,6 @@ const { Op } = require("sequelize");
 const router = Router();
 
 const { Order, User, Cart, Product, Product_cart, Product_order } = require('../../db.js');
-const Product_Order = require('../../models/Product_Order.js');
 const { deleteStock } = require('./controller.js');
 
 
