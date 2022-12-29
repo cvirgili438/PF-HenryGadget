@@ -15,6 +15,10 @@ import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
 import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
+import { clearCarts } from "../../Redux/Actions/cart.js";
+import { getAuth, signOut } from 'firebase/auth'
+import { app } from "../../Firebase/firebase.config";
+
 
 const NavBar = () => {
 
@@ -60,10 +64,12 @@ const NavBar = () => {
     setDisplayOptions(!displayOptions)
   }
 
+  const firebaseAuth = getAuth(app)
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
     dispatch(setUserInFrontState(null))
+    signOut(firebaseAuth).catch(e=>{console.log(e)})
   }
 
  
@@ -97,7 +103,7 @@ const NavBar = () => {
              
               {!displayOptions
                 ? null
-                : <ProfileOptions logOut={logOut}/>
+                : <ProfileOptions displayOptions={displayOptions} setDisplayOptions={setDisplayOptions} logOut={logOut}/>
               }
             </div>
             )
