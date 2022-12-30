@@ -20,6 +20,8 @@ import CreateProduct from './Component/CreateProduct/CreateProduct.jsx'
 import Checkout from './Component/Checkout/Checkout';
 import Steppers from './Component/Checkout/Stepper';
 import Payment from './Component/Payment/Payment';
+import Orders from './Component/Orders/Orders';
+import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
 
 
 const App = () => {
@@ -34,6 +36,8 @@ const App = () => {
           <Route  path={'/Checkout'}  component={Checkout}  />
           <Route path="/cartpage" component={CartPage} />
           <Route  path={'/payment'} component={Payment}  />
+          <Route  path={'/orders'} component={Orders}  />
+          <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
 
           <Route path='/admin'>
             <DashboardAdmin />
