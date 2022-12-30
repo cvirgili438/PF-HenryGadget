@@ -56,7 +56,7 @@ function ModalRegister(props) {
       const {
         user: { providerData, uid },
         _tokenResponse:{ idToken },
-      } = await signInWithPopup(firebaseAuth, provider.google);
+      } = await signInWithPopup(firebaseAuth, provider.google); 
       dispatch(loginApp(idToken))
       .then(res=>{
         providerData[0].rol = res.result[0].rol
@@ -65,7 +65,6 @@ function ModalRegister(props) {
         dispatch(setUserInFrontState(providerData[0]));
       })
       .finally(()=>props.onHide())
-      
     }
     if (e.target.id === "facebook") {
       const {

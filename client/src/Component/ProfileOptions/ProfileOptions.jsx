@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import styles from './ProfileOptions.module.css'
 import { HiLogin } from 'react-icons/hi'
 import { FaUserCog } from 'react-icons/fa'
@@ -6,6 +7,13 @@ import { FaShoppingCart } from 'react-icons/fa'
 
 
 function ProfileOptions(props) {
+    const history = useHistory();
+
+    const handleOpenCart = (event) => {
+        props.setDisplayOptions(!props.displayOptions)
+        history.push("/orders")
+    };
+
     return ( 
         <div className={styles.container}>
             <div className={styles.container_options}>
@@ -14,7 +22,7 @@ function ProfileOptions(props) {
             </div>
             <div className={styles.container_options}>
                 <FaShoppingCart/>
-                <span className={styles.container_options_span}>Orders</span>
+                <span onClick={handleOpenCart} className={styles.container_options_span}>Orders</span>
             </div>
 
             <div className={styles.divider}></div>
