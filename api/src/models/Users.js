@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: 'client'
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
   }, {
     timestamps: true,
     createdAt: 'created',

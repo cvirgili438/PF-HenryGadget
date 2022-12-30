@@ -7,8 +7,11 @@ import {
   GET_PRODUCTS_BY_QUERY,
   GET_PRODUCT_BY_ID,
   GET_TYPES,
+  GET_ALL_PRODUCTS,
+  CHANGE_PRODUCT_ACTIVE,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
+  CLEAR_PRODUCT,
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
@@ -19,6 +22,7 @@ import {
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
   SET_ORDER,
+  GET_ORDERS
 } from '../Constants/index.js';
 
 
@@ -59,6 +63,11 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         productDetail: action.payload,
       };
+    case CLEAR_PRODUCT:
+      return {
+        ...state,
+        productDetail: {}
+      };
     case GET_TYPES:
       let types = {};
       types.type = action.payload.type.map(el => {
@@ -85,11 +94,24 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
       };
+      case CHANGE_PRODUCT_ACTIVE:
+        return {
+          ...state,
+          products: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+        case GET_ALL_PRODUCTS:
+          return {
+            ...state,
+            products: action.payload.result,
+            lastMsg: action.payload.msg
+          }
     case DELETE_PRODUCT:
       return {
         ...state,
-        // products: state.products.slice()
-      };
+        products: action.payload.result,
+        lastMsg: action.payload.msg
+      }
     case SET_PAGE_VIEW:
       return {
         ...state,
@@ -115,34 +137,52 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         adress:action.payload
       }
-          case GET_USERS:
-            return {
-              ...state,
-              users: action.payload
-            }
-          case GET_REVIEWS:
-            return {
-              ...state,
-              reviews: action.payload
-            }
-          case CHANGE_REVIEW_VISIBLE:
-            return {
-              ...state,
-              reviews: action.payload.result,
-              lastMsg: action.payload.msg
-            }
-          case CHANGE_REVIEW_ARCHIVE:
-            return {
-              ...state,
-              reviews: action.payload.result,
-              lastMsg: action.payload.msg
-            }
-          case SET_ORDER : 
-          return{
-            ...state,
-            lastMsg: action.payload.msg,
-            order: action.payload.result
-          }
+      case GET_USERS:
+        return {
+          ...state,
+          users: action.payload
+        }
+      case GET_REVIEWS:
+        return {
+          ...state,
+          reviews: action.payload
+        }
+      case CHANGE_REVIEW_VISIBLE:
+        return {
+          ...state,
+          reviews: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case CHANGE_REVIEW_ARCHIVE:
+        return {
+          ...state,
+          reviews: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case SET_ORDER : 
+        return{
+          ...state,
+          lastMsg: action.payload.msg,
+          order: [...state.order, ...action.payload.result]
+        }
+      case GET_ORDERS : 
+        return{
+          ...state,
+          lastMsg: action.payload.msg,
+          order: action.payload.data.orders
+        }
+      case CHANGE_USER_ACTIVE:
+        return {
+          ...state,
+          users: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case CHANGE_USER_ADMIN:
+        return {
+          ...state,
+          users: action.payload.result,
+          lastMsg: action.payload.msg
+        }
     default:
       return { ...state };
   }

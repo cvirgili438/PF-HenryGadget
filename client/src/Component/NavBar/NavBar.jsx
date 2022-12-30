@@ -102,7 +102,7 @@ const NavBar = () => {
              
               {!displayOptions
                 ? null
-                : <ProfileOptions logOut={logOut}/>
+                : <ProfileOptions displayOptions={displayOptions} setDisplayOptions={setDisplayOptions} logOut={logOut}/>
               }
             </div>
             )
