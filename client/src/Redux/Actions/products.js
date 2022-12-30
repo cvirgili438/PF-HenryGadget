@@ -8,9 +8,11 @@ import {
   GET_PRODUCTS_BY_QUERY,
   GET_PRODUCT_BY_ID,
   GET_TYPES,
+	GET_ALL_PRODUCTS,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
-  CLEAR_PRODUCT
+  CLEAR_PRODUCT,
+	CHANGE_PRODUCT_ACTIVE
 } from '../Constants/index.js';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -133,14 +135,46 @@ export function editProduct(payload) {
 	}
 }
 
-export function deleteProduct(payload) {
-  return async function (dispatch) {
-		const response = await axios.delete(URL + `/Products/` + payload)
-		return {
-			type: DELETE_PRODUCT,
-			response
-		}
-  }
+export const getAdminProducts = (payload) => async (dispatch)=>{   
+	try {
+		const response = await fetch(URL + '/products/admin/',
+					{
+							method: 'GET',
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: GET_ALL_PRODUCTS,
+							payload: data
+					})
+	}
+	catch(err) {
+		console.log(err)
+	}
+}
+
+export const deleteProduct = (payload) => async (dispatch)=>{   
+	try {
+		const response = await fetch(URL + '/products/admin/' + payload,
+					{
+							method: 'DELETE',
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: DELETE_PRODUCT,
+							payload: data
+					})
+	}
+	catch(err) {
+		console.log(err)
+	}
 }
 
 export function clearProduct() {
@@ -148,3 +182,36 @@ export function clearProduct() {
 		type: CLEAR_PRODUCT
 	}
 };
+
+// export function deleteProduct(payload) {
+//   return async function (dispatch) {
+// 		const response = await axios.delete(URL + `/products/admin/` + payload)
+// 		return {
+// 			type: DELETE_PRODUCT,
+// 			response
+// 		}
+//   }
+// }
+
+export const changeProductActive = (payload) => {
+	return async function(dispatch) {
+			try {
+					const response = await fetch(URL + '/products/admin/suspend/',
+					{
+							method: 'PUT',
+							body: JSON.stringify({'ids': payload}),
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: CHANGE_PRODUCT_ACTIVE,
+							payload: data
+					})
+			}catch(e){
+					return e.message
+			}
+	}
+}
