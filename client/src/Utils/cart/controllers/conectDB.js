@@ -1,5 +1,6 @@
 import axios from "axios";
 import { URL } from '../../../Redux/Constants/index.js';
+import { sendAllCart } from "../cartCrud.js";
 
 export async function sendDB(idProduct, idUser, quantity) {
     try {
@@ -42,5 +43,14 @@ export async function deleteCart(idUser) {
         await axios.delete(`${URL}/carts`, { idUser });
     } catch (error) {
         console.log('Error al borrar carrito.')
+    }
+};
+
+export async function sendAllCartDB(storage, idUser) {
+    try {
+        return await axios.post(`${URL}/carts/all`, { products: storage, idUser });
+    }
+    catch (error) {
+        return error;
     }
 };
