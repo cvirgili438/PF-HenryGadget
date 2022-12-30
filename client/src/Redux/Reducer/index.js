@@ -12,6 +12,7 @@ import {
   CHANGE_PRODUCT_ACTIVE,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
+  CLEAR_PRODUCT,
   SET_PAGE_VIEW,
   SET_USER_LOGIN,
   SET_LOADING,
@@ -69,6 +70,11 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         productDetail: action.payload,
+      };
+    case CLEAR_PRODUCT:
+      return {
+        ...state,
+        productDetail: {}
       };
     case GET_TYPES:
       let types = {};

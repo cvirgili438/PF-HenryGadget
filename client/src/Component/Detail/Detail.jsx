@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
-import { getProductById } from '../../Redux/Actions/products'
+import { getProductById, clearProduct } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
 import { product_area, item_photo, img_mini } from "./UtilDetail";
 import Separator from "../Separator/Separator";
@@ -25,7 +25,11 @@ const Detail = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         dispatch(getProductById(id));
+        return function() {
+            dispatch(clearProduct())
+        };
     }, []);
 
     useEffect(async () => {

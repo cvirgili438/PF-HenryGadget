@@ -11,6 +11,7 @@ import {
 	GET_ALL_PRODUCTS,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
+  CLEAR_PRODUCT,
 	CHANGE_PRODUCT_ACTIVE
 } from '../Constants/index.js';
 
@@ -176,6 +177,11 @@ export const deleteProduct = (payload) => async (dispatch)=>{
 	}
 }
 
+export function clearProduct() {
+	return {
+		type: CLEAR_PRODUCT
+	}
+};
 
 // export function deleteProduct(payload) {
 //   return async function (dispatch) {
@@ -209,5 +215,3 @@ export const changeProductActive = (payload) => {
 			}
 	}
 }
-
-
