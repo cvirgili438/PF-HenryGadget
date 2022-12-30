@@ -62,13 +62,17 @@ Product.belongsTo(Storage);
 Ram.hasMany(Product);
 Product.belongsTo(Ram);
 
-Product.belongsToMany(Cart, {through: 'product_cart'}); //N to N relation stablished
-Cart.belongsToMany(Product, {through: 'product_cart'});
+Product.belongsToMany(Cart, {through: Product_cart}); //N to N relation stablished
+Cart.belongsToMany(Product, {through: Product_cart});
 
 Product.belongsToMany(Order, {through: Product_order}); //N to N relation stablished
 Order.belongsToMany(Product, {through: Product_order});
 
-User.hasOne(Cart); 
+User.hasOne(Cart, {
+  foreignKey: { // No puede existir carrito sin usuario.
+    allowNull: false
+  }
+}); 
 Cart.belongsTo(User);
 
 User.hasMany(Order);

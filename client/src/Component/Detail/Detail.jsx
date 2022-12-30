@@ -37,8 +37,8 @@ const Detail = () => {
     }, [input]);
 
 
-    function handleCart() {
-        addProductCart(productDetail.id, user && user.uid, input.value);
+    let handleCart = async (e) => {
+        await addProductCart(productDetail.id, user && user.uid, input.value);
     }
 
     let handleCount = (e) => {
@@ -129,7 +129,7 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={handleCart} disabled={lowStock || input.value === ''} >Agregar al carro</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={(e) => handleCart(e)} disabled={lowStock || input.value === ''} >Agregar al carro</button>
                         <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
                     </div>
                 </div >

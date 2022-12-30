@@ -16,8 +16,6 @@ export const inicialtate = {
   totalProducts: 1,
   lastMsg: '',
   loading: false,
-  localCart:[],
-  userCart:[],
   users:[],
   reviews:[],
   cartProducts: [],
@@ -48,15 +46,6 @@ export const CHANGE_REVIEW_VISIBLE = 'CHANGE_REVIEW_VISIBLE'
 export const CHANGE_REVIEW_ARCHIVE = 'CHANGE_REVIEW_ARCHIVE'
 export const CHANGE_USER_ACTIVE = 'CHANGE_USER_ACTIVE'
 export const CHANGE_USER_ADMIN = 'CHANGE_USER_ADMIN'
-
-// CARRITO
-export const SET_LOCAL_CART = 'SET_LOCAL_CART'
-export const GET_USER_CART = 'GET_USER_CART'
-export const SET_USER_CART =  'SET_USER_CART'
-export const DELETE_USER_CART = 'DELETE_USER_CART'
-export const CLEAR_CARTS = 'CLEAR_CARTS'
-export const REFRESH_CARTS = 'REFRESH_CARTS'
-export const CART_PRODUCTS = 'CART_PRODUCTS'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
