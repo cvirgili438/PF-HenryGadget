@@ -96,6 +96,64 @@ router.post('/', async(req,res) => {                                            
     }
 });
 
+router.post('/all', async (req, res) => { // POST /carts/all
+    const { products, idUser } = req.body;
+    if (!products || !idUser) return res.status(400).json({ err: 'Important information is missing' });
+
+    try {
+        const user = await User.findByPk(idUser, { include: Cart });
+        if (!user) return res.status(404).json({ msg: 'User does not exist' });
+
+        let userCart;// Se cheque si tiene o no carrito.
+        if (user.cart)
+            userCart = user.cart;
+        else {
+            userCart = await Cart.build({ total: 0 }); // Se contruye carrito.
+            await user.setCart(userCart); // Se lo vincula con el clinente.                 
+        }
+
+        for (const itemProduct of products) { // Se trabaj producto por producto.
+            const productDB = await Product.findByPk(itemProduct.idProduct);
+            if (!productDB)
+                return res.status(404).json({ msg: 'Product does not exist' });
+
+            if (itemProduct.quantity === 0) {// Con cantidad 0 eliminamos producto del carrito.
+                await Product_cart.destroy({
+                    where: {
+                        [Op.and]: [{ productId: itemProduct.idProduct }, { cartId: userCart.id }]
+                    }
+                });
+            }
+            else { // Se debe agregar al carrito.
+                const productInCart = await Product_cart.findOne({
+                    where: {// Producto en el carrito. Detalle de Carrito.
+                        [Op.and]: [{ productId: itemProduct.idProduct }, { cartId: userCart.id }]
+                    }
+                });
+
+                if (productInCart) { // Si ya esta el producto en carrito se debe sumar.
+                    let stock = productDB.stock;
+                    let add; // Cantidad a modificar en carrito
+                    productInCart.quantity + itemProduct.quantity > stock ? // Se checkea que no suepere el stock. 
+                        add = stock :
+                        add = productInCart.quantity + itemProduct.quantity;
+
+                    await Product_cart.update({ quantity: add }, { where: { id: productInCart.id } });
+                }
+                else {
+                    const [{ dataValues }] = await userCart.addProduct(productDB);
+                    await Product_cart.update({ quantity: itemProduct.quantity }, { where: { id: dataValues.id } });
+                }
+            }
+        }
+        const result = await User.findByPk(idUser, { include: Cart });
+        res.status(201).json({ msg: 'Cart created o updated succesfully.', cart: result });
+    }
+    catch (error) {
+        res.status(400).send({ msg: "An error happened on database", err: error.message });
+    }
+});
+
 router.delete('/', async(req,res) => {                                          // localhost:3001/carts (delete)
     const {idUser} = req.body;                                                      // Requerimos el id del usuario por body
 
