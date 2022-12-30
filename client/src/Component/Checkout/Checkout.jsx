@@ -1,22 +1,12 @@
 import React, { useState, useEffect,useRef } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import {  Button, Modal } from "@mui/material";
-import styles from './Checkout.module.css'
 import Steppers from './Stepper.jsx'
-import Purchase from "./Steps/Purchase.jsx";
 import Adress from "./Steps/Adress.jsx";
 import Payment from "./Steps/Payment.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setAddress } from "../../Redux/Actions/checkout";
 import  CartPage from '../CartPage/CartPage.jsx'
 import ModalRegister from '../ModalRegister/ModalRegister.jsx'
-
-
-// Make sure to call loadStripe outside of a component’s render to avoid
-// recreating the Stripe object on every render.
-// This is your test publishable API key.
-const API_KEY = process.env.API_KEY
-const stripePromise = loadStripe(API_KEY);
 
 export default function Checkout() {
   const [active,setActive]=useState(0)

@@ -10,14 +10,12 @@ export const inicialtate = {
   products: [],
   productsNames: [],
   filteredProducts: [],
-  productDetail: [],
+  productDetail: {},
   filters: {},
   page: 1,
   totalProducts: 1,
   lastMsg: '',
   loading: false,
-  localCart:[],
-  userCart:[],
   userFromDb:{},
   users:[],
   reviews:[],
@@ -38,6 +36,7 @@ export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
+export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 
 // USUARIOS
@@ -49,15 +48,6 @@ export const CHANGE_REVIEW_VISIBLE = 'CHANGE_REVIEW_VISIBLE'
 export const CHANGE_REVIEW_ARCHIVE = 'CHANGE_REVIEW_ARCHIVE'
 export const CHANGE_USER_ACTIVE = 'CHANGE_USER_ACTIVE'
 export const CHANGE_USER_ADMIN = 'CHANGE_USER_ADMIN'
-
-// CARRITO
-export const SET_LOCAL_CART = 'SET_LOCAL_CART'
-export const GET_USER_CART = 'GET_USER_CART'
-export const SET_USER_CART =  'SET_USER_CART'
-export const DELETE_USER_CART = 'DELETE_USER_CART'
-export const CLEAR_CARTS = 'CLEAR_CARTS'
-export const REFRESH_CARTS = 'REFRESH_CARTS'
-export const CART_PRODUCTS = 'CART_PRODUCTS'
 
 // VARIAS
 export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';

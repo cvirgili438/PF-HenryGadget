@@ -43,7 +43,7 @@ router.post('/', async(req,res) => {                                            
 
         if(!user) return res.status(404).json({msg: 'User does not exist'});                                        // Pequeñas validaciones para confirmar que exista tanto el producto como el usuario con ese id.
         if(!product) return res.status(404).json({msg: 'Product does not exist'});
-        
+
         if(user.cart) {                                                                                             // Para evitar que el codigo rompa tendremos que dividir lo que haremos en caso de que el usuario ya tenga un carrito o en el caso en que no, aqui es la division
             const userCart = user.cart;                                                                             // En el caso en que exista el carrito lo guardamos en la constante userCart
             const productExist = await Product_cart.findOne({where: {                                               // Buscamos si el producto pasado por id ya existe en el carrito de ese usuario, si no existe productExist sera null si existe pues guardara la instancia de Product_cart
@@ -83,7 +83,7 @@ router.post('/', async(req,res) => {                                            
             return;
         }
         
-        const newCart = await Cart.create({total: product.price});                                                  // Si estamos aca es porque el usuario NO TIENE un carrito (primer producto agregado) asi que creamos el carrito primero que todo :))
+        const newCart = await Cart.build({total: product.price});                                                  // Si estamos aca es porque el usuario NO TIENE un carrito (primer producto agregado) asi que creamos el carrito primero que todo :))
         await user.setCart(newCart);                                                                                // Vinculamos el carrito al usuario que buscamos anteriormente por el iduser recibido
 
         const [{dataValues}] = await newCart.addProduct(product);                                                   // A ese nuevo carrito ya creado y ya vinculado con el usuario le añadimos el producto y actualizamos para que tenga la cantidad de ese producto
