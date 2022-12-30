@@ -40,7 +40,7 @@ export default function RecipeReviewCard({review}) {
     };
 
     return (
-        <Card sx={{ maxWidth: '100%', marginBottom: '1rem' }}>
+        <Card sx={{ maxWidth: '100%', marginBottom: '1rem', border: 'black 1px' }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -67,8 +67,8 @@ export default function RecipeReviewCard({review}) {
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+            <Collapse in={expanded} timeout="auto" unmountOnExit >
+                <CardContent >
                     <Typography paragraph>  
                     <p>...opinion...</p>                  
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. 

@@ -157,29 +157,29 @@ const Detail = () => {
 
                 <Separator title={'Opiniones del producto'} />
                 <Grid container >
-                    <Grid container item xs={4}>
-                        <Grid item xs={2} sx={{maxHeight: '4rem', margin: 0}}>
+                    <Grid container item xs={4} sx={{paddingBottom: '28rem'}}>
+                        <Grid item xs={2}>
                             <Typography
                                 fontSize={40}
                                 fontWeight={600}
                                 component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
                             </Typography>
                         </Grid>
-                        <Grid item xs={10} sx={{maxHeight: '4rem', margin: 0}}>
-                            <Rating
-                                // sx={{ pt: 2 }}
+                        <Grid item xs={10}>
+                            <Rating  //estrellas
+                                sx={{ padding:'auto' }}
                                 name="read-only"
                                 value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
                                 precision={0.5}
                                 readOnly
                             />
-                            <Grid item xs={12}>
+                            <Grid item xs={12}>  
                                 {`${reviews && reviews.length} Reviews`}
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
                             {reviews && IndexScore(reviews).map((e, i) => {
-                                return (<Grid key={i} item xs={8}>
+                                return (<Grid key={i} item xs={10}>
                                     <Box sx={{ pt: 1 }}>
                                         <LinearProgress
                                             variant="determinate"

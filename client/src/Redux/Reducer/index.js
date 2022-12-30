@@ -97,18 +97,18 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
       };
-      case CHANGE_PRODUCT_ACTIVE:
-        return {
-          ...state,
-          products: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-        case GET_ALL_PRODUCTS:
-          return {
-            ...state,
-            products: action.payload.result,
-            lastMsg: action.payload.msg
-          }
+    case CHANGE_PRODUCT_ACTIVE:
+      return {
+        ...state,
+        products: action.payload.result,
+        lastMsg: action.payload.msg
+      }
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload.result,
+        lastMsg: action.payload.msg
+      }
     case DELETE_PRODUCT:
       return {
         ...state,
@@ -120,15 +120,15 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         page: Number(action.payload),
       };
-    case SET_USER_LOGIN :
-      return{
+    case SET_USER_LOGIN:
+      return {
         ...state,
         user: action.payload
       }
     case SET_LOADING:
-      return{
+      return {
         ...state,
-        loading:!state.loading
+        loading: !state.loading
       }
     case SET_LOCAL_ADRESS:
       return {
@@ -138,88 +138,88 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress:action.payload
+        adress: action.payload
       }
     case SET_LOCAL_CART:
-      return{
+      return {
         ...state,
-        localCart:action.payload
+        localCart: action.payload
       }
     case GET_USER_CART:
       return {
         ...state,
-        userCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}}),
-        localCart: action.payload.products.map(c => { return {idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity}})
+        userCart: action.payload.products.map(c => { return { idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity } }),
+        localCart: action.payload.products.map(c => { return { idProduct: c.id, name: c.name, price: c.price, img: c.img[0], quantity: c.product_cart.quantity } })
       }
-      case SET_USER_CART:
-        return {
-          ...state,
-          userCart : action.payload,
-          localCart: action.payload      
-        }
-        case CLEAR_CARTS:
-          return {
-            ...state,
-            localCart: [],
-            userCart: []
-          };
-        case REFRESH_CARTS:
-          return {
-            ...state,
-            localCart: state.localCart.map(c => c),
-            userCart: state.userCart.map(c => c)
-          }
-          case GET_USERS:
-            return {
-              ...state,
-              users: action.payload
-            }
-          case GET_USER_BY_ID:
-            return {
-              ...state,
-              userFromDb: action.payload
-            }
-          case GET_REVIEWS:
-            return {
-              ...state,
-              reviews: action.payload
-            }
-          case CHANGE_REVIEW_VISIBLE:
-            return {
-              ...state,
-              reviews: action.payload.result,
-              lastMsg: action.payload.msg
-            }
-          case CHANGE_REVIEW_ARCHIVE:
-            return {
-              ...state,
-              reviews: action.payload.result,
-              lastMsg: action.payload.msg
-            }
-          case SET_ORDER : 
-          return{
-            ...state,
-            lastMsg: action.payload.msg,
-            order: [...state.order, ...action.payload.result]
-          }
-          case GET_ORDERS : 
-            return{
-              ...state,
-              lastMsg: action.payload.msg,
-              order: action.payload.data.orders
-            }
-          case CHANGE_USER_ACTIVE:
-            return {
-              ...state,
-              users: action.payload.result,
-              lastMsg: action.payload.msg
-            }
-          case CHANGE_USER_ADMIN:
-            return {
-              ...state,
-              users: action.payload.result,
-              lastMsg: action.payload.msg
-            }
+    case SET_USER_CART:
+      return {
+        ...state,
+        userCart: action.payload,
+        localCart: action.payload
+      }
+    case CLEAR_CARTS:
+      return {
+        ...state,
+        localCart: [],
+        userCart: []
+      };
+    case REFRESH_CARTS:
+      return {
+        ...state,
+        localCart: state.localCart.map(c => c),
+        userCart: state.userCart.map(c => c)
+      }
+    case GET_USERS:
+      return {
+        ...state,
+        users: action.payload
+      }
+    case GET_USER_BY_ID:
+      return {
+        ...state,
+        userFromDb: action.payload
+      }
+    case GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload
+      }
+    case CHANGE_REVIEW_VISIBLE:
+      return {
+        ...state,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg
+      }
+    case CHANGE_REVIEW_ARCHIVE:
+      return {
+        ...state,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg
+      }
+    case SET_ORDER:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        order: [...state.order, ...action.payload.result]
+      }
+    case GET_ORDERS:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        order: action.payload.data.orders
+      }
+    case CHANGE_USER_ACTIVE:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg
+      }
+    case CHANGE_USER_ADMIN:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg
+      }
     default:
       return { ...state };
   }
