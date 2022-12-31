@@ -1,5 +1,5 @@
 import { addItem } from './controllers/addItem.js';
-import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart } from './controllers/conectDB.js';
+import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart, sendAllCartDB } from './controllers/conectDB.js';
 
 export async function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado
@@ -80,11 +80,11 @@ export async function getAllCart(idUser) {
     }
 };
 
-// Función que solo se llama cuando el cliente está logueado.
+// Función que solo se llama cuando el cliente se logueado
+// teniendo un carrito en el localstorage.
 export async function sendAllCart(storage, idUser) {
     try {
-        for (const item of storage)
-            await sendDB(item.idProduct, idUser, item.quantity);
+        return await sendAllCartDB(storage, idUser);
     }
     catch (e) {
         return false;
