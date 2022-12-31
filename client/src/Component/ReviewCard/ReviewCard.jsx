@@ -29,7 +29,8 @@ export default function RecipeReviewCard({review}) {
     const user = useSelector(state => state.userFromDb)
     const dispatch = useDispatch();
 
-    console.log(user);
+    console.log(Object(user));
+    console.log(review.userUid);
 
     useEffect(() => {
         review.userUid && dispatch(getUserById(review.userUid))
