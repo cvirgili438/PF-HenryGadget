@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const authWithoutAdm = require('../middleware/authWithoutAdm.js');
+
 const { sgMail } = require('../config/sendgrid-config.js');
 
 const {
@@ -8,10 +10,12 @@ const {
     SUBJECT_SENDMAIL
 } = require('./constants/dataToSendMail.js');
 
+router.use(authWithoutAdm);
+
 router.post('/sendmail', async (req, res) => {
-    const { to, subject, text } = req.body;
-    if (!to)
-        return res.status(400).json({ err: 'To parameter missing.' });
+    const { uid, subject, text } = req.body;
+    if (!uid)
+        return res.status(400).json({ err: 'Uid parameter missing.' });
     if (!subject)
         return res.status(400).json({ err: 'Subject parameter missing.' });
     if (!text)
@@ -19,7 +23,7 @@ router.post('/sendmail', async (req, res) => {
 
     try {
         const msg = {
-            to: to,
+            to: req.user.email, // Obtenido por el middleware desde Firebase.
             subject: SUBJECT_SENDMAIL + subject,
             from: EMAIL_FROM_NEWSLETTER,
             html: text
