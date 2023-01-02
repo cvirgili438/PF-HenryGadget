@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom';
 import { setOrder } from '../../Redux/Actions/order';
 
+import { sendAutomatickEmail } from '../../Utils/SendAutomaticEmail/automaticEmail.js';
+import {
+  SUBJECT_PAYMENT,
+  TEXT_PAYMENT
+} from '../../Utils/SendAutomaticEmail/constantsAutomaticEmail';
+
 export default function Payment() {
     const dispatch =useDispatch();
     const user = useSelector(state =>state.user)
@@ -14,6 +20,7 @@ export default function Payment() {
     useEffect(()=>{
         if(payment === 'succeeded'){
             dispatch(setOrder(user.uid))
+            sendAutomatickEmail(user && user.uid, SUBJECT_PAYMENT, TEXT_PAYMENT);
             setTimeout(()=>{history.push('/')},3000)
         }
     },[])
