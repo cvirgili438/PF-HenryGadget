@@ -1,10 +1,10 @@
 export const Button_contained_primary = {
     backgroundColor:'rgb(0,0,0)',
-    width:'8em',
+    width:'10em',
     marginLeft:'2rem',
     marginRight:'1rem',
     '&:hover':{
-      backgroundColor:'rgb(25,25,25)'
+      backgroundColor:'rgb(10,10,10)'
     }
    }
 

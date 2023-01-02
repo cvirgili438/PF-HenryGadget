@@ -5,7 +5,6 @@ import { FiUserCheck } from 'react-icons/fi'
 import { getProductsByQuery } from '../../Redux/Actions/products.js'
 import logo from '../../Assets/logo.png'
 import styles from './NavBar.module.css';
-import ModalRegister from "../ModalRegister/ModalRegister.jsx";
 import { useEffect } from "react";
 import ProfileOptions from "../ProfileOptions/ProfileOptions.jsx";
 import { setUserInFrontState } from "../../Redux/Actions/users.js";
@@ -15,6 +14,7 @@ import { Button_contained_primary} from "../../Utils/MiuStyles/MiuStyles.js";
 import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
+import ModalUser from "../ModalRegister/Modal.jsx";
 
 const NavBar = () => {
 
@@ -46,10 +46,10 @@ const NavBar = () => {
     query.set('offset', 0)
     history.push({search:query.toString()})
   };
+  
 
   const handleClear = e => {
     e.preventDefault();
-    
     query.delete("name")
     history.push({search:query.toString()})
     setInput('');
@@ -106,7 +106,7 @@ const NavBar = () => {
         }
 
       </div>
-      <ModalRegister 
+      <ModalUser
         show={modalShow}
         onHide={() => setModalShow(false)}
         />
