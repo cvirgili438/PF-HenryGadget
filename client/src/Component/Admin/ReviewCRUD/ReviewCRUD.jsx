@@ -68,7 +68,7 @@ const ReviewCRUD = () => {
           With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
-          Filter by product: <Input type='text' name='review' value={input} onChange={handleInputChange} />
+          Filter by name, model or review: <Input type='text' name='review' value={input} onChange={ handleInputChange } />
         </div>
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
@@ -80,11 +80,11 @@ const ReviewCRUD = () => {
         <table className={ styles.table }>
           <thead>
             <tr>
-              <th>n</th>
+              <th>N°</th>
               <th>Select</th>
-              <th>From</th>
-              <th>Location</th>
-              <th>Product</th>
+              <th>Img</th>
+              <th>Name</th>
+              <th>Model</th>
               <th>Review</th>
               <th>Rating</th>
               <th>Visible</th>
@@ -94,15 +94,19 @@ const ReviewCRUD = () => {
           <tbody>
             {
               reviews
-              .filter(p => p.comment.toLowerCase().includes(input.toLowerCase()))
+              .filter(p => p.comment.toLowerCase().includes(input.toLowerCase())
+                          ||
+                          p.product.name.toLowerCase().includes(input.toLowerCase())
+                          ||
+                          p.product.model.toLowerCase().includes(input.toLowerCase()))
               .filter(p => score === null ? p : +p.score === +score)
               .map((p, i) => (
                 <tr key={ p.id }>
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                  <td>{ ['Alex', 'Marty', 'Melman', 'Gloria'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['Argentina', 'Colombia', 'Chile', 'Ecuador'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['iPhone 12', 'Airpods', 'Tablet motomoto', 'Cargador'][Math.floor(Math.random() * 4)] }</td>
+                  <td><img src={ p.product.img[0] } alt={ p.product.name } className={ styles.productImage } /></td>
+                  <td>{ p.product.name }</td>
+                  <td>{ p.product.model }</td>
                   <td>{ p.comment }</td>
                   <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
                   <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>

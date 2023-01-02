@@ -8,6 +8,7 @@ function SearchBar(props) {
     <div className={styles.container}>
         <div className={styles.search_inputs_container}>
             <input className={styles.searchBar_input} placeholder={props.placeholder} onChange={props.onChange} value={props.value} name={props.name} type={props.type} />
+            
             {props.input 
             ?(
                 <div onClick={props.onClick[0]} className={styles.search_icon_container_clear}>

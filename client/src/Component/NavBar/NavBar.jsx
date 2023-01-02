@@ -15,6 +15,8 @@ import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
+import { getAuth, signOut } from 'firebase/auth'
+import { app } from "../../Firebase/firebase.config";
 
 const NavBar = () => {
 
@@ -60,10 +62,12 @@ const NavBar = () => {
     setDisplayOptions(!displayOptions)
   }
 
+  const firebaseAuth = getAuth(app)
   const logOut = ()=>{
     setDisplayOptions(!displayOptions)
     localStorage.clear()
     dispatch(setUserInFrontState(null))
+    signOut(firebaseAuth).catch(e=>{console.log(e)})
   }
 
  
@@ -97,7 +101,7 @@ const NavBar = () => {
              
               {!displayOptions
                 ? null
-                : <ProfileOptions logOut={logOut}/>
+                : <ProfileOptions displayOptions={displayOptions} setDisplayOptions={setDisplayOptions} logOut={logOut}/>
               }
             </div>
             )

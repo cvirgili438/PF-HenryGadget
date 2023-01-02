@@ -2,12 +2,12 @@ const { Router } = require('express');
 const { Op } = require("sequelize");
 const router = Router();
 
-const { Order, User, Cart, Product, Product_cart } = require('../../db.js');
+const { Order, User, Cart, Product, Product_cart, Product_order } = require('../../db.js');
 const { deleteStock } = require('./controller.js');
 
 
 router.get('/', async(req,res) => {                                                             // localhost:3001/orders (get)
-    const {idUser} = req.body;                                                                  // Requerimos el id del usuario por body
+    const {idUser} = req.query;                                                                  // Requerimos el id del usuario por body
     
     if(!idUser) return res.status(404).json({err: 'User id is missing'});                       // Validamos que si nos pasen el id del usuario
     
@@ -43,9 +43,11 @@ router.post('/', async (req,res) => {                                           
         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
 
         for (const product of products) {       
-            const idProduct = product.id                                                                            // Iteramos sobre los productos del carrito 
+            const idProduct = product.id    
+            const quantity = product.product_cart.quantity;                                                                     // Iteramos sobre los productos del carrito 
             const productToAdd = await Product.findByPk(product.id);                                                // Buscamos el producto por su id para tener toda su informacion
             await newOrder.addProduct(productToAdd);                                                                // y vinculamos cada producto a la orden anteriormente creada
+            await Product_order.update({ quantity: quantity }, { where: { productId: idProduct } });
        
             await deleteStock(idProduct, userCart.id);                                                              // Eliminamos el stock dependiendo de la cantidad de productos comprada
         };
