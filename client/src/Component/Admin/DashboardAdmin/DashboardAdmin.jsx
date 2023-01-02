@@ -24,8 +24,7 @@ const DashboardAdmin = () => {
       </div>
       <div className={ styles.right }>
         <ButtonGroup>
-          <Button component={Link} to="/" >To main</Button>
-          <Button component={Link} to="/" >Logout</Button>
+          <Button component={Link} to="/" >To main page</Button>
         </ButtonGroup>
      </div>
     </div>
