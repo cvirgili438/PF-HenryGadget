@@ -35,7 +35,7 @@ const Newslatter = () => {
                         
                     }}>
                         <EmailIcon />
-                        <h2>Newslatter</h2>
+                        <h2>Newsletter</h2>
                     </Stack>
                     <Box sx={{
                         alignItems: 'center'

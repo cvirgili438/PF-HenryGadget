@@ -1,6 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import NavBar from './Component/NavBar/NavBar.jsx';
@@ -25,6 +26,9 @@ import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
 
 
 const App = () => {
+
+  const user = useSelector(state => state.user);
+
   return (
     <BrowserRouter >
       <div className="App">
@@ -38,16 +42,21 @@ const App = () => {
           <Route  path={'/payment'} component={Payment}  />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
-
-          <Route path='/admin'>
-            <DashboardAdmin />
-            <Route path='/admin/products' component={ProductCRUD} />
-            <Route path='/admin/orders' component={OrderCRUD} />
-            <Route path='/admin/mailing' component={MailingCRUD} />
-            <Route path='/admin/reviews' component={ReviewCRUD} />
-            <Route path='/admin/users' component={UserCRUD} />
-            <Route path='/admin/createproduct' component={CreateProduct}/>
-          </Route>         
+          {
+            user && user.rol === 'admin' ?
+              <Route path='/admin'>
+                <DashboardAdmin />
+                <Route path='/admin/products' component={ProductCRUD} />
+                <Route path='/admin/orders' component={OrderCRUD} />
+                <Route path='/admin/mailing' component={MailingCRUD} />
+                <Route path='/admin/reviews' component={ReviewCRUD} />
+                <Route path='/admin/users' component={UserCRUD} />
+                <Route path='/admin/createproduct' component={CreateProduct}/>
+              </Route>         
+            :
+            <></>
+          }
+          
           <Route path="*" component={Page404} />
         </Switch>
         <Footer />
