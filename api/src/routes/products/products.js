@@ -178,7 +178,7 @@ router.get('/:id', async (req, res) => {
                 { model: Ram } // include[4]
             ]
         });
-        console.log(product);
+        
         if (product === null) {
             return res.status(400).json({ err: `The entered id does not exist.` })
         }
