@@ -16,7 +16,6 @@ import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js
 const Cart = () => {     
         let [localCart, setLocalCart] = useState([]);
         const user = useSelector(state => state.user)
-        const userCart = useSelector(state => state.userCart);
         const history = useHistory();
 
         const totalPrice= (cart)=>{
@@ -26,10 +25,6 @@ const Cart = () => {
             })
             return price
         }
-
-        useEffect(async () => {
-          setLocalCart(await getAllCart(user && user.uid));
-        },[userCart]);
 
         useEffect(async () => {
           if (user) {
@@ -78,6 +73,10 @@ const Cart = () => {
           if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
           }
+
+          if(open)
+          setLocalCart(await getAllCart(user && user.uid));
+
           prevOpen.current = open;
         }, [open]);
 
