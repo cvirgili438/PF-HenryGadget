@@ -1,10 +1,15 @@
 import { addItem } from './controllers/addItem.js';
 import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart, sendAllCartDB } from './controllers/conectDB.js';
+// Sirve solo para dar aviso a los componentes de que el carrito fue editado.
+import { SET_CART } from '../../Redux/Constants/index.js';
+import { store } from '../../Redux/Store/index.js';
 
 export async function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado
         try {
-            return await sendDB(idProduct, idUser, quantity)
+            let response = await sendDB(idProduct, idUser, quantity);
+            store.dispatch({type: SET_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+            return response;
         }
         catch (error) {
             console.log('Error enviar producto: ', error.mesagge)
@@ -20,6 +25,7 @@ export async function addProductCart(idProduct, idUser, quantity) {
 export function updateProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
         setDB(idProduct, idUser, quantity)
+        .then(() => store.dispatch({type: SET_CART, payload: Math.ceil(Math.random() * 1000000000000)}))
             .catch(data => console.log('Error enviar producto: ', data));
     }
     else { // No logueado
@@ -32,6 +38,7 @@ export function updateProductCart(idProduct, idUser, quantity){
 export function deleteProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
         setDB(idProduct, idUser, quantity)
+        .then(() => store.dispatch({type: SET_CART, payload: Math.ceil(Math.random() * 1000000000000)}))
             .catch(data => console.log('Error enviar producto: ', data));
     } 
     else { // No logueado
@@ -84,7 +91,9 @@ export async function getAllCart(idUser) {
 // teniendo un carrito en el localstorage.
 export async function sendAllCart(storage, idUser) {
     try {
-        return await sendAllCartDB(storage, idUser);
+        let response = await sendAllCartDB(storage, idUser);
+        store.dispatch({type: SET_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+        return response;
     }
     catch (e) {
         return false;
