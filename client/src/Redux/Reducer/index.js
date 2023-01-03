@@ -18,7 +18,6 @@ import {
   SET_LOCAL_ADRESS,
   SET_USER_ADDRESS,
   GET_USERS,
-  GET_USER_BY_ID,
   GET_REVIEWS,
   CHANGE_USER_ACTIVE,
   CHANGE_USER_ADMIN,
@@ -144,11 +143,6 @@ export default function rootReducer(state = inicialtate, action) {
         return {
           ...state,
           users: action.payload
-        }
-      case GET_USER_BY_ID:
-        return {
-          ...state,
-          userFromDb: action.payload
         }
       case GET_REVIEWS:
         return {

@@ -1,4 +1,4 @@
-import { SET_USER_LOGIN, GET_USER_BY_ID, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
+import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
 
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
@@ -48,26 +48,6 @@ export const getUsers = (payload)=>{
     }
 }
 
-export const getUserById = (id) => {
-    return async function(dispatch) {
-        try {
-            const response = await fetch(`${URL}/users/${id}`,{
-                method: "GET",
-                headers:{
-                    "Accept": "application/json",
-                    "authorization":"Bearer "
-                }
-            })
-            const data = await response.json()
-            return dispatch({
-                type: GET_USER_BY_ID,
-                payload: data.result
-            })
-        } catch (e) {
-            return e.message
-        }
-    }
-}
 
 export const getReviews = (payload)=>{
     return async function(dispatch){

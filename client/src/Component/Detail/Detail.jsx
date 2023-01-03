@@ -28,7 +28,7 @@ const Detail = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
-        return function() {
+        return function () {
             dispatch(clearProduct())
         };
     }, []);
@@ -160,56 +160,61 @@ const Detail = () => {
                 </div>
 
                 <Separator title={'Opiniones del producto'} />
-                <Grid container >
-                    <Grid container item xs={4} sx={{paddingBottom: '28rem'}}>
-                        <Grid item xs={2}>
-                            <Typography
-                                fontSize={40}
-                                fontWeight={600}
-                                component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={10}>
-                            <Rating  //estrellas
-                                sx={{ padding:'auto' }}
-                                name="read-only"
-                                value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
-                                precision={0.5}
-                                readOnly
-                            />
-                            <Grid item xs={12}>  
-                                {`${reviews && reviews.length} Reviews`}
+                {
+                    reviews && reviews.length > 0 ?
+                        <Grid container >
+                            <Grid container item xs={4} sx={{ paddingBottom: '28rem' }}>
+                                <Grid item xs={2}>
+                                    <Typography
+                                        fontSize={40}
+                                        fontWeight={600}
+                                        component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Rating  //estrellas
+                                        sx={{ padding: 'auto' }}
+                                        name="read-only"
+                                        value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
+                                        precision={0.5}
+                                        readOnly
+                                    />
+                                    <Grid item xs={12}>
+                                        {`${reviews.length} Reviews`}
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    {IndexScore(reviews).map((e, i) => {
+                                        return (<Grid key={i} item xs={10}>
+                                            <Box sx={{ pt: 1 }}>
+                                                <LinearProgress
+                                                    variant="determinate"
+                                                    value={e}
+                                                /> {i + 1} <StarIcon
+                                                    fontSize="small"
+                                                    sx={{ color: "#d1cfcb" }}
+                                                />
+                                            </Box>
+                                        </Grid>)
+                                    })}
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            {reviews && IndexScore(reviews).map((e, i) => {
-                                return (<Grid key={i} item xs={10}>
-                                    <Box sx={{ pt: 1 }}>
-                                        <LinearProgress
-                                            variant="determinate"
-                                            value={e}
-                                        /> {i + 1} <StarIcon
-                                            fontSize="small"
-                                            sx={{ color: "#d1cfcb" }}
-                                        />
-                                    </Box>
-                                </Grid>)
-                            })}
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={8} sx={{ py: 3 }}>
-                        {reviews ? reviews.map(e => {
-                            return (
-                            <Box key={e.id} >
-                                <RecipeReviewCard key={e.id} review={e} />
-                            </Box>
-                                // <p key={e.id}>{e.comment}</p>
-                            )
-                        }
-                        ) : <p>-n/a-</p>}
+                            <Grid item xs={8} sx={{ py: 3 }}>
+                                {reviews.map(e => {
+                                    return (
+                                        <Box key={e.id} >
+                                            <RecipeReviewCard key={e.id} review={e} />
+                                        </Box>
+                                        // <p key={e.id}>{e.comment}</p>
+                                    )
+                                })
+                                
+                                }
 
-                    </Grid>
-                </Grid>
+                            </Grid>
+                        </Grid> :
+                    <div style={{padding: '3rem', border: '2px dashed green'}}>No tenemos reviews de este producto, se el primero en comentar 😉</div>
+                }
             </div>
         </Container >
     )

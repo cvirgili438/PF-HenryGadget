@@ -46,7 +46,7 @@ router.get('/', async (req,res)=> {                                             
 router.use(authWithoutAdm);
 
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
-    const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
+    const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score, titleComment y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
     const reviewDataValidate = reviewData || false;                                             // Validacion en caso de que reviewData sea null, evitar que rompa el servidor
     let uidFire = req.user.uid;
     if (idUser !== uidFire) {
@@ -55,7 +55,7 @@ router.post('/', async (req,res) => {                                           
 
     if(!idProduct || !idUser) return res.status(400).json({err: 'Missing data.'});               // Si falta algun id devuelve un error.
     if(!reviewDataValidate) return res.status(400).json({err: 'Review data is missing.'});       // Revisa que si hayan pasado ReviewData
-    if(!reviewDataValidate.score) return res.status(400).json({err: 'Review score is missing.'});// Revisa que reviewData tenga la propiedad score, comments es opcional
+    if(!reviewDataValidate.score) return res.status(400).json({err: 'Review score is missing.'});// Revisa que reviewData tenga la propiedad score, titleComment y comments es opcional
     
     try {
         const product = await Product.findByPk(idProduct);                                       // Encuentra el product por ID
@@ -156,7 +156,7 @@ router.put('/:idReview', async (req,res) => {                                   
     }
 
     if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
-    if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
+    if(!reviewDataValidate.score && !reviewDataValidate.titleComment && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
     
     try { 
         const review = await Review.findByPk(idReview);
@@ -164,7 +164,7 @@ router.put('/:idReview', async (req,res) => {                                   
             res.status(404).json({err: `Review with id: ${idReview} doesn't exist.`});
             return;
         }
-        const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el comment
+        const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el titleComment y el comment
         res.status(200).json({msg: `Review with id: ${idReview} was updated`, result: reviewUpdated})
     } catch (error) {
         res.status(400).json({err: error})

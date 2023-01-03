@@ -6,6 +6,10 @@
   border: 1px solid black;
 }
 
+.separador {
+  height: 60px;
+}
+
 .column {
   font-size: 0.9em;
   width: 100%;
