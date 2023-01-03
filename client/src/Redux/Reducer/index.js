@@ -24,7 +24,10 @@ import {
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
   SET_ORDER,
-  GET_ORDERS
+  GET_ORDERS,
+  GET_ADMIN_ORDERS,
+  CHANGE_ORDER_ARCHIVE,
+  CHANGE_ORDER_STATUS
 } from '../Constants/index.js';
 
 
@@ -173,6 +176,24 @@ export default function rootReducer(state = inicialtate, action) {
           ...state,
           lastMsg: action.payload.msg,
           order: action.payload.data.orders
+        }
+        case GET_ADMIN_ORDERS:
+          return {
+            ...state,
+          orders: action.payload.result,
+          lastMsg: action.payload.msg,
+          }
+      case CHANGE_ORDER_ARCHIVE:
+        return {
+          ...state,
+          orders: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case CHANGE_ORDER_STATUS:
+        return {
+          ...state,
+          orders: action.payload.result,
+          lastMsg: action.payload.msg
         }
       case CHANGE_USER_ACTIVE:
         return {

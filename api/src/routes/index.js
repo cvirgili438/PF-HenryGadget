@@ -8,6 +8,7 @@ const users = require('../routes/users');
 const address = require('../routes/address.js');
 const carts = require('../routes/cart/cart');
 const checkout = require('../routes/checkout/checkout.js')
+const orderAdmin = require('../routes/order/orderAdmin');
 const order = require('../routes/order/order')
 const router = Router();
 
@@ -20,6 +21,7 @@ router.use('/users', users);
 router.use('/address', address);
 router.use('/carts', carts)
 router.use('/checkout',checkout)
+router.use('/orders/admin', orderAdmin);
 router.use('/orders', order);
 
 
