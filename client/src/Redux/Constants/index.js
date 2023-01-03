@@ -21,7 +21,8 @@ export const inicialtate = {
   cartProducts: [],
   user:userStorageData,
   adress:{},
-  order:[]
+  order:[],
+  userCart: null
 
 };
 
@@ -59,3 +60,6 @@ export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
 //orders
 export const SET_ORDER = 'SET_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
+
+// Cart
+export const SET_CART = 'SET_CART';

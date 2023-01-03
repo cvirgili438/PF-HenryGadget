@@ -24,7 +24,8 @@ import {
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
   SET_ORDER,
-  GET_ORDERS
+  GET_ORDERS,
+  SET_CART
 } from '../Constants/index.js';
 
 
@@ -184,6 +185,11 @@ export default function rootReducer(state = inicialtate, action) {
           ...state,
           users: action.payload.result,
           lastMsg: action.payload.msg
+        }
+      case SET_CART:
+        return {
+          ... state,
+          userCart: action.payload
         }
     default:
       return { ...state };
