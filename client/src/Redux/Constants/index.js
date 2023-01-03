@@ -22,7 +22,8 @@ export const inicialtate = {
   user:userStorageData,
   adress:{},
   order:[],
-  orders:[]
+  orders:[],
+  mailing:[]
 };
 
 // PRODUCTOS
@@ -62,3 +63,8 @@ export const GET_ORDERS = 'GET_ORDERS'
 export const GET_ADMIN_ORDERS = 'GET_ADMIN_ORDERS'
 export const CHANGE_ORDER_ARCHIVE = 'CHANGE_ORDER_ARCHIVE'
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS'
+
+//mailing
+export const GET_ADMIN_MAILING = 'GET_ADMIN_MAILING'
+export const CHANGE_MAILING_ARCHIVE = 'CHANGE_MAILING_ARCHIVE' 
+export const PUBLISH_MAILING = 'PUBLISH_MAILING'

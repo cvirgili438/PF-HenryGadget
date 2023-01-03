@@ -7,8 +7,8 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getProductsByQuery, deleteProduct } from '../../../Redux/Actions/products.js';
-
+import { getProductsByQuery } from '../../../Redux/Actions/products.js';
+import { changeMailingArchive, getAdminMailng, publishMailing } from '../../../Redux/Actions/mailing.js';
 
 import styles from './MailingCRUD.module.css';
 
@@ -17,7 +17,7 @@ const MailingCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
 
-  const products = useSelector(state => state.filteredProducts);
+  const mailing = useSelector(state => state.mailing);
   
   const dispatch = useDispatch();
 
@@ -25,21 +25,19 @@ const MailingCRUD = () => {
     setInput(e.target.value);
   };
 
-  const handleSubmitDelete = async e => {
-    await dispatch(deleteProduct(e.target.value));
-    await dispatch(getProductsByQuery(`?limit=20&offset=0`))
+  const handleChangeArchive = e => {
+    dispatch(changeMailingArchive([e.target.value]));
   };
 
-  // const handleInputChange = (e) => {
-  //   dispatch(setPageView(e.target.value));
-  //   queryNew.limit = productsPerPage;
-  //   queryNew.offset = e.target.value * productsPerPage - productsPerPage;
-  //   let string = objectToQuery(queryNew);
-  //   dispatch(getProductsByQuery(`?${string}`));
-  //   history.push(`?${string}`);
-  // }
+  const handleSubmiteMultipleArchive = e => {
+    dispatch(changeMailingArchive(selected));
+  };
 
-  const handleInputProducts = e => {
+  const handlePublish = e => {
+    dispatch(publishMailing(e.target.value));
+  };
+
+  const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
         setSelected([...selected, e.target.name]);
@@ -47,70 +45,52 @@ const MailingCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
-
   };
 
   useEffect(() => {
-    dispatch(getProductsByQuery(`?limit=20&offset=0`))
+    dispatch(getAdminMailng())
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(setPageView((offset / productsPerPage) + 1))
-  //   if(totalProducts < productsPerPage) {
-  //     dispatch(setPageView(1))
-  //   }
-  //   if (page > pages) {
-  //     dispatch(setPageView(pages))
-  //   }
-  //   setShownPages(stripedPagination(pages, page, maxPages))
-  // }, [products, page, totalProducts, pages, limit, offset, dispatch]);
 
   return (
     <div className={ styles.container }>
       <div className={ styles.managebar }>
-        <div>
-          With {selected.length} selected: { selected.length <= 3 ?
-            <>
-              <Button text='To landing' disabled={true} />
-              {/* <Button text='Suspend' /> */}
-              <Button text='Delete' disabled={true} />
-            </>
-            :
-            null }
+      <div>
+          With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
-          Filter by name: <Input type='text' name='country' value={input} onChange={handleInputChange} />
+          Filter by title: <Input type='text' name='mailing' value={input} onChange={ handleInputChange } />
         </div>
-        <Link to='/Create/Product' >
-          <Button text='Create Package'  />
-        </Link> 
-        <Button text='Back to admin' />
       </div>
       <div className={ styles.tableContainer }>
 
         <table className={ styles.table }>
           <thead>
             <tr>
+              <th>N°</th>
               <th>Select</th>
-              <th>Order nro</th>
-              <th>Cost</th>
-              <th>Deliver to</th>
-              <th>State</th>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Created</th>
+              <th>Published</th>
+              <th>Publish</th>
               <th>Archive</th>
             </tr>
           </thead>
           <tbody>
-            {
-              // products
-              // .filter(p => p.name.toLowerCase().includes(input.toLowerCase()))
-              [1,2,3,4,5].map(p => (
-                <tr key={ p }>
-                  <td><Checkbox name={ p } onChange={ handleInputProducts } defaultChecked={selected.includes(p) ? true : false}/></td>
-                  <td>{ p }</td>
-                  <td>{ ['$ 540.00', '$ 200.00', '$ 600.00', '$ 25.00'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['Pasaje Rey Julien 333, CABA', 'Av. Maurice 123, Cordoba', 'La Luna', 'Av. Siempreviva 742, Springfield'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['In transit', 'For packing', 'Received', 'Hold'][Math.floor(Math.random() * 4)] }</td>
-                  <td><Button text='Archive' onClick={ handleSubmitDelete } value={ p } /></td>
+          {
+              mailing
+              .filter(p => p.title.toLowerCase().includes(input.toLowerCase()))
+              .map((p, i) => (
+                <tr key={ p.id }>
+                  <td>{ i + 1 }</td>
+                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                  <td>{ p.title }</td>
+                  <td>{ p.content }</td>
+                  <td>{ p.created }</td>
+                  <td>{ p.published }</td>
+                  <td><Button text='Publish' onClick={ handlePublish } value={ p.id } /></td>
+                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
                 </tr>
               ))
             }

@@ -27,7 +27,10 @@ import {
   GET_ORDERS,
   GET_ADMIN_ORDERS,
   CHANGE_ORDER_ARCHIVE,
-  CHANGE_ORDER_STATUS
+  CHANGE_ORDER_STATUS,
+  GET_ADMIN_MAILING,
+  CHANGE_MAILING_ARCHIVE,
+  PUBLISH_MAILING
 } from '../Constants/index.js';
 
 
@@ -205,6 +208,24 @@ export default function rootReducer(state = inicialtate, action) {
         return {
           ...state,
           users: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+        case GET_ADMIN_MAILING:
+          return {
+            ...state,
+          mailing: action.payload.result,
+          lastMsg: action.payload.msg,
+          }
+      case CHANGE_MAILING_ARCHIVE:
+        return {
+          ...state,
+          mailing: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case PUBLISH_MAILING:
+        return {
+          ...state,
+          mailing: action.payload.result,
           lastMsg: action.payload.msg
         }
     default:
