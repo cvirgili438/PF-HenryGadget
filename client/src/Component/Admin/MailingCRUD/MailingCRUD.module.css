@@ -3,6 +3,16 @@
   padding-top: 80px;
 }
 
+.separador {
+  height: 60px;
+}
+
+.emptyCrud {
+  margin-top: 30px;
+  font-size: 1.8em;
+
+}
+
 .statistics {
   height: 100px;
   background-color: rgb(210, 210, 210);

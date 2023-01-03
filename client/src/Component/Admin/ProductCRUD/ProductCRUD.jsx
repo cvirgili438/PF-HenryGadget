@@ -66,54 +66,58 @@ const ProductCRUD = () => {
           <Button text='Create Product'  />
         </Link> 
       </div>
-      <div className={ styles.tableContainer }>
-
-        <table className={ styles.table }>
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Select</th>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Model</th>
-              <th>Price</th>
-              {/* <th>Discount</th> */}
-              <th>Stock</th>
-              <th>Availability</th>
-              <th>Active</th>
-              <th>Delete</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              products
-              .filter(p => p.name.toLowerCase().includes(input.toLowerCase())
-                          ||
-                          p.model.toLowerCase().includes(input.toLowerCase())
-                          ||
-                          p.price.toString().toLowerCase().includes(input.toLowerCase()))
-              .map((p, i) => (
-                <tr key={ p.id }>
-                  <td>{ i + 1 }</td>
-                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                  <td><img src={ p.img[0] } alt={ p.name } className={ styles.productImage } /></td>
-                  <td>{ p.name }</td>
-                  <td>{ p.model }</td>
-                  <td>$ { p.price.toLocaleString() }</td>
-                  <td>{ p.stock }</td>
-                  <td><span className={ `${ styles.available } ${ p.stock === 0 ? styles.textNO : p.stock < 10 ? styles.textLOW : styles.textYES} ` }>
-                    { p.stock === 0 ? `NO` : p.stock < 10 ? `LOW` : `YES` }</span>
-                    </td>
-                  <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.id } /></td>
-                  <td><Link to={`/edit/${p.id}`}><Button text='Edit' /></Link></td>
-                  <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
-                </tr>
-              ))
-            }
-            </tbody>
-        </table>
-      </div>
+      {
+        products.length > 0 ?
+        <div className={ styles.tableContainer }>
+          <table className={ styles.table }>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Select</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Model</th>
+                <th>Price</th>
+                {/* <th>Discount</th> */}
+                <th>Stock</th>
+                <th>Availability</th>
+                <th>Active</th>
+                <th>Delete</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                products
+                .filter(p => p.name.toLowerCase().includes(input.toLowerCase())
+                            ||
+                            p.model.toLowerCase().includes(input.toLowerCase())
+                            ||
+                            p.price.toString().toLowerCase().includes(input.toLowerCase()))
+                .map((p, i) => (
+                  <tr key={ p.id }>
+                    <td>{ i + 1 }</td>
+                    <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                    <td><img src={ p.img[0] } alt={ p.name } className={ styles.productImage } /></td>
+                    <td>{ p.name }</td>
+                    <td>{ p.model }</td>
+                    <td>$ { p.price.toLocaleString() }</td>
+                    <td>{ p.stock }</td>
+                    <td><span className={ `${ styles.available } ${ p.stock === 0 ? styles.textNO : p.stock < 10 ? styles.textLOW : styles.textYES} ` }>
+                      { p.stock === 0 ? `NO` : p.stock < 10 ? `LOW` : `YES` }</span>
+                      </td>
+                    <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.id } /></td>
+                    <td><Link to={`/edit/${p.id}`}><Button text='Edit' /></Link></td>
+                    <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                  </tr>
+                ))
+              }
+              </tbody>
+          </table>
+        </div>
+        :
+        <div className={ styles.emptyCrud }>No products</div>
+      } 
     </div>
   );
 };

@@ -70,56 +70,60 @@ const OrderCRUD = () => {
           Filter by tracking id: <Input type='text' name='order' value={input} onChange={ handleInputChange } />
         </div>
       </div>
-      <div className={ styles.tableContainer }>
-
-        <table className={ styles.table }>
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Select</th>
-              <th>Order</th>
-              <th>To user</th>
-              <th>Total</th>
-              <th colSpan={3}>Status</th>
-              <th>Archive</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              orders
-              .filter(p => p.trackingNumber.toLowerCase().includes(input.toLowerCase()))
-              .map((p, i) => (
-                <tr key={ p.id }>
-                  <td>{ i + 1 }</td>
-                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                  <td>{ p.trackingNumber }</td>
-                  <td>{ p.user.uid }</td>
-                  <td>{ p.total }</td>
-                  <td>{ p.status.toUpperCase() }</td>
-                  <td>
-                    {
-                      p.status === 'processing' ? <LockOpenIcon /> :
-                      p.status === 'packed' ? <LockIcon /> :
-                      p.status === 'delayed' ? <MoreTimeIcon /> :
-                      p.status === 'shipped' ? <LocalShippingIcon /> :
-                      p.status === 'canceled' ? <CancelIcon /> : <DoneIcon />
-                    }
+      {
+        orders.length > 0 ?
+        <div className={ styles.tableContainer }>
+          <table className={ styles.table }>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Select</th>
+                <th>Order</th>
+                <th>To user</th>
+                <th>Total</th>
+                <th colSpan={3}>Status</th>
+                <th>Archive</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                orders
+                .filter(p => p.trackingNumber.toLowerCase().includes(input.toLowerCase()))
+                .map((p, i) => (
+                  <tr key={ p.id }>
+                    <td>{ i + 1 }</td>
+                    <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                    <td>{ p.trackingNumber }</td>
+                    <td>{ p.user.uid }</td>
+                    <td>{ p.total }</td>
+                    <td>{ p.status.toUpperCase() }</td>
+                    <td>
+                      {
+                        p.status === 'processing' ? <LockOpenIcon /> :
+                        p.status === 'packed' ? <LockIcon /> :
+                        p.status === 'delayed' ? <MoreTimeIcon /> :
+                        p.status === 'shipped' ? <LocalShippingIcon /> :
+                        p.status === 'canceled' ? <CancelIcon /> : <DoneIcon />
+                      }
+                      </td>
+                    <td>
+                    {/* <Tooltip title="Change order status">
+                      <IconButton component="button" onClick={ handleChangeStatus } value={ p.id } >
+                        <PhotoCamera />
+                      </IconButton>
+                    </Tooltip> */}
+                    <Button text='Change' onClick={ handleChangeStatus } value={ p.id } />
                     </td>
-                  <td>
-                  {/* <Tooltip title="Change order status">
-                    <IconButton component="button" onClick={ handleChangeStatus } value={ p.id } >
-                      <PhotoCamera />
-                    </IconButton>
-                  </Tooltip> */}
-                  <Button text='Change' onClick={ handleChangeStatus } value={ p.id } />
-                  </td>
-                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
-                </tr>
-              ))
-            }
-            </tbody>
-        </table>
-      </div>
+                    <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
+                  </tr>
+                ))
+              }
+              </tbody>
+          </table>
+        </div>
+        :
+        <div className={ styles.emptyCrud }>No active orders</div>
+        }
     </div>
   );
 };

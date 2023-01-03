@@ -1,12 +1,12 @@
 import axios from "axios"
-import { GET_ADMIN_MAILING, CHANGE_MAILING_ARCHIVE, PUBLISH_MAILING, URL } from "../Constants"
+import { CHANGE_CAMPAIGN_ARCHIVE, PUBLISH_CAMPAIGN, URL, GET_CAMPAIGNS } from "../Constants"
 
 
 
-export const getAdminMailng = (payload)=>{
+export const getCampaigns = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/mailing/admin",{
+            const response = await fetch(URL + "/campaigns/",{
                 method: "GET",
                 headers:{
                     "Accept": "application/json",
@@ -15,7 +15,7 @@ export const getAdminMailng = (payload)=>{
             })
             const data = await response.json()
             return dispatch({
-                type: GET_ADMIN_MAILING,
+                type: GET_CAMPAIGNS,
                 payload: data
             })
         }catch(e){
@@ -24,10 +24,10 @@ export const getAdminMailng = (payload)=>{
     }
 }
 
-export const changeMailingArchive = (payload) => {
+export const changeCampaignArchive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/mailing/admin/archive/',
+            const response = await fetch(URL + '/campaigns/archive/',
             {
                 method: 'PUT',
                 body: JSON.stringify({'ids': payload}),
@@ -38,7 +38,7 @@ export const changeMailingArchive = (payload) => {
             })
             const data = await response.json()
             return dispatch({
-                type: CHANGE_MAILING_ARCHIVE,
+                type: CHANGE_CAMPAIGN_ARCHIVE,
                 payload: data
             })
         }catch(e){
@@ -47,10 +47,10 @@ export const changeMailingArchive = (payload) => {
     }
 }
 
-export const publishMailing = (payload) => {
+export const publishCampaign = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/mailing/admin/publish/' + payload,
+            const response = await fetch(URL + '/campaigns/publish/' + payload,
             {
                 method: 'PUT',
                 headers: {
@@ -60,7 +60,7 @@ export const publishMailing = (payload) => {
             })
             const data = await response.json()
             return dispatch({
-                type: PUBLISH_MAILING,
+                type: PUBLISH_CAMPAIGN,
                 payload: data
             })
         }catch(e){

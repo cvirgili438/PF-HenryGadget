@@ -23,7 +23,7 @@ export const inicialtate = {
   adress:{},
   order:[],
   orders:[],
-  mailing:[]
+  campaigns:[]
 };
 
 // PRODUCTOS
@@ -65,6 +65,6 @@ export const CHANGE_ORDER_ARCHIVE = 'CHANGE_ORDER_ARCHIVE'
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS'
 
 //mailing
-export const GET_ADMIN_MAILING = 'GET_ADMIN_MAILING'
-export const CHANGE_MAILING_ARCHIVE = 'CHANGE_MAILING_ARCHIVE' 
-export const PUBLISH_MAILING = 'PUBLISH_MAILING'
+export const GET_CAMPAIGNS = 'GET_CAMPAIGNS'
+export const CHANGE_CAMPAIGN_ARCHIVE = 'CHANGE_CAMPAIGN_ARCHIVE' 
+export const PUBLISH_CAMPAIGN = 'PUBLISH_CAMPAIGN'
