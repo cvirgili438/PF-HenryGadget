@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid';
 
 import { useSelector, } from 'react-redux';
 
-import { getAllCart, updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
+import { updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
 
 const CartPageUnit = (props) => {
 

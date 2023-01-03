@@ -2,7 +2,7 @@ import { addItem } from './controllers/addItem.js';
 import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart, sendAllCartDB } from './controllers/conectDB.js';
 // Sirve solo para dar aviso a los componentes de que el carrito fue editado.
 import { SET_CART } from '../../Redux/Constants/index.js';
-import { store } from '../../Redux/Store/index.js';
+import { store } from '../../Redux/Store/index.js'; // Para dispach.
 
 export async function addProductCart(idProduct, idUser, quantity) {
     if (idUser) { // Logueado

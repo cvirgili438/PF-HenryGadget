@@ -40,7 +40,7 @@ const CartPage = () => {
     return discount
   }
   
-  useEffect(async () => {
+  useEffect(async () => { // Cargar el carrito que fue actualizado.
     setLocalCart(await getAllCart(user && user.uid));
   }, [userCart]);
 
@@ -50,7 +50,7 @@ const CartPage = () => {
       let location = button.className.indexOf(' Mui-disabled')
       button.className = button.className.slice(0,location)
     }
-    if(user === null)
+    if(user === null) /// Recargar el carrito cuando se desloguea.
       setLocalCart(await getAllCart(user && user.uid));
   }, [user])
 
