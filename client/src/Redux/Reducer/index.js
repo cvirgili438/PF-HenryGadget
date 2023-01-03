@@ -189,7 +189,7 @@ export default function rootReducer(state = inicialtate, action) {
       case SET_CART:
         return {
           ... state,
-          userCart: action.payload
+          refreshCart: action.payload
         }
     default:
       return { ...state };

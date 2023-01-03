@@ -22,7 +22,7 @@ export const inicialtate = {
   user:userStorageData,
   adress:{},
   order:[],
-  userCart: null  // Se usa para solor notificar de cambios en el carrito.
+  refreshCart: null  // Se usa para solor notificar de cambios en el carrito.
 
 };
 

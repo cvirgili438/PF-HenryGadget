@@ -22,7 +22,7 @@ const CartPage = () => {
 
   let [localCart, setLocalCart] = useState([]);
   const user = useSelector(state => state.user)
-  const userCart = useSelector(state => state.userCart);
+  const refreshCart = useSelector(state => state.refreshCart);
 
   const totalPrice= (cart)=>{
     let price= 0
@@ -42,7 +42,7 @@ const CartPage = () => {
   
   useEffect(async () => { // Cargar el carrito que fue actualizado.
     setLocalCart(await getAllCart(user && user.uid));
-  }, [userCart]);
+  }, [refreshCart]);
 
   useEffect(async () => {
     let button = document.getElementById('stepper-button')
