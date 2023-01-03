@@ -24,7 +24,9 @@ export function updateProductCart(idProduct, idUser, quantity){
     }
     else { // No logueado
         let storage = JSON.parse(localStorage.getItem('cart')) || []; // Vector de productos
-        storage.find(el => el.idProduct === idProduct).quantity = quantity;
+        let result = storage.find(el => el.idProduct === idProduct);
+        if (result)
+            result.quantity = quantity;
         localStorage.setItem('cart', JSON.stringify(storage));
     }
 }
