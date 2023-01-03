@@ -11,8 +11,6 @@ import { Input, Alert } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Grid from '@mui/material/Grid';
 
-import { useSelector, } from 'react-redux';
-
 import { updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
 
 const CartPageUnit = (props) => {
