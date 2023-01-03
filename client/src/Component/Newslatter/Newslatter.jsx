@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Box, IconButton, Stack, TextField } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
-
+import { sendEmail } from "./controllerNewsLetter";
 
 const Newslatter = () => {
 
@@ -14,9 +14,13 @@ const Newslatter = () => {
         setInput(e.target.value)
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
-        console.log(input);
+        let response = await sendEmail(input);
+        if (response.includes('added successfully')) {
+            setInput('');
+            alert('Added successfully.');
+        };
     }
 
     return(
