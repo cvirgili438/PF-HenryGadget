@@ -16,9 +16,6 @@ import { useSelector, } from 'react-redux';
 import { updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
 
 const CartPageUnit = (props) => {
-
-    const user = useSelector(state => state.user)
-
     let [quantityl, setQuantity] = useState(props.item.quantity)
     let [remove, setRemove] = useState(false)
     let [checkStock, setCheckStock] = useState(false)
