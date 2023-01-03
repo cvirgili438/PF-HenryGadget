@@ -26,16 +26,11 @@ const CartPageUnit = (props) => {
     useEffect(async () => {
         if (remove) {
             deleteProductCart(props.item.idProduct, props.user && props.user.uid, 0)
-            props.setLocalCart(await getAllCart(user && user.uid));
         }else{
             setCheckStock(quantityl > props.item.stock)
             updateProductCart(props.item.idProduct, props.user && props.user.uid, quantityl)
         }
-        
-        props.setLocalCart(await getAllCart(user && user.uid));
-    }, [quantityl, remove, user])
-
-   
+    }, [quantityl, remove])
 
     let handleCount = (e) => {
         if (e.target.id === 'minus') {
@@ -48,7 +43,7 @@ const CartPageUnit = (props) => {
     }
     
       let handlerChange = (e) => {
-        setQuantity(e.target.value)
+        console.log('change')// setQuantity(e.target.value)
       }
 
       let handlerDelete = (e) => {
