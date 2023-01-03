@@ -62,4 +62,4 @@ export const SET_ORDER = 'SET_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
 
 // Cart
-export const SET_CART = 'SET_CART';
+export const REFRESH_CART = 'REFRESH_CART';

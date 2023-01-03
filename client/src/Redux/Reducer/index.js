@@ -25,7 +25,7 @@ import {
   CHANGE_REVIEW_ARCHIVE,
   SET_ORDER,
   GET_ORDERS,
-  SET_CART
+  REFRESH_CART
 } from '../Constants/index.js';
 
 
@@ -186,7 +186,7 @@ export default function rootReducer(state = inicialtate, action) {
           users: action.payload.result,
           lastMsg: action.payload.msg
         }
-      case SET_CART:
+      case REFRESH_CART:
         return {
           ... state,
           refreshCart: action.payload
