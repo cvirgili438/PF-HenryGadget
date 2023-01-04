@@ -52,7 +52,7 @@ export default function RecipeReviewCard({ review }) {
                     <Rating
                         sx={{ padding: 'auto', fontSize: 20 }}
                         name="read-only"
-                        value={review.score}
+                        value={Number(review.score)}
                         precision={0.5}
                         readOnly
                     />
