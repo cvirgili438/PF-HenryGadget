@@ -5,11 +5,12 @@ import { Box, IconButton, Stack, TextField } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import { sendEmail } from "./controllerNewsLetter";
+import Alert from 'react-bootstrap/Alert';
 
 const Newslatter = () => {
-
-
     const [input, setInput] = useState("")
+    const [send, setSend] = useState(null);
+
     const inputHandler = (e) => {
         setInput(e.target.value)
     }
@@ -19,12 +20,24 @@ const Newslatter = () => {
         let response = await sendEmail(input);
         if (response.includes('added successfully')) {
             setInput('');
-            alert('Added successfully.');
-        };
+            setSend(true);
+        }
+        else
+            setSend(false);
     }
 
     return(
         <div>
+            {send != null ?
+                send === true ?
+                    <Alert key={'warning'} variant={'warning'}>
+                        Se ha enviado un mail a su casilla para confirmar su subscripción.
+                    </Alert> :
+                    <Alert key={'dark'} variant={'dark'}>
+                        Un error ha ocurrido mientras intentaba subscribirse.
+                    </Alert> :
+                null}
+
             <Box  sx={{
                 p:6,
                 bgcolor: 'rgb(244, 244, 244)',
