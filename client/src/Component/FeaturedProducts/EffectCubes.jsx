@@ -54,19 +54,6 @@ function EffectCubes() {
           </SwiperSlide>
         ))
         :null}
-        {/* <SwiperSlide>
-          <img src={logo} alt='img'/>
-          <p>Hola</p>
-        </SwiperSlide>
-        <SwiperSlide>
-          <img style={{width:'20rem'}} src={noImage} alt='img'/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={shopping} alt='img'/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='' alt='img'/>
-        </SwiperSlide> */}
       </Swiper>
     </>
   )

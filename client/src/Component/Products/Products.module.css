@@ -1,16 +1,20 @@
 .container {
   display: flex;
-}
-
-.paginated {
-  display: block;
-  
+  margin-top: 3rem; 
 }
 
 .products {
   display: flex;
+  width: 100%; 
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  background-size: cover;
-  min-height: 500px;
+  margin: auto;
+  /* justify-content: space-evenly; */
+  /* background-size: cover; */
+  /* min-height: 500px; */
+  /* grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(3,1fr) */
+}
+
+.filters{
+  
 }
