@@ -1,11 +1,12 @@
 .container {
   display: flex;
   margin-top: 3rem; 
+  width: 100%;
 }
 
 .products {
   display: flex;
-  width: 100%; 
+  width: 80%; 
   flex-wrap: wrap;
   margin: auto;
   /* justify-content: space-evenly; */
@@ -16,5 +17,6 @@
 }
 
 .filters{
-  
+  width:20%;
+  margin-left: 1rem;
 }

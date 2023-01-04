@@ -7,6 +7,7 @@ import styles from './Product.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button_contained_primary } from '../../Utils/MiuStyles/MiuStyles';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
   const trim_text = 120;  // cantidad de caracteres a mostrar, el resto se cortan y se agregan tres puntitos
@@ -35,7 +36,10 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
         <IconButton>
           <FavoriteBorderIcon></FavoriteBorderIcon>
         </IconButton>
-        <Button variant='contained' sx={Button_contained_primary}>Add cart</Button>
+        <Button variant='contained' sx={Button_contained_primary}>
+          <AddShoppingCartIcon style={{marginRight:'10px'}}/>
+          Add cart
+        </Button>
       </div>
     </div>
   );

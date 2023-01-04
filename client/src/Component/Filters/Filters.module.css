@@ -1,7 +1,7 @@
 .container{
     padding: 1rem;
     border-radius: 1rem;
-    width: 16rem;
+    width: 20rem;
     background-color:white;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.431);
     margin-left: 1rem;
@@ -16,10 +16,11 @@
     transition: 0.2s;
     margin-top:10px;
     margin-bottom:5px;
+    font-size: 1.3rem;
 }
 
 .input:hover{
-    background-color: rgba(0, 0, 0, 0.652);
+    background-color: rgba(0, 0, 0, 0.78);
     color:white;
     border-radius: 4px;
 }
@@ -65,7 +66,7 @@
 .block_container_title{
     font-weight: 500;
     padding-bottom: .4rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     border-bottom: 1.5px solid black;
     cursor: pointer;
     text-align: start;

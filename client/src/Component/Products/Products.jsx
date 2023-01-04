@@ -34,7 +34,7 @@ const Products = () => {
   },[products])
 
   return (
-    <div>
+    <div style={{width:'100%'}}>
 
       <Pagination />
     
