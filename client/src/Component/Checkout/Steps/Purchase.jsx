@@ -15,8 +15,7 @@ export default  function Purchase() {
    
   return (
     <div>
-      <h3>in this moment, you will start a purchase by a amounth of{total.current}</h3>
-      
+      <h3>You will start a purchase by a amounth of{total.current}</h3>
     </div>
   )
 }
