@@ -6,7 +6,7 @@ const { Sequelize } = require("sequelize");
 const { Campaign, Newsletter } = require('../../db.js');
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
+router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> {                                                     
 
@@ -27,13 +27,12 @@ router.get('/', async (req,res)=> {
 })
 
 router.post('/', async (req,res) => {    
-    const campaign = req.body;                                                       // localhost:3001/reviews (post)
-    const {title, content} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
-
-    if(!title || !content) return res.status(400).json({err: 'Missing data.'});               // Si falta algun id devuelve un error.
+    const campaign = req.body;                                                       
+    const {title, content} = req.body;                                           
+    if(!title || !content) return res.status(400).json({err: 'Missing data.'});              
     
     try {
-        const campaignCreate = await Campaign.create(campaign);                                  // Crea una review con la data recibida por body en reviewData
+        const campaignCreate = await Campaign.create(campaign);                                
         const result = await Campaign.findAll({
                                                 where: {archived: false},
                                                 order: [['created', 'DESC']],
@@ -115,31 +114,5 @@ router.put('/publish/:id', async (req,res) => {
         res.status(400).json({err: error})
     }
 })
-
-// router.put('/:idReview', async (req,res) => {                                                                                   //localhost:3001/id (put update)
-//     const {idReview} = req.params;                                                                                              // Requerimos la information por body(data a actualizar) y params (id de la review)
-//     const {reviewData, idUser} = req.body;
-//     const reviewDataValidate = reviewData || false;                                                                             // pequeña validacion para evitar que null no nos rompa el codigo
-
-//     let uidFire = req.user.uid;
-//     if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-//         return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-//     }
-
-//     if(!idReview) return res.status(400).json({err: 'Review id is missing.'});                                                   // Validaciones en caso de que algo falte
-//     if(!reviewDataValidate.score && !reviewDataValidate.comment) return res.status(400).json({err: 'Review data is missing.'});  
-    
-//     try { 
-//         const review = await Review.findByPk(idReview);
-//         if(!review){
-//             res.status(404).json({err: `Review with id: ${idReview} doesn't exist.`});
-//             return;
-//         }
-//         const reviewUpdated = await Review.update(reviewData, {where: {id: idReview}});                                         // Se actualiza el comment
-//         res.status(200).json({msg: `Review with id: ${idReview} was updated`, result: reviewUpdated})
-//     } catch (error) {
-//         res.status(400).json({err: error})
-//     }
-// })
 
 module.exports = router;
