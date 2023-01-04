@@ -63,7 +63,8 @@ export default function rootReducer(state = inicialtate, action) {
     case GET_PRODUCT_BY_ID:
       return {
         ...state,
-        productDetail: action.payload,
+        productDetail: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case CLEAR_PRODUCT:
       return {
