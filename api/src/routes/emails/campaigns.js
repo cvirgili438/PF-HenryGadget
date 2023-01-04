@@ -6,19 +6,17 @@ const { Sequelize } = require("sequelize");
 const { Campaign, Newsletter } = require('../../db.js');
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+//router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> {                                                     
-
+    const { archived } = req.query; 
     try {                                        
         const result = await Campaign.findAll({
-                                            where: {archived: false},
-                                            order: [['created', 'DESC']],
+                                                where: {archived: archived},
+                                                order: [['created', 'DESC']],
                                             });  
         const mails = await Newsletter.count({where: {confirm: true}});
-        result.length === 0                                                         
-        ? res.status(404).json({err: "There are no campaigns available."})
-        : res.status(200).json({msg: 'Campaigns obtained successfully.', result: result, mails: mails});
+        res.status(200).json({msg: 'Campaigns obtained successfully.', result: result, mails: mails});
         return
         
     } catch (error) {
@@ -28,7 +26,8 @@ router.get('/', async (req,res)=> {
 
 router.post('/', async (req,res) => {    
     const campaign = req.body;                                                       
-    const {title, content} = req.body;                                           
+    const {title, content} = req.body; 
+
     if(!title || !content) return res.status(400).json({err: 'Missing data.'});              
     
     try {
@@ -44,7 +43,9 @@ router.post('/', async (req,res) => {
 })
 
 router.put('/', async (req,res) => {
+    const { archived } = req.query; 
     const {id, title, content} = req.body;
+
     try { 
         const campaign = await Campaign.findByPk(id);
         if(!campaign){
@@ -57,7 +58,7 @@ router.put('/', async (req,res) => {
                                                     },
                                                     {where: {id: id}});
         const result = await Campaign.findAll({
-                                                where: {archived: false},
+                                                where: {archived: archived},
                                                 order: [['created', 'DESC']],
                                                 }); 
         res.status(200).json({msg: `Campaign with id: ${id} has been updated`, result: result})
@@ -68,6 +69,7 @@ router.put('/', async (req,res) => {
 
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
+    const { archived } = req.query; 
 
     try { 
         const campaign = await Campaign.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
@@ -81,7 +83,7 @@ router.put('/archive/', async (req,res) => {
         if (campaign[0].archived === true) newCampaign = false; 
         const campaignUpdated = await Campaign.update({archived: newCampaign}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const campaigns = await Campaign.findAll({
-                                                where: {archived: false},
+                                                where: {archived: archived},
                                                 order: [['created', 'DESC']],
                                                 });
         res.status(200).json({msg: `${campaign.length} campaign/s changed archived property to ${newCampaign}`, result: campaigns})
@@ -110,6 +112,28 @@ router.put('/publish/:id', async (req,res) => {
                                                 order: [['created', 'DESC']],
                                                 });
         res.status(200).json({msg: `Campaign ${campaign.title} has been published`, result: campaigns})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.put('/rating/', async (req,res) => {
+    const {id, value} = req.body;     
+    const { archived } = req.query; 
+    
+    try { 
+        const campaign = await Campaign.findByPk(id);
+        if(!campaign){
+            res.status(404).json({err: `Campaign with id: ${id} doesn't exist.`});
+            return;
+        }
+        
+        const campaignUpdated = await Campaign.update({rating: value}, {where: {id: id}});
+        const campaigns = await Campaign.findAll({
+                                                where: {archived: archived},
+                                                order: [['created', 'DESC']],
+                                                });
+        res.status(200).json({msg: `Campaign ${campaign.title} changed rating value to ${value}`, result: campaigns})
     } catch (error) {
         res.status(400).json({err: error})
     }

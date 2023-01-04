@@ -11,7 +11,14 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { changeCampaignArchive, getCampaigns, publishCampaign, createCampaign, updateCampaign } from '../../../Redux/Actions/mailing.js';
+import {
+  changeCampaignArchive,
+  getCampaigns,
+  publishCampaign,
+  createCampaign,
+  updateCampaign,
+  changeCampaignRaiting
+} from '../../../Redux/Actions/mailing.js';
 
 import styles from './MailingCRUD.module.css';
 
@@ -26,6 +33,7 @@ const MailingCRUD = () => {
   });
   const [selected, setSelected] = useState([]);
   const [score, setScore] = useState(null);
+  const [mode, setMode] = useState({archived: false});
   
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -82,7 +90,7 @@ const MailingCRUD = () => {
   const handleSaveModal = (e) => {
     if (input.id) {
       if (!input.new) {
-        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id }));
+        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id, mode: mode }));
         setShow(false);
       } else {
         dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
@@ -102,11 +110,11 @@ const MailingCRUD = () => {
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeCampaignArchive([e.target.value]));
+    dispatch(changeCampaignArchive({ids: [e.target.value], archived: mode.archived}));
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeCampaignArchive(selected));
+    dispatch(changeCampaignArchive({ids: selected, archived: mode.archived}));
   };
 
   const handlePublish = e => {
@@ -133,9 +141,22 @@ const MailingCRUD = () => {
     setScore(null);
   };
   
+  const handleChangeTables = e => {
+    if (mode.archived === true) {
+      setMode({archived: false});
+    } else {
+      setMode({archived: true})
+    }
+  };
+
   const handleSubmitFilterScore = e => {
     setScore(e.target.value);
   };
+
+  const handleRating = (e) => {
+    dispatch(changeCampaignRaiting({id: e.target.name, value: e.target.value, mode: mode}))
+    
+  }
 
   const handleCheckboxes = e => {
     if (e.target.checked) {
@@ -148,8 +169,8 @@ const MailingCRUD = () => {
   };
 
   useEffect(() => {
-    dispatch(getCampaigns())
-  }, [dispatch]);
+    dispatch(getCampaigns(mode))
+  }, [dispatch, mode]);
 
 
   return (
@@ -190,15 +211,23 @@ const MailingCRUD = () => {
         <div>
           With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
-        <div>
-          <Button text='New campaign' onClick={ handleShowModal } value='0' /> 
-        </div>
+        {
+          !mode.archived ?
+          <div>
+            <Button text='New campaign' onClick={ handleShowModal } value='0' /> 
+          </div>
+          :
+          <></>
+        }
         <div>
           Filter by title or content: <Input type='text' name='filter' value={ input.filter } onChange={ handleInputChange } />
         </div>
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={ handleSubmitFilterScore }/>
           <Button text='All' onClick={ handleSubmitAllCampaigns } />
+        </div>
+        <div>
+          <Button text={ mode.archived ? 'View active' : 'View archived' } onClick={ handleChangeTables } /> 
         </div>
       </div>
       { 
@@ -235,11 +264,16 @@ const MailingCRUD = () => {
                   <td>{ p.content.substring(0, 150) }{ p.content.length > 150 ? `...` : <></> }</td>
                   <td>{ new Date(p.created).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) }</td>
                   <td>{ p.contacts > 0 ? p.contacts : `n/a` }</td>
-                  <td><Rating name="rating" defaultValue={ +p.rating } precision={1} readOnly='true' /></td>
+                  <td><Rating name={ p.id } defaultValue={ +p.rating } precision={1} onChange={ handleRating } /></td>
                   <td>{ p.published ? `Sent` : `Not sent` }</td>
-                  <td>{ p.published ? <></> : <Button text='Publish' onClick={ handlePublish } value={ p.id } /> }</td>
-                  <td>{ p.published ? <Button text='New copy' onClick={ handleNewCopy } value={ p.id } /> : <Button text='Edit' onClick={ handleShowModal } value={ p.id } /> }</td>
-                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
+                  <td>{ p.published || mode.archived ? 'n/d' : <Button text='Publish' onClick={ handlePublish } value={ p.id } /> }</td>
+                  <td>{ p.published ?
+                    mode.archived ? 'n/d'
+                    :
+                    <Button text='New copy' onClick={ handleNewCopy } value={ p.id } />
+                    :
+                    <Button text='Edit' onClick={ handleShowModal } value={ p.id } /> }</td>
+                  <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                 </tr>
               ))
             }
@@ -247,7 +281,7 @@ const MailingCRUD = () => {
           </table>
         </div>
       :
-        <div className={ styles.emptyCrud }>No active campaigns</div>
+        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'active'} campaigns</div>
       }  
     </div>
   );

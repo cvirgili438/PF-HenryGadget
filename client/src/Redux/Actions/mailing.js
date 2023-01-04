@@ -1,15 +1,23 @@
 import axios from "axios"
-import { CHANGE_CAMPAIGN_ARCHIVE, PUBLISH_CAMPAIGN, URL, GET_CAMPAIGNS, CREATE_CAMPAIGN, UPDATE_CAMPAIGN } from "../Constants"
+import {
+    URL,
+    CHANGE_CAMPAIGN_ARCHIVE,
+    PUBLISH_CAMPAIGN,
+    GET_CAMPAIGNS,
+    CREATE_CAMPAIGN,
+    UPDATE_CAMPAIGN,
+    CHANGE_CAMPAIGN_RATING
+} from "../Constants"
 
 
 
 export const getCampaigns = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/campaigns/",{
+            const response = await fetch(URL + "/campaigns/?archived=" + payload.archived,{
                 method: "GET",
                 headers:{
-                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                     "authorization":"Bearer " + payload
                 }
             })
@@ -27,10 +35,10 @@ export const getCampaigns = (payload)=>{
 export const changeCampaignArchive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/campaigns/archive/',
+            const response = await fetch(URL + '/campaigns/archive/?archived=' + payload.archived,
             {
                 method: 'PUT',
-                body: JSON.stringify({'ids': payload}),
+                body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
                     "authorization":"Bearer " + payload
@@ -106,7 +114,7 @@ export const createCampaign = (payload) => {
 export const updateCampaign = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/campaigns/',
+            const response = await fetch(URL + '/campaigns/?archived=' + payload.mode.archived,
             {
                 method: 'PUT',
                 body: JSON.stringify(payload),
@@ -118,6 +126,30 @@ export const updateCampaign = (payload) => {
             const data = await response.json()
             return dispatch({
                 type: UPDATE_CAMPAIGN,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+}
+
+
+export const changeCampaignRaiting = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/campaigns/rating/?archived=' + payload.mode.archived,
+            {
+                method: 'PUT',
+                body: JSON.stringify(payload),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: CHANGE_CAMPAIGN_RATING,
                 payload: data
             })
         }catch(e){
