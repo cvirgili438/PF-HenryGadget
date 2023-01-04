@@ -10,7 +10,7 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { changeCampaignArchive, getCampaigns, publishCampaign } from '../../../Redux/Actions/mailing.js';
+import { changeCampaignArchive, getCampaigns, publishCampaign, createCampaign, updateCampaign } from '../../../Redux/Actions/mailing.js';
 
 import styles from './MailingCRUD.module.css';
 
@@ -19,19 +19,77 @@ const MailingCRUD = () => {
   const [input, setInput] = useState({
     filter: '',
     campaignTitle: '',
-    campaignContent: ''
+    campaignContent: '',
+    id: false,
+    new: false
   });
   const [selected, setSelected] = useState([]);
   const [score, setScore] = useState(null);
   
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  
   const campaigns = useSelector(state => state.campaigns);
   
   const dispatch = useDispatch();
 
+  const handleCloseModal = () => {
+    setInput({
+      ...input,
+      id: false,
+      new: false,
+      campaignTitle: '',
+      campaignContent: ''
+    });
+    setShow(false);
+  }
+  
+  const handleShowModal = (e) => {
+    if (e.target.value !== '0') {
+      setInput({
+        ...input,
+        new: false,
+        id: e.target.value,
+        campaignTitle: campaigns.filter(p => p.id === e.target.value )[0].title,
+        campaignContent: campaigns.filter(p => p.id === e.target.value )[0].content
+      });
+    } else {
+      setInput({
+        ...input,
+        id: false,
+        new: false,
+        campaignTitle: '',
+        campaignContent: ''
+      });
+    }
+    setShow(true);
+  };
+
+  const handleNewCopy = (e) => {
+    setInput({
+      ...input,
+      new: true,
+      id: e.target.value,
+      campaignTitle: campaigns.filter(p => p.id === e.target.value )[0].title,
+      campaignContent: campaigns.filter(p => p.id === e.target.value )[0].content
+    });
+    setShow(true);
+  };
+
+  const handleSaveModal = (e) => {
+    if (input.id) {
+      if (!input.new) {
+        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id }));
+        setShow(false);
+      } else {
+        dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+        setShow(false);
+      }
+    } else {
+      dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+      setShow(false);
+    }
+  }
+  
   const handleInputChange = e => {
     setInput({
       ...input,
@@ -50,21 +108,6 @@ const MailingCRUD = () => {
   const handlePublish = e => {
     dispatch(publishCampaign(e.target.value));
   };
-
-  const handleNew = e => {
-    if (e.target.value === 0) {
-      console.log('nueva desde cero')
-    } else {
-      console.log('nueva desde una copia')
-      // dispatch(publishCampaign(e.target.value));
-    }
-  };
-
-  const handleEdit = e => {
-    console.log(e.target.value)
-    // dispatch(publishCampaign(e.target.value));
-  };
-
   
   const handleSubmitAllCampaigns = e => {
     setScore(null);
@@ -91,7 +134,7 @@ const MailingCRUD = () => {
 
   return (
     <div className={ styles.container }>
-      <Modal show={show} onHide={ handleClose }>
+      <Modal show={show} onHide={ handleCloseModal }>
         <Modal.Header closeButton>
           <Modal.Title>Edit campaign</Modal.Title>
         </Modal.Header>
@@ -108,8 +151,8 @@ const MailingCRUD = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button text="Discard" onClick={ handleClose } />
-          <Button text="Save/Create" onClick={ handleClose } />
+          <Button text="Discard" onClick={ handleCloseModal } />
+          <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
         </Modal.Footer>
       </Modal>
       <div className={ styles.managebar }>
@@ -117,7 +160,7 @@ const MailingCRUD = () => {
           With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
-          <Button text='New campaign' onClick={ handleShow } value='0' /> 
+          <Button text='New campaign' onClick={ handleShowModal } value='0' /> 
         </div>
         <div>
           Filter by title or content: <Input type='text' name='filter' value={ input.filter } onChange={ handleInputChange } />
@@ -164,7 +207,7 @@ const MailingCRUD = () => {
                   <td><Rating name="rating" defaultValue={ +p.rating } precision={1} readOnly='true' /></td>
                   <td>{ p.published ? `Sent` : `Not sent` }</td>
                   <td>{ p.published ? <></> : <Button text='Publish' onClick={ handlePublish } value={ p.id } /> }</td>
-                  <td>{ p.published ? <Button text='New copy' onClick={ handleNew } value={ p.id } /> : <Button text='Edit' onClick={ handleEdit } value={ p.id } /> }</td>
+                  <td>{ p.published ? <Button text='New copy' onClick={ handleNewCopy } value={ p.id } /> : <Button text='Edit' onClick={ handleShowModal } value={ p.id } /> }</td>
                   <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
                 </tr>
               ))

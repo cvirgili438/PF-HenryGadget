@@ -28,56 +28,46 @@ router.get('/', async (req,res)=> {                                             
     }
 })
 
-// router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
-//     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
-//     const reviewDataValidate = reviewData || false;                                             // Validacion en caso de que reviewData sea null, evitar que rompa el servidor
-//     let uidFire = req.user.uid;
-//     if (idUser !== uidFire) {
-//         return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-//     }
+router.post('/', async (req,res) => {    
+    const campaign = req.body;                                                       // localhost:3001/reviews (post)
+    const {title, content} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
 
-//     if(!idProduct || !idUser) return res.status(400).json({err: 'Missing data.'});               // Si falta algun id devuelve un error.
-//     if(!reviewDataValidate) return res.status(400).json({err: 'Review data is missing.'});       // Revisa que si hayan pasado ReviewData
-//     if(!reviewDataValidate.score) return res.status(400).json({err: 'Review score is missing.'});// Revisa que reviewData tenga la propiedad score, comments es opcional
+    if(!title || !content) return res.status(400).json({err: 'Missing data.'});               // Si falta algun id devuelve un error.
     
-//     try {
-//         const product = await Product.findByPk(idProduct);                                       // Encuentra el product por ID
-//         const user = await User.findByPk(idUser);                                                // Encuentra el usuario por ID
-//         const review = await Review.create(reviewDataValidate);                                  // Crea una review con la data recibida por body en reviewData
-        
-//         await user.addReview(review);                                                            // Linkeamos tanto en usuario y product la nueva review
-//         await product.addReview(review);
+    try {
+        const campaignCreate = await Campaign.create(campaign);                                  // Crea una review con la data recibida por body en reviewData
+        const result = await Campaign.findAll({
+                                                where: {archived: false},
+                                                order: [['id', 'ASC']],
+                                                }); 
+        res.status(201).json({msg: 'Campaign created succesfully.', result: result});
+    } catch (error) {
+        res.status(404).json({err: error.message});
+    }
+})
 
-//         res.status(201).json({msg: 'Review created succesfully.', result: review});
-//     } catch (error) {
-//         res.status(404).json({err: error.message});
-//     }
-// })
-
-// router.put('/visible/:idReview', async (req,res) => {
-//     const {idReview} = req.params;
-    
-//     try { 
-//         const review = await Review.findByPk(idReview);
-//         if(!review){
-//             res.status(404).json({err: `Review with id: ${idReview} doesn't exist.`});
-//             return;
-//         }
-//         let newReview = false;
-//         if (review.visible === false) newReview = true; 
-//         const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});
-//         const reviews = await Review.findAll({
-//                                             where: {archived: false},
-//                                             order: [['id', 'ASC']],
-//                                             include: [{
-//                                                 model: Product
-//                                             }]
-//                                             });
-//         res.status(200).json({msg: `Review with id: ${idReview} has changed visibility to ${newReview}`, result: reviews})
-//     } catch (error) {
-//         res.status(400).json({err: error})
-//     }
-// })
+router.put('/', async (req,res) => {
+    const {id, title, content} = req.body;
+    try { 
+        const campaign = await Campaign.findByPk(id);
+        if(!campaign){
+            res.status(404).json({err: `Campaign with id: ${id} doesn't exist.`});
+            return;
+        }
+        const udpatedCampaign = await Campaign.update({
+                                                        title: title,
+                                                        content: content
+                                                    },
+                                                    {where: {id: id}});
+        const result = await Campaign.findAll({
+                                                where: {archived: false},
+                                                order: [['id', 'ASC']],
+                                                }); 
+        res.status(200).json({msg: `Campaign with id: ${id} has been updated`, result: result})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
 
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     

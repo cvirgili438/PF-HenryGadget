@@ -30,7 +30,9 @@ import {
   CHANGE_ORDER_STATUS,
   GET_CAMPAIGNS,
   CHANGE_CAMPAIGN_ARCHIVE,
-  PUBLISH_CAMPAIGN
+  PUBLISH_CAMPAIGN,
+  CREATE_CAMPAIGN,
+  UPDATE_CAMPAIGN
 } from '../Constants/index.js';
 
 
@@ -223,6 +225,18 @@ export default function rootReducer(state = inicialtate, action) {
           lastMsg: action.payload.msg
         }
       case PUBLISH_CAMPAIGN:
+        return {
+          ...state,
+          campaigns: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case CREATE_CAMPAIGN:
+        return {
+          ...state,
+          campaigns: action.payload.result,
+          lastMsg: action.payload.msg
+        }
+      case UPDATE_CAMPAIGN:
         return {
           ...state,
           campaigns: action.payload.result,
