@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { sendConfirm } from "./controllers/newsLetterDB.js";
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
 const NewsLetterConfirm = () => {
     const {search} = useLocation()
