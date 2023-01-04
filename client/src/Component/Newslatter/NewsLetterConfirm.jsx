@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { sendConfirm } from "./controllerNewsLetter.js";
+import { sendConfirm } from "./controllers/newsLetterDB.js";
 
 const NewsLetterConfirm = () => {
     const {search} = useLocation()

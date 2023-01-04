@@ -4,14 +4,16 @@ import { useState } from "react";
 import { Box, IconButton, Stack, TextField } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
-import { sendEmail } from "./controllerNewsLetter";
+import { sendEmail } from "./controllers/newsLetterDB.js";
 import Alert from 'react-bootstrap/Alert';
 
 const Newslatter = () => {
     const [input, setInput] = useState("")
     const [send, setSend] = useState(null);
+    const [errorInput, setErrorInput] = useState(null);
 
     const inputHandler = (e) => {
+        
         setInput(e.target.value)
     }
 
