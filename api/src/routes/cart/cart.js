@@ -43,7 +43,7 @@ router.post('/', async(req,res) => {                                            
 
         if(!user) return res.status(404).json({msg: 'User does not exist'});                                        // Pequeñas validaciones para confirmar que exista tanto el producto como el usuario con ese id.
         if(!product) return res.status(404).json({msg: 'Product does not exist'});
-        
+
         if(user.cart) {                                                                                             // Para evitar que el codigo rompa tendremos que dividir lo que haremos en caso de que el usuario ya tenga un carrito o en el caso en que no, aqui es la division
             const userCart = user.cart;                                                                             // En el caso en que exista el carrito lo guardamos en la constante userCart
             const productExist = await Product_cart.findOne({where: {                                               // Buscamos si el producto pasado por id ya existe en el carrito de ese usuario, si no existe productExist sera null si existe pues guardara la instancia de Product_cart
@@ -83,7 +83,7 @@ router.post('/', async(req,res) => {                                            
             return;
         }
         
-        const newCart = await Cart.create({total: product.price});                                                  // Si estamos aca es porque el usuario NO TIENE un carrito (primer producto agregado) asi que creamos el carrito primero que todo :))
+        const newCart = await Cart.build({total: product.price});                                                  // Si estamos aca es porque el usuario NO TIENE un carrito (primer producto agregado) asi que creamos el carrito primero que todo :))
         await user.setCart(newCart);                                                                                // Vinculamos el carrito al usuario que buscamos anteriormente por el iduser recibido
 
         const [{dataValues}] = await newCart.addProduct(product);                                                   // A ese nuevo carrito ya creado y ya vinculado con el usuario le añadimos el producto y actualizamos para que tenga la cantidad de ese producto
@@ -93,6 +93,60 @@ router.post('/', async(req,res) => {                                            
         res.status(201).json({msg: 'Cart created succesfully and product added', cart: result});
     } catch (error) { 
         res.status(400).send({msg: "An error happened on database", err: error.message});
+    }
+});
+
+router.post('/all', async (req, res) => { // POST /carts/all
+    const { products, idUser } = req.body;
+    if (!products || !idUser) return res.status(400).json({ err: 'Important information is missing' });
+
+    try {
+        const user = await User.findByPk(idUser, { include: Cart });
+        if (!user) return res.status(404).json({ msg: 'User does not exist.' });
+
+        let userCart;// Se chequea si tiene o no carrito.
+        if (user.cart)
+            userCart = user.cart;
+        else {
+            userCart = await Cart.build({ total: 0 }); // Se contruye carrito.
+            await user.setCart(userCart); // Se lo vincula con el clinente.                 
+        }
+
+        for (const itemProduct of products) { // Se trabaja producto por producto.
+            const productDB = await Product.findByPk(itemProduct.idProduct);
+            if (!productDB)
+                return res.status(404).json({ err: 'Product does not exist.' });
+
+            if (itemProduct.quantity === 0) {// Con cantidad 0 eliminamos producto del carrito.
+                await Product_cart.destroy({
+                    where: { [Op.and]: [{ productId: itemProduct.idProduct }, { cartId: userCart.id }] }
+                });
+            }
+            else { // Se debe agregar al carrito.
+                const productInCart = await Product_cart.findOne({// Producto en el carrito. Detalle de Carrito.
+                    where: { [Op.and]: [{ productId: itemProduct.idProduct }, { cartId: userCart.id }] }
+                });
+
+                if (productInCart) { // Si ya esta el producto en carrito se debe sumar con lo que ya hay.
+                    let stock = productDB.stock;
+                    let add; // Cantidad a modificar en carrito
+                    productInCart.quantity + itemProduct.quantity > stock ? // Se checkea que no suepere el stock. 
+                        add = stock :
+                        add = productInCart.quantity + itemProduct.quantity;
+
+                    await Product_cart.update({ quantity: add }, { where: { id: productInCart.id } });
+                }
+                else {
+                    const [{ dataValues }] = await userCart.addProduct(productDB);
+                    await Product_cart.update({ quantity: itemProduct.quantity }, { where: { id: dataValues.id } });
+                }
+            }
+        }
+        const result = await User.findByPk(idUser, { include: Cart });
+        res.status(201).json({ msg: 'Cart created o updated succesfully.', cart: result });
+    }
+    catch (error) {
+        res.status(400).send({ err: "An error happened on database.", err: error.message });
     }
 });
 

@@ -1,23 +1,32 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-
 import { addProduct } from '../../Redux/Actions/products.js';
-
-import styles from './CreateProduct.module.css';
+import { validate } from '../../Utils/validateCreateForm.js';
+import { Box, Button, Stack, TextField } from "@mui/material";
+import { TextareaAutosize } from '@mui/base';
+import { Container } from '@mui/system';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '../../Firebase/firebase.config.js';
+import { setIsLoading } from '../../Redux/Actions/index.js';
+import Loader from '../Loader/Loader'
+import MiniCardCreateProduct from '../MiniCardCreateProduct/MiniCardCreateProduct.jsx';
 
 function CreateProduct() {
 
   const products = useSelector(state => state.products)
   let productsName = products.map(e => e.name);
-  console.log(productsName);
   const dispatch = useDispatch();
+  const isLoading = useSelector(state=>state.loading)
 
-  const navigate = useHistory();
 
   const [errors, setErrors] = useState({});
+  const [msg,setMsg] = useState({
+    error:'',
+    success:''
+  })
 
+  const [progress,setProgress]= useState(null)
   const [input, setInput] = useState({
     name: '',
     type: '',
@@ -31,40 +40,14 @@ function CreateProduct() {
     processor: '',
     ram: '',
     discount: '',
-    img: []
+    productsName:productsName,
+    img:[]
   })
 
-  function validate(input) {
-    let errors = {};
-    if (!input.name || input.name.length < 3) {
-      errors.name = 'Product name is required';
-    }else if (productsName.some((e) => e.toLowerCase() === input.name.toLowerCase())) {
-      errors.name = 'Name already exist';
-    }else if(!input.type){
-      errors.type = 'Type is required';
-    }else if(!input.brand){
-      errors.brand = 'Brand is required';
-    }else if(input.price === 0 || !input.price){
-        errors.price = 'Price must be bigger than 0';
-    }else if(!input.model){
-        errors.model = 'Model is required';
-    }else if(!input.stock || input.stock === 0){
-        errors.stock = 'Stock is required';
-    }else if(!input.img[0] || input.img[0] === " "){
-      errors.img = 'Image is required';
-    }else if(
-      !/https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/.test(input.img)
-    )errors.img ="*Insert a valid URL: https:// or http:// or www."
-
-    return errors;
-};
-
+ 
   useEffect(() => {
-
-    // dispatch(getCountriesForActivity(lookFor));
-    // dispatch(getActivities());
-}, [])
-
+      setErrors(validate(input));
+}, [input])
 
 function handleChange(e) {
   setInput({
@@ -77,23 +60,67 @@ function handleChange(e) {
   }))
 };
 
-function handleChangeImg(e) {
-  setInput({
-    ...input,
-    [e.target.name]: [e.target.value]
-  });
-  setErrors(validate({
-      ...input,
-      [e.target.name]: [e.target.value]
-  }))
-};
+
+
+const handleUpLoad = (e)=>{
+    dispatch(setIsLoading())
+    const file = e.target.files[0]
+    const storageRef = ref(storage, `img/${Date.now()}-${file.name}`)
+    const uploaded = uploadBytesResumable(storageRef,file)
+    uploaded.on('state_changed',(snapshot)=>{
+      const progressFirebase=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+      setProgress(progressFirebase)
+    },
+    (e)=>{
+      setMsg({...msg,error:e.message})
+      setTimeout(()=>{
+        setMsg({...msg,error:''})
+      },2500)
+    },
+    ()=>{
+      getDownloadURL(uploaded.snapshot.ref)
+        .then(downLoadUrl => {
+          dispatch(setIsLoading())
+          setInput(input => ({...input,img:input.img.concat(downLoadUrl)}))
+          setErrors(validate({...input,img:downLoadUrl}))
+          setMsg({...msg,success:'Image uploaded successfully'})
+          setTimeout(()=>{
+            setMsg({...msg,success:''})
+          },2500)
+          setProgress(null)
+        })
+    })
+  }
+  
+
+const handleRemoveImg = (e)=>{
+  let file = e.target.id
+  const deleteRef = ref(storage, file);
+  deleteObject(deleteRef)
+  .then(()=>{
+    let inputWithOutRemovedImg = input.img.filter(e=> e !== file)
+    setInput(input => ({...input,img:inputWithOutRemovedImg}))
+    setMsg({...msg,success:'Image removed'})
+    setTimeout(()=>{
+      setMsg({...msg,success:''})
+    },2500)
+  })
+  .catch(e=>{
+    setMsg({...msg,error:e.message})
+    setTimeout(()=>{
+      setMsg({...msg,error:''})
+    },2500)
+  })
+}
 
 function handleSubmit(e) {
   e.preventDefault();
   setErrors(validate(input));
   if (Object.keys(errors).length === 0) {
       dispatch(addProduct(input))
-      alert('Product created successfully');
+      setTimeout(()=>{
+       setMsg({...msg,success:'Product created successfully'})
+      },2500)
       setInput({
         name: '',
         type: '',
@@ -101,6 +128,7 @@ function handleSubmit(e) {
         price: '',
         model: '',
         stock: '',
+        productsName:productsName,
         img: []
       })
   }
@@ -108,139 +136,87 @@ function handleSubmit(e) {
 }
 
   return (
-    <div className={ styles.main }>
-      <div className={styles.createDiv} >
-            <div className='createSection'>
-                <h1 className={styles.title}>Create product</h1>
-            </div>
-            <form  onSubmit={handleSubmit}>
-              <div className={styles.formContainer}>
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Name</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.name} name='name' placeholder='Product name...' onChange={e => handleChange(e)} />
-                    {errors.name && (
-                        <p className={styles.danger}>{errors.name}</p>
-                    )}
-                </div>
+   <form style={{paddingTop:'10rem',paddingBottom:'10rem',display:'block'}}>
+    <h1 style={{marginBottom:"2rem"}}>Create product</h1>
+    <Box  sx={{
+      display:'flex',
+      margin:'auto',
+      width:'100%',
+      justifyContent:'space-evenly'
+    }}>
+      <Stack spacing={3} >
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Brand</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.brand} name='brand' placeholder='Product brand...' onChange={e => handleChange(e)} />
-                    {errors.brand && (
-                        <p className={styles.danger}>{errors.brand}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' color={!input.name || errors.name ? null: 'success'}  value={input.name} error={errors.name ? true : false} helperText={errors.name ? errors.name : ' '} name='name' label="Product name" variant="outlined" onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Type</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.type} name='type' placeholder='Product type...' onChange={e => handleChange(e)} />
-                    {errors.type && (
-                        <p className={styles.danger}>{errors.type}</p>
-                    )}
-                </div>
-                
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Price</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="number" min={1} name='price' value={input.price} placeholder='Product price...'  onChange={e => handleChange(e)}/>
-                    {errors.price && (
-                        <p className={styles.danger}>{errors.price}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' color={!input.brand || errors.brand ? null: 'success'} value={input.brand} error={errors.brand ? true : false} helperText={errors.brand ? errors.brand : ' '} name='brand'label='Brand' variant='outlined' onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Model</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.model} name='model' placeholder='Product model...' onChange={e => handleChange(e)} />
-                    {errors.model && (
-                        <p className={styles.danger}>{errors.model}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' color={!input.type || errors.type ? null: 'success'} value={input.type} error={errors.type ? true : false} helperText={errors.type ? errors.type : ' '} name='type' label='Product type' onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Stock</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="number" min={1} name='stock' value={input.stock} placeholder='Product stock'  onChange={e => handleChange(e)}/>
-                    {errors.stock && (
-                        <p className={styles.danger}>{errors.stock}</p>
-                    )}
-                </div>
+      </Stack>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Camera</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.camera} name='camera' placeholder='Product camera...' onChange={e => handleChange(e)} />
-                    {errors.camera && (
-                        <p className={styles.danger}>{errors.camera}</p>
-                    )}
-                </div>
+      <Stack spacing={3} >
 
-                
+        <TextField autoComplete='off' color={!input.price || errors.price ? null: 'success'} error={errors.price ? true : false} helperText={errors.price ? errors.price : ' '} type="number" min={1} name='price' value={input.price} label='Product price'  onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Storage</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.storage} name='storage' placeholder='Product storage...' onChange={e => handleChange(e)} />
-                    {errors.storage && (
-                        <p className={styles.danger}>{errors.storage}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' color={!input.model || errors.model ? null: 'success'} error={errors.model ? true : false} helperText={errors.model ? errors.model : ' '} value={input.model} name='model' label='Product model' onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Processor</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.processor} name='processor' placeholder='Product processor...' onChange={e => handleChange(e)} />
-                    {errors.processor && (
-                        <p className={styles.danger}>{errors.processor}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' color={!input.stock || errors.stock ? null: 'success'} error={errors.stock ? true : false} helperText={errors.stock ? errors.stock : ' '} type="number" min={1} name='stock' value={input.stock} label='Product stock'  onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Ram</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.ram} name='ram' placeholder='Product ram...' onChange={e => handleChange(e)} />
-                    {errors.ram && (
-                        <p className={styles.danger}>{errors.ram}</p>
-                    )}
-                </div>
+      </Stack>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Discount (%)</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text" value={input.discount} name='discount' placeholder='Product discount...' onChange={e => handleChange(e)} />
-                    {errors.discount && (
-                        <p className={styles.danger}>{errors.discount}</p>
-                    )}
-                </div>
+      <Stack spacing={3} >
+        <TextField autoComplete='off' helperText=' ' value={input.camera} name='camera' label='Product camera' onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Image</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text"  name='img' placeholder='Product image...' onChange={e => handleChangeImg(e)} />
-                    {errors.img && (
-                        <p className={styles.danger}>{errors.img}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' helperText=' ' value={input.storage} name='storage' label='Product storage' onChange={e => handleChange(e)}></TextField>
 
-                <div className={styles.subContainerT}>
-                    <label className={styles.label} cols="30" rows="8">Description</label>
-                    {/* <br/> */}
-                    <textarea className={styles.textarea} value={input.description} name='description' placeholder='Product description...' onChange={e => handleChange(e)} />
-                    {errors.description && (
-                        <p className={styles.danger}>{errors.description}</p>
-                    )}
-                </div>
+        <TextField autoComplete='off' helperText=' ' value={input.ram} name='ram' label='Product ram' onChange={e => handleChange(e)}></TextField>
+      </Stack>
 
-              </div>  
-                
-                <button className={styles.createBtn} type='submit' disabled={Object.keys(errors).length > 0 || input.name === "" ? true : false}>Create Product</button>
-            </form>
-            
+      <Stack spacing={3} >
+
+        <TextField autoComplete='off' helperText=' ' value={input.processor} name='processor' label='Product processor' onChange={e => handleChange(e)}></TextField>
+
+        <TextField autoComplete='off' helperText=' ' value={input.discount} name='discount' label='Product discount' onChange={e => handleChange(e)}></TextField>
+
+        <TextareaAutosize autoComplete='off' placeholder='Description' minRows={2} value={input.description} name='description' onChange={e => handleChange(e)}></TextareaAutosize>
+      </Stack>
+
+    </Box>
+
+    <Container sx={{display:'flex',justifyContent:'space-between',mt:'1rem',width:'100%'}}>
+      <Box sx={{display:'flex',flexDirection:'column'}}>
+        <div style={{display:'flex'}}>
+          <Button 
+          variant='contained'
+          component="label"
+          disabled={progress > 0 ? true : false}
+          // sx={{margin:'0 auto 0 0'}}
+          style={{marginRight:'auto'}}
+          color={errors.img && 'error'}
+          >
+            {errors.img ? 'Image is required click to upload' : 'Upload images'}
+            <input hidden accept="image/*"  type="file" onChange={handleUpLoad} />
+          </Button>
+          <div style={{width:'5rem' , height:'2rem'}}>
+            {isLoading ? <Loader value={progress}/>:null}
+          </div>
         </div>
-    </div>
+        {input.img.length > 0
+        ? input.img.map((e,indx)=>{
+         return <MiniCardCreateProduct key={indx} handleRemoveImg={handleRemoveImg} img={e}/>
+        })
+        : null
+        }
+        
+        
+      </Box>
+      <p style={{margin:'auto',width:'10rem'}}>{Object.values(msg).length > 0 ? (msg.success || msg.error) : ' '}</p>
+      <Button variant='contained'onClick={handleSubmit} disabled={Object.keys(errors).length > 0 ? true : false} sx={{height:'3rem',margin:'0 0 0 auto'}}>Submit</Button>
+    </Container>
+
+   </form>
+
+  //  </form>
   )
 }
 
