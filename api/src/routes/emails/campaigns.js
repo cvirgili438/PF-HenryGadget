@@ -3,26 +3,24 @@ const router = Router();
 const authWithoutAdm = require('../middleware/authWithoutAdm')
 const { Sequelize } = require("sequelize");
 
-const { Campaign } = require('../../db.js');
+const { Campaign, Newsletter } = require('../../db.js');
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
 //router.use(authWithoutAdm);
 
-router.get('/', async (req,res)=> {                                                     // localhost:3001/reviews (get)
-                                                   // Atributos requeridos para busqueda por body
+router.get('/', async (req,res)=> {                                                     
 
-    try {
-        if(!Object.keys(req.body).length) {                                             // En caso de que no nos pasen ningun parametro devolver todas las reviews
-            const result = await Campaign.findAll({
-                                                where: {archived: false},
-                                                order: [['id', 'ASC']],
-                                                });  
-            
-            result.length === 0                                                         // Si no hay reviews disponibles devolvera un array vacio, se valida y muestra msg apropiado, misma logica aplica para todos los casos
-            ? res.status(404).json({err: "There are no campaigns available."})
-            : res.status(200).json({msg: 'Campaigns obtained successfully.', result: result});
-            return
-        }
+    try {                                        
+        const result = await Campaign.findAll({
+                                            where: {archived: false},
+                                            order: [['created', 'DESC']],
+                                            });  
+        const mails = await Newsletter.count({where: {confirm: true}});
+        result.length === 0                                                         
+        ? res.status(404).json({err: "There are no campaigns available."})
+        : res.status(200).json({msg: 'Campaigns obtained successfully.', result: result, mails: mails});
+        return
+        
     } catch (error) {
         res.status(400).json({err: error.message});
     }
@@ -38,7 +36,7 @@ router.post('/', async (req,res) => {
         const campaignCreate = await Campaign.create(campaign);                                  // Crea una review con la data recibida por body en reviewData
         const result = await Campaign.findAll({
                                                 where: {archived: false},
-                                                order: [['id', 'ASC']],
+                                                order: [['created', 'DESC']],
                                                 }); 
         res.status(201).json({msg: 'Campaign created succesfully.', result: result});
     } catch (error) {
@@ -61,7 +59,7 @@ router.put('/', async (req,res) => {
                                                     {where: {id: id}});
         const result = await Campaign.findAll({
                                                 where: {archived: false},
-                                                order: [['id', 'ASC']],
+                                                order: [['created', 'DESC']],
                                                 }); 
         res.status(200).json({msg: `Campaign with id: ${id} has been updated`, result: result})
     } catch (error) {
@@ -85,9 +83,34 @@ router.put('/archive/', async (req,res) => {
         const campaignUpdated = await Campaign.update({archived: newCampaign}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const campaigns = await Campaign.findAll({
                                                 where: {archived: false},
-                                                order: [['id', 'ASC']],
+                                                order: [['created', 'DESC']],
                                                 });
         res.status(200).json({msg: `${campaign.length} campaign/s changed archived property to ${newCampaign}`, result: campaigns})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.put('/publish/:id', async (req,res) => {
+    const {id} = req.params;     
+    
+    try { 
+        const campaign = await Campaign.findByPk(id);
+        if(!campaign){
+            res.status(404).json({err: `Campaign with id: ${id} doesn't exist.`});
+            return;
+        }
+        if(campaign.published){
+            res.status(404).json({err: `Campaign with id: ${id} was already published.`});
+            return;
+        }
+
+        const campaignUpdated = await Campaign.update({published: true}, {where: {id: id}});
+        const campaigns = await Campaign.findAll({
+                                                where: {archived: false},
+                                                order: [['created', 'DESC']],
+                                                });
+        res.status(200).json({msg: `Campaign ${campaign.title} has been published`, result: campaigns})
     } catch (error) {
         res.status(400).json({err: error})
     }

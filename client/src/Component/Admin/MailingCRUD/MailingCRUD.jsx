@@ -5,6 +5,7 @@ import Rating from '@mui/material/Rating';
 
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
@@ -27,8 +28,11 @@ const MailingCRUD = () => {
   const [score, setScore] = useState(null);
   
   const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [publishId, setPublishId] = useState(false);
   
   const campaigns = useSelector(state => state.campaigns);
+  const mails = useSelector(state => state.mails);
   
   const dispatch = useDispatch();
 
@@ -106,8 +110,24 @@ const MailingCRUD = () => {
   };
 
   const handlePublish = e => {
-    dispatch(publishCampaign(e.target.value));
+    setPublishId(e.target.value);
+    setAlert(true);
   };
+
+  const handleConfirmPublish = (e) => {
+    dispatch(publishCampaign({
+      id: publishId,
+      subject: campaigns.filter(p => p.id === publishId )[0].title,
+      text: campaigns.filter(p => p.id === publishId )[0].content,
+    }));
+    setPublishId(false);
+    setAlert(false);
+  }
+
+  const handleCancelPublish = (e) => {
+    setPublishId(false);
+    setAlert(false);
+  }
   
   const handleSubmitAllCampaigns = e => {
     setScore(null);
@@ -155,6 +175,17 @@ const MailingCRUD = () => {
           <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
         </Modal.Footer>
       </Modal>
+      <Alert show={alert} variant="warning">
+        <Alert.Heading>Warning</Alert.Heading>
+        <p>
+          You are about to send aprox. {mails} e-mails. Do you want to proced? (this action can not be undone)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelPublish } />
+          <Button text="Ok, proced!" onClick={ handleConfirmPublish } />
+        </div>
+      </Alert>
       <div className={ styles.managebar }>
         <div>
           With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>

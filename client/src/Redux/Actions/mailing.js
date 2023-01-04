@@ -50,15 +50,26 @@ export const changeCampaignArchive = (payload) => {
 export const publishCampaign = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/campaigns/publish/' + payload,
+            const response = await fetch(URL + '/campaigns/publish/' + payload.id,
             {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.id
                 }
             })
-            const data = await response.json()
+            const data = await response.json();
+
+            const response2 = await fetch(URL + '/newsletter/sendmail/',
+            {
+                method: 'POST',
+                body: JSON.stringify({'subject': payload.subject, 'text': payload.text}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.id
+                }
+            })
+            const data2 = await response2.json();
             return dispatch({
                 type: PUBLISH_CAMPAIGN,
                 payload: data

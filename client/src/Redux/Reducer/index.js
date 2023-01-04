@@ -216,6 +216,7 @@ export default function rootReducer(state = inicialtate, action) {
           return {
             ...state,
           campaigns: action.payload.result,
+          mails: action.payload.mails,
           lastMsg: action.payload.msg,
           }
       case CHANGE_CAMPAIGN_ARCHIVE:
