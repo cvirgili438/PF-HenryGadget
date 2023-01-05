@@ -17,15 +17,14 @@ const DashboardAdmin = () => {
         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
           <Button component={Link} to="/admin/products" >Products</Button>
           <Button component={Link} to="/admin/orders" >Orders</Button>
-          <Button component={Link} to="/admin/mailing" >Mailing</Button>
+          {/* <Button component={Link} to="/admin/mailing" >Mailing</Button> */}
           <Button component={Link} to="/admin/reviews" >Reviews</Button>
           <Button component={Link} to="/admin/users" >Users</Button>
         </ButtonGroup>
       </div>
       <div className={ styles.right }>
         <ButtonGroup>
-          <Button component={Link} to="/" >To main</Button>
-          <Button component={Link} to="/" >Logout</Button>
+          <Button component={Link} to="/" >To main page</Button>
         </ButtonGroup>
      </div>
     </div>
