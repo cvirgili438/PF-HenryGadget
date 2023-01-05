@@ -105,8 +105,8 @@ router.put('/publish/:id', async (req,res) => {
             res.status(404).json({err: `Campaign with id: ${id} was already published.`});
             return;
         }
-
-        const campaignUpdated = await Campaign.update({published: true}, {where: {id: id}});
+        const mails = await Newsletter.count({where: {confirm: true}});
+        const campaignUpdated = await Campaign.update({published: true, contacts: mails}, {where: {id: id}});
         const campaigns = await Campaign.findAll({
                                                 where: {archived: false},
                                                 order: [['created', 'DESC']],
@@ -136,6 +136,30 @@ router.put('/rating/', async (req,res) => {
         res.status(200).json({msg: `Campaign ${campaign.title} changed rating value to ${value}`, result: campaigns})
     } catch (error) {
         res.status(400).json({err: error})
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    const { archived } = req.query;
+
+    try {
+        const { id } = req.params;
+        const campaignToDelete = await Campaign.findByPk(id);
+        if (campaignToDelete === null) {
+            return res.status(400).json({ err: `The campaign with id: ${id} does not exits.` });
+        }
+        await Campaign.destroy({
+            where: {
+                id: id
+            }
+        });
+        const campaigns = await Campaign.findAll({
+                                                where: {archived: archived},
+                                                order: [['created', 'DESC']],
+                                            });
+        res.json({msg: `Campaign ${campaignToDelete.name} has been deleted.`, result: campaigns})
+    } catch (error) {
+        res.status(400).json({ err: error })
     }
 })
 

@@ -8,11 +8,15 @@ const { Product, Review, Brand, Storage, Type, Ram } = require('../../db.js');
 
 // router.use(decodeToken);
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+//router.use(authWithoutAdm);
 
 router.get('/', async (req, res) => {
+    const { archived } = req.query;
     try {
-        const products = await Product.findAll({order: [['id', 'ASC']]});
+        const products = await Product.findAll({
+                                                where: {archived: archived},
+                                                order: [['id', 'ASC']]
+                                            });
         res.status(200).json({msg: `${products.length} product/s loaded`, result: products})
     } catch (error) {
         res.status(400).json({err: error})
@@ -20,7 +24,8 @@ router.get('/', async (req, res) => {
 })
 
 router.put('/suspend', async (req,res) => {
-    const {ids} = req.body;     
+    const {ids} = req.body;    
+    const { archived } = req.query;  
 
     try { 
         const product = await Product.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
@@ -33,14 +38,44 @@ router.put('/suspend', async (req,res) => {
         let newProduct = true;
         if (product[0].active === true) newProduct = false; 
         const productUpdate = await Product.update({active: newProduct}, {where: {id: {[Sequelize.Op.in]: ids}}});
-        const products = await Product.findAll({order: [['id', 'ASC']]});
+        const products = await Product.findAll({
+                                                where: {archived: archived},
+                                                order: [['id', 'ASC']]
+                                            });
         res.status(200).json({msg: `${product.length} product/s changed active property to ${newProduct}`, result: products})
     } catch (error) {
         res.status(400).json({err: error})
     }
 })
 
+router.put('/archive/', async (req,res) => {
+    const {ids} = req.body;     
+    const { archived } = req.query; 
+
+    try { 
+        const product = await Product.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
+        product.forEach(element => {
+            if(!ids.includes(element.dataValues.id)){
+                res.status(404).json({err: `Product with id: ${element.dataValues.id} doesn't exist. Cancelling operation.`});
+                return;
+            }
+        });
+        let newProduct = true;
+        if (product[0].archived === true) newProduct = false; 
+        const productUpdate = await Product.update({archived: newProduct}, {where: {id: {[Sequelize.Op.in]: ids}}});
+        const products = await Product.findAll({
+                                                where: {archived: archived},
+                                                order: [['id', 'ASC']],
+                                            });
+        res.status(200).json({msg: `${product.length} product/s changed archived property to ${newProduct}`, result: products})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
 router.delete('/:id', async (req, res) => {
+    const { archived } = req.query;
+
     try {
         const { id } = req.params;
         const productToDelete = await Product.findByPk(id);
@@ -52,7 +87,10 @@ router.delete('/:id', async (req, res) => {
                 id: id
             }
         });
-        const products = await Product.findAll({order: [['id', 'ASC']]});
+        const products = await Product.findAll({
+                                                where: {archived: archived},
+                                                order: [['id', 'ASC']]
+                                            });
         res.json({msg: `Product ${productToDelete.name} has been deleted.`, result: products})
     } catch (error) {
         res.status(400).json({ err: error })

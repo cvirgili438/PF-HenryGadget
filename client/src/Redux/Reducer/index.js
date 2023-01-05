@@ -9,6 +9,7 @@ import {
   GET_TYPES,
   GET_ALL_PRODUCTS,
   CHANGE_PRODUCT_ACTIVE,
+  CHANGE_PRODUCT_ARCHIVE,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   CLEAR_PRODUCT,
@@ -33,9 +34,9 @@ import {
   PUBLISH_CAMPAIGN,
   CREATE_CAMPAIGN,
   UPDATE_CAMPAIGN,
-  CHANGE_CAMPAIGN_RATING
+  DELETE_CAMPAIGN,
+  CHANGE_CAMPAIGN_RATING,
 } from '../Constants/index.js';
-
 
 export default function rootReducer(state = inicialtate, action) {
   switch (action.type) {
@@ -78,7 +79,7 @@ export default function rootReducer(state = inicialtate, action) {
     case CLEAR_PRODUCT:
       return {
         ...state,
-        productDetail: {}
+        productDetail: {},
       };
     case GET_TYPES:
       let types = {};
@@ -106,152 +107,163 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
       };
-      case CHANGE_PRODUCT_ACTIVE:
-        return {
-          ...state,
-          products: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-        case GET_ALL_PRODUCTS:
-          return {
-            ...state,
-            products: action.payload.result,
-            lastMsg: action.payload.msg
-          }
+    case CHANGE_PRODUCT_ACTIVE:
+      return {
+        ...state,
+        products: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_PRODUCT_ARCHIVE:
+      return {
+        ...state,
+        products: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
     case DELETE_PRODUCT:
       return {
         ...state,
         products: action.payload.result,
-        lastMsg: action.payload.msg
-      }
+        lastMsg: action.payload.msg,
+      };
     case SET_PAGE_VIEW:
       return {
         ...state,
         page: Number(action.payload),
       };
-    case SET_USER_LOGIN :
-      return{
+    case SET_USER_LOGIN:
+      return {
         ...state,
-        user: action.payload
-      }
+        user: action.payload,
+      };
     case SET_LOADING:
-      return{
+      return {
         ...state,
-        loading:!state.loading
-      }
+        loading: !state.loading,
+      };
     case SET_LOCAL_ADRESS:
       return {
         ...state,
-        adress: action.payload
-      }
+        adress: action.payload,
+      };
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress:action.payload
-      }
-      case GET_USERS:
-        return {
-          ...state,
-          users: action.payload
-        }
-      case GET_REVIEWS:
-        return {
-          ...state,
-          reviews: action.payload
-        }
-      case CHANGE_REVIEW_VISIBLE:
-        return {
-          ...state,
-          reviews: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CHANGE_REVIEW_ARCHIVE:
-        return {
-          ...state,
-          reviews: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case SET_ORDER : 
-        return{
-          ...state,
-          lastMsg: action.payload.msg,
-          order: [...state.order, ...action.payload.result]
-        }
-      case GET_ORDERS : 
-        return{
-          ...state,
-          lastMsg: action.payload.msg,
-          order: action.payload.data.orders
-        }
-        case GET_ADMIN_ORDERS:
-          return {
-            ...state,
-          orders: action.payload.result,
-          lastMsg: action.payload.msg,
-          }
-      case CHANGE_ORDER_ARCHIVE:
-        return {
-          ...state,
-          orders: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CHANGE_ORDER_STATUS:
-        return {
-          ...state,
-          orders: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CHANGE_USER_ACTIVE:
-        return {
-          ...state,
-          users: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CHANGE_USER_ADMIN:
-        return {
-          ...state,
-          users: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-        case GET_CAMPAIGNS:
-          return {
-            ...state,
-          campaigns: action.payload.result,
-          mails: action.payload.mails,
-          lastMsg: action.payload.msg,
-          }
-      case CHANGE_CAMPAIGN_ARCHIVE:
-        return {
-          ...state,
-          campaigns: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case PUBLISH_CAMPAIGN:
-        return {
-          ...state,
-          campaigns: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CREATE_CAMPAIGN:
-        return {
-          ...state,
-          campaigns: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case UPDATE_CAMPAIGN:
-        return {
-          ...state,
-          campaigns: action.payload.result,
-          lastMsg: action.payload.msg
-        }
-      case CHANGE_CAMPAIGN_RATING:
-        return {
-          ...state,
-          campaigns: action.payload.result,
-          lastMsg: action.payload.msg
-        }
+        adress: action.payload,
+      };
+    case GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+    case GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    case CHANGE_REVIEW_VISIBLE:
+      return {
+        ...state,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_REVIEW_ARCHIVE:
+      return {
+        ...state,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case SET_ORDER:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        order: [...state.order, ...action.payload.result],
+      };
+    case GET_ORDERS:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        order: action.payload.data.orders,
+      };
+    case GET_ADMIN_ORDERS:
+      return {
+        ...state,
+        orders: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_ORDER_ARCHIVE:
+      return {
+        ...state,
+        orders: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_ORDER_STATUS:
+      return {
+        ...state,
+        orders: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_USER_ACTIVE:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_USER_ADMIN:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_CAMPAIGNS:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        mails: action.payload.mails,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_CAMPAIGN_ARCHIVE:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case PUBLISH_CAMPAIGN:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CREATE_CAMPAIGN:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case UPDATE_CAMPAIGN:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case DELETE_CAMPAIGN:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_CAMPAIGN_RATING:
+      return {
+        ...state,
+        campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
     default:
       return { ...state };
   }
 }
-

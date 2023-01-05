@@ -4,12 +4,18 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Switch from '@mui/material/Switch';
 
+import Alert2 from 'react-bootstrap/Alert';
+
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getAdminProducts, deleteProduct, changeProductActive } from '../../../Redux/Actions/products.js';
-
+import {
+  getAdminProducts,
+  deleteProduct,
+  changeProductActive,
+  changeProductArchive
+} from '../../../Redux/Actions/products.js';
 
 import styles from './ProductCRUD.module.css';
 
@@ -17,6 +23,11 @@ import styles from './ProductCRUD.module.css';
 const ProductCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
+  const [mode, setMode] = useState({archived: false});
+  const low = 10; // esto podria venir de la DB configuracion del sitio
+
+  const [alert2, setAlert2] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
 
   const products = useSelector(state => state.products);
 
@@ -27,15 +38,38 @@ const ProductCRUD = () => {
   };
 
   const handleSubmitDelete = e => {
-    dispatch(deleteProduct(e.target.value));
+    setDeleteId(e.target.value);
+    setAlert2(true);
+  };
+
+  const handleConfirmDelete = (e) => {
+    dispatch(deleteProduct({id: deleteId, archived: mode.archived}));
+    setDeleteId(false);
+    setAlert2(false);
+    setSelected([]);
+  }
+
+  const handleCancelDelete = (e) => {
+    setDeleteId(false);
+    setAlert2(false);
+  }
+
+  const handleChangeArchive = e => {
+    dispatch(changeProductArchive({ids: [e.target.value], archived: mode.archived}));
+    setSelected([]);
+  };
+
+  const handleSubmiteMultipleArchive = e => {
+    dispatch(changeProductArchive({ids: selected, archived: mode.archived}));
+    setSelected([]);
   };
 
   const handleChangeActive = e => {
-    dispatch(changeProductActive([e.target.id]));
+    dispatch(changeProductActive({ids: [e.target.id], archived: mode.archived}));
   };
 
   const handleSubmiteMultipleActive = e => {
-    dispatch(changeProductActive(selected));
+    dispatch(changeProductActive({ids: selected, archived: mode.archived}));
   };
 
   const handleCheckboxes = e => {
@@ -46,25 +80,59 @@ const ProductCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
+  };
 
+  const handleChangeTables = e => {
+    if (mode.archived === true) {
+      setMode({archived: false});
+    } else {
+      setMode({archived: true})
+    }
+    setSelected([]);
   };
 
   useEffect(() => {
-    dispatch(getAdminProducts())
-  }, [dispatch]);
+    dispatch(getAdminProducts(mode))
+  }, [dispatch, mode]);
 
   return (
     <div className={ styles.container }>
+      <Alert2 show={alert2} variant="danger">
+        <Alert2.Heading>Danger</Alert2.Heading>
+        <p>
+          You are about to delete product <i>'{deleteId ? products.filter(p => p.id === deleteId )[0].name : <></>}'</i>.<br />Do you want to proced? (this action <b>can not be undone</b>)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelDelete } />
+          <Button text="Ok, delete!" onClick={ handleConfirmDelete } />
+        </div>
+      </Alert2>
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: <Button text='Active/suspend' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleActive }/>
+          With {selected.length} selected:
+          <Button text={ mode.archived ? 'Restore' : 'Archive' } disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
+          {
+            !mode.archived ?
+            <Button text='Active/suspend' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleActive }/>
+            :
+            <></>
+          }
         </div>
         <div>
           Filter by brand, name, model or price: <Input type='text' name='name' value={input} onChange={ handleInputChange } />
         </div>
-        <Link to='/Create/Product' >
-          <Button text='Create Product'  />
-        </Link> 
+        {
+          !mode.archived ?
+          <Link to='/admin/createproduct' >
+            < Button text='Create Product'  />
+          </Link> 
+          :
+          <></>
+        }
+        <div>
+          <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
+        </div>
       </div>
       {
         products.length > 0 ?
@@ -81,9 +149,20 @@ const ProductCRUD = () => {
                 {/* <th>Discount</th> */}
                 <th>Stock</th>
                 <th>Availability</th>
-                <th>Active</th>
-                <th>Delete</th>
+                {
+                  !mode.archived ?
+                  <th>Active</th>
+                  :
+                  <></>
+                }
                 <th>Edit</th>
+                <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
+                {
+                  mode.archived ?
+                  <th>Delete</th>
+                  :
+                  <></>
+                }
               </tr>
             </thead>
             <tbody>
@@ -104,11 +183,22 @@ const ProductCRUD = () => {
                     <td>$ { p.price.toLocaleString() }</td>
                     <td>{ p.stock }</td>
                     <td><span className={ `${ styles.available } ${ p.stock === 0 ? styles.textNO : p.stock < 10 ? styles.textLOW : styles.textYES} ` }>
-                      { p.stock === 0 ? `NO` : p.stock < 10 ? `LOW` : `YES` }</span>
+                      { p.stock === 0 ? `NO` : p.stock < low ? `LOW` : `YES` }</span>
                       </td>
-                    <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.id } /></td>
+                    {
+                      !mode.archived ?
+                      <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.id } /></td>
+                      :
+                      <></>
+                    }
                     <td><Link to={`/edit/${p.id}`}><Button text='Edit' /></Link></td>
-                    <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                    <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
+                    {
+                      mode.archived ?
+                      <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                      :
+                      <></>
+                    }
                   </tr>
                 ))
               }
@@ -116,7 +206,7 @@ const ProductCRUD = () => {
           </table>
         </div>
         :
-        <div className={ styles.emptyCrud }>No products</div>
+        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} products</div>
       } 
     </div>
   );

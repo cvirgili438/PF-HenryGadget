@@ -6,7 +6,7 @@ const { Sequelize } = require("sequelize");
 const { Product, Review, User, Order } = require('../../db.js');
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+//router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> {                                                     // localhost:3001/reviews (get)
     //const {idProduct, idUser} = req.body;                                               // Atributos requeridos para busqueda por body

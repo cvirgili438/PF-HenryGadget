@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "axios";
+
 import {
     URL,
     CHANGE_CAMPAIGN_ARCHIVE,
@@ -6,6 +7,7 @@ import {
     GET_CAMPAIGNS,
     CREATE_CAMPAIGN,
     UPDATE_CAMPAIGN,
+    DELETE_CAMPAIGN,
     CHANGE_CAMPAIGN_RATING
 } from "../Constants"
 
@@ -134,6 +136,27 @@ export const updateCampaign = (payload) => {
     }
 }
 
+export const deleteCampaign = (payload) => {
+	return async function (dispatch) {   
+		try {
+				const response = await fetch(URL + '/campaigns/'+ payload.id + '?archived=' + payload.archived,
+				{
+						method: 'DELETE',
+						headers: {
+								"Content-Type": "application/json",
+								"authorization":"Bearer " + payload
+						}
+				})
+				const data = await response.json()
+				return dispatch({
+					type: DELETE_CAMPAIGN,
+					payload: data
+				})
+		}catch(err) {
+			console.log(err)
+		}
+	}
+}
 
 export const changeCampaignRaiting = (payload) => {
     return async function(dispatch) {

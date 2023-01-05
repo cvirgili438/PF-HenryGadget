@@ -6,6 +6,7 @@ import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import Alert2 from 'react-bootstrap/Alert';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
@@ -17,7 +18,8 @@ import {
   publishCampaign,
   createCampaign,
   updateCampaign,
-  changeCampaignRaiting
+  changeCampaignRaiting,
+  deleteCampaign
 } from '../../../Redux/Actions/mailing.js';
 
 import styles from './MailingCRUD.module.css';
@@ -37,7 +39,9 @@ const MailingCRUD = () => {
   
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [alert2, setAlert2] = useState(false);
   const [publishId, setPublishId] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
   
   const campaigns = useSelector(state => state.campaigns);
   const mails = useSelector(state => state.mails);
@@ -109,12 +113,31 @@ const MailingCRUD = () => {
     });
   };
 
+  const handleSubmitDelete = e => {
+    setDeleteId(e.target.value);
+    setAlert2(true);
+  };
+
+  const handleConfirmDelete = (e) => {
+    dispatch(deleteCampaign({id: deleteId, archived: mode.archived}));
+    setDeleteId(false);
+    setAlert2(false);
+    setSelected([]);
+  }
+
+  const handleCancelDelete = (e) => {
+    setDeleteId(false);
+    setAlert2(false);
+  }
+
   const handleChangeArchive = e => {
     dispatch(changeCampaignArchive({ids: [e.target.value], archived: mode.archived}));
+    setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
     dispatch(changeCampaignArchive({ids: selected, archived: mode.archived}));
+    setSelected([]);
   };
 
   const handlePublish = e => {
@@ -147,6 +170,7 @@ const MailingCRUD = () => {
     } else {
       setMode({archived: true})
     }
+    setSelected([]);
   };
 
   const handleSubmitFilterScore = e => {
@@ -199,7 +223,7 @@ const MailingCRUD = () => {
       <Alert show={alert} variant="warning">
         <Alert.Heading>Warning</Alert.Heading>
         <p>
-          You are about to send aprox. {mails} e-mails. Do you want to proced? (this action can not be undone)
+          You are about to send aprox. {mails} e-mails.<br />Do you want to proced? (this action <b>can not be undone</b>)
         </p>
         <hr />
         <div className="d-flex justify-content-center">
@@ -207,9 +231,20 @@ const MailingCRUD = () => {
           <Button text="Ok, proced!" onClick={ handleConfirmPublish } />
         </div>
       </Alert>
+      <Alert2 show={alert2} variant="danger">
+        <Alert2.Heading>Danger</Alert2.Heading>
+        <p>
+          You are about to delete campaign <i>'{deleteId ? campaigns.filter(p => p.id === deleteId )[0].title : <></>}'</i>.<br />Do you want to proced? (this action <b>can not be undone</b>)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelDelete } />
+          <Button text="Ok, delete!" onClick={ handleConfirmDelete } />
+        </div>
+      </Alert2>
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
+          With {selected.length} selected: <Button text={ mode.archived ? 'Restore' : 'Archive' } disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         {
           !mode.archived ?
@@ -227,7 +262,7 @@ const MailingCRUD = () => {
           <Button text='All' onClick={ handleSubmitAllCampaigns } />
         </div>
         <div>
-          <Button text={ mode.archived ? 'View active' : 'View archived' } onClick={ handleChangeTables } /> 
+          <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
         </div>
       </div>
       { 
@@ -246,7 +281,13 @@ const MailingCRUD = () => {
                 <th>Sent</th>
                 <th>Send</th>
                 <th>Edit</th>
-                <th>Archive</th>
+                <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
+                {
+                  mode.archived ?
+                  <th>Delete</th>
+                  :
+                  <></>
+                }
               </tr>
             </thead>
             <tbody>
@@ -274,6 +315,12 @@ const MailingCRUD = () => {
                     :
                     <Button text='Edit' onClick={ handleShowModal } value={ p.id } /> }</td>
                   <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
+                  {
+                    mode.archived ?
+                    <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                    :
+                    <></>
+                  }
                 </tr>
               ))
             }
@@ -281,7 +328,7 @@ const MailingCRUD = () => {
           </table>
         </div>
       :
-        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'active'} campaigns</div>
+        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} campaigns</div>
       }  
     </div>
   );
