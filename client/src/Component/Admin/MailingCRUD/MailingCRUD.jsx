@@ -257,6 +257,11 @@ const MailingCRUD = () => {
         <div>
           Filter by title or content: <Input type='text' name='filter' value={ input.filter } onChange={ handleInputChange } />
         </div>
+        Viewing {campaigns
+          .filter(p => p.title.toLowerCase().includes(input.filter.toLowerCase())
+                  ||
+                  p.content.toLowerCase().includes(input.filter.toLowerCase()))
+          .length} campaigns
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={ handleSubmitFilterScore }/>
           <Button text='All' onClick={ handleSubmitAllCampaigns } />

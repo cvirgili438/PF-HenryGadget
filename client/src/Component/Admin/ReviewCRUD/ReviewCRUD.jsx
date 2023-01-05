@@ -85,6 +85,14 @@ const ReviewCRUD = () => {
         <div>
           Filter by name, model or review: <Input type='text' name='review' value={input} onChange={ handleInputChange } />
         </div>
+        Viewing {reviews
+          .filter(p => p.comment.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.product.name.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.product.model.toLowerCase().includes(input.toLowerCase()))
+          .filter(p => score === null ? p : +p.score === +score)
+          .length} reviews
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
           <Button text='All' onClick={handleSubmitAllReviews} />

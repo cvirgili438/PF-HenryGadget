@@ -115,6 +115,7 @@ const OrderCRUD = () => {
         <div>
           Filter by tracking id: <Input type='text' name='order' value={input} onChange={ handleInputChange } />
         </div>
+        Viewing {orders.filter(p => p.trackingNumber.toLowerCase().includes(input.toLowerCase())).length} orders
         <div>
           <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
         </div>

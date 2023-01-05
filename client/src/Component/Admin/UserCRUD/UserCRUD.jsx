@@ -60,6 +60,7 @@ const UserCRUD = () => {
         <div>
           Filter by name or locations: <Input type='text' name='user' value={input} onChange={handleInputChange} />
         </div>
+        Viewing {users.filter(p => p.uid.toLowerCase().includes(input.toLowerCase())).length} users
       </div>
       <div className={ styles.tableContainer }>
 

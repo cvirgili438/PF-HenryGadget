@@ -122,6 +122,13 @@ const ProductCRUD = () => {
         <div>
           Filter by brand, name, model or price: <Input type='text' name='name' value={input} onChange={ handleInputChange } />
         </div>
+        Viewing {products
+          .filter(p => p.name.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.model.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.price.toString().toLowerCase().includes(input.toLowerCase()))
+          .length} products
         {
           !mode.archived ?
           <Link to='/admin/createproduct' >
