@@ -7,7 +7,7 @@ const { Product, Review, User } = require('../db.js');
 
 router.get('/', async (req,res)=> {                                                     // localhost:3001/reviews (get)
     const {idProduct, idUser} = req.body;                                               // Atributos requeridos para busqueda por body
-
+    
     try {
         if(!Object.keys(req.body).length) {                                             // En caso de que no nos pasen ningun parametro devolver todas las reviews
             const result = await Review.findAll({
@@ -43,7 +43,24 @@ router.get('/', async (req,res)=> {                                             
 })
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-router.use(authWithoutAdm);
+//router.use(authWithoutAdm);
+
+
+router.get('/admin/', async (req, res) => {
+    const { archived } = req.query;
+    try {
+        const reviews = await Review.findAll({
+                                                where: {archived: archived},
+                                                order: [['id', 'ASC']],
+                                                include: [{
+                                                    model: Product
+                                                }]
+                                            });
+        res.status(200).json({msg: `${reviews.length} review/s loaded`, result: reviews})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
 
 router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
@@ -95,7 +112,7 @@ router.delete('/:idReview', async (req,res) => {                                
 
 router.put('/visible/:idReview', async (req,res) => {
     const {idReview} = req.params;
-    
+    const { archived } = req.query;
     try { 
         const review = await Review.findByPk(idReview);
         if(!review){
@@ -106,7 +123,7 @@ router.put('/visible/:idReview', async (req,res) => {
         if (review.visible === false) newReview = true; 
         const reviewUpdated = await Review.update({visible: newReview}, {where: {id: idReview}});
         const reviews = await Review.findAll({
-                                            where: {archived: false},
+                                            where: {archived: archived},
                                             order: [['id', 'ASC']],
                                             include: [{
                                                 model: Product
@@ -120,7 +137,7 @@ router.put('/visible/:idReview', async (req,res) => {
 
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
-
+    const { archived } = req.query;
     try { 
         const review = await Review.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
         review.forEach(element => {
@@ -133,7 +150,7 @@ router.put('/archive/', async (req,res) => {
         if (review[0].archived === true) newReview = false; 
         const reviewUpdated = await Review.update({archived: newReview}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const reviews = await Review.findAll({
-                                                where: {archived: false},
+                                                where: {archived: archived},
                                                 order: [['id', 'ASC']],
                                                 include: [{
                                                     model: Product

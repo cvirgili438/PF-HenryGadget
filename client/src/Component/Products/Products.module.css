@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  margin-top: 3rem; 
+  margin: 3rem auto auto auto;
   width: 100%;
 }
 

@@ -1,4 +1,4 @@
-const { Product, Type, Storage, Ram, Brand, User, Order } = require('../db');
+const { Product, Type, Storage, Ram, Brand, User, Order, Campaign, Newsletter } = require('../db');
 const products = require('./objectToAdd/products.js');
 const iphones = require('./objectToAdd/iphoneProducts')
 const review = require('./objectToAdd/reviews.js');
@@ -8,6 +8,8 @@ const types = require('./objectToAdd/types.js');
 const rams = require('./objectToAdd/ram.js');
 const users= require('./objectToAdd/users.js'); 
 const orders = require('./objectToAdd/orders.js');
+const campaigns = require('./objectToAdd/campaigns.js');
+const newsletter = require('./objectToAdd/newsletter.js');
 
 async function inicialProducts() {
     try {
@@ -55,6 +57,13 @@ async function inicialProducts() {
 
         // ordenes para pruebas
         await Order.bulkCreate(orders);
+
+
+        // campaign para pruebas
+        await Campaign.bulkCreate(campaigns);
+
+        // newsletter para pruebas
+        await Newsletter.bulkCreate(newsletter);
 
     } catch (error) {
         console.log(error, 'data not found')

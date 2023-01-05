@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from "react-router-dom";
 
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Tooltip } from '@mui/material';
+import Alert2 from 'react-bootstrap/Alert';
 
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
@@ -17,7 +15,12 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getAdminOrders, changeOrderArchive, changeOrderStatus } from '../../../Redux/Actions/order.js';
+import {
+  getAdminOrders,
+  changeOrderArchive,
+  changeOrderStatus,
+  deleteOrder
+} from '../../../Redux/Actions/order.js';
 
 import styles from './OrderCRUD.module.css';
 
@@ -25,6 +28,10 @@ import styles from './OrderCRUD.module.css';
 const OrderCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
+  const [mode, setMode] = useState({archived: false});
+
+  const [alert2, setAlert2] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
 
   const orders = useSelector(state => state.orders);
 
@@ -44,24 +51,63 @@ const OrderCRUD = () => {
     }
   };
 
+  const handleChangeTables = e => {
+    if (mode.archived === true) {
+      setMode({archived: false});
+    } else {
+      setMode({archived: true})
+    }
+    setSelected([]);
+  };
+
   const handleChangeStatus = e => {
-    dispatch(changeOrderStatus(e.target.value));
+    dispatch(changeOrderStatus({id: e.target.value, archived: mode.archived}));
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeOrderArchive([e.target.value]));
+    dispatch(changeOrderArchive({ids: [e.target.value], archived: mode.archived}));
+    setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeOrderArchive(selected));
+    dispatch(changeOrderArchive({ids: selected, archived: mode.archived}));
+    setSelected([]);
   };
 
+  const handleSubmitDelete = e => {
+    setDeleteId(e.target.value);
+    setAlert2(true);
+  };
+
+  const handleConfirmDelete = (e) => {
+    dispatch(deleteOrder({id: deleteId, archived: mode.archived}));
+    setDeleteId(false);
+    setAlert2(false);
+    setSelected([]);
+  }
+
+  const handleCancelDelete = (e) => {
+    setDeleteId(false);
+    setAlert2(false);
+  }
+
   useEffect(() => {
-    dispatch(getAdminOrders())
-  }, [dispatch]);
+    dispatch(getAdminOrders(mode))
+  }, [dispatch, mode]);
 
   return (
     <div className={ styles.container }>
+      <Alert2 show={alert2} variant="danger">
+        <Alert2.Heading>Danger</Alert2.Heading>
+        <p>
+          You are about to delete order <i>'{deleteId ? orders.filter(p => p.id === deleteId )[0].trackingNumber : <></>}'</i>.<br />Do you want to proced? (this action <b>can not be undone</b>)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelDelete } />
+          <Button text="Ok, delete!" onClick={ handleConfirmDelete } />
+        </div>
+      </Alert2>
       <div className={ styles.managebar }>
         <div>
           With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
@@ -69,57 +115,71 @@ const OrderCRUD = () => {
         <div>
           Filter by tracking id: <Input type='text' name='order' value={input} onChange={ handleInputChange } />
         </div>
+        <div>
+          <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
+        </div>
       </div>
-      <div className={ styles.tableContainer }>
-
-        <table className={ styles.table }>
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Select</th>
-              <th>Order</th>
-              <th>To user</th>
-              <th>Total</th>
-              <th colSpan={3}>Status</th>
-              <th>Archive</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              orders
-              .filter(p => p.trackingNumber.toLowerCase().includes(input.toLowerCase()))
-              .map((p, i) => (
-                <tr key={ p.id }>
-                  <td>{ i + 1 }</td>
-                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                  <td>{ p.trackingNumber }</td>
-                  <td>{ p.user.uid }</td>
-                  <td>{ p.total }</td>
-                  <td>{ p.status.toUpperCase() }</td>
-                  <td>
-                    {
-                      p.status === 'processing' ? <LockOpenIcon /> :
-                      p.status === 'packed' ? <LockIcon /> :
-                      p.status === 'delayed' ? <MoreTimeIcon /> :
-                      p.status === 'shipped' ? <LocalShippingIcon /> :
-                      p.status === 'canceled' ? <CancelIcon /> : <DoneIcon />
-                    }
+      {
+        orders.length > 0 ?
+        <div className={ styles.tableContainer }>
+          <table className={ styles.table }>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Select</th>
+                <th>Order</th>
+                <th>To user</th>
+                <th>Total</th>
+                <th colSpan={3}>Status</th>
+                <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
+                {
+                  mode.archived ?
+                  <th>Delete</th>
+                  :
+                  <></>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {
+                orders
+                .filter(p => p.trackingNumber.toLowerCase().includes(input.toLowerCase()))
+                .map((p, i) => (
+                  <tr key={ p.id }>
+                    <td>{ i + 1 }</td>
+                    <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                    <td>{ p.trackingNumber }</td>
+                    <td>{ p.user.uid }</td>
+                    <td>{ p.total }</td>
+                    <td>{ p.status.toUpperCase() }</td>
+                    <td>
+                      {
+                        p.status === 'processing' ? <LockOpenIcon /> :
+                        p.status === 'packed' ? <LockIcon /> :
+                        p.status === 'delayed' ? <MoreTimeIcon /> :
+                        p.status === 'shipped' ? <LocalShippingIcon /> :
+                        p.status === 'canceled' ? <CancelIcon /> : <DoneIcon />
+                      }
+                      </td>
+                    <td>
+                      <Button text='Change' onClick={ handleChangeStatus } value={ p.id } />
                     </td>
-                  <td>
-                  {/* <Tooltip title="Change order status">
-                    <IconButton component="button" onClick={ handleChangeStatus } value={ p.id } >
-                      <PhotoCamera />
-                    </IconButton>
-                  </Tooltip> */}
-                  <Button text='Change' onClick={ handleChangeStatus } value={ p.id } />
-                  </td>
-                  <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
-                </tr>
-              ))
-            }
-            </tbody>
-        </table>
-      </div>
+                    <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
+                    {
+                      mode.archived ?
+                      <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                      :
+                      <></>
+                    }
+                  </tr>
+                ))
+              }
+              </tbody>
+          </table>
+        </div>
+        :
+        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} active orders</div>
+        }
     </div>
   );
 };

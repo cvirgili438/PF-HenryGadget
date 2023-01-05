@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 
 import styles from './OrderDetail.module.css'
 
@@ -50,6 +50,7 @@ const OrderDetail = () => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Product</StyledTableCell>
+                            <StyledTableCell></StyledTableCell>
                             <StyledTableCell align="right">Model</StyledTableCell>
                             <StyledTableCell align="right">Cost ($)</StyledTableCell>
                             <StyledTableCell align="right">Discount (%)</StyledTableCell>
@@ -64,8 +65,9 @@ const OrderDetail = () => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell component="th" scope="row">
-                                    {row.name}
+                                   <Link to={`/product/${row.id}`}>{row.name}</Link>
                                 </StyledTableCell>
+                                <StyledTableCell align="right"><Link to={`/review/${row.id}`}>Make a review</Link></StyledTableCell>
                                 <StyledTableCell align="right">{row.model}</StyledTableCell>
                                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                                 <StyledTableCell align="right">{row.discount == null ? 0 : row.discount}</StyledTableCell>
