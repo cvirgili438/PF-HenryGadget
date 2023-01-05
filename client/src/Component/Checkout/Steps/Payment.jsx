@@ -19,9 +19,8 @@ import { URL } from "../../../Redux/Constants";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const API_KEY = process.env.REACT_APP_API_KEY;
-const stripePromise = loadStripe(API_KEY);
-
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE);
+console.log(process.env.REACT_APP_STRIPE)
 export default function Payment() {
     const [clientSecret, setClientSecret] = useState("");
     const user = useSelector(state =>state.user)
