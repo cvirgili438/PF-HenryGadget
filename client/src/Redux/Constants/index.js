@@ -16,13 +16,15 @@ export const inicialtate = {
   totalProducts: 1,
   lastMsg: '',
   loading: false,
+  userFromDb:{},
   users:[],
   reviews:[],
   cartProducts: [],
   user:userStorageData,
   adress:{},
-  order:[]
-
+  order:[],
+  orders:[],
+  campaigns:[]
 };
 
 // PRODUCTOS
@@ -37,6 +39,7 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
+export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
@@ -52,10 +55,25 @@ export const SET_PAGE_VIEW = 'SET_PAGE_VIEW';
 export const SET_LOADING = 'SET_LOADING'
 
 //checkout
-
 export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
 export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
 
 //orders
 export const SET_ORDER = 'SET_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
+export const GET_ADMIN_ORDERS = 'GET_ADMIN_ORDERS'
+export const CHANGE_ORDER_ARCHIVE = 'CHANGE_ORDER_ARCHIVE'
+export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS'
+export const DELETE_ORDER = 'DELETE_ORDER'
+
+//mailing
+export const GET_CAMPAIGNS = 'GET_CAMPAIGNS'
+export const CHANGE_CAMPAIGN_ARCHIVE = 'CHANGE_CAMPAIGN_ARCHIVE' 
+export const PUBLISH_CAMPAIGN = 'PUBLISH_CAMPAIGN'
+export const CREATE_CAMPAIGN = 'CREATE_CAMPAIGN'
+export const UPDATE_CAMPAIGN = 'UPDATE_CAMPAIGN'
+export const DELETE_CAMPAIGN = 'DELETE_CAMPAIGN'
+export const CHANGE_CAMPAIGN_RATING = 'CHANGE_CAMPAIGN_RATING'
+
+//review
+export const ADD_REVIEW = 'ADD_REVIEW'

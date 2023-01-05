@@ -2,7 +2,7 @@
     display: flex;
     width: 100%;
     /* background-color: red; */
-    height: 80vh;
+    height: auto;
     margin-top: 5rem;
   }
   
@@ -18,6 +18,12 @@
     width:50%;
     margin: auto;
   }
+
+  .container_info_sub2 img{
+    object-fit: contain;
+    width: 40rem;
+  }
+
  .services_container{
     display:flex;
     margin-top: 0.4rem;
@@ -29,28 +35,40 @@
   .services{
     display:flex;
     justify-content: flex-start;
-    font-size: 20px;
+    /* font-size: 15px; */
     align-content: center;
     color: rgb(101, 101, 101);
     background-color: rgb(230, 230, 230);
     place-items: center;
     border-radius: 10px;
-    height: 3rem;
-    width: 15rem;
+    height: 5rem;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
 .services p {
-    margin:auto
+    margin:auto;
+    font-size: 1.4rem;
 }
 
 .title_container{
     background-color: rgb(34, 34, 34);
     color:white;
     border-radius: 10px;
-    width: 30rem;
+    width: 80%;
     letter-spacing: 3px;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    height: 4rem;
   }
 
   .services_icon{
     margin-left: 1rem;
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+  }
+ 
+  h1{
+    font-size: 3rem;
   }

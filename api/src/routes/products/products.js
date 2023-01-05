@@ -51,6 +51,7 @@ router.get('/', async (req, res) => {
 
         let where = {};
         where.active = true;
+        where.archived = false;
 
         if (name) {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }

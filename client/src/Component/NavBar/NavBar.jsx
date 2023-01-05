@@ -24,7 +24,7 @@ const NavBar = () => {
   const [modalShow, setModalShow] = useState(false);
   const [displayOptions, setDisplayOptions] = useState(false)
 
-  const state = useSelector(state=>state)
+  const state = useSelector(state=>state)  
   const dispatch = useDispatch();
 
   const {search} = useLocation()
