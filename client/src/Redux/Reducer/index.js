@@ -121,12 +121,14 @@ export default function rootReducer(state = inicialtate, action) {
         products: action.payload.result,
         lastMsg: action.payload.msg,
       };
+
     case GET_ALL_PRODUCTS:
       return {
         ...state,
         products: action.payload.result,
-        lastMsg: action.payload.msg,
+        lastMsg: action.payload.msg
       };
+
     case DELETE_PRODUCT:
       return {
         ...state,
@@ -146,8 +148,10 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_LOADING:
       return {
         ...state,
-        loading: !state.loading,
+
+        loading: !state.loading
       };
+
     case SET_LOCAL_ADRESS:
       return {
         ...state,

@@ -10,6 +10,7 @@ import styles from "./Detail.module.css";
 import noImage from '../../Assets/noImage.jpg';
 import { AverageRating, IndexScore } from "../../Utils/Rating/controller";
 import StarIcon from '@mui/icons-material/Star';
+import RecipeReviewCard from "../ReviewCard/ReviewCard";
 
 const Detail = () => {
     const { id } = useParams();
@@ -27,7 +28,7 @@ const Detail = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
-        return function() {
+        return function () {
             dispatch(clearProduct())
         };
     }, []);
@@ -161,57 +162,58 @@ const Detail = () => {
                 <Separator title={'Opiniones del producto'} />
                 {
                     reviews && reviews.length > 0 ?
-                        <Grid container sx={{pb:5}} >
-                        <Grid container item xs={3}>
-                            <Grid item xs={2}>
-                                <Typography
-                                    fontSize={40}
-                                    fontWeight={600}
-                                    component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Rating
-                                    sx={{ pt: 2 }}
-                                    name="read-only"
-                                    value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
-                                    precision={0.5}
-                                    readOnly
-                                />
+                        <Grid container >
+                            <Grid container item xs={4} sx={{ paddingBottom: '28rem' }}>
+                                <Grid item xs={2}>
+                                    <Typography
+                                        fontSize={40}
+                                        fontWeight={600}
+                                        component="h1">{reviews ? AverageRating(reviews).toFixed(1) : '-n/a-'}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Rating  //estrellas
+                                        sx={{ padding: 'auto' }}
+                                        name="read-only"
+                                        value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
+                                        precision={0.5}
+                                        readOnly
+                                    />
+                                    <Grid item xs={12}>
+                                        {`${reviews.length} Reviews`}
+                                    </Grid>
+                                </Grid>
                                 <Grid item xs={12}>
-                                    {`${reviews.length} Reviews`}
+                                    {IndexScore(reviews).map((e, i) => {
+                                        return (<Grid key={i} item xs={10}>
+                                            <Box sx={{ pt: 1 }}>
+                                                <LinearProgress
+                                                    variant="determinate"
+                                                    value={e}
+                                                /> {i + 1} <StarIcon
+                                                    fontSize="small"
+                                                    sx={{ color: "#d1cfcb" }}
+                                                />
+                                            </Box>
+                                        </Grid>)
+                                    })}
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                {
-                                    IndexScore(reviews).map((e, i) => {
-                                    return (<Grid key={i} item xs={8}>
-                                        <Box sx={{ pt: 1 }}>
-                                            <LinearProgress
-                                                variant="determinate"
-                                                value={e}
-                                            /> {i + 1} <StarIcon
-                                                fontSize="small"
-                                                sx={{ color: "#d1cfcb" }}
-                                            />
-                                        </Box>
-                                    </Grid>)
-                                })}
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={6} sx={{ py: 3 }}>
-                            {
-                                reviews.map(e => {
+                            <Grid item xs={8} sx={{ py: 3 }}>
+                                {reviews.map(e => {
                                     return (
-                                        <p key={e.id}><i>"{e.comment}"</i></p>
+                                        <Box key={e.id} >
+                                            <RecipeReviewCard key={e.id} review={e} />
+                                        </Box>
+                                        // <p key={e.id}>{e.comment}</p>
                                     )
                                 })
-                            }
+                                
+                                }
 
-                        </Grid>
-                    </Grid>
-                    :
-                    <div>No tenemos reviews de este producto, se el primero en comentar 😉</div>
+                            </Grid>
+                        </Grid> :
+                    <div style={{padding: '3rem', border: '2px dashed green'}}>No tenemos reviews de este producto, se el primero en comentar 😉</div>
                 }
             </div>
         </Container >
