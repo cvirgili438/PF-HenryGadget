@@ -5,15 +5,14 @@
 }
 
 .products {
-  display: flex;
+  display: grid;
   width: 80%; 
   flex-wrap: wrap;
-  margin: auto;
   /* justify-content: space-evenly; */
   /* background-size: cover; */
-  /* min-height: 500px; */
-  /* grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(3,1fr) */
+  min-height: 500px;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(3,1fr)
 }
 
 .filters{

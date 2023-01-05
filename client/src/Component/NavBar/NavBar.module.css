@@ -4,6 +4,7 @@
 
 .container {
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 10px;
   background: rgb(244, 244, 244);

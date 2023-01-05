@@ -25,7 +25,7 @@ import NewsLetterConfirm from './Component/Newslatter/NewsLetterConfirm.jsx';
 import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.jsx';
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
-
+import Products from './Component/Products/Products';
 
 
 const App = () => {
@@ -47,6 +47,7 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
+          <Route path='/products' component={Products}/>
           {
             user && user.rol === 'admin' ?
               <Route path='/admin'>
