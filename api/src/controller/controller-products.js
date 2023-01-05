@@ -58,6 +58,7 @@ async function inicialProducts() {
         // ordenes para pruebas
         await Order.bulkCreate(orders);
 
+
         // campaign para pruebas
         await Campaign.bulkCreate(campaigns);
 

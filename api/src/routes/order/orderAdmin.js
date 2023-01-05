@@ -17,8 +17,8 @@ router.get('/', async (req,res)=> {
                                             include: [{
                                                 model: User,
                                             }]
-                                            });  
-        
+                                            });
+                                            
         res.status(200).json({msg: `${result.length} product/s loaded`, result: result});
     } catch (error) {
         res.status(400).json({err: error.message});
@@ -28,6 +28,7 @@ router.get('/', async (req,res)=> {
 router.put('/status/:idOrder', async (req,res) => {
     const {idOrder} = req.params;
     const { archived } = req.query;
+
     try { 
         const order = await Order.findByPk(idOrder);
         if(!order){
@@ -58,6 +59,7 @@ router.put('/status/:idOrder', async (req,res) => {
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
     const { archived } = req.query;
+
     try { 
         const order = await Order.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
         order.forEach(element => {
@@ -108,5 +110,6 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ err: error })
     }
 })
+
 
 module.exports = router;
