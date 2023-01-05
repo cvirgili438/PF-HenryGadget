@@ -1,4 +1,4 @@
-.Light {
+/* .Light {
   background: var(--Light-pagination-background-color);
   border: 2px solid var(--Light-pagination-border-color);
   color: var(--Light-pagination-text-color);
@@ -20,18 +20,19 @@
   background: var(--Comp-pagination-background-color);
   border: 2px solid var(--Comp-pagination-border-color);
   color: var(--Comp-pagination-text-color);
-}
+} */
 
 .container{
   border-radius: 15px;
   text-align: center;
-  margin-bottom: 4px;
+  /* margin: 4px, 5px, 0px, 5px ; */
+  /* margin-bottom: 4px; */
 }
 
 .container button {
-  margin: 5px 1px 2px 1px;
-  border: 2px solid #1A1A1A;
-  border-radius: 7px;
+  margin: 0.3rem;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
   display: inline-block;
   font-weight: 600;
@@ -39,7 +40,7 @@
   outline: none;
   text-align: center;
   text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  transition: all 300ms;
   will-change: transform;
 }
 
@@ -50,7 +51,7 @@
   font-size: 1em;
 }
 
-.normalPage.Light {
+/* .normalPage.Light {
   color: var(--Light-button2-text-color);
 }
 
@@ -64,7 +65,7 @@
 
 .normalPage.Comp {
   color: var(--Comp-button2-text-color);
-}
+} */
 
 .actualPage {
   width: 36px;
@@ -73,7 +74,7 @@
   transform: translateY(-2px);
 }
 
-.actualPage.Light {
+/* .actualPage.Light {
   color: var(--Light-button2-text-color);
   background-color: var(--Light-button2-background-color);
   box-shadow: var(--Light-button2-selected-shadow);
@@ -95,7 +96,7 @@
   color: var(--Comp-button2-text-color);
   background-color: var(--Comp-button2-background-color);
   box-shadow: var(--Comp-button2-selected-shadow);
-}
+} */
 
 .skipPage {
   width: 30px;
@@ -104,7 +105,7 @@
   font-size: .8em;
 }
 
-.skipPage.Light {
+/* .skipPage.Light {
   color: var(--Light-button2-text-color);
 }
 
@@ -118,17 +119,30 @@
 
 .skipPage.Comp {
   color: var(--Comp-button2-text-color);
-}
-
-button:disabled {
+} */
+.btn:disabled {
   pointer-events: none;
 }
-
-button:hover {
+.btn:hover {
   transform: translateY(-2px);
+  background-color:darkgrey
+}
+.btn:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
 
-button:hover.Light {
+
+/* button:disabled {
+  pointer-events: none;
+} */
+
+/* button:hover {
+  transform: translateY(-2px);
+  background-color:darkgrey
+} */
+
+/* button:hover.Light {
   color: #fff;
   background-color: var(--Light-button2-hover-bgcolor);
   box-shadow: var(--Light-button2-hover-shadow) 0 8px 15px;
@@ -150,12 +164,12 @@ button:hover.Comp {
   color: #fff;
   background-color: var(--Comp-button2-hover-bgcolor);
   box-shadow: var(--Comp-button2-hover-shadow) 0 8px 15px;
-}
+} */
 
-button:active {
+/* button:active {
   box-shadow: none;
   transform: translateY(0);
-}
+} */
 
 @media (max-width: 375px) {
   .hideSkipPage {
