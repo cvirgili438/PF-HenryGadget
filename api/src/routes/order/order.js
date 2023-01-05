@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { Op } = require("sequelize");
 const router = Router();
 
-const { Order, User, Cart, Product, Product_cart, Product_order } = require('../../db.js');
+const { Order, User, Cart, Product, Product_cart, Product_order, Address } = require('../../db.js');
 const { deleteStock } = require('./controller.js');
 
 
@@ -16,7 +16,7 @@ router.get('/', async(req,res) => {                                             
         
         if(!user) return res.status(404).json({err: `User with id: ${idUser} doesn't exist`});  // Validamos que el usuario exista sino devolvemos mensaje de error apropiado
 
-        const orders = await Order.findAll({where: {userUid: idUser},include: Product});        // Buscamos toda orden que tenga como userUid el id del usuario pasado por body, incluimos productos tambien
+        const orders = await Order.findAll({where: {userUid: idUser},include: [Product, Address]});        // Buscamos toda orden que tenga como userUid el id del usuario pasado por body, incluimos productos tambien
 
         orders.length === 0                                                                     // Validamos que el query anterior haya encontrado alguna orden, si si devolvemos las ordenes encontradas, sino devolvemmos mensaje de error apropiado
         ? res.status(404).json({err: `User with id: ${idUser} doesn't have any orders`})
@@ -34,17 +34,28 @@ router.post('/', async (req,res) => {                                           
     try {
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Con el id del usuario buscamos al usuario y su carrito(si este existe).
         const userCart = await Cart.findByPk(user.cart.id, {include: Product});                                     // Con el id del carrito encontrado en el user.cart buscamos el carrito incluyendo los productos en el. 
-        const products = userCart.products                                                                          // Guardamos los productos en una variable.
+        const shippingAddress = await Address.findAll({where: {userUid: idUser, principal: true, type: 'shipping'}});// Nos traemos la direccion principal para shipping y que este activa y seleccionada como principal
+        const billingAddress = await Address.findAll({where: {userUid: idUser, principal: true, type: 'billing'}}); // Nos traemos direccion principal para billing "" ""          ""       ""
+        const products = userCart.products;                                                                         // Guardamos los productos en una variable.
+
+        if(shippingAddress.length === 0 || billingAddress.length === 0) return res.status(404).json({err: `The user with id: ${idUser} doesn't have any address related "Billing or Shipping"`})
+        
+        const idShipping = shippingAddress[0].dataValues;                                                           // Accedemos a la direccion para luego tener su ID
+        const idBilling = billingAddress[0].dataValues;
 
         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`});                  // Validamos que existan tanto usuario como que el usuario tiene carrito 
         if(!userCart) return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
 
+
         const newOrder = await Order.create({status: 'processing', total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
 
+        await newOrder.addAddress(idShipping.id);                                                                   // Vinculamos la direccion (billing y shipping) seleccionada por el usuario y la vinculamos a la orden
+        await newOrder.addAddress(idBilling.id);
+
         for (const product of products) {       
             const idProduct = product.id    
-            const quantity = product.product_cart.quantity;                                                                     // Iteramos sobre los productos del carrito 
+            const quantity = product.product_cart.quantity;                                                         // Iteramos sobre los productos del carrito 
             const productToAdd = await Product.findByPk(product.id);                                                // Buscamos el producto por su id para tener toda su informacion
             await newOrder.addProduct(productToAdd);                                                                // y vinculamos cada producto a la orden anteriormente creada
             await Product_order.update({ quantity: quantity }, { where: { productId: idProduct } });
