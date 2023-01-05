@@ -59,3 +59,7 @@ export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
 //orders
 export const SET_ORDER = 'SET_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
+
+//review
+
+export const ADD_REVIEW = 'ADD_REVIEW'

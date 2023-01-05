@@ -24,6 +24,7 @@ import NewsLetterConfirm from './Component/Newslatter/NewsLetterConfirm.jsx';
 import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.jsx';
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
+import Review from './Component/Review/Review';
 
 
 
@@ -43,6 +44,8 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
+          <Route  path="/review/:id" component={Review}  />
+
 
           <Route path='/admin'>
             <DashboardAdmin />
