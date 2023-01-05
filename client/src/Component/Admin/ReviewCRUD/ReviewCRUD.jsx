@@ -94,7 +94,7 @@ const ReviewCRUD = () => {
           .filter(p => score === null ? p : +p.score === +score)
           .length} reviews
         <div>
-          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
+          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={0.5} onChange={handleSubmitFilterScore}/>
           <Button text='All' onClick={handleSubmitAllReviews} />
         </div>
         <div>
@@ -112,6 +112,7 @@ const ReviewCRUD = () => {
                   <th>Img</th>
                   <th>Name</th>
                   <th>Model</th>
+                  <th>Title</th>
                   <th>Review</th>
                   <th>Rating</th>
                   <th>Visible</th>
@@ -134,8 +135,9 @@ const ReviewCRUD = () => {
                     <td><img src={ p.product.img[0] } alt={ p.product.name } className={ styles.productImage } /></td>
                     <td>{ p.product.name }</td>
                     <td>{ p.product.model }</td>
+                    <td>{ p.titleComment }</td>
                     <td>{ p.comment }</td>
-                    <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
+                    <td><Rating name="rating" defaultValue={ p.score } precision={0.5} readOnly='true' /></td>
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                   </tr>

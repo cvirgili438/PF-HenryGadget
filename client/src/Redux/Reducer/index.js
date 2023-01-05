@@ -170,7 +170,8 @@ export default function rootReducer(state = inicialtate, action) {
     case GET_REVIEWS:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case CHANGE_REVIEW_VISIBLE:
       return {

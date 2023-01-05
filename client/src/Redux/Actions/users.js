@@ -62,7 +62,7 @@ export const getReviews = (payload)=>{
             const data = await response.json()
             return dispatch({
                 type: GET_REVIEWS,
-                payload: data.result
+                payload: data
             })
         }catch(e){
             return e.message
