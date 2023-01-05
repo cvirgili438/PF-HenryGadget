@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import noImage from '../../Assets/noImage.jpg';
-import {Button , IconButton} from '@mui/material'
+import { Button, IconButton, Box, Card, CardActionArea, CardContent, CardMedia, Paper, Typography } from '@mui/material'
 import styles from './Product.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,37 +11,64 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
   const trim_text = 120;  // cantidad de caracteres a mostrar, el resto se cortan y se agregan tres puntitos
+  const img = {
+    src: '',
+    alt: ''
+  }
+  if (!image || image.length === 0) {
+    img.src = noImage;
+    img.alt = 'Not available'
+  } else {
+    img.src = image[0];
+    img.alt = name
+  }
   return (
-    <div className={ styles.container }>
-      
-      <Link to={`/product/${ id }`}>
-      {
-        !image ?
-          <img className={ styles.image } src={ noImage } alt='Not available' />
-        :
-        image.length === 0 ?
-            <img className={ styles.image } src={ noImage } alt='Not available' />
-          :
-          <img className={styles.image} src={image[0]} alt={name} />
-      }
+    <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 , paddingTop:'1rem',height:'auto'}}>
+
+      <Link to={`/product/${id}`}>
+        <Box sx={{ width: '100%', height: '15rem' }}>
+          <CardMedia
+            sx={{ objectFit:'contain', margin: 'auto',width:'300px',height:'300px'}}
+            component="img"
+            alt={img.alt}
+            height="auto"
+            image={img.src}
+          />
+        </Box>
       </Link>
-      <div className={ styles.detail }>
-        <div className={ styles.name }>{ name }</div>
-        <div className={ styles.description }>{ description ? description.length > trim_text ? `${description.trim().slice(0, trim_text)}...` : description : null }</div>
-        <div className={ styles.price }>$ { price.toLocaleString() }</div>
-        <div className={ units_left > 5 ? `${styles.units_left}` : `${styles.units_left} ${styles.low_units_left}` }>
-          { units_left === 0 ? `NO` : units_left } unit{ units_left > 1 || units_left === 0 ? `s` : null } left</div>
-      </div>
-      <div style={{display:'flex',width:'100%',justifyContent:'space-around',marginTop:'1rem',marginBottom:'1rem'}}>
+      <CardContent sx={{ textAlign: 'left', color: '#333', borderTop: '1px solid rgba(51,51,51,.1)',marginTop:'5rem',height:'13rem' }}>
+        <Typography gutterBottom variant="h5" component="div">
+          {name}
+        </Typography>
+        {description ? description.length > trim_text ?
+          <Typography variant="body2" color="text.secondary">
+            `${description.trim().slice(0, trim_text)}...`
+          </Typography> : description : null
+        }
+        <Typography variant='h5' component="div" sx={{ fontWeight: '600' }}>
+          $ {price.toLocaleString()}
+        </Typography>
+        {
+          units_left > 5 ?
+            <Paper sx={{ backgroundColor: '#5fcd21c2', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
+              {units_left} units left
+            </Paper> :
+
+            <Paper sx={{ backgroundColor: '#e91818b8', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
+              {units_left === 0 ? `NO` : units_left} unit{units_left > 1 || units_left === 0 ? `s` : null} left
+            </Paper>
+          
+        }
+      </CardContent>
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around',margin:'1rem'}}>
         <IconButton>
           <FavoriteBorderIcon></FavoriteBorderIcon>
         </IconButton>
         <Button variant='contained' sx={Button_contained_primary}>
-          <AddShoppingCartIcon style={{marginRight:'10px'}}/>
           Add cart
         </Button>
       </div>
-    </div>
+    </Card>
   );
 };
 

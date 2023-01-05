@@ -1,0 +1,88 @@
+.divHidden{
+    display: none;
+}
+
+.divGlobal{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.divTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: left;
+
+}
+
+/* .title{
+    margin-left: 250px;
+} */
+
+.hr1{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.divPaymentOptions{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+    padding: 20px;
+    margin: 50px;
+}
+
+.divStripe{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(34, 33, 33);
+    color: white;
+    width: 30%;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.divStripeContent{
+    background-color: rgb(244, 244, 244);
+    width: 30%;
+    margin: 0 auto;
+    padding: 20px 0px 20px 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.divPayPal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1E477A;
+    color: white;
+    width: 30%;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.divPayPalContent{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(244, 244, 244);
+    width: 30%;
+    margin: 0 auto;
+    padding: 20px 0px 20px 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.divPayPalButtons{
+    width: 80%;
+    z-index: 1;
+} 
+

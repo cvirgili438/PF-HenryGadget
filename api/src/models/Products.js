@@ -49,6 +49,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     },
+    archived: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
   },
     {
       timestamps: true,

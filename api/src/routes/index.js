@@ -12,6 +12,7 @@ const orderAdmin = require('../routes/order/orderAdmin');
 const order = require('../routes/order/order')
 const newsletter = require('./emails/newsletter.js');
 const mail = require('./emails/sendMail.js');
+const campaigns = require('./emails/campaigns.js')
 
 const { route } = require('../routes/products/productsAdmin');
 const router = Router();
@@ -29,6 +30,7 @@ router.use('/orders/admin', orderAdmin);
 router.use('/orders', order);
 router.use('/newsletter', newsletter);
 router.use('/mail', mail);
+router.use('/campaigns', campaigns);
 
 router.get('/', (req, res) => {
     res.status(200).send("HenryGadget");

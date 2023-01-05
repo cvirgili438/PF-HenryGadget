@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL } from '../../Redux/Constants/index.js';
+import { URL } from '../../../Redux/Constants/index.js';
 
 export async function sendEmail(email) {
     try {
