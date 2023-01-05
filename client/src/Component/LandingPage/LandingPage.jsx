@@ -5,6 +5,8 @@ import styles from './LandingPage.module.css';
 import Aos from 'aos'
 import 'aos/dist/aos.css'
 import OurServices from '../OurServices/OurServices';
+import FeaturedProducts from '../FeaturedProducts/FeaturedProducts';
+
 
 
 const LandingPage = () => {
@@ -21,6 +23,8 @@ const LandingPage = () => {
       <section className={ styles.main }>
        <Products />
       </section>  
+
+      <FeaturedProducts />
 
       <section>
         <OurServices/>
