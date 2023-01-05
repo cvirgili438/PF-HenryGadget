@@ -8,24 +8,18 @@ const { Product, Review, User, Order } = require('../../db.js');
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
 //router.use(authWithoutAdm);
 
-router.get('/', async (req,res)=> {                                                     // localhost:3001/reviews (get)
-    //const {idProduct, idUser} = req.body;                                               // Atributos requeridos para busqueda por body
-
-    try {
-        if(!Object.keys(req.body).length) {                                             // En caso de que no nos pasen ningun parametro devolver todas las reviews
-            const result = await Order.findAll({
-                                                where: {archived: false},
-                                                order: [['id', 'ASC']],
-                                                include: [{
-                                                    model: User,
-                                                }]
-                                                });  
-            
-            result.length === 0                                                         // Si no hay reviews disponibles devolvera un array vacio, se valida y muestra msg apropiado, misma logica aplica para todos los casos
-            ? res.status(404).json({err: "There are no orders available."})
-            : res.status(200).json({msg: 'Orders obtained successfully.', result: result});
-            return
-        }
+router.get('/', async (req,res)=> { 
+    const { archived } = req.query;
+    try {                                          
+        const result = await Order.findAll({
+                                            where: {archived: archived},
+                                            order: [['id', 'ASC']],
+                                            include: [{
+                                                model: User,
+                                            }]
+                                            });  
+        
+        res.status(200).json({msg: `${result.length} product/s loaded`, result: result});
     } catch (error) {
         res.status(400).json({err: error.message});
     }
@@ -33,6 +27,7 @@ router.get('/', async (req,res)=> {                                             
 
 router.put('/status/:idOrder', async (req,res) => {
     const {idOrder} = req.params;
+    const { archived } = req.query;
     try { 
         const order = await Order.findByPk(idOrder);
         if(!order){
@@ -47,7 +42,7 @@ router.put('/status/:idOrder', async (req,res) => {
         const orderUpdated = await Order.update({status: orderTypes[index]}, {where: {id: idOrder}});
         
         const orders = await Order.findAll({
-                                            where: {archived: false},
+                                            where: {archived: archived},
                                             order: [['id', 'ASC']],
                                             include: [{
                                                 model: User,
@@ -62,7 +57,7 @@ router.put('/status/:idOrder', async (req,res) => {
 
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
-    
+    const { archived } = req.query;
     try { 
         const order = await Order.findAll({where: {id: {[Sequelize.Op.in]: ids}}});
         order.forEach(element => {
@@ -75,7 +70,7 @@ router.put('/archive/', async (req,res) => {
         if (order[0].archived === true) newOrder = false; 
         const reviewUpdated = await Order.update({archived: newOrder}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const orders = await Order.findAll({
-                                            where: {archived: false},
+                                            where: {archived: archived},
                                             order: [['id', 'ASC']],
                                             include: [{
                                                 model: User
@@ -84,6 +79,33 @@ router.put('/archive/', async (req,res) => {
         res.status(200).json({msg: `${order.length} order/s changed archived property to ${newOrder}`, result: orders})
     } catch (error) {
         res.status(400).json({err: error})
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    const { archived } = req.query;
+
+    try {
+        const { id } = req.params;
+        const orderToDelete = await Order.findByPk(id);
+        if (orderToDelete === null) {
+            return res.status(400).json({ err: `The order with id: ${id} does not exits.` });
+        }
+        await Order.destroy({
+            where: {
+                id: id
+            }
+        });
+        const orders = await Order.findAll({
+                                            where: {archived: archived},
+                                            order: [['id', 'ASC']],
+                                            include: [{
+                                                model: User
+                                            }]
+                                        });
+        res.json({msg: `Product ${orderToDelete.name} has been deleted.`, result: orders})
+    } catch (error) {
+        res.status(400).json({ err: error })
     }
 })
 

@@ -29,6 +29,7 @@ import {
   GET_ADMIN_ORDERS,
   CHANGE_ORDER_ARCHIVE,
   CHANGE_ORDER_STATUS,
+  DELETE_ORDER,
   GET_CAMPAIGNS,
   CHANGE_CAMPAIGN_ARCHIVE,
   PUBLISH_CAMPAIGN,
@@ -189,6 +190,12 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         lastMsg: action.payload.msg,
         order: action.payload.data.orders,
+      };
+    case DELETE_ORDER:
+      return {
+        ...state,
+        orders: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case GET_ADMIN_ORDERS:
       return {

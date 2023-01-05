@@ -8,8 +8,12 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getReviews } from '../../../Redux/Actions/users.js';
-import { changeReviewVisible, changeReviewArchive } from '../../../Redux/Actions/users.js'; // en linea aparte por si separamos las actions de las reviews en otro archivo
+import {
+  getReviews,
+  changeReviewVisible,
+  changeReviewArchive
+} from '../../../Redux/Actions/users.js';
+
 
 import styles from './ReviewCRUD.module.css';
 
@@ -17,6 +21,7 @@ const ReviewCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
   const [score, setScore] = useState(null);
+  const [mode, setMode] = useState({archived: false});
 
   const reviews = useSelector(state => state.reviews);
   
@@ -27,15 +32,17 @@ const ReviewCRUD = () => {
   };
 
   const handleChangeVisible = e => {
-    dispatch(changeReviewVisible(e.target.id));
+    dispatch(changeReviewVisible({id: e.target.id, archived: mode.archived}));
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeReviewArchive([e.target.value]));
+    dispatch(changeReviewArchive({ids: [e.target.value], archived: mode.archived}));
+    setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeReviewArchive(selected));
+    dispatch(changeReviewArchive({ids: selected, archived: mode.archived}));
+    setSelected([]);
   };
 
   const handleSubmitFilterScore = e => {
@@ -56,16 +63,24 @@ const ReviewCRUD = () => {
     }
   };
 
+  const handleChangeTables = e => {
+    if (mode.archived === true) {
+      setMode({archived: false});
+    } else {
+      setMode({archived: true})
+    }
+    setSelected([]);
+  };
+
   useEffect(() => {
-    dispatch(getReviews())
-  }, [dispatch]);
+    dispatch(getReviews(mode))
+  }, [dispatch, mode]);
 
   return (
     <div className={ styles.container }>
-      
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: <Button text='Archive' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
+          With {selected.length} selected: <Button text={ mode.archived ? 'Restore' : 'Archive' } disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
         </div>
         <div>
           Filter by name, model or review: <Input type='text' name='review' value={input} onChange={ handleInputChange } />
@@ -73,6 +88,9 @@ const ReviewCRUD = () => {
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
           <Button text='All' onClick={handleSubmitAllReviews} />
+        </div>
+        <div>
+          <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
         </div>
       </div>
       { 
@@ -89,7 +107,7 @@ const ReviewCRUD = () => {
                   <th>Review</th>
                   <th>Rating</th>
                   <th>Visible</th>
-                  <th>Archive</th>
+                  <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
                 </tr>
               </thead>
               <tbody>
@@ -111,7 +129,7 @@ const ReviewCRUD = () => {
                     <td>{ p.comment }</td>
                     <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
-                    <td><Button text='Archive' onClick={ handleChangeArchive } value={ p.id } /></td>
+                    <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                   </tr>
                 ))
               }
@@ -119,7 +137,7 @@ const ReviewCRUD = () => {
           </table>
         </div>
       :
-      <div className={ styles.emptyCrud }>No reviews to admin</div>
+      <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} reviews to admin</div>
     }  
   </div>
   );

@@ -1,5 +1,13 @@
 import axios from "axios"
-import { SET_ORDER, GET_ORDERS, GET_ADMIN_ORDERS, CHANGE_ORDER_ARCHIVE, CHANGE_ORDER_STATUS, URL } from "../Constants"
+import {
+    SET_ORDER,
+    GET_ORDERS,
+    DELETE_ORDER,
+    GET_ADMIN_ORDERS,
+    CHANGE_ORDER_ARCHIVE,
+    CHANGE_ORDER_STATUS,
+    URL
+} from "../Constants"
 
 
 
@@ -25,34 +33,34 @@ export const getOrders = (payload)=> async (dispatch)=>{
     catch(error){console.log(error)}
 }
 
-export const getAdminOrders = (payload)=>{
-    return async function(dispatch){
-        try{
-            const response = await fetch(URL + "/orders/admin",{
-                method: "GET",
-                headers:{
-                    "Accept": "application/json",
-                    "authorization":"Bearer " + payload
-                }
-            })
-            const data = await response.json()
-            return dispatch({
-                type: GET_ADMIN_ORDERS,
-                payload: data
-            })
-        }catch(e){
-            return e.message
-        }
-    }
+export const getAdminOrders = (payload) => async (dispatch)=>{   
+	try {
+		const response = await fetch(URL + '/orders/admin/?archived=' + payload.archived,
+					{
+							method: 'GET',
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: GET_ADMIN_ORDERS,
+							payload: data
+					})
+	}
+	catch(err) {
+		console.log(err)
+	}
 }
 
 export const changeOrderArchive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/orders/admin/archive/',
+            const response = await fetch(URL + '/orders/admin/archive/?archived=' + payload.archived,
             {
                 method: 'PUT',
-                body: JSON.stringify({'ids': payload}),
+                body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
                     "authorization":"Bearer " + payload
@@ -72,7 +80,7 @@ export const changeOrderArchive = (payload) => {
 export const changeOrderStatus = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/orders/admin/status/' + payload,
+            const response = await fetch(URL + '/orders/admin/status/' + payload.id + '?archived=' + payload.archived,
             {
                 method: 'PUT',
                 headers: {
@@ -89,4 +97,26 @@ export const changeOrderStatus = (payload) => {
             return e.message
         }
     }
+}
+
+export const deleteOrder = (payload) => {
+	return async function (dispatch) {   
+		try {
+				const response = await fetch(URL + '/orders/admin/'+ payload.id + '?archived=' + payload.archived,
+				{
+						method: 'DELETE',
+						headers: {
+								"Content-Type": "application/json",
+								"authorization":"Bearer " + payload
+						}
+				})
+				const data = await response.json()
+				return dispatch({
+					type: DELETE_ORDER,
+					payload: data
+				})
+		}catch(err) {
+			console.log(err)
+		}
+	}
 }
