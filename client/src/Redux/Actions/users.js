@@ -1,4 +1,4 @@
-import { SET_USER_LOGIN , GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
+import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
 
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
@@ -47,6 +47,7 @@ export const getUsers = (payload)=>{
         }
     }
 }
+
 
 export const getReviews = (payload)=>{
     return async function(dispatch){

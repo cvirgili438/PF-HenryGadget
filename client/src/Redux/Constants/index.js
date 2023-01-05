@@ -16,6 +16,7 @@ export const inicialtate = {
   totalProducts: 1,
   lastMsg: '',
   loading: false,
+  userFromDb:{},
   users:[],
   reviews:[],
   cartProducts: [],

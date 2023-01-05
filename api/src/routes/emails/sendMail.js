@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authWithoutAdm = require('../middleware/authWithoutAdm.js');
+const admin = require('../config/firebase-config.js');
 
 const { sgMail } = require('../config/sendgrid-config.js');
 
@@ -22,8 +23,11 @@ router.post('/sendmail', async (req, res) => {
         return res.status(400).json({ err: 'Text parameter missing.' });
 
     try {
+        // Se busca email desde Firebase.
+        const userData = await admin.auth().getUser(uid);
+        const email = userData.toJSON().email;
         const msg = {
-            to: req.user.email, // Obtenido por el middleware desde Firebase.
+            to: email,
             subject: SUBJECT_SENDMAIL + subject,
             from: EMAIL_FROM_NEWSLETTER,
             html: text
