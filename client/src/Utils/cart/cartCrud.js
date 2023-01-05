@@ -31,6 +31,13 @@ export function updateProductCart(idProduct, idUser, quantity){
     }
     else { // No logueado
         let storage = JSON.parse(localStorage.getItem('cart')) || []; // Vector de productos
+        if(quantity === 0) { // Cuando la cantidad es cero se debe eliminar producto de la lista.
+            storage = storage.filter(el => el.idProduct !== idProduct);
+            localStorage.setItem('cart', JSON.stringify(storage));
+            store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+            return;
+        }
+
         let result = storage.find(el => el.idProduct === idProduct);
         if (result)
             result.quantity = quantity;
