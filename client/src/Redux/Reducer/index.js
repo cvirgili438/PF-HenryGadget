@@ -157,14 +157,12 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress:action.payload
+        adress: action.payload
       }
-      case REFRESH_CART:
-        return {
-          ... state,
-          refreshCart: action.payload
-        }
-        adress: action.payload,
+    case REFRESH_CART:
+      return {
+        ...state,
+        refreshCart: action.payload
       };
     case GET_USERS:
       return {

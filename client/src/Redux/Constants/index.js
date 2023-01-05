@@ -19,7 +19,7 @@ export const inicialtate = {
   users:[],
   reviews:[],
   cartProducts: [],
-  refreshCart: null  // Se usa para solor notificar de cambios en el carrito.
+  refreshCart: null,  // Se usa para solor notificar de cambios en el carrito.
   user:userStorageData,
   adress:{},
   order:[], 
