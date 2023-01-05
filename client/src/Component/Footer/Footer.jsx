@@ -7,6 +7,7 @@ const Footer = () => {
 
   return (
     <div>
+      <div className={styles.separador}></div>
       <Newslatter />
       <MoreInfo />
 
