@@ -1,5 +1,5 @@
 import { addItem } from './controllers/addItem.js';
-import { sendDB, setDB, getAllCartDB, getProductDB, deleteCart, sendAllCartDB } from './controllers/conectDB.js';
+import { sendDB, getAllCartDB, getProductDB, deleteCart, sendAllCartDB } from './controllers/conectDB.js';
 // Sirve solo para dar aviso a los componentes de que el carrito fue editado.
 import { REFRESH_CART } from '../../Redux/Constants/index.js';
 import { store } from '../../Redux/Store/index.js'; // Para dispach.
@@ -25,7 +25,7 @@ export async function addProductCart(idProduct, idUser, quantity) {
 
 export function updateProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
-        setDB(idProduct, idUser, quantity)
+        sendDB(idProduct, idUser, quantity, true)
         .then(() => store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)}))
             .catch(data => console.log('Error enviar producto: ', data));
     }
@@ -41,7 +41,7 @@ export function updateProductCart(idProduct, idUser, quantity){
 
 export function deleteProductCart(idProduct, idUser, quantity){
     if (idUser) { // Logueado
-        setDB(idProduct, idUser, quantity)
+        sendDB(idProduct, idUser, quantity, true)
         .then(() => store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)}))
             .catch(data => console.log('Error enviar producto: ', data));
     } 
