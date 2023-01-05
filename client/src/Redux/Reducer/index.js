@@ -19,6 +19,7 @@ import {
   SET_USER_ADDRESS,
   GET_USERS,
   GET_REVIEWS,
+  ADD_REVIEW,
   CHANGE_USER_ACTIVE,
   CHANGE_USER_ADMIN,
   CHANGE_REVIEW_VISIBLE,
@@ -152,6 +153,11 @@ export default function rootReducer(state = inicialtate, action) {
         return {
           ...state,
           reviews: action.payload
+        }
+      case ADD_REVIEW:
+        return{
+          ...state,
+          lastMsg: action.payload.msg
         }
       case CHANGE_REVIEW_VISIBLE:
         return {
