@@ -3,6 +3,11 @@
   padding-top: 80px;
 }
 
+.emptyCrud {
+  margin-top: 30px;
+  font-size: 1.8em;
+}
+
 .statistics {
   height: 100px;
   background-color: rgb(210, 210, 210);

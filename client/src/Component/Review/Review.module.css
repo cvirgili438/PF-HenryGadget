@@ -1,0 +1,8 @@
+.mainContainer{
+    padding-top: 8rem;
+    display: flex
+}
+
+.main_img{    
+    max-width: 60%;
+}

@@ -25,6 +25,7 @@ import NewsLetterConfirm from './Component/Newslatter/NewsLetterConfirm.jsx';
 import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.jsx';
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
+import Review from './Component/Review/Review';
 
 
 

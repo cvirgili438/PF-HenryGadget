@@ -34,36 +34,39 @@ const Products = () => {
   },[products])
 
   return (
-    <div className={ styles.container }>
-      <div className={ styles.filters }>
-        <Filters />
-      </div>
-      <div className={ styles.paginated }>
-        <Pagination />
+    <div style={{width:'100%'}}>
+
+      <Pagination />
+    
+      <div className={ styles.container }>
+        <div className={ styles.filters }>
+          <Filters />
+        </div>
         <div className={ styles.products }>
-        {
-          products.length > 0
-          ?
-          (
-            products.map((p, i) => {
-              return (
-                <Product
-                key={i}
-                id={ p.id }
-                name={p.name}
-                description={p.description}
-                image={p.img}
-                price={p.price}
-                units_left={p.stock}
-                />
+          {
+            products.length > 0
+            ?
+            (
+              products.map((p, i) => {
+                return (
+                  <Product
+                  key={i}
+                  id={ p.id }
+                  name={p.name}
+                  description={p.description}
+                  image={p.img}
+                  price={p.price}
+                  units_left={p.stock}
+                  />
+                  )
+                })
                 )
-              })
-              )
-              : test()
-              
-            }
+                : test()
+                
+              }
         </div>
       </div>
+
     </div>
   );
 };
