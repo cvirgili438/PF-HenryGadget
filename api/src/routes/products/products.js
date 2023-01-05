@@ -51,6 +51,7 @@ router.get('/', async (req, res) => {
 
         let where = {};
         where.active = true;
+        where.archived = false;
 
         if (name) {
             where.name = { [Sequelize.Op.iLike]: `%${name}%` }
@@ -170,16 +171,21 @@ router.get('/:id', async (req, res) => {
                 { model: Brand }, // include[0]
                 { model: Type }, // include[1]
                 { model: Storage }, // include[2]
-                { model: Review }, // include[3]
+                { model: Review,
+                    required: false,
+                    where: {
+                        visible: true
+                    } }, // include[3]
                 { model: Ram } // include[4]
             ]
         });
+        
         if (product === null) {
-            return res.status(400).json({ err: `The enter id does not exist.` })
+            return res.status(400).json({ err: `The entered id does not exist.` })
         }
         res.status(200).json({ msg: 'Product obtained successfully.', result: product });
     } catch (error) {
-        res.status(400).json({ err: error.message })
+        res.status(400).json({ msg: error.message })
     }
 })
 

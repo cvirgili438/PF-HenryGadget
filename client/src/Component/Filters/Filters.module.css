@@ -1,11 +1,12 @@
 .container{
     padding: 1rem;
     border-radius: 1rem;
-    width: 16rem;
+    width: 20rem;
     background-color:white;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.431);
-    margin-left: 2rem;
-    margin-bottom: 2rem;
+  /* box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.2); */
+
+    margin-left: 1rem;
 }
 
 .input {
@@ -17,10 +18,11 @@
     transition: 0.2s;
     margin-top:10px;
     margin-bottom:5px;
+    font-size: 1.3rem;
 }
 
 .input:hover{
-    background-color: rgba(0, 0, 0, 0.652);
+    background-color: rgba(0, 0, 0, 0.78);
     color:white;
     border-radius: 4px;
 }
@@ -66,7 +68,7 @@
 .block_container_title{
     font-weight: 500;
     padding-bottom: .4rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     border-bottom: 1.5px solid black;
     cursor: pointer;
     text-align: start;
@@ -89,7 +91,8 @@
     border-radius: 8px;
     padding:8px;
     color:rgb(0, 0, 0);
-    transition: all 0.8s;
+    transition: all 0.3s ease;
+    font-size: 20px;
 }
 
 .clear_button:hover{
@@ -98,6 +101,6 @@
     color:white
 }
 .clear_button:active{
-    transform: scale(.4);
+    transform: scale(.9);
 
 }

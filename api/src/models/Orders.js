@@ -21,6 +21,10 @@ module.exports = (sequelize) => {
     total: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    archived: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   },
   {

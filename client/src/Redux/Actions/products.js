@@ -12,7 +12,8 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   CLEAR_PRODUCT,
-	CHANGE_PRODUCT_ACTIVE
+	CHANGE_PRODUCT_ACTIVE,
+	CHANGE_PRODUCT_ARCHIVE
 } from '../Constants/index.js';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -86,7 +87,7 @@ export const getProductById =(id) => async (dispatch) => {
 		let res = await axios.get(URL + `/Products/${id}`)
 		return dispatch({
 			type:GET_PRODUCT_BY_ID,
-			payload:res.data.result
+			payload:res.data
 		})
 	}
 	catch(er) {
@@ -137,7 +138,7 @@ export function editProduct(payload) {
 
 export const getAdminProducts = (payload) => async (dispatch)=>{   
 	try {
-		const response = await fetch(URL + '/products/admin/',
+		const response = await fetch(URL + '/products/admin/?archived=' + payload.archived,
 					{
 							method: 'GET',
 							headers: {
@@ -156,24 +157,25 @@ export const getAdminProducts = (payload) => async (dispatch)=>{
 	}
 }
 
-export const deleteProduct = (payload) => async (dispatch)=>{   
-	try {
-		const response = await fetch(URL + '/products/admin/' + payload,
-					{
-							method: 'DELETE',
-							headers: {
-									"Content-Type": "application/json",
-									"authorization":"Bearer " + payload
-							}
-					})
-					const data = await response.json()
-					return dispatch({
-							type: DELETE_PRODUCT,
-							payload: data
-					})
-	}
-	catch(err) {
-		console.log(err)
+export const deleteProduct = (payload) => {
+	return async function (dispatch) {   
+		try {
+				const response = await fetch(URL + '/products/admin/'+ payload.id + '?archived=' + payload.archived,
+				{
+						method: 'DELETE',
+						headers: {
+								"Content-Type": "application/json",
+								"authorization":"Bearer " + payload
+						}
+				})
+				const data = await response.json()
+				return dispatch({
+					type: DELETE_PRODUCT,
+					payload: data
+				})
+		}catch(err) {
+			console.log(err)
+		}
 	}
 }
 
@@ -183,23 +185,13 @@ export function clearProduct() {
 	}
 };
 
-// export function deleteProduct(payload) {
-//   return async function (dispatch) {
-// 		const response = await axios.delete(URL + `/products/admin/` + payload)
-// 		return {
-// 			type: DELETE_PRODUCT,
-// 			response
-// 		}
-//   }
-// }
-
 export const changeProductActive = (payload) => {
 	return async function(dispatch) {
 			try {
-					const response = await fetch(URL + '/products/admin/suspend/',
+					const response = await fetch(URL + '/products/admin/suspend/?archived=' + payload.archived,
 					{
 							method: 'PUT',
-							body: JSON.stringify({'ids': payload}),
+							body: JSON.stringify({'ids': payload.ids}),
 							headers: {
 									"Content-Type": "application/json",
 									"authorization":"Bearer " + payload
@@ -208,6 +200,29 @@ export const changeProductActive = (payload) => {
 					const data = await response.json()
 					return dispatch({
 							type: CHANGE_PRODUCT_ACTIVE,
+							payload: data
+					})
+			}catch(e){
+					return e.message
+			}
+	}
+}
+
+export const changeProductArchive = (payload) => {
+	return async function(dispatch) {
+			try {
+					const response = await fetch(URL + '/products/admin/archive/?archived=' + payload.archived,
+					{
+							method: 'PUT',
+							body: JSON.stringify({'ids': payload.ids}),
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: CHANGE_PRODUCT_ARCHIVE,
 							payload: data
 					})
 			}catch(e){

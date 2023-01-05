@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { sendConfirm } from "./controllerNewsLetter.js";
+import { sendConfirm } from "./controllers/newsLetterDB.js";
 
 const NewsLetterConfirm = () => {
     const {search} = useLocation()
@@ -20,11 +20,8 @@ const NewsLetterConfirm = () => {
     return(<div>
         <p>a</p>
         <p>a</p>
-        {processing ?
-        <div>Aguarde, por favor...</div> : null}
-        {response ?
-        <div>{response}</div> :
-        <div>{response}</div>}
+        {processing ? <h3>Aguarde, por favor...</h3> : null}
+        {response ? <h3>{response}</h3> : null}
     </div>);
 };
 

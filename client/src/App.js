@@ -1,6 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import NavBar from './Component/NavBar/NavBar.jsx';
@@ -24,10 +25,14 @@ import NewsLetterConfirm from './Component/Newslatter/NewsLetterConfirm.jsx';
 import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.jsx';
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
+import Review from './Component/Review/Review';
 
 
 
 const App = () => {
+
+  const user = useSelector(state => state.user);
+
   return (
     <BrowserRouter >
       <div className="App">
@@ -43,16 +48,21 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
-
-          <Route path='/admin'>
-            <DashboardAdmin />
-            <Route path='/admin/products' component={ProductCRUD} />
-            <Route path='/admin/orders' component={OrderCRUD} />
-            <Route path='/admin/mailing' component={MailingCRUD} />
-            <Route path='/admin/reviews' component={ReviewCRUD} />
-            <Route path='/admin/users' component={UserCRUD} />
-            <Route path='/admin/createproduct' component={CreateProduct}/>
-          </Route>         
+          {
+            user && user.rol === 'admin' ?
+              <Route path='/admin'>
+                <DashboardAdmin />
+                <Route path='/admin/products' component={ProductCRUD} />
+                <Route path='/admin/orders' component={OrderCRUD} />
+                <Route path='/admin/mailing' component={MailingCRUD} />
+                <Route path='/admin/reviews' component={ReviewCRUD} />
+                <Route path='/admin/users' component={UserCRUD} />
+                <Route path='/admin/createproduct' component={CreateProduct}/>
+              </Route>         
+            :
+            <></>
+          }
+          
           <Route path="*" component={Page404} />
         </Switch>
         <Footer />

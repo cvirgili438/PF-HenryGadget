@@ -51,7 +51,7 @@ export const getUsers = (payload)=>{
 export const getReviews = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/reviews",{
+            const response = await fetch(URL + '/reviews/admin/?archived=' + payload.archived,{
                 method: "GET",
                 headers:{
                     "Accept": "application/json",
@@ -72,7 +72,7 @@ export const getReviews = (payload)=>{
 export const changeReviewVisible = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/reviews/visible/' + payload,{
+            const response = await fetch(URL + '/reviews/visible/' + payload.id + '?archived=' + payload.archived,{
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
@@ -93,10 +93,10 @@ export const changeReviewVisible = (payload) => {
 export const changeReviewArchive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/reviews/archive/',
+            const response = await fetch(URL + '/reviews/archive/?archived=' + payload.archived,
             {
                 method: 'PUT',
-                body: JSON.stringify({'ids': payload}),
+                body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
                     "authorization":"Bearer " + payload
