@@ -38,11 +38,23 @@ router.post('/subscribe', async (req, res) => {
     }
 
     try {
-        // Se agrega correo a la tabla newsletter
-        await Newsletter.create({ email, code });
-        // Se envía datos a SendGrid para que envíe el correo al destino.
-        await sgMail.send(msg);
-        res.json({ msg: `${email}, added successfully.` });
+        // Se lo busca por si ya existe.
+        let contact = await Newsletter.findOne({ where: { email: email } });
+        if(!contact) { // No existe constacto, se lo crea.
+            await Newsletter.create({ email, code });
+            // Se envía datos a SendGrid para que envíe el correo al destino.
+            await sgMail.send(msg);
+            return res.json({ msg: `${email}, added successfully.` });
+        }
+
+        if (contact.confirm)
+            return res.status(400).json({ err: 'Contact already subscribed.' });
+        else{ // Se actualiza el code, ya se subscribió pero nunca confirmó.
+            await contact.update({code});
+            // Se envía datos a SendGrid para que envíe el correo al destino.
+            await sgMail.send(msg);
+            res.json({ msg: `${email}, added successfully.` });
+        }
     }
     catch (error) {
         res.status(400).json({ err: 'Something went wrong whit the subscription to our newsletter.' });
