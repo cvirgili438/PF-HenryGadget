@@ -1,5 +1,6 @@
 export const Button_contained_primary = {
     backgroundColor:'rgb(0,0,0)',
+    fontSize: '1rem',
     width:'10em',
     marginLeft:'2rem',
     marginRight:'1rem',
