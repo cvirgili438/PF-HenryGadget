@@ -48,9 +48,6 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
-
-          <Route  path="/review/:id" component={Review}  />                 
-
           {
             user && user.rol === 'admin' ?
               <Route path='/admin'>
@@ -64,8 +61,8 @@ const App = () => {
               </Route>         
             :
             <></>
-          }          
-
+          }
+          
           <Route path="*" component={Page404} />
         </Switch>
         <Footer />

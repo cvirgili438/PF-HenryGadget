@@ -1,45 +1,188 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
 
+import Rating from '@mui/material/Rating';
+
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
+import Alert2 from 'react-bootstrap/Alert';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getProductsByQuery, deleteProduct } from '../../../Redux/Actions/products.js';
-
+import {
+  changeCampaignArchive,
+  getCampaigns,
+  publishCampaign,
+  createCampaign,
+  updateCampaign,
+  changeCampaignRaiting,
+  deleteCampaign
+} from '../../../Redux/Actions/mailing.js';
 
 import styles from './MailingCRUD.module.css';
 
 
 const MailingCRUD = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState({
+    filter: '',
+    campaignTitle: '',
+    campaignContent: '',
+    id: false,
+    new: false
+  });
   const [selected, setSelected] = useState([]);
-
-  const products = useSelector(state => state.filteredProducts);
+  const [score, setScore] = useState(null);
+  const [mode, setMode] = useState({archived: false});
+  
+  const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [alert2, setAlert2] = useState(false);
+  const [publishId, setPublishId] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
+  
+  const campaigns = useSelector(state => state.campaigns);
+  const mails = useSelector(state => state.mails);
   
   const dispatch = useDispatch();
 
+  const handleCloseModal = () => {
+    setInput({
+      ...input,
+      id: false,
+      new: false,
+      campaignTitle: '',
+      campaignContent: ''
+    });
+    setShow(false);
+  }
+  
+  const handleShowModal = (e) => {
+    if (e.target.value !== '0') {
+      setInput({
+        ...input,
+        new: false,
+        id: e.target.value,
+        campaignTitle: campaigns.filter(p => p.id === e.target.value )[0].title,
+        campaignContent: campaigns.filter(p => p.id === e.target.value )[0].content
+      });
+    } else {
+      setInput({
+        ...input,
+        id: false,
+        new: false,
+        campaignTitle: '',
+        campaignContent: ''
+      });
+    }
+    setShow(true);
+  };
+
+  const handleNewCopy = (e) => {
+    setInput({
+      ...input,
+      new: true,
+      id: e.target.value,
+      campaignTitle: campaigns.filter(p => p.id === e.target.value )[0].title,
+      campaignContent: campaigns.filter(p => p.id === e.target.value )[0].content
+    });
+    setShow(true);
+  };
+
+  const handleSaveModal = (e) => {
+    if (input.id) {
+      if (!input.new) {
+        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id, mode: mode }));
+        setShow(false);
+      } else {
+        dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+        setShow(false);
+      }
+    } else {
+      dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+      setShow(false);
+    }
+  }
+  
   const handleInputChange = e => {
-    setInput(e.target.value);
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmitDelete = async e => {
-    await dispatch(deleteProduct(e.target.value));
-    await dispatch(getProductsByQuery(`?limit=20&offset=0`))
+  const handleSubmitDelete = e => {
+    setDeleteId(e.target.value);
+    setAlert2(true);
   };
 
-  // const handleInputChange = (e) => {
-  //   dispatch(setPageView(e.target.value));
-  //   queryNew.limit = productsPerPage;
-  //   queryNew.offset = e.target.value * productsPerPage - productsPerPage;
-  //   let string = objectToQuery(queryNew);
-  //   dispatch(getProductsByQuery(`?${string}`));
-  //   history.push(`?${string}`);
-  // }
+  const handleConfirmDelete = (e) => {
+    dispatch(deleteCampaign({id: deleteId, archived: mode.archived}));
+    setDeleteId(false);
+    setAlert2(false);
+    setSelected([]);
+  }
 
-  const handleInputProducts = e => {
+  const handleCancelDelete = (e) => {
+    setDeleteId(false);
+    setAlert2(false);
+  }
+
+  const handleChangeArchive = e => {
+    dispatch(changeCampaignArchive({ids: [e.target.value], archived: mode.archived}));
+    setSelected([]);
+  };
+
+  const handleSubmiteMultipleArchive = e => {
+    dispatch(changeCampaignArchive({ids: selected, archived: mode.archived}));
+    setSelected([]);
+  };
+
+  const handlePublish = e => {
+    setPublishId(e.target.value);
+    setAlert(true);
+  };
+
+  const handleConfirmPublish = (e) => {
+    dispatch(publishCampaign({
+      id: publishId,
+      subject: campaigns.filter(p => p.id === publishId )[0].title,
+      text: campaigns.filter(p => p.id === publishId )[0].content,
+    }));
+    setPublishId(false);
+    setAlert(false);
+  }
+
+  const handleCancelPublish = (e) => {
+    setPublishId(false);
+    setAlert(false);
+  }
+  
+  const handleSubmitAllCampaigns = e => {
+    setScore(null);
+  };
+  
+  const handleChangeTables = e => {
+    if (mode.archived === true) {
+      setMode({archived: false});
+    } else {
+      setMode({archived: true})
+    }
+    setSelected([]);
+  };
+
+  const handleSubmitFilterScore = e => {
+    setScore(e.target.value);
+  };
+
+  const handleRating = (e) => {
+    dispatch(changeCampaignRaiting({id: e.target.name, value: e.target.value, mode: mode}))
+    
+  }
+
+  const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
         setSelected([...selected, e.target.name]);
@@ -47,76 +190,146 @@ const MailingCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
-
   };
 
   useEffect(() => {
-    dispatch(getProductsByQuery(`?limit=20&offset=0`))
-  }, [dispatch]);
+    dispatch(getCampaigns(mode))
+  }, [dispatch, mode]);
 
-  // useEffect(() => {
-  //   dispatch(setPageView((offset / productsPerPage) + 1))
-  //   if(totalProducts < productsPerPage) {
-  //     dispatch(setPageView(1))
-  //   }
-  //   if (page > pages) {
-  //     dispatch(setPageView(pages))
-  //   }
-  //   setShownPages(stripedPagination(pages, page, maxPages))
-  // }, [products, page, totalProducts, pages, limit, offset, dispatch]);
 
   return (
     <div className={ styles.container }>
+      <Modal show={show} onHide={ handleCloseModal }>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit campaign</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Title</Form.Label>
+              <Form.Control type="text" placeholder="* required *" autoFocus name='campaignTitle' value={ input.campaignTitle } onChange={ handleInputChange } />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Content</Form.Label>
+              <Form.Control as="textarea" rows={3} name='campaignContent' value={ input.campaignContent } onChange={ handleInputChange } />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button text="Discard" onClick={ handleCloseModal } />
+          <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
+        </Modal.Footer>
+      </Modal>
+      <Alert show={alert} variant="warning">
+        <Alert.Heading>Warning</Alert.Heading>
+        <p>
+          You are about to send aprox. {mails} e-mails.<br />Do you want to proced? (this action <b>can not be undone</b>)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelPublish } />
+          <Button text="Ok, proced!" onClick={ handleConfirmPublish } />
+        </div>
+      </Alert>
+      <Alert2 show={alert2} variant="danger">
+        <Alert2.Heading>Danger</Alert2.Heading>
+        <p>
+          You are about to delete campaign <i>'{deleteId ? campaigns.filter(p => p.id === deleteId )[0].title : <></>}'</i>.<br />Do you want to proced? (this action <b>can not be undone</b>)
+        </p>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <Button text="CANCEL" onClick={ handleCancelDelete } />
+          <Button text="Ok, delete!" onClick={ handleConfirmDelete } />
+        </div>
+      </Alert2>
       <div className={ styles.managebar }>
         <div>
-          With {selected.length} selected: { selected.length <= 3 ?
-            <>
-              <Button text='To landing' disabled={true} />
-              {/* <Button text='Suspend' /> */}
-              <Button text='Delete' disabled={true} />
-            </>
-            :
-            null }
+          With {selected.length} selected: <Button text={ mode.archived ? 'Restore' : 'Archive' } disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleArchive }/>
+        </div>
+        {
+          !mode.archived ?
+          <div>
+            <Button text='New campaign' onClick={ handleShowModal } value='0' /> 
+          </div>
+          :
+          <></>
+        }
+        <div>
+          Filter by title or content: <Input type='text' name='filter' value={ input.filter } onChange={ handleInputChange } />
         </div>
         <div>
-          Filter by name: <Input type='text' name='country' value={input} onChange={handleInputChange} />
+          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={ handleSubmitFilterScore }/>
+          <Button text='All' onClick={ handleSubmitAllCampaigns } />
         </div>
-        <Link to='/Create/Product' >
-          <Button text='Create Package'  />
-        </Link> 
-        <Button text='Back to admin' />
+        <div>
+          <Button text={ mode.archived ? 'View current' : 'View archived' } onClick={ handleChangeTables } /> 
+        </div>
       </div>
-      <div className={ styles.tableContainer }>
-
-        <table className={ styles.table }>
-          <thead>
-            <tr>
-              <th>Select</th>
-              <th>Order nro</th>
-              <th>Cost</th>
-              <th>Deliver to</th>
-              <th>State</th>
-              <th>Archive</th>
-            </tr>
-          </thead>
-          <tbody>
+      { 
+        campaigns.length > 0 ?
+          <div className={ styles.tableContainer }>
+            <table className={ styles.table }>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Select</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Created</th>
+                <th>Size</th>
+                <th>Success</th>
+                <th>Sent</th>
+                <th>Send</th>
+                <th>Edit</th>
+                <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
+                {
+                  mode.archived ?
+                  <th>Delete</th>
+                  :
+                  <></>
+                }
+              </tr>
+            </thead>
+            <tbody>
             {
-              // products
-              // .filter(p => p.name.toLowerCase().includes(input.toLowerCase()))
-              [1,2,3,4,5].map(p => (
-                <tr key={ p }>
-                  <td><Checkbox name={ p } onChange={ handleInputProducts } defaultChecked={selected.includes(p) ? true : false}/></td>
-                  <td>{ p }</td>
-                  <td>{ ['$ 540.00', '$ 200.00', '$ 600.00', '$ 25.00'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['Pasaje Rey Julien 333, CABA', 'Av. Maurice 123, Cordoba', 'La Luna', 'Av. Siempreviva 742, Springfield'][Math.floor(Math.random() * 4)] }</td>
-                  <td>{ ['In transit', 'For packing', 'Received', 'Hold'][Math.floor(Math.random() * 4)] }</td>
-                  <td><Button text='Archive' onClick={ handleSubmitDelete } value={ p } /></td>
+              campaigns
+              .filter(p => p.title.toLowerCase().includes(input.filter.toLowerCase())
+                          ||
+                          p.content.toLowerCase().includes(input.filter.toLowerCase()))
+              .filter(p => score === null ? p : +p.rating === +score)
+              .map((p, i) => (
+                <tr key={ p.id }>
+                  <td>{ i + 1 }</td>
+                  <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
+                  <td>{ p.title }</td>
+                  <td>{ p.content.substring(0, 150) }{ p.content.length > 150 ? `...` : <></> }</td>
+                  <td>{ new Date(p.created).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) }</td>
+                  <td>{ p.contacts > 0 ? p.contacts : `n/a` }</td>
+                  <td><Rating name={ p.id } defaultValue={ +p.rating } precision={1} onChange={ handleRating } /></td>
+                  <td>{ p.published ? `Sent` : `Not sent` }</td>
+                  <td>{ p.published || mode.archived ? 'n/d' : <Button text='Publish' onClick={ handlePublish } value={ p.id } /> }</td>
+                  <td>{ p.published ?
+                    mode.archived ? 'n/d'
+                    :
+                    <Button text='New copy' onClick={ handleNewCopy } value={ p.id } />
+                    :
+                    <Button text='Edit' onClick={ handleShowModal } value={ p.id } /> }</td>
+                  <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
+                  {
+                    mode.archived ?
+                    <td><Button text='Delete' onClick={ handleSubmitDelete } value={ p.id } /></td>
+                    :
+                    <></>
+                  }
                 </tr>
               ))
             }
             </tbody>
-        </table>
-      </div>
+          </table>
+        </div>
+      :
+        <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} campaigns</div>
+      }  
     </div>
   );
 };
