@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { TextField,Box, Button } from '@mui/material'
+import { TextField,Box, Button, CircularProgress } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import { setAddress, setLocalAdress } from '../../../../Redux/Actions/checkout';
 import { useRef } from 'react';
@@ -12,6 +12,7 @@ export default function AddressForm(props) {
   const create = props.create || false
   const user = useSelector(state=>state.user)
   const adress = useSelector(state=>state.adress)
+  const [loading,setLoading] = React.useState(false)
   const [inputt,setInputt] = React.useState({
     region:props.region,
     city:props.city,
@@ -23,7 +24,7 @@ export default function AddressForm(props) {
   const input = useRef({region:'',city:'',postalCode:'',street:'',name:''})
   const dispatch = useDispatch()  
   function verification (input){
-    if(input.region===''||input.city===''||input.postalCode===''||input.street===''||input.name===''){
+    if(input.region===''||input.city===''||input.postalCode===''||input.street===''||input.name==='' || loading=== true){
       return true
     }
     else return false
@@ -47,10 +48,11 @@ export default function AddressForm(props) {
   }    
   function handleCreate(event){
     event.preventDefault()
-    dispatch(setAddress({idUser:user.uid,token:token,address:input.current}))
+    dispatch(setAddress({idUser:user.uid,token:token,address:input.current}))  
+    setLoading(true)  
     setTimeout(()=>{
       window.location.reload()
-    },1000)
+    },3000)
   }
   function handleSubmit(event){
     event.preventDefault();
@@ -125,15 +127,17 @@ export default function AddressForm(props) {
         backgroundColor: 'black',
         color:'white'
       }}>Update</Button>): 
-      (<Button 
+      <></>
+      }
+      {inputt.disabled === false && create === true &&(<Button 
         onClick={e=>handleCreate(e)}
         disabled={verification(inputt)}
         variant="contained" 
         sx={{
         backgroundColor: 'black',
         color:'white'
-      }}>Create</Button>)
-      }
+      }}>Create</Button>)}
+      {loading ? <CircularProgress/> : <></>}
         </Box>
     
   )

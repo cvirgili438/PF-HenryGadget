@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Addresses from './Addresses';
 import AddressForm from './addressForm/AddressForm';
+import { Button, CircularProgress } from '@mui/material';
+import * as style from './addressForm/style.js'
+import Modal from '@mui/material/Modal';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,13 +45,44 @@ function a11yProps(index) {
 
 export default function BasicTabs(props) {
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const addresses = props.addresses
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   return (
     <Box sx={{ width: '100%' }}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style.style}>
+          <Button variant='contained' 
+          onClick={handleClose}
+          sx={{
+          backgroundColor: 'black',
+          color:'white',          
+      }}>X</Button>
+        <AddressForm 
+        open={open}
+        setOpen={setOpen}
+        create ={true}
+        disabled={false}
+        name ={''}
+        id={''}
+        street={''}
+        city={''}
+        region={''}
+        postalCode={''}
+        token={props.token}
+/>
+        </Box>
+      </Modal>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Addresses" {...a11yProps(0)} />
@@ -56,7 +90,16 @@ export default function BasicTabs(props) {
           
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>        
+      <TabPanel value={value} index={0} id='addresses'> 
+      {addresses && addresses.length>= 0 && (
+      <Button
+        onClick={handleOpen}        
+        variant="contained" 
+        sx={{
+        backgroundColor: 'black',
+        color:'white'
+    }}
+      >Create new address</Button>) }       
         {addresses.length > 0 ? addresses.map((element,index)=>{
             return <Addresses
                             key={element.name + index}
@@ -68,17 +111,7 @@ export default function BasicTabs(props) {
                             postalCode={element.postalCode}
                             token={props.token}
                             />
-        }): <AddressForm  
-        create ={true}
-        disabled={false}
-        name ={''}
-        id={''}
-        street={''}
-        city={''}
-        region={''}
-        postalCode={''}
-        token={props.token}
-/>}
+        }): <></>}    
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
