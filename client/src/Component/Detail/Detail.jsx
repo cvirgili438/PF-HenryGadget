@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
 import { getProductById, clearProduct } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
@@ -24,6 +24,7 @@ const Detail = () => {
     // reviews && console.log(reviews);
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(async () => {
         window.scrollTo(0, 0);
@@ -42,6 +43,11 @@ const Detail = () => {
     let handleCart = async (e) => {
         await addProductCart(productDetail.id, user && user.uid, input.value);
     }
+
+    let handleBuy = async (e) => {
+        await addProductCart(productDetail.id, user && user.uid, input.value);
+        history.push("/checkout");
+    };
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
@@ -132,7 +138,7 @@ const Detail = () => {
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <button className={`${styles.btn_success} btn btn-success`} onClick={(e) => handleCart(e)} disabled={lowStock || input.value === ''} >Agregar al carro</button>
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''} onClick={(e) => handleBuy(e)}>Comprar</button>
                     </div>
                 </div >
             </Box>
