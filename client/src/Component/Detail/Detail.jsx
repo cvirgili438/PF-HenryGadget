@@ -20,9 +20,6 @@ const Detail = () => {
     const [lowStock, setLowStock] = useState(false);
     const reviews = productDetail.reviews;
 
-    // reviews && console.log(IndexScore(reviews));
-    // reviews && console.log(reviews);
-
     const dispatch = useDispatch();
     const history = useHistory();
 
