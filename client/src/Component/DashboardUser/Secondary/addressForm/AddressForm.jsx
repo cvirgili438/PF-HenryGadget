@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { TextField,Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
-import { setLocalAdress } from '../../../../Redux/Actions/checkout';
+import { setAddress, setLocalAdress } from '../../../../Redux/Actions/checkout';
 import { useRef } from 'react';
 import { putAddresses } from '../../../../Redux/Actions/adresses';
 
@@ -9,6 +9,7 @@ import { putAddresses } from '../../../../Redux/Actions/adresses';
 export default function AddressForm(props) {
   const id = props.id
   const token = props.token
+  const create = props.create || false
   const user = useSelector(state=>state.user)
   const adress = useSelector(state=>state.adress)
   const [inputt,setInputt] = React.useState({
@@ -44,6 +45,13 @@ export default function AddressForm(props) {
     })
     input.current = {...input.current,[event.target.id]:event.target.value}       
   }    
+  function handleCreate(event){
+    event.preventDefault()
+    dispatch(setAddress({idUser:user.uid,token:token,address:input.current}))
+    setTimeout(()=>{
+      window.location.reload()
+    },1000)
+  }
   function handleSubmit(event){
     event.preventDefault();
     dispatch(putAddresses({idAddress:id,address:input.current,idUser:user.uid, token:token}))
@@ -109,16 +117,22 @@ export default function AddressForm(props) {
           variant='standard'
           onChange={e => handleInput(e)}                   
         />
-        {inputt.disabled === false? (<Button 
+        {inputt.disabled === false && create=== false? (<Button 
         onClick={e=>handleSubmit(e)}
         disabled={verification(inputt)}
-        id='Finish-Button' 
         variant="contained" 
         sx={{
         backgroundColor: 'black',
         color:'white'
       }}>Update</Button>): 
-      <></>
+      (<Button 
+        onClick={e=>handleCreate(e)}
+        disabled={verification(inputt)}
+        variant="contained" 
+        sx={{
+        backgroundColor: 'black',
+        color:'white'
+      }}>Create</Button>)
       }
         </Box>
     
