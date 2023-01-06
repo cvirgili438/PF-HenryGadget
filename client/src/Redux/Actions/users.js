@@ -27,10 +27,29 @@ export const loginApp = (payload)=>{
     }
 }
 
+export const logUserActivity = (payload)=>{
+    return async function(dispatch){
+        try{
+            const response = await fetch(URL + "/users/admin/log/",{
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return data
+        }catch(e){
+            return e.message
+        }
+    }
+}
+
 export const getUsers = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/users",{
+            const response = await fetch(URL + "/users/admin/",{
                 method: "GET",
                 headers:{
                     "Accept": "application/json",
@@ -40,7 +59,7 @@ export const getUsers = (payload)=>{
             const data = await response.json()
             return dispatch({
                 type: GET_USERS,
-                payload: data.result
+                payload: data
             })
         }catch(e){
             return e.message
@@ -117,7 +136,7 @@ export const changeReviewArchive = (payload) => {
 export const changeUserActive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/users/active/',
+            const response = await fetch(URL + '/users/admin/active/',
             {
                 method: 'PUT',
                 body: JSON.stringify({'ids': payload}),

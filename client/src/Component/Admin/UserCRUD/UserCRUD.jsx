@@ -20,7 +20,7 @@ const UserCRUD = () => {
   const [selected, setSelected] = useState([]);
 
   const users = useSelector(state => state.users);
-  
+  console.log(users)
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
@@ -63,7 +63,9 @@ const UserCRUD = () => {
         <div>
           Filter by name or locations: <Input type='text' name='user' value={input} onChange={ handleInputChange } />
         </div>
-        Viewing {users.filter(p => p.uid.toLowerCase().includes(input.toLowerCase())).length} users
+        Viewing {users.filter(p => p.displayName.toLowerCase().includes(input.toLowerCase())
+                            ||
+                            p.email.toLowerCase().includes(input.toLowerCase())).length} users
       </div>
       <div className={ styles.tableContainer }>
 
@@ -72,10 +74,10 @@ const UserCRUD = () => {
             <tr>
               <th>N°</th>
               <th>Select</th>
+              <th>uid</th>
               <th>Avatar</th>
               <th>Name</th>
-              <th>Surname</th>
-              <th>Location</th>
+              <th>Mail</th>
               <th>Active</th>
               <th>Admin</th>
             </tr>
@@ -83,15 +85,17 @@ const UserCRUD = () => {
           <tbody>
             {
               users
-              .filter(p => p.uid.toLowerCase().includes(input.toLowerCase()))
+              .filter(p => p.displayName.toLowerCase().includes(input.toLowerCase())
+                            ||
+                            p.email.toLowerCase().includes(input.toLowerCase()))
               .map((p, i) => (
                 <tr key={ p.uid }>
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.uid } onChange={ handleInputUsers } defaultChecked={selected.includes(p.uid) ? true : false}/></td>
-                  <td><img src='https://freepngimg.com/thumb/google/66726-customer-account-google-service-button-search-logo.png' alt={ p.uid } className={ styles.productImage } /></td>
                   <td>{ p.uid }</td>
-                  <td>{ p.uid }</td>
-                  <td>Argentina</td>
+                  <td><img src={ p.photoURL } alt={ p.displayName } className={ styles.productImage } /></td>
+                  <td>{ p.displayName }</td>
+                  <td>{ p.email }</td>
                   <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.uid } /></td>
                   <td><Switch checked={ p.rol === 'admin' ? true : false } onChange={ handleChangeAdmin } id={ p.uid } /></td>
                 </tr>

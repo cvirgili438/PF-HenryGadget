@@ -8,10 +8,28 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       primaryKey: true,
     },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      // validate: {
+      //     isEmail: true
+      // },
+      defaultValue: 'n/d'
+    },
+    displayName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'n/d'
+    },
     rol: {
       type: DataTypes.ENUM('admin', 'client'),
       allowNull: true,
       defaultValue: 'client'
+    },
+    photoURL: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'https://freepngimg.com/thumb/google/66726-customer-account-google-service-button-search-logo.png'
     },
     active: {
       type: DataTypes.BOOLEAN,

@@ -15,8 +15,10 @@ import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
+
+import { logUserActivity } from "../../Redux/Actions/users.js";
 
 const NavBar = () => {
 
@@ -30,12 +32,32 @@ const NavBar = () => {
   const {search} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
+  
+  const [user, setUser] = useState(null);
+  const auth = getAuth(app);
 
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
     if(search)
       dispatch(getProductsByQuery(search))
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('yes', user)
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        // setUser(user);
+        dispatch(logUserActivity(user))
+      } else {
+        console.log('no', user)
+        // User is signed out
+        // ...
+        // setUser(null)
+        }
+      }
+    );
+
   },[search])
 
   const handleInputChange = e => {

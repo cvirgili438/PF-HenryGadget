@@ -165,7 +165,8 @@ export default function rootReducer(state = inicialtate, action) {
     case GET_USERS:
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case GET_REVIEWS:
       return {
