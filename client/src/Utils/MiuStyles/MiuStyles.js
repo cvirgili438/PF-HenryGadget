@@ -1,11 +1,14 @@
 export const Button_contained_primary = {
-    backgroundColor:'rgb(0,0,0)',
+    backgroundColor:'#198754',
+    color:'fff',
     fontSize: '1rem',
+    maxHeight: '2rem',
+    borderRadius: '10px',
     width:'10em',
     marginLeft:'2rem',
     marginRight:'1rem',
     '&:hover':{
-      backgroundColor:'rgb(10,10,10)'
+      backgroundColor:'#146c43'
     }
    }
 
