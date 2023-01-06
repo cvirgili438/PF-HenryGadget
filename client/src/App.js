@@ -26,6 +26,7 @@ import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
 import Review from './Component/Review/Review';
+import DashboardUser from './Component/DashboardUser/DashboardUser';
 
 
 
@@ -48,6 +49,10 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
+          {user && user.rol === 'client' && (
+            <Route  path={"/user"}  component={DashboardUser}  />
+          )
+        }
           {
             user && user.rol === 'admin' ?
               <Route path='/admin'>

@@ -9,10 +9,10 @@ export const setLocalAdress = (payload)=>(dispatch)=>{
     })
 }
 
-export const setAddress = (payload)=>(dispatch)=>{
+export const setAddress = (payload)=>async (dispatch)=>{
     try {
         //let json = axios.post(`${URL}/address`,payload)
-        let json = axios({
+        let json = await axios({
             url : `${URL}/address`,
             method: 'post',
             headers: {"Authorization":"Bearer " + payload.token},
