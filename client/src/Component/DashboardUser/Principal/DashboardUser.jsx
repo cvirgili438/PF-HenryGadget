@@ -13,6 +13,7 @@ export default function DashboardUser() {
   const user = useSelector(state =>state.user)
   const addresses = useSelector(state => state.addresses)
   const auth = getAuth()
+  const adress = useSelector(state => state.adress)
 
 
   useEffect(()=>{
@@ -27,7 +28,7 @@ export default function DashboardUser() {
 	  	});
      
       
-  },[])
+  },[adress])
  
 
 

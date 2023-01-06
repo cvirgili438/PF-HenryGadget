@@ -54,12 +54,22 @@ const handleChange = (event) => {
                      inputProps={{ 'aria-label': 'controlled' }}
                 />
                 </Container>
-            {edit === false ? (
-                <Container fixed>
-                {props.region}
+            {edit === false ? ( 
+                <Container fixed>            
+                <AddressForm  
+                disabled={true}
+                name ={props.name}
+                id={props.id}
+                street={props.street}
+                city={props.city}
+                region={props.region}
+                postalCode={props.postalCode}
+                token={props.token}
+            />                
                 </Container>
             ) :
             (<AddressForm  
+                disabled={false}
                 name ={props.name}
                 id={props.id}
                 street={props.street}

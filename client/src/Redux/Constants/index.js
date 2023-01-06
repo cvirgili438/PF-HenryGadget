@@ -82,3 +82,4 @@ export const ADD_REVIEW = 'ADD_REVIEW'
 //adresses
 
 export const GET_ADDRESSES = 'GET_ADDRESSES'
+export const PUT_ADDRESSES = 'PUT_ADDRESSES'

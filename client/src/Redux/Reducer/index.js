@@ -38,7 +38,8 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
-  GET_ADDRESSES
+  GET_ADDRESSES,
+  PUT_ADDRESSES
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -281,6 +282,12 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         lastMsg: action.payload.msg,
         addresses: action.payload.result
+      }
+    case PUT_ADDRESSES:
+      return {
+        ...state,
+        lastMsg:action.payload.msg,
+        adress: action.payload.result
       }
     default:
       return { ...state };
