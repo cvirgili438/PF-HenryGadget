@@ -20,6 +20,7 @@ export const inicialtate = {
   users:[],
   reviews:[],
   cartProducts: [],
+  refreshCart: null,  // Se usa para solor notificar de cambios en el carrito.
   user:userStorageData,
   adress:{},
   addresses: [],
@@ -58,6 +59,9 @@ export const SET_LOADING = 'SET_LOADING'
 //checkout
 export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
 export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
+
+// Cart
+export const REFRESH_CART = 'REFRESH_CART';
 
 //orders
 export const SET_ORDER = 'SET_ORDER'
