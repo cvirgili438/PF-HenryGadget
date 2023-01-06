@@ -25,9 +25,10 @@ const Detail = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(async () => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
+        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
         return function () {
             dispatch(clearProduct())
         };
