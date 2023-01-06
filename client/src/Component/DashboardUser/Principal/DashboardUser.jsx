@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getAddresses } from '../../Redux/Actions/adresses';
+import { getAddresses } from '../../../Redux/Actions/adresses';
 import { Container } from '@mui/material';
-import BasicTabs from './Tabs.jsx';
+import BasicTabs from '../Secondary/Tabs.jsx';
 import { add } from 'dom7';
 
 

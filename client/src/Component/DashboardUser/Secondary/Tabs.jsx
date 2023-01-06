@@ -55,8 +55,7 @@ export default function BasicTabs(props) {
           
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <Addresses  />
+      <TabPanel value={value} index={0}>        
         {addresses.length > 0 ? addresses.map((element,index)=>{
             return <Addresses
                             key={element.name + index}

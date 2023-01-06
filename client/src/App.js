@@ -26,7 +26,7 @@ import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
 import Review from './Component/Review/Review';
-import DashboardUser from './Component/DashboardUser/DashboardUser';
+import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 
 
 

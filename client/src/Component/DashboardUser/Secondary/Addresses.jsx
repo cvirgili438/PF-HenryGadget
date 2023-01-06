@@ -24,8 +24,9 @@ const token = props.token
 
     return (
     <Container fixed>
-        {edit === false ? ( <Root>        
-            <Divider>{props.name}</Divider>
+        {edit === false ? ( 
+        <Root>        
+            <Divider><Chip label={props.name} /></Divider>
             {props.region}
         </Root>):
         (
