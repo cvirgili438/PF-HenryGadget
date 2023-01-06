@@ -43,20 +43,8 @@ const NavBar = () => {
       dispatch(getProductsByQuery(search))
 
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log('yes', user)
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // setUser(user);
-        dispatch(logUserActivity(user))
-      } else {
-        console.log('no', user)
-        // User is signed out
-        // ...
-        // setUser(null)
-        }
-      }
-    );
+      if (user) dispatch(logUserActivity(user))
+    });
 
   },[search])
 

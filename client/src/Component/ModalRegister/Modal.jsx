@@ -22,6 +22,7 @@ import ModalRegister from "./ModalRegister";
 import ModalLogin from "./ModalLogin";
 import validateRegister from "../../Utils/ValidateRegister/ValidateRegister";
 
+import { logUserActivity } from "../../Redux/Actions/users";
 
 function ModalUser(props) {
   const [displayRegisterModal, setDisplayRegisterModal] = useState(false);
@@ -84,6 +85,7 @@ function ModalUser(props) {
         providerData[0].uid = uid
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]));
+        dispatch(logUserActivity(providerData[0]));
       })
       .catch(e=>{
         setErrors({...errors,msg:e.message})

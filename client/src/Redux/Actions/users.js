@@ -1,4 +1,14 @@
-import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
+import {
+    SET_USER_LOGIN,
+    GET_USERS,
+    GET_REVIEWS,
+    CHANGE_REVIEW_VISIBLE,
+    CHANGE_REVIEW_ARCHIVE,
+    CHANGE_USER_ACTIVE,
+    CHANGE_USER_ADMIN,
+    FORCE_RESET_PWD,
+    URL
+} from '../Constants/index'
 
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
@@ -178,3 +188,24 @@ export const changeUserAdmin = (payload) => {
     }
 }
 
+export const forceResetPassword = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/users/admin/resetpwd/' + payload,
+            {
+                method: 'PUT',
+                headers: {
+                    "Accept": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: FORCE_RESET_PWD,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+}

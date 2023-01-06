@@ -9,7 +9,7 @@ const { Sequelize } = require("sequelize");
 
 router.post('/log/', async (req, res) => {
   const {uid, displayName, email, photoURL} = req.body;
-
+    console.log(uid, displayName, email, photoURL);
   try {
       const user = await User.findByPk(uid);
       if(!user){
@@ -65,6 +65,24 @@ router.put('/active/', async (req,res) => {
         res.status(400).json({err: error})
     }
 })
+
+router.put('/resetpwd/:uid', async (req,res) => {
+    const {uid} = req.params;
+    
+    try { 
+        const user = await User.findByPk(uid);
+        if(!user){
+            res.status(404).json({err: `User with uid: ${uid} doesn't exist.`});
+            return;
+        }
+        
+        const userUpdated = await user.update({forceNewPassword: true}, {where: {uid: uid}});
+        const users = await User.findAll({order: [['uid', 'ASC']]});
+        res.status(200).json({msg: `User with uid: ${uid} was marked for password change`, result: users})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+  })
 
 router.put('/:idUser', async (req,res) => {
     const {idUser} = req.params;

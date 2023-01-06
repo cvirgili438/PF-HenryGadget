@@ -10,7 +10,8 @@ import Button from '../../Button/Button';
 import {
   getUsers,
   changeUserActive,
-  changeUserAdmin
+  changeUserAdmin,
+  forceResetPassword
 } from '../../../Redux/Actions/users';
 
 import styles from './UserCRUD.module.css';
@@ -39,6 +40,9 @@ const UserCRUD = () => {
     dispatch(changeUserAdmin(e.target.id));
   };
 
+  const handleResetPassword = e => {
+    dispatch(forceResetPassword(e.target.value));
+  }
   const handleInputUsers = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
@@ -74,10 +78,12 @@ const UserCRUD = () => {
             <tr>
               <th>N°</th>
               <th>Select</th>
-              <th>uid</th>
+              {/* <th>uid</th> */}
               <th>Avatar</th>
               <th>Name</th>
               <th>Mail</th>
+              <th>Last activity</th>
+              <th>Reset pwd</th>
               <th>Active</th>
               <th>Admin</th>
             </tr>
@@ -92,10 +98,12 @@ const UserCRUD = () => {
                 <tr key={ p.uid }>
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.uid } onChange={ handleInputUsers } defaultChecked={selected.includes(p.uid) ? true : false}/></td>
-                  <td>{ p.uid }</td>
-                  <td><img src={ p.photoURL } alt={ p.displayName } className={ styles.productImage } /></td>
+                  {/* <td>{ p.uid }</td> */}
+                  <td><img src={ p.photoURL } alt={ p.name } className={ styles.productImage } /></td>
                   <td>{ p.displayName }</td>
                   <td>{ p.email }</td>
+                  <td>{ new Date(p.updated).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: 'numeric', minute: 'numeric' }) }</td>
+                  <td>{ p.forceNewPassword ? 'Required' : <Button text='Reset pwd' onClick={ handleResetPassword } value={ p.uid } />}</td>
                   <td><Switch checked={ p.active } onChange={ handleChangeActive } id={ p.uid } /></td>
                   <td><Switch checked={ p.rol === 'admin' ? true : false } onChange={ handleChangeAdmin } id={ p.uid } /></td>
                 </tr>
