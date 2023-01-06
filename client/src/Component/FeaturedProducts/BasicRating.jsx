@@ -4,6 +4,7 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 
 export default function BasicRating({valor}) {
+  console.log('ferrrrrrrrr', valor, Number(valor).toFixed(1))
   return (
     <Box
       sx={{
@@ -13,7 +14,7 @@ export default function BasicRating({valor}) {
       <Typography component="legend">Reviews</Typography>
       <Rating
         name="read-only"
-        value={Number(valor).toFixed(1)}
+        value={Number(Number(valor).toFixed(1))}
         precision={0.5}
         readOnly />
     </Box>
