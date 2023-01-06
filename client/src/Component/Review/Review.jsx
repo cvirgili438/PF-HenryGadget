@@ -89,7 +89,7 @@ const Review = () => {
                 ...review
             }
         }
-        //console.log(info)
+
         dispatch(addReview({token, info}))
         alert('Your review has been sent');
         setReview({
