@@ -5,22 +5,27 @@ import { setLocalAdress } from '../../../../Redux/Actions/checkout';
 import { useRef } from 'react';
 
 
-export default function AddressForm() {
-  const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:''})
+export default function AddressForm(props) {
+  const id = props.id
+  const token = props.token
+  const [inputt,setInputt] = React.useState({
+    region:props.region,
+    city:props.city,
+    postalCode:props.postalCode,
+    street:props.street,
+    name:props.name
+  })
   const input = useRef({region:'',city:'',postalCode:'',street:'',name:''})
   const dispatch = useDispatch()
   const stepperButton = document.getElementById('Finish-Button')  
   useEffect(()=>{
-    let {region,city,postalCode,street,name} = input.current
-    if(region === '' || city === '' || postalCode === '' || street === '' || name === ''){
-      if(stepperButton.className.includes(' Mui-disabled')) {return}
-      else return stepperButton.className= stepperButton.className.concat(' Mui-disabled')
-    }
-    if(region !== '' || city !== '' || postalCode !== '' || street !== '' || name !== ''){
-      if(!stepperButton.className.includes(' Mui-disabled')){return }
-      let location = stepperButton.className.indexOf(' Mui-disabled')
-      return stepperButton.className= stepperButton.className.slice(0,location)
-    }
+    input.current = {
+      region:inputt.region,
+      city:inputt.city,
+      postalCode:inputt.postalCode,
+      street:inputt.street,
+      name:inputt.name}
+    dispatch(setLocalAdress(input.current))
      
     
   },[inputt])
@@ -34,7 +39,7 @@ export default function AddressForm() {
     dispatch(setLocalAdress(input.current))    
   }    
   return (
-    <div>
+    
       <Box
        component={'form'}        
        sx={{        
@@ -44,7 +49,8 @@ export default function AddressForm() {
       }}
        >
          <TextField
-          error={input.current.name === '' ? true : false}
+          error={inputt.name === '' ? true : false}
+          value={inputt.name}
           required
           id="name"
           label="Name"          
@@ -52,7 +58,8 @@ export default function AddressForm() {
           onChange={e => handleInput(e)}                   
         />
       <TextField
-          error={input.current.region === '' ? true : false}
+          error={inputt.region === '' ? true : false}
+          value={inputt.region}
           required
           id="region"
           label="Country"          
@@ -60,7 +67,8 @@ export default function AddressForm() {
           onChange={e => handleInput(e)}                   
         />
         <TextField
-          error={input.current.city === '' ? true : false}
+          error={inputt.city === '' ? true : false}
+          value={inputt.city}
           required
           id="city"
           label="City"          
@@ -68,7 +76,8 @@ export default function AddressForm() {
           onChange={e => handleInput(e)}                   
         />
         <TextField
-          error={input.current.postalCode === '' ? true : false}
+          error={inputt.postalCode === '' ? true : false}
+          value={inputt.postalCode}
           required
           id="postalCode"
           label="Postal Code"          
@@ -76,15 +85,21 @@ export default function AddressForm() {
           onChange={e => handleInput(e)}                   
         />
         <TextField
-          error={input.current.street === '' ? true : false}
+          error={inputt.street === '' ? true : false}
+          value={inputt.street}
           required
           id="street"
           label="Adress"          
           variant='standard'
           onChange={e => handleInput(e)}                   
         />
-        <Button id='Finish-Button'>Finish</Button>
+        <Button id='Finish-Button' 
+        variant="contained" 
+        sx={{
+        backgroundColor: 'black',
+        color:'white'
+      }}>Finish</Button>
         </Box>
-    </div>
+    
   )
 }
