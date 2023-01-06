@@ -22,7 +22,7 @@ const CartPageUnit = (props) => {
         if (remove) {
             deleteProductCart(props.item.idProduct, props.user && props.user.uid, 0)
         }else{
-            setCheckStock(quantityl > props.item.stock)
+            setCheckStock(quantityl >= props.item.stock)
             updateProductCart(props.item.idProduct, props.user && props.user.uid, quantityl)
         }
     }, [quantityl, remove])
@@ -38,7 +38,7 @@ const CartPageUnit = (props) => {
     }
     
       let handlerChange = (e) => {
-        console.log('change')// setQuantity(e.target.value)
+        setQuantity(e.target.value)
       }
 
       let handlerDelete = (e) => {
@@ -86,7 +86,7 @@ const CartPageUnit = (props) => {
                         sx={{width: "40px", border: "1px solid gray"}}
                         value={quantityl}
                         onChange={e => handlerChange(e)}  />
-                        <Button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}>
+                        <Button disabled={checkStock} onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}>
                             <AddIcon id="plus" ></AddIcon>
                         </Button>                            
                     </Box>
@@ -100,8 +100,8 @@ const CartPageUnit = (props) => {
                 </Box>
                 <Box>
                     {checkStock && <Alert xs={{ width: 100 }} sx={{marginTop: "10px"}}
-                        variant="outlined" severity="error">
-                        There is not enough stock!
+                        variant="outlined" severity="info">
+                        No more stock!
                     </Alert>}
                 </Box>
                     
