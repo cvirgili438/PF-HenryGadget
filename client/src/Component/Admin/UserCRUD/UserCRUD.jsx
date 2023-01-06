@@ -7,7 +7,11 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
-import { getUsers, changeUserActive, changeUserAdmin } from '../../../Redux/Actions/users';
+import {
+  getUsers,
+  changeUserActive,
+  changeUserAdmin
+} from '../../../Redux/Actions/users';
 
 import styles from './UserCRUD.module.css';
 
@@ -43,7 +47,6 @@ const UserCRUD = () => {
     } else {
       setSelected(selected.filter(item => item !== e.target.name));
     }
-
   };
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const UserCRUD = () => {
           With {selected.length} selected: <Button text='Active/suspend' disabled={selected.length > 0 ? false : true} onClick={ handleSubmiteMultipleActive }/>
         </div>
         <div>
-          Filter by name or locations: <Input type='text' name='user' value={input} onChange={handleInputChange} />
+          Filter by name or locations: <Input type='text' name='user' value={input} onChange={ handleInputChange } />
         </div>
         Viewing {users.filter(p => p.uid.toLowerCase().includes(input.toLowerCase())).length} users
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Rating from '@mui/material/Rating';
+import { Editor } from "@tinymce/tinymce-react";
 
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -192,6 +193,13 @@ const MailingCRUD = () => {
     }
   };
 
+  const handleChange = (content, editor) => {
+    setInput({
+      ...input,
+      campaignContent: content
+    });
+  }
+
   useEffect(() => {
     dispatch(getCampaigns(mode))
   }, [dispatch, mode]);
@@ -199,7 +207,7 @@ const MailingCRUD = () => {
 
   return (
     <div className={ styles.container }>
-      <Modal show={show} onHide={ handleCloseModal }>
+      <Modal show={show} onHide={ handleCloseModal } size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit campaign</Modal.Title>
         </Modal.Header>
@@ -211,7 +219,19 @@ const MailingCRUD = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" rows={3} name='campaignContent' value={ input.campaignContent } onChange={ handleInputChange } />
+              <Editor
+                apiKey='9ju8stu224tmneh7mkv47tvbpez050e351zdc5tqsky6z86r'
+                value={ input.campaignContent }
+                init={{
+                  height: 400,
+                  menubar: true,
+                  toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat'
+                }}
+                onEditorChange={ handleChange }
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -259,8 +279,8 @@ const MailingCRUD = () => {
         </div>
         Viewing {campaigns
           .filter(p => p.title.toLowerCase().includes(input.filter.toLowerCase())
-                  ||
-                  p.content.toLowerCase().includes(input.filter.toLowerCase()))
+                        ||
+                        p.content.toLowerCase().includes(input.filter.toLowerCase()))
           .length} campaigns
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={ handleSubmitFilterScore }/>
@@ -307,7 +327,7 @@ const MailingCRUD = () => {
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                   <td>{ p.title }</td>
-                  <td>{ p.content.substring(0, 150) }{ p.content.length > 150 ? `...` : <></> }</td>
+                  <td>{ p.content.substring(0, 150).replace(/<[^>]*>/g,'') }{ p.content.length > 150 ? `...` : <></> }</td>
                   <td>{ new Date(p.created).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) }</td>
                   <td>{ p.contacts > 0 ? p.contacts : `n/a` }</td>
                   <td><Rating name={ p.id } defaultValue={ +p.rating } precision={1} onChange={ handleRating } /></td>

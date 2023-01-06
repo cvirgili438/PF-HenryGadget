@@ -86,7 +86,7 @@ router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
 
 
 //se pasa middleware para proteger rutas de users para suspender o cambiar modo
-router.use(authWithoutAdm);
+//router.use(authWithoutAdm);
 
 router.put('/active/', async (req,res) => {
     const {ids} = req.body;     
