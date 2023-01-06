@@ -8,6 +8,8 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import {
   getReviews,
   changeReviewVisible,
@@ -23,6 +25,10 @@ const ReviewCRUD = () => {
   const [score, setScore] = useState(null);
   const [mode, setMode] = useState({archived: false});
 
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
+
   const reviews = useSelector(state => state.reviews);
   
   const dispatch = useDispatch();
@@ -32,16 +38,16 @@ const ReviewCRUD = () => {
   };
 
   const handleChangeVisible = e => {
-    dispatch(changeReviewVisible({id: e.target.id, archived: mode.archived}));
+    dispatch(changeReviewVisible({id: e.target.id, archived: mode.archived, token: token}));
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeReviewArchive({ids: [e.target.value], archived: mode.archived}));
+    dispatch(changeReviewArchive({ids: [e.target.value], archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeReviewArchive({ids: selected, archived: mode.archived}));
+    dispatch(changeReviewArchive({ids: selected, archived: mode.archived, token: token}));
     setSelected([]);
   };
 
@@ -74,7 +80,16 @@ const ReviewCRUD = () => {
 
   useEffect(() => {
     dispatch(getReviews(mode))
-  }, [dispatch, mode]);
+
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+
+  }, [dispatch, mode, auth]);
 
   return (
     <div className={ styles.container }>

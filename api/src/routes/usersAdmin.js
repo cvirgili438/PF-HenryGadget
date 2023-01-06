@@ -3,9 +3,22 @@ const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./middleware/authWithoutAdm')
 
-
 const { User, Review } = require('../db.js');
 const { Sequelize } = require("sequelize");
+
+router.get('/', async (req,res) => {
+
+    try { 
+        console.log(true)
+        const users = await User.findAll({order: [['uid', 'ASC']]});
+        res.status(200).json({msg: `${users.length} users loaded`, result: users})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+  })
+
+//se pasa middleware para proteger rutas de users para suspender o cambiar modo
+router.use(authWithoutAdm);
 
 router.post('/log/', async (req, res) => {
   const {uid, displayName, email, photoURL} = req.body;
@@ -27,20 +40,6 @@ router.post('/log/', async (req, res) => {
       res.status(200).json({msg: `${user.length} user/s changed active property to ${newUser}`, result: users})
   } catch (error) {
       res.status(400).json({err: error.message})
-  }
-})
-
-//se pasa middleware para proteger rutas de users para suspender o cambiar modo
-//router.use(authWithoutAdm);
-
-router.get('/', async (req,res) => {
-
-  try { 
-      console.log(true)
-      const users = await User.findAll({order: [['uid', 'ASC']]});
-      res.status(200).json({msg: `${users.length} users loaded`, result: users})
-  } catch (error) {
-      res.status(400).json({err: error})
   }
 })
 

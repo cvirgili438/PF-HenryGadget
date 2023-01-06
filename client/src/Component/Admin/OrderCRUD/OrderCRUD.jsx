@@ -15,6 +15,8 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import {
   getAdminOrders,
   changeOrderArchive,
@@ -32,6 +34,10 @@ const OrderCRUD = () => {
 
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
+
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
 
   const orders = useSelector(state => state.orders);
 
@@ -61,16 +67,16 @@ const OrderCRUD = () => {
   };
 
   const handleChangeStatus = e => {
-    dispatch(changeOrderStatus({id: e.target.value, archived: mode.archived}));
+    dispatch(changeOrderStatus({id: e.target.value, archived: mode.archived, token: token}));
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeOrderArchive({ids: [e.target.value], archived: mode.archived}));
+    dispatch(changeOrderArchive({ids: [e.target.value], archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeOrderArchive({ids: selected, archived: mode.archived}));
+    dispatch(changeOrderArchive({ids: selected, archived: mode.archived, token: token}));
     setSelected([]);
   };
 
@@ -80,7 +86,7 @@ const OrderCRUD = () => {
   };
 
   const handleConfirmDelete = (e) => {
-    dispatch(deleteOrder({id: deleteId, archived: mode.archived}));
+    dispatch(deleteOrder({id: deleteId, archived: mode.archived, token: token}));
     setDeleteId(false);
     setAlert2(false);
     setSelected([]);
@@ -93,7 +99,16 @@ const OrderCRUD = () => {
 
   useEffect(() => {
     dispatch(getAdminOrders(mode))
-  }, [dispatch, mode]);
+
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+
+  }, [dispatch, mode, auth]);
 
   return (
     <div className={ styles.container }>

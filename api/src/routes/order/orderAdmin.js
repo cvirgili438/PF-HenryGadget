@@ -5,8 +5,6 @@ const { Sequelize } = require("sequelize");
 
 const { Product, Review, User, Order } = require('../../db.js');
 
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> { 
     const { archived } = req.query;
@@ -24,6 +22,9 @@ router.get('/', async (req,res)=> {
         res.status(400).json({err: error.message});
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.put('/status/:idOrder', async (req,res) => {
     const {idOrder} = req.params;

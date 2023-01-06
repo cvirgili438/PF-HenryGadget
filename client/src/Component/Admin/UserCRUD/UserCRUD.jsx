@@ -7,6 +7,8 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import {
   getUsers,
   changeUserActive,
@@ -20,8 +22,12 @@ const UserCRUD = () => {
   const [input, setInput] = useState('');
   const [selected, setSelected] = useState([]);
 
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
+
   const users = useSelector(state => state.users);
-  console.log(users)
+
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
@@ -29,19 +35,19 @@ const UserCRUD = () => {
   };
 
   const handleChangeActive = e => {
-    dispatch(changeUserActive([e.target.id]));
+    dispatch(changeUserActive({id: [e.target.id], token: token}));
   };
 
   const handleSubmiteMultipleActive = e => {
-    dispatch(changeUserActive(selected));
+    dispatch(changeUserActive({id: selected, token: token}));
   };
 
   const handleChangeAdmin = e => {
-    dispatch(changeUserAdmin(e.target.id));
+    dispatch(changeUserAdmin({id: e.target.id, token: token}));
   };
 
   const handleResetPassword = e => {
-    dispatch(forceResetPassword(e.target.value));
+    dispatch(forceResetPassword({id: e.target.value, token: token}));
   }
   const handleInputUsers = e => {
     if (e.target.checked) {
@@ -55,7 +61,16 @@ const UserCRUD = () => {
 
   useEffect(() => {
     dispatch(getUsers())
-  }, [dispatch]);
+
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+
+  }, [dispatch, auth]);
 
   return (
     <div className={ styles.container }>
