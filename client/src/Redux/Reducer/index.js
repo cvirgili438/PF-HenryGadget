@@ -40,7 +40,8 @@ import {
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
   GET_ADDRESSES,
-  PUT_ADDRESSES
+  PUT_ADDRESSES,
+  DELETE_ADDRESS
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -294,6 +295,12 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         lastMsg:action.payload.msg,
         adress: action.payload.result
+      }
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        lsatMsg:action.payload.msg,
+        addresses: state.addresses.filter(e => e.id !== action.payload.result)
       }
     default:
       return { ...state };

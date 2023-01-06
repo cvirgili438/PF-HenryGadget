@@ -9,4 +9,13 @@ export const style = {
     boxShadow: 24,
     p: 4,
   };
+
+  export const box = {
+    display: 'flex',
+    flexDirection :'row',
+  }
+  export const button = {
+    backgroundColor: 'black',
+    color:'white'
+  }
   

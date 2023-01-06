@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { TextField,Box, Button, CircularProgress } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddress, setLocalAdress } from '../../../../Redux/Actions/checkout';
+import { setAddress } from '../../../../Redux/Actions/checkout';
 import { useRef } from 'react';
-import { putAddresses } from '../../../../Redux/Actions/adresses';
+import { deleteAddress, putAddresses } from '../../../../Redux/Actions/adresses';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import * as style from './style.js'
 
 
 export default function AddressForm(props) {
@@ -57,9 +59,18 @@ export default function AddressForm(props) {
   function handleSubmit(event){
     event.preventDefault();
     dispatch(putAddresses({idAddress:id,address:input.current,idUser:user.uid, token:token}))
-    setInputt({...inputt,disabled:true})
-    
+    setInputt({...inputt,disabled:true})    
   }
+  function handleDelete(event){
+    event.preventDefault();
+    dispatch(deleteAddress({
+      idUser:user.uid,
+      idAddress:id,
+      token:token,
+    }))
+  }
+
+
   return (    
       <Box
        component={'form'}        
@@ -123,21 +134,23 @@ export default function AddressForm(props) {
         onClick={e=>handleSubmit(e)}
         disabled={verification(inputt)}
         variant="contained" 
-        sx={{
-        backgroundColor: 'black',
-        color:'white'
-      }}>Update</Button>): 
+        sx={style.button}>Update</Button>): 
       <></>
       }
       {inputt.disabled === false && create === true &&(<Button 
         onClick={e=>handleCreate(e)}
         disabled={verification(inputt)}
         variant="contained" 
-        sx={{
-        backgroundColor: 'black',
-        color:'white'
-      }}>Create</Button>)}
+        sx={style.button}>Create</Button>)}
       {loading ? <CircularProgress/> : <></>}
+      {props && (props.open=== false || !props.open )&&(<Box sx={style.box}>
+        <Button 
+        onClick={e=>handleDelete(e)}
+        variant="contained" 
+        sx={style.button} >Delete Address{<DeleteForeverIcon />}</Button>
+        
+      </Box>)}
+      
         </Box>
     
   )

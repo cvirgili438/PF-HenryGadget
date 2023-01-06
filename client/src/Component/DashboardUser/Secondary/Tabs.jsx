@@ -53,6 +53,8 @@ export default function BasicTabs(props) {
     setValue(newValue);
   };
   
+  React.useEffect(()=>{},[])
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Modal
