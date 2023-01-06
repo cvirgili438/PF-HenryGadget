@@ -17,6 +17,7 @@ import { IconButton } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
 import { getAuth, signOut } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
+import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
 
 const NavBar = () => {
 
@@ -30,7 +31,7 @@ const NavBar = () => {
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-
+  console.log(pathname)
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
@@ -121,11 +122,30 @@ const NavBar = () => {
 
         </div>
       </div>
-      <div style={{display:'flex'}}>
-        <Link to='/'> Home </Link>  
-        <Link to='/products'> Store </Link>
-        <a href="#anchor-services">Services</a>
-        <a href='#anchor-featured'>Featured products</a>
+      <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
+        <Link to='/'>
+         <ButtonBorderEffect text='Home'/>
+        </Link>
+        <Link to='/products'>
+         <ButtonBorderEffect text='Store'/>
+        </Link>
+        {pathname === '/'
+        ?(
+          <>
+          <a href="#anchor-services">
+             <ButtonBorderEffect text='Our services'/>
+          </a>
+          <a href='#anchor-featured'>
+             <ButtonBorderEffect text='Featured products'/>
+          </a> 
+          <a href='#anchor-about'>
+            <ButtonBorderEffect text='About us'/>
+         </a> 
+        </>
+        )
+        :
+        null
+        }
       </div>
       <ModalUser
         show={modalShow}
