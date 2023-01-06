@@ -47,7 +47,7 @@ const NavBar = () => {
     let cart = state.user ? await getAllCart(state.user.uid) : await getAllCart()
     setCartItems(cart.length)
   }, [state.refreshCart])
-  console.log(cartItems);
+  
   const handleInputChange = e => {
     setInput(e.target.value);
 
