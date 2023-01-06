@@ -22,6 +22,7 @@ export const inicialtate = {
   cartProducts: [],
   user:userStorageData,
   adress:{},
+  addresses: [],
   order:[],
   orders:[],
   campaigns:[]
@@ -77,3 +78,7 @@ export const CHANGE_CAMPAIGN_RATING = 'CHANGE_CAMPAIGN_RATING'
 
 //review
 export const ADD_REVIEW = 'ADD_REVIEW'
+
+//adresses
+
+export const GET_ADDRESSES = 'GET_ADDRESSES'
