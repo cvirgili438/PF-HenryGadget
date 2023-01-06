@@ -160,7 +160,7 @@ const Detail = () => {
 
                 <Separator title='Descripción' />
                 <div className={`container`}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
+                    <p>{productDetail.description}</p>
                 </div>
 
                 <Separator title={'Opiniones del producto'} />
