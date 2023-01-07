@@ -45,7 +45,7 @@ const Review = () => {
     const [token, setToken] = useState('');
     const [ review, setReview ] = useState({
         score: 0,
-        title: "",
+        titleComment: "",
         comment: ""
     })
 
@@ -89,12 +89,11 @@ const Review = () => {
                 ...review
             }
         }
-
         dispatch(addReview({token, info}))
         alert('Your review has been sent');
         setReview({
             score: 0,
-            title: "",
+            titleComment: "",
             comment: ""
         })
         history.goBack();
@@ -203,8 +202,8 @@ const Review = () => {
                     <TextField
                         id="outlined-error"
                         label="Title"
-                        value={review.title}
-                        name="title"
+                        value={review.titleComment}
+                        name="titleComment"
                         onChange={handleChange}
                     />
                    

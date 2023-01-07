@@ -46,6 +46,8 @@ const App = () => {
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
           <Route path='/products' component={Products}/>
+          <Route  path="/review/:id" component={Review}  />  
+
           {
             user && user.rol === 'admin' ?
               <Route path='/admin'>
