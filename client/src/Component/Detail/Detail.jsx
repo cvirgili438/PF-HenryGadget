@@ -30,7 +30,7 @@ const Detail = () => {
         async function set() {
             setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
             }
-            set();
+        set();
 
         return function () {
             dispatch(clearProduct())
