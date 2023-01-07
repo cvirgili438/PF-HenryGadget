@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import noImage from '../../Assets/noImage.jpg';
@@ -8,9 +8,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button_contained_primary } from '../../Utils/MiuStyles/MiuStyles';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { addProductCart, getQuantityProductCart } from '../../Utils/cart/cartCrud';
+import { useSelector } from 'react-redux';
 
 const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
+  const user = useSelector(state => state.user)
   const trim_text = 120;  // cantidad de caracteres a mostrar, el resto se cortan y se agregan tres puntitos
+  const [stock, setStock] = useState(0)
+
   const img = {
     src: '',
     alt: ''
@@ -22,6 +27,16 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
     img.src = image[0];
     img.alt = name
   }
+
+  useEffect(async () => {
+    setStock(units_left - await getQuantityProductCart(id, user && user.uid))    
+  }, [stock]);  
+
+  let HandleAddCart = async (e) => {
+    await addProductCart(id, user && user.uid, 1)
+    setStock(units_left - await getQuantityProductCart(id, user && user.uid))    
+  }
+
   return (
     <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 , paddingTop:'1rem',height:'auto'}}>
 
@@ -49,13 +64,13 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
           $ {price.toLocaleString()}
         </Typography>
         {
-          units_left > 5 ?
+          stock > 5 ?
             <Paper sx={{ backgroundColor: '#5fcd21c2', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
-              {units_left} units left
+              {stock} units left
             </Paper> :
 
             <Paper sx={{ backgroundColor: '#e91818b8', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
-              {units_left === 0 ? `NO` : units_left} unit{units_left > 1 || units_left === 0 ? `s` : null} left
+              {stock === 0 ? `NO` : stock} unit{stock > 1 || stock === 0 ? `s` : null} left
             </Paper>
           
         }
@@ -64,7 +79,9 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
         <IconButton>
           <FavoriteBorderIcon></FavoriteBorderIcon>
         </IconButton>
-        <Button variant='contained' sx={Button_contained_primary}>
+
+        <Button onClick={e => HandleAddCart(e)} variant='contained' sx={Button_contained_primary}>
+          <AddShoppingCartIcon style={{ marginRight: '1rem' }} />
           Add cart
         </Button>
       </div>

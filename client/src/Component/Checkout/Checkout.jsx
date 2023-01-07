@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAddress } from "../../Redux/Actions/checkout";
 import  CartPage from '../CartPage/CartPage.jsx'
 import ModalRegister from '../ModalRegister/ModalRegister.jsx'
+import ModalUser from "../ModalRegister/Modal.jsx";
 
 export default function Checkout() {
   const [active,setActive]=useState(0)
@@ -48,7 +49,7 @@ export default function Checkout() {
     <div >
       <Steppers  active={active}/>
       {verification(active)}
-       <ModalRegister 
+       <ModalUser 
         show={modalShow}
         onHide={() => setModalShow(false)}
         />
