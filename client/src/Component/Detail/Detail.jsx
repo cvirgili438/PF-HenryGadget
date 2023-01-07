@@ -23,10 +23,15 @@ const Detail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
-        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
+
+        async function set() {
+            setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
+            }
+            set();
+
         return function () {
             dispatch(clearProduct())
         };
