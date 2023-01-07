@@ -28,18 +28,8 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard({ review }) {
     const [expanded, setExpanded] = useState(false);
-    // const user = useSelector(state => state.userFromDb)
 
-
-    // console.log(Object(user));
-    console.log(review);
     const date = new Date(review.created)
-    console.log(date);
-
-
-    // useEffect(() => {
-    //     review.userUid && dispatch(getUserById(review.userUid))
-    // })
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
