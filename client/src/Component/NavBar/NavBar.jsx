@@ -17,7 +17,7 @@ import { IconButton, Badge } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
 import { getAuth, signOut } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
-import { getAllCart } from "../../Utils/cart/cartCrud.js";
+import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
 
 
 const NavBar = () => {
@@ -44,10 +44,10 @@ const NavBar = () => {
   }, [search])
 
   useEffect(async () => {
-    let cart = state.user ? await getAllCart(state.user.uid) : await getAllCart()
-    setCartItems(cart.length)
+    let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()   
+    setCartItems(items)
   }, [state.refreshCart])
-  console.log(cartItems);
+  
   const handleInputChange = e => {
     setInput(e.target.value);
 
