@@ -66,8 +66,8 @@ const CartPageUnit = (props) => {
 
                 <Grid item  xs={6}>
                 <Box>
-                    <Typography variant='h6'>Total unitario: ${props.item.price} </Typography>
-                    <Typography variant='h6'>Total parcial: ${props.item.price * quantityl} </Typography>
+                    <Typography variant='h6'>Total unit: ${props.item.price} </Typography>
+                    <Typography variant='h6'>Subtotal: ${props.item.price * quantityl} </Typography>
                 </Box>
                 </Grid>
             </Grid>
