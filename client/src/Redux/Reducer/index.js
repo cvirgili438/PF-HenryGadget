@@ -25,6 +25,7 @@ import {
   CHANGE_USER_ADMIN,
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
+  REFRESH_CART,
   SET_ORDER,
   GET_ORDERS,
   GET_ADMIN_ORDERS,
@@ -160,7 +161,12 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress: action.payload,
+        adress: action.payload
+      }
+    case REFRESH_CART:
+      return {
+        ...state,
+        refreshCart: action.payload
       };
     case GET_USERS:
       return {
@@ -172,6 +178,11 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         reviews: action.payload,
       };
+    case ADD_REVIEW:
+      return{
+        ...state,
+        lastMsg: action.payload.msg
+      }
     case CHANGE_REVIEW_VISIBLE:
       return {
         ...state,

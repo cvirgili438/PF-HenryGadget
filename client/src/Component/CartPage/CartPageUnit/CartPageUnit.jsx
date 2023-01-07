@@ -11,14 +11,9 @@ import { Input, Alert } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Grid from '@mui/material/Grid';
 
-import { useSelector, } from 'react-redux';
-
-import { getAllCart, updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
+import { updateProductCart, deleteProductCart } from '../../../Utils/cart/cartCrud';
 
 const CartPageUnit = (props) => {
-
-    const user = useSelector(state => state.user)
-
     let [quantityl, setQuantity] = useState(props.item.quantity)
     let [remove, setRemove] = useState(false)
     let [checkStock, setCheckStock] = useState(false)
@@ -26,16 +21,11 @@ const CartPageUnit = (props) => {
     useEffect(async () => {
         if (remove) {
             deleteProductCart(props.item.idProduct, props.user && props.user.uid, 0)
-            props.setLocalCart(await getAllCart(user && user.uid));
         }else{
-            setCheckStock(quantityl > props.item.stock)
+            setCheckStock(quantityl >= props.item.stock)
             updateProductCart(props.item.idProduct, props.user && props.user.uid, quantityl)
         }
-        
-        props.setLocalCart(await getAllCart(user && user.uid));
-    }, [quantityl, remove, user])
-
-   
+    }, [quantityl, remove])
 
     let handleCount = (e) => {
         if (e.target.id === 'minus') {
@@ -96,7 +86,7 @@ const CartPageUnit = (props) => {
                         sx={{width: "40px", border: "1px solid gray"}}
                         value={quantityl}
                         onChange={e => handlerChange(e)}  />
-                        <Button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}>
+                        <Button disabled={checkStock} onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}>
                             <AddIcon id="plus" ></AddIcon>
                         </Button>                            
                     </Box>
@@ -110,8 +100,8 @@ const CartPageUnit = (props) => {
                 </Box>
                 <Box>
                     {checkStock && <Alert xs={{ width: 100 }} sx={{marginTop: "10px"}}
-                        variant="outlined" severity="error">
-                        There is not enough stock!
+                        variant="outlined" severity="info">
+                        No more stock!
                     </Alert>}
                 </Box>
                     

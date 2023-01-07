@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
 import { getProductById, clearProduct } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
@@ -20,14 +20,13 @@ const Detail = () => {
     const [lowStock, setLowStock] = useState(false);
     const reviews = productDetail.reviews;
 
-    // reviews && console.log(IndexScore(reviews));
-    // reviews && console.log(reviews);
-
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    useEffect(() => {
+    useEffect(async () => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
+        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
         return function () {
             dispatch(clearProduct())
         };
@@ -41,6 +40,11 @@ const Detail = () => {
     let handleCart = async (e) => {
         await addProductCart(productDetail.id, user && user.uid, input.value);
     }
+
+    let handleBuy = async (e) => {
+        await addProductCart(productDetail.id, user && user.uid, input.value);
+        history.push("/checkout");
+    };
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
