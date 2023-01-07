@@ -74,7 +74,7 @@ const Cart = () => {
             anchorRef.current.focus();
           }
 
-          if(open)
+          if(open) // Cargar el carrito cadsa vez que es despolegado.
           setLocalCart(await getAllCart(user && user.uid));
 
           prevOpen.current = open;
