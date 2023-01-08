@@ -38,12 +38,12 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
   }
 
   return (
-    <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 }}>
+    <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 , paddingTop:'1rem',height:'auto'}}>
 
       <Link to={`/product/${id}`}>
         <Box sx={{ width: '100%', height: '15rem' }}>
           <CardMedia
-            sx={{ maxWidth: 140, margin: 'auto', paddingTop: '1rem' }}
+            sx={{ objectFit:'contain', margin: 'auto',width:'300px',height:'300px'}}
             component="img"
             alt={img.alt}
             height="auto"
@@ -51,7 +51,7 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
           />
         </Box>
       </Link>
-      <CardContent sx={{ textAlign: 'left', color: '#333', borderTop: '1px solid rgba(51,51,51,.1)' }}>
+      <CardContent sx={{ textAlign: 'left', color: '#333', borderTop: '1px solid rgba(51,51,51,.1)',marginTop:'5rem',height:'13rem' }}>
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
@@ -72,12 +72,14 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
             <Paper sx={{ backgroundColor: '#e91818b8', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
               {stock === 0 ? `NO` : stock} unit{stock > 1 || stock === 0 ? `s` : null} left
             </Paper>
+          
         }
       </CardContent>
-      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around', marginTop: '1rem', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around',margin:'1rem'}}>
         <IconButton>
           <FavoriteBorderIcon></FavoriteBorderIcon>
         </IconButton>
+
         <Button onClick={e => HandleAddCart(e)} variant='contained' sx={Button_contained_primary}>
           <AddShoppingCartIcon style={{ marginRight: '1rem' }} />
           Add cart
