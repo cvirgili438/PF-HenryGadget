@@ -7,4 +7,5 @@ module.exports = [
     { uid: 'adfasdfdsfsfsa4r4r44r61gerqg', rol: 'client', displayName: 'Mario Santos', email: 'habano@simulad.or', photoURL: 'https://robertoramasso.com/contrataciones/contratar-a-federico-delia.jpg' },
     { uid: 'a34t2q343grgsergffsfgzcxsxxs', rol: 'client', displayName: 'Gabriel Medina', email: 'dupont@simulad.or', photoURL: 'https://www.clarin.com/img/2019/05/08/xfM3qD2qV_360x240__1.jpg' },
     { uid: '22eqdsd23rffefwefw3fwefdsdf3', rol: 'client', displayName: 'Sin foto ni mail' },
+    { uid: '22eqdssdsdsdsdsdfw3fwefdsdf3', rol: 'client', displayName: 'Nico', email: 'stabilini@hotmail.com' },
 ];
