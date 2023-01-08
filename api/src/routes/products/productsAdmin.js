@@ -11,7 +11,10 @@ router.get('/', async (req, res) => {
     try {
         const products = await Product.findAll({
                                                 where: {archived: archived},
-                                                order: [['id', 'ASC']]
+                                                order: [['id', 'ASC']],
+                                                include: [
+                                                    { model: Review }, 
+                                                ]
                                             });
         res.status(200).json({msg: `${products.length} product/s loaded`, result: products})
     } catch (error) {
