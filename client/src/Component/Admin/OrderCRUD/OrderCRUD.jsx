@@ -106,9 +106,13 @@ const OrderCRUD = () => {
       id: e.currentTarget.id,
       archived: mode.archived,
       token: token,
-      subject: 'Test',
-      text: 'test',
-      email: 'stabilini@gmail.com'
+      subject: 'HenryGadget order shipped',
+      text: `Hi ${
+        orders.filter(p => p.id === e.currentTarget.id )[0].user.displayName
+        }, your order ${
+          e.currentTarget.id
+        } has been shipped.`,
+      email: orders.filter(p => p.id === e.currentTarget.id )[0].user.email
     }));
   }
 
