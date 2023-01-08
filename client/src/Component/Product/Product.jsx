@@ -11,7 +11,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { addProductCart, getQuantityProductCart } from '../../Utils/cart/cartCrud';
 import { useSelector } from 'react-redux';
 
-const Product = ({ name, description, image, price, units_left, id }) => { //agregue id para pasar al detail
+const Product = ({ name, image, price, units_left, id }) => { //agregue id para pasar al detail
   const user = useSelector(state => state.user)
   const trim_text = 120;  // cantidad de caracteres a mostrar, el resto se cortan y se agregan tres puntitos
   const [stock, setStock] = useState(0)
@@ -55,11 +55,6 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
-        {description ? description.length > trim_text ?
-          <Typography variant="body2" color="text.secondary">
-            `${description.trim().slice(0, trim_text)}...`
-          </Typography> : description : null
-        }
         <Typography variant='h5' component="div" sx={{ fontWeight: '600' }}>
           $ {price.toLocaleString()}
         </Typography>
