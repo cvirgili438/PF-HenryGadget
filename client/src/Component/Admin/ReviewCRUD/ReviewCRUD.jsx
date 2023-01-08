@@ -6,7 +6,7 @@ import Rating from '@mui/material/Rating';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button from '../../Buttons/Button';
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
