@@ -24,6 +24,7 @@ import {
   CHANGE_USER_ACTIVE,
   CHANGE_USER_ADMIN,
   FORCE_RESET_PWD,
+  CHECK_USER_RESET_PWD,
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
   REFRESH_CART,
@@ -269,6 +270,12 @@ export default function rootReducer(state = inicialtate, action) {
         users: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case CHECK_USER_RESET_PWD:
+      return {
+        ...state,
+        user: action.payload.result,
+        lastMsg: action.payload.msg,
+      }
     case GET_CAMPAIGNS:
       return {
         ...state,
