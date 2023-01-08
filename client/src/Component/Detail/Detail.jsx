@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Alert, Box, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
 import { getProductById, clearProduct } from '../../Redux/Actions/products'
 import { addProductCart, getQuantityProductCart } from "../../Utils/cart/cartCrud.js";
@@ -20,14 +20,13 @@ const Detail = () => {
     const [lowStock, setLowStock] = useState(false);
     const reviews = productDetail.reviews;
 
-    // reviews && console.log(IndexScore(reviews));
-    // reviews && console.log(reviews);
-
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    useEffect(() => {
+    useEffect(async () => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
+        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
         return function () {
             dispatch(clearProduct())
         };
@@ -41,6 +40,11 @@ const Detail = () => {
     let handleCart = async (e) => {
         await addProductCart(productDetail.id, user && user.uid, input.value);
     }
+
+    let handleBuy = async (e) => {
+        await addProductCart(productDetail.id, user && user.uid, input.value);
+        history.push("/checkout");
+    };
 
     let handleCount = (e) => {
         if (e.target.id === 'minus' || e.target.id === 'i-minus') {
@@ -99,19 +103,19 @@ const Detail = () => {
                     <h5 style={{ color: '#337ab7' }}>{productDetail.name}</h5>
 
                     {/* <!-- Precios --> */}
-                    <h6 className={`${styles.title_price}`}><small>PRECIO OFERTA</small></h6>
+                    <h6 className={`${styles.title_price}`}><small>PRICE</small></h6>
                     <h3 style={{ margin: '0px' }}>${productDetail.price}</h3>
 
                     {/* <!-- Detalles especificos del producto --> */}
 
                     <div className={`${styles.section}`} style={{ padding: '5px' }}>
-                        <h6 className="title-attr"><small>CAPACIDAD</small></h6>
+                        <h6 className="title-attr"><small>STORAGE</small></h6>
                         <div>
                             <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div >
                     </div >
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <h6 className={`${styles.title_attr}`}><small>CANTIDAD</small></h6>
+                        <h6 className={`${styles.title_attr}`}><small>ITEMS</small></h6>
                         <Box>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i id="i-minus" className="bi bi-caret-left"></i></button>
                             <input onChange={e => handlerChange(e)} value={input.value} />
@@ -130,36 +134,36 @@ const Detail = () => {
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
-                        <button className={`${styles.btn_success} btn btn-success`} onClick={(e) => handleCart(e)} disabled={lowStock || input.value === ''} >Agregar al carro</button>
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Comprar</button>
+                        <button className={`${styles.btn_success} btn btn-success`} onClick={(e) => handleCart(e)} disabled={lowStock || input.value === ''} >Add to cart</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Buy Now</button>
                     </div>
                 </div >
             </Box>
 
             <div>
-                <Separator title='Características' />
+                <Separator title='Features' />
 
                 <Grid container spacing={1}>
                     <Grid item xs={4}>
-                        <strong>Almacenamiento</strong>
+                        <strong>Storage</strong>
                         <div className={`p-5`}><span><i className={`bi bi-sd-card`}></i></span>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                     </Grid>
                     <Grid item xs={4}>
-                        <strong>Camara</strong>
+                        <strong>Camera</strong>
                         <div className={`p-5`}><span><i className="bi bi-camera"></i></span>{!productDetail.camera ? '-n/a-' : productDetail.camera}</div>
                     </Grid>
                     <Grid item xs={4}>
-                        <strong>Procesador</strong>
+                        <strong>Processor</strong>
                         <div className={`p-5`}><span><i className="bi bi-cpu"></i></span>{!productDetail.processor ? '-n/a-' : productDetail.processor}</div>
                     </Grid>
                 </Grid>
 
-                <Separator title='Descripción' />
+                <Separator title='Description' />
                 <div className={`container`}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
+                    <p>{productDetail.description}</p>
                 </div>
 
-                <Separator title={'Opiniones del producto'} />
+                <Separator title={'Product Reviews'} />
                 {
                     reviews && reviews.length > 0 ?
                         <Grid container >

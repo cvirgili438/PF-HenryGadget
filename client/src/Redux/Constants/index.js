@@ -20,8 +20,10 @@ export const inicialtate = {
   users:[],
   reviews:[],
   cartProducts: [],
+  refreshCart: null,  // Se usa para solor notificar de cambios en el carrito.
   user:userStorageData,
   adress:{},
+  addresses: [],
   order:[],
   orders:[],
   campaigns:[]
@@ -59,6 +61,9 @@ export const SET_LOADING = 'SET_LOADING'
 export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
 export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
 
+// Cart
+export const REFRESH_CART = 'REFRESH_CART';
+
 //orders
 export const SET_ORDER = 'SET_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
@@ -78,3 +83,9 @@ export const CHANGE_CAMPAIGN_RATING = 'CHANGE_CAMPAIGN_RATING'
 
 //review
 export const ADD_REVIEW = 'ADD_REVIEW'
+
+//adresses
+
+export const GET_ADDRESSES = 'GET_ADDRESSES';
+export const PUT_ADDRESSES = 'PUT_ADDRESSES';
+export const DELETE_ADDRESS= 'DELETE_ADDRESS';

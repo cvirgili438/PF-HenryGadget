@@ -26,6 +26,7 @@ import {
   FORCE_RESET_PWD,
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
+  REFRESH_CART,
   SET_ORDER,
   GET_ORDERS,
   GET_ADMIN_ORDERS,
@@ -39,6 +40,9 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
+  GET_ADDRESSES,
+  PUT_ADDRESSES,
+  DELETE_ADDRESS
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -161,7 +165,12 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress: action.payload,
+        adress: action.payload
+      }
+    case REFRESH_CART:
+      return {
+        ...state,
+        refreshCart: action.payload
       };
     case GET_USERS:
       return {
@@ -175,6 +184,11 @@ export default function rootReducer(state = inicialtate, action) {
         reviews: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case ADD_REVIEW:
+      return{
+        ...state,
+        lastMsg: action.payload.msg
+      }
     case CHANGE_REVIEW_VISIBLE:
       return {
         ...state,
@@ -284,6 +298,24 @@ export default function rootReducer(state = inicialtate, action) {
         campaigns: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case GET_ADDRESSES:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        addresses: action.payload.result
+      }
+    case PUT_ADDRESSES:
+      return {
+        ...state,
+        lastMsg:action.payload.msg,
+        adress: action.payload.result
+      }
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        lsatMsg:action.payload.msg,
+        addresses: state.addresses.filter(e => e.id !== action.payload.result)
+      }
     default:
       return { ...state };
   }
