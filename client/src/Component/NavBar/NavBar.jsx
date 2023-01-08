@@ -21,13 +21,12 @@ import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
 import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
 import { getAllCart } from "../../Utils/cart/cartCrud.js";
 
-
-
 import { logUserActivity } from "../../Redux/Actions/users.js";
+
 
 const NavBar = () => {
 
-
+  const loggedUser = useSelector(state => state.user);
 
   const [input, setInput] = useState('');
   const [modalShow, setModalShow] = useState(false);
@@ -41,29 +40,22 @@ const NavBar = () => {
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-<<<<<<< HEAD
-  
+
+
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
-=======
-  console.log(pathname)
->>>>>>> 4c419da099cea76455f7faed810e609ef6aa033e
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
     if (search)
       dispatch(getProductsByQuery(search))
-<<<<<<< HEAD
 
     onAuthStateChanged(auth, (user) => {
       if (user) dispatch(logUserActivity(user))
     });
 
   },[search])
-=======
-  }, [search])
->>>>>>> 4c419da099cea76455f7faed810e609ef6aa033e
 
   useEffect(async () => {
     let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()   
@@ -156,31 +148,36 @@ const NavBar = () => {
           }
         </div>
       </div>
-      <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
-        <Link to='/'>
-         <ButtonBorderEffect text='Home'/>
-        </Link>
-        <Link to='/products'>
-         <ButtonBorderEffect text='Store'/>
-        </Link>
-        {pathname === '/'
-        ?(
-          <>
-          <a href="#anchor-services">
-             <ButtonBorderEffect text='Our services'/>
-          </a>
-          <a href='#anchor-featured'>
-             <ButtonBorderEffect text='Featured products'/>
-          </a> 
-          <a href='#anchor-about'>
-            <ButtonBorderEffect text='About us'/>
-         </a> 
-        </>
-        )
+      {
+        loggedUser.rol !== 'admin' ?
+          <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
+            <Link to='/'>
+            <ButtonBorderEffect text='Home'/>
+            </Link>
+            <Link to='/products'>
+            <ButtonBorderEffect text='Store'/>
+            </Link>
+            {pathname === '/'
+            ?(
+              <>
+              <a href="#anchor-services">
+                <ButtonBorderEffect text='Our services'/>
+              </a>
+              <a href='#anchor-featured'>
+                <ButtonBorderEffect text='Featured products'/>
+              </a> 
+              <a href='#anchor-about'>
+                <ButtonBorderEffect text='About us'/>
+            </a> 
+            </>
+            )
+            :
+            null
+            }    
+        </div>
         :
-        null
-        }
-      </div>
+        <></>
+      }
       <ModalUser
         show={modalShow}
         onHide={() => setModalShow(false)}
