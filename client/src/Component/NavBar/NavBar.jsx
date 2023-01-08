@@ -18,6 +18,9 @@ import ModalUser from "../ModalRegister/Modal.jsx";
 import { getAuth, signOut } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
 import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
+import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
+import { getAllCart } from "../../Utils/cart/cartCrud.js";
+
 
 
 const NavBar = () => {
@@ -32,12 +35,13 @@ const NavBar = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const { search } = useLocation()
+
+  const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-
-  useEffect(() => {
-    if (!search && state.filteredProducts.length === 0)
+  console.log(pathname)
+  useEffect(()=>{
+    if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
     if (search)
       dispatch(getProductsByQuery(search))
@@ -50,13 +54,21 @@ const NavBar = () => {
   
   const handleInputChange = e => {
     setInput(e.target.value);
+    if(pathname !== '/products'){
+      history.push('/products')
+      console.log('hi')
+    }
 
   };
   const handleSubmit = e => {
     e.preventDefault();
-    query.set('name', input)
-    query.set('offset', 0)
-    history.push({ search: query.toString() })
+    if(pathname !== '/products'){
+      history.push('/products')
+      console.log('hi')
+    }
+    query.set('name',input)   
+    query.set('offset', 0)    
+    history.push({search:query.toString()})
   };
 
 
@@ -82,48 +94,74 @@ const NavBar = () => {
 
 
   return (
-    <div className={styles.container}>
-      <Link to='/'><img src={logo} alt='logo' className={styles.logo} /></Link>
-      <div className={styles.center}>
-        <SearchBar
-          type='text'
-          name='name'
-          placeholder="Search..."
-          value={input}
-          onChange={handleInputChange}
-          onClick={[handleClear, handleSubmit]}
-          input={input}
-        />
-      </div>
-      <div className={styles.menu}>
-        {
+    <div className={ styles.container }>
+      <div style={{display:'flex'}}>
+        <Link to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
+        <div className={ styles.center }>
+            <SearchBar 
+              type='text'
+              name='name'
+              placeholder="Search..."
+              value={input}
+              onChange={handleInputChange}
+              onClick={[handleClear,handleSubmit]}
+              input={input}
+            />
+        </div>
+        <div className={ styles.menu }>
+          {
           cartItems ?
             <Badge badgeContent={cartItems} color="primary">
               <Cart />
             </Badge> : <Cart />
         }
-        {state.user !== null
-          ? (
-            <div>
-              {state.user.photoURL
+          {state.user !== null
+            ? (
+              <div>
+                {state.user.photoURL
                 ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
                 : (
-                  <IconButton style={{ margin: '0 2rem 0 2rem' }}>
-                    <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions} />
+                  <IconButton style={{margin:'0 2rem 0 2rem'}}>
+                    <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions}/> 
                   </IconButton>
                 )
-              }
-
-              {!displayOptions
-                ? null
-                : <ProfileOptions displayOptions={displayOptions} setDisplayOptions={setDisplayOptions} logOut={logOut} />
-              }
-            </div>
-          )
-          :
-          <Button variant='contained' size='medium' endIcon={<BsArrowBarRight />} sx={Button_contained_primary} onClick={() => setModalShow(true)}> Log in </Button>
+                }
+              
+                {!displayOptions
+                  ? null
+                  : <ProfileOptions displayOptions={displayOptions} setDisplayOptions={setDisplayOptions} logOut={logOut}/>
+                }
+              </div>
+              )
+            :
+                <Button variant='contained' size='medium' endIcon={<BsArrowBarRight/>} sx={Button_contained_primary} onClick={()=>setModalShow(true)}> Log in </Button> 
+          }
+        </div>
+      </div>
+      <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
+        <Link to='/'>
+         <ButtonBorderEffect text='Home'/>
+        </Link>
+        <Link to='/products'>
+         <ButtonBorderEffect text='Store'/>
+        </Link>
+        {pathname === '/'
+        ?(
+          <>
+          <a href="#anchor-services">
+             <ButtonBorderEffect text='Our services'/>
+          </a>
+          <a href='#anchor-featured'>
+             <ButtonBorderEffect text='Featured products'/>
+          </a> 
+          <a href='#anchor-about'>
+            <ButtonBorderEffect text='About us'/>
+         </a> 
+        </>
+        )
+        :
+        null
         }
-
       </div>
       <ModalUser
         show={modalShow}

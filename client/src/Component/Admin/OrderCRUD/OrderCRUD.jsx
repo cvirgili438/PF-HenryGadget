@@ -13,7 +13,7 @@ import DoneIcon from '@mui/icons-material/Done';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button from '../../Buttons/Button';
 
 import {
   getAdminOrders,

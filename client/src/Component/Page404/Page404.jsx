@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Button from '../Button/Button';
+import Button from '../Buttons/Button';
 import travolta from './../../Assets/john-travolta-perdido.gif';
 
 import styles from './Page404.module.css';
