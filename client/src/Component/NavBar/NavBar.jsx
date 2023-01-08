@@ -55,7 +55,6 @@ const NavBar = () => {
     setInput(e.target.value);
     if(pathname !== '/products'){
       history.push('/products')
-      console.log('hi')
     }
 
   };
@@ -63,7 +62,6 @@ const NavBar = () => {
     e.preventDefault();
     if(pathname !== '/products'){
       history.push('/products')
-      console.log('hi')
     }
     query.set('name',input)   
     query.set('offset', 0)    
