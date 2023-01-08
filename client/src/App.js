@@ -23,6 +23,7 @@ import NewsLetterUnsubscribe from './Component/Newslatter/NewsLetterUnsubscribe.
 import Orders from './Component/Orders/Orders';
 import OrderDetail from './Component/Orders/OrderDetail/OrderDetail';
 import Review from './Component/Review/Review';
+import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 import Products from './Component/Products/Products';
 
 
@@ -45,6 +46,11 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route  path={'/orders'} component={Orders}  />
           <Route  path={'/orderdetail/:id'} component={OrderDetail}  />
+          
+          {user && user.rol === 'client' && (
+            <Route  path={"/user"}  component={DashboardUser}  />
+            )
+          }
           <Route path='/products' component={Products}/>
           <Route  path="/review/:id" component={Review}  />  
 

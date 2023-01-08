@@ -17,6 +17,10 @@ function ProfileOptions(props) {
         props.setDisplayOptions(!props.displayOptions)
         history.push("/orders")
     };
+    const handleOpenAccount= (event)=>{
+        props.setDisplayOptions(!props.displayOptions)
+        history.push("/user")
+    }
 
     const handleOpenAdmin = (event) => {
         props.setDisplayOptions(!props.displayOptions)
@@ -36,7 +40,7 @@ function ProfileOptions(props) {
             }
             <div className={styles.container_options}>
                 <FaUserCog/>
-                <span className={styles.container_options_span}>Account</span>
+                <span onClick={handleOpenAccount} className={styles.container_options_span}>Account</span>
             </div>
             <div className={styles.container_options}>
                 <FaShoppingCart/>
