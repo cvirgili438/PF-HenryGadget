@@ -39,7 +39,6 @@ const NavBar = () => {
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-  console.log(pathname)
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
