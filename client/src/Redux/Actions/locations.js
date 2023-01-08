@@ -57,7 +57,7 @@ export const getAdminLocations = (payload)=>{
 export const changeLocationArchive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/locations/archive/?archived=' + payload.archived,
+            const response = await fetch(URL + '/locations/admin/archive/?archived=' + payload.archived,
             {
                 method: 'PUT',
                 body: JSON.stringify({'ids': payload.ids}),
@@ -80,7 +80,7 @@ export const changeLocationArchive = (payload) => {
 export const changeLocationVisible = (payload) => {
   return async function(dispatch) {
       try {
-          const response = await fetch(URL + '/locations/visible/?archived=' + payload.archived,
+          const response = await fetch(URL + '/locations/admin/visible/?archived=' + payload.archived,
           {
               method: 'PUT',
               body: JSON.stringify({'ids': payload.ids}),
@@ -104,7 +104,7 @@ export const createLocation = (payload) => {
     return async function(dispatch) {
         try {
             
-            const response = await fetch(URL + '/locations/',
+            const response = await fetch(URL + '/locations/admin/',
             {
                 method: 'POST',
                 body: JSON.stringify(payload),
@@ -127,7 +127,7 @@ export const createLocation = (payload) => {
 export const updateLocation = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/locations/?archived=' + payload.mode.archived,
+            const response = await fetch(URL + '/locations/admin/?archived=' + payload.mode.archived,
             {
                 method: 'PUT',
                 body: JSON.stringify(payload),
@@ -150,7 +150,7 @@ export const updateLocation = (payload) => {
 export const deleteLocation = (payload) => {
 	return async function (dispatch) {   
 		try {
-				const response = await fetch(URL + '/locations/'+ payload.id + '?archived=' + payload.archived,
+				const response = await fetch(URL + '/locations/admin/'+ payload.id + '?archived=' + payload.archived,
 				{
 						method: 'DELETE',
 						headers: {
