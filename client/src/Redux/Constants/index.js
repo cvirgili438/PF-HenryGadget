@@ -24,7 +24,8 @@ export const inicialtate = {
   adress:{},
   order:[],
   orders:[],
-  campaigns:[]
+  campaigns:[],
+  locations:[]
 };
 
 // PRODUCTOS
@@ -78,3 +79,12 @@ export const CHANGE_CAMPAIGN_RATING = 'CHANGE_CAMPAIGN_RATING'
 
 //review
 export const ADD_REVIEW = 'ADD_REVIEW'
+
+//locations
+export const GET_LOCATIONS = 'GET_LOCATIONS'
+export const GET_ADMIN_LOCATIONS = 'GET_ADMIN_LOCATIONS'
+export const CREATE_LOCATION = 'CREATE_LOCATION'
+export const UPDATE_LOCATION = 'UPDATE_LOCATION'
+export const DELETE_LOCATION = 'DELETE_LOCATION'
+export const CHANGE_LOCATION_VISIBLE = 'CHANGE_LOCATION_VISIBLE'
+export const CHANGE_LOCATION_ARCHIVE = 'CHANGE_LOCATION_VISIBLE'

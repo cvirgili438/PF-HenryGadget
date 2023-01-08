@@ -39,6 +39,13 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
+  GET_LOCATIONS,
+  GET_ADMIN_LOCATIONS,
+  CREATE_LOCATION,
+  UPDATE_LOCATION,
+  DELETE_LOCATION,
+  CHANGE_LOCATION_ARCHIVE,
+  CHANGE_LOCATION_VISIBLE
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -282,6 +289,48 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         campaigns: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_ADMIN_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CREATE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case UPDATE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case DELETE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_LOCATION_VISIBLE:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_LOCATION_ARCHIVE:
+      return {
+        ...state,
+        locations: action.payload.result,
         lastMsg: action.payload.msg,
       };
     default:

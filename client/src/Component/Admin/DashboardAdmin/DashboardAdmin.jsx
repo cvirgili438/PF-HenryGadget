@@ -19,6 +19,7 @@ const DashboardAdmin = () => {
           <Button component={Link} to="/admin/orders" >Orders</Button>
           <Button component={Link} to="/admin/mailing" >Mailing</Button>
           <Button component={Link} to="/admin/reviews" >Reviews</Button>
+          <Button component={Link} to="/admin/location" >Stores</Button>
           <Button component={Link} to="/admin/users" >Users</Button>
         </ButtonGroup>
       </div>
