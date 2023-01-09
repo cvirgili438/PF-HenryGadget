@@ -116,6 +116,10 @@ const OrderCRUD = () => {
     }));
   }
 
+  const saveTrackNumber = e => {
+    console.log(e);
+  };
+
   useEffect(() => {
     dispatch(getAdminOrders(mode))
 
@@ -162,7 +166,7 @@ const OrderCRUD = () => {
               <tr>
                 <th>N°</th>
                 <th>Select</th>
-                <th>Order</th>
+                <th>Tracking Number</th>
                 <th>To user</th>
                 <th>Total</th>
                 <th colSpan={3}>Status</th>
@@ -183,7 +187,7 @@ const OrderCRUD = () => {
                   <tr key={ p.id }>
                     <td>{ i + 1 }</td>
                     <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                    <td>{ p.trackingNumber }</td>
+                    <td> <input defaultValue={p.trackingNumber} size='5'/> <Button text='Save' onClick={ saveTrackNumber } /></td>
                     <td>{ p.user.displayName } - { p.user.email }</td>
                     <td>{ p.total }</td>
                     <td>
