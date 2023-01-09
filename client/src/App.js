@@ -27,6 +27,7 @@ import Review from './Component/Review/Review';
 import Locations from './Component/Map/Map';
 import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 import Products from './Component/Products/Products';
+import Calendar from './Component/Calendar/Calendar';
 
 const App = () => {
 
@@ -49,7 +50,8 @@ const App = () => {
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
           <Route  path="/review/:id" component={Review}  />  
           <Route path={'/map'} component={Locations} /> 
-          
+          <Route path={'/calendar'} component={Calendar} /> 
+
           {user && user.rol === 'client' && (
             <Route  path={"/user"}  component={DashboardUser}  />
             )
