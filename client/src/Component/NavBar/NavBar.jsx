@@ -146,7 +146,7 @@ const NavBar = () => {
         </div>
       </div>
       {
-        loggedUser && loggedUser.rol !== 'admin' ?
+        !loggedUser || loggedUser.rol !== 'admin' ?
           <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
             <Link to='/'>
             <ButtonBorderEffect text='Home'/>
