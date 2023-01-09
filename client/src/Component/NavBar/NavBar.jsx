@@ -45,8 +45,9 @@ const NavBar = () => {
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
-  useEffect(() => {
-    if (!search && state.filteredProducts.length === 0)
+ 
+  useEffect(()=>{
+    if(!search && state.filteredProducts.length === 0)
       dispatch(getProductsByQuery(search))
     if (search)
       dispatch(getProductsByQuery(search))
@@ -66,7 +67,6 @@ const NavBar = () => {
     setInput(e.target.value);
     if(pathname !== '/products'){
       history.push('/products')
-      console.log('hi')
     }
 
   };
@@ -74,7 +74,6 @@ const NavBar = () => {
     e.preventDefault();
     if(pathname !== '/products'){
       history.push('/products')
-      console.log('hi')
     }
     query.set('name',input)   
     query.set('offset', 0)    
