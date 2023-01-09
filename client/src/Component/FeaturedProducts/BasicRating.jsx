@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 
 export default function BasicRating({valor}) {
-  console.log('este es el value', valor)
+  
   return (
     <Box
       sx={{

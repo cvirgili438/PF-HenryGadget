@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom'
 
 function EffectCubes() {
   const products = useSelector(state=> state.products)
-  console.log(products);
   // console.log(`este es el promedio de score ${IndexScore(products.)}`);
   
   let result = 0;

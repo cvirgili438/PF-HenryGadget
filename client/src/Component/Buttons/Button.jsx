@@ -13,6 +13,7 @@ const Button = ({ text, onClick, disabled, value, selected }) => {
         value={ value }
         selected={ selected }
       >
+        <span style={styles.span}></span>
         { text }
       </button>
     </>
