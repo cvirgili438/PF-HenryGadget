@@ -4,6 +4,4 @@ module.exports = [
     { trackingNumber: '581121', total: 1200, status: 'shipped', userUid: 'a34t2q343grgsergffsfgzcxsxxs'},
     { trackingNumber: '581121', total: 1200, status: 'processing', userUid: '22eqdssdsdsdsdsdfw3fwefdsdf3'},
 
-
-    
 ];

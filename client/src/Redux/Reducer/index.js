@@ -275,7 +275,7 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         user: action.payload.result,
         lastMsg: action.payload.msg,
-      }
+      };
     case GET_CAMPAIGNS:
       return {
         ...state,
