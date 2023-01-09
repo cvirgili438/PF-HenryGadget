@@ -1,5 +1,5 @@
-import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
-
+import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL, PUT_PROFILE_USER} from '../Constants/index'
+import { getAuth,updateProfile } from 'firebase/auth'
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
         return dispatch({
@@ -159,3 +159,17 @@ export const changeUserAdmin = (payload) => {
     }
 }
 
+
+export const putProfileUser = (payload)=>(dispatch)=>{
+        const auth = getAuth()
+        const user = auth.currentUser
+        updateProfile(user, payload)
+        .then (r => {
+           
+            return dispatch({
+                type:PUT_PROFILE_USER,
+                payload:payload
+            })
+        })
+        .catch(r => console.log(r))
+}

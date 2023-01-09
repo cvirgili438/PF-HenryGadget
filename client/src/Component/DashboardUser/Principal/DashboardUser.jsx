@@ -9,12 +9,15 @@ import { add } from 'dom7';
 
 export default function DashboardUser() {
   const [token,setToken] =useState('')
+  let [providerUser,setProviderUser] =useState([])
   const dispatch = useDispatch()
   const user = useSelector(state =>state.user)
   const addresses = useSelector(state => state.addresses)
   const auth = getAuth()
-  const adress = useSelector(state => state.adress)
 
+  
+  const adress = useSelector(state => state.adress)
+ 
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
@@ -24,18 +27,20 @@ export default function DashboardUser() {
 				  	setToken(result);
             
 			  	});
+          setProviderUser(user.providerData)
 			  }
 	  	});
      
       
   },[adress])
+  console.log(providerUser)
  
 
 
     
   return (
-    <Container sx={{paddingTop: '8rem'}} fixed={true}>
-      <BasicTabs addresses={addresses} token={token}/>
+    <Container sx={{paddingTop: '10rem'}} fixed={true}>
+      <BasicTabs user={providerUser[0]} addresses={addresses} token={token}/>
     </Container>
   )
 }

@@ -73,7 +73,7 @@ export default function AddressForm(props) {
 
   return (    
       <Box
-       component={'form'}        
+            
        sx={{        
         display:'flex',
         flexDirection:'column',

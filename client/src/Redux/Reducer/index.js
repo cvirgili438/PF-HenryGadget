@@ -41,7 +41,8 @@ import {
   CHANGE_CAMPAIGN_RATING,
   GET_ADDRESSES,
   PUT_ADDRESSES,
-  DELETE_ADDRESS
+  DELETE_ADDRESS,
+  PUT_PROFILE_USER
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -304,8 +305,18 @@ export default function rootReducer(state = inicialtate, action) {
     case DELETE_ADDRESS:
       return {
         ...state,
-        lsatMsg:action.payload.msg,
+        lastMsg:action.payload.msg,
         addresses: state.addresses.filter(e => e.id !== action.payload.result)
+      }
+    case PUT_PROFILE_USER:
+      return{
+        ...state,
+        lastMsg: 'profile data update, was succefull',
+        user: {
+          ...state.user,
+          ...action.payload
+        }
+        
       }
     default:
       return { ...state };
