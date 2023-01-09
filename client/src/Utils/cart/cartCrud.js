@@ -99,6 +99,15 @@ export async function getAllCart(idUser) {
     }
 };
 
+export async function getAllItemCart(idUser) {
+    let count = 0
+    let carts = await getAllCart(idUser)
+    for (let i = 0; i < carts.length; i++) {
+        count += carts[i].quantity;        
+    }    
+    return count
+}
+
 // Función que solo se llama cuando el cliente se logueado
 // teniendo un carrito en el localstorage.
 export async function sendAllCart(storage, idUser) {

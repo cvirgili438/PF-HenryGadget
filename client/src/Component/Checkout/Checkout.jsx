@@ -6,17 +6,28 @@ import Payment from "./Steps/Payment.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setAddress } from "../../Redux/Actions/checkout";
 import  CartPage from '../CartPage/CartPage.jsx'
-import ModalRegister from '../ModalRegister/ModalRegister.jsx'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import ModalUser from "../ModalRegister/Modal.jsx";
 
 export default function Checkout() {
   const [active,setActive]=useState(0)
   const user = useSelector(state => state.user)
+  const [token,setToken]= useState('')
   const address = useSelector(state=>state.adress)
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch()
+  const auth = getAuth()
+
+
   useEffect(()=>{
     setActive(active)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdToken().then((result) => {
+          setToken(result);
+        });
+      }
+    }); 
   },[user && user.uid])
   function verification (num){
     switch(num){
@@ -38,7 +49,7 @@ export default function Checkout() {
       return setActive(active+1)
     }
     if(active === 1 ){
-      dispatch(setAddress({idUser:user.uid,address:address}))
+      dispatch(setAddress({idUser:user.uid,address:address,token:token}))
       return setActive(active+1)
     }
     return setActive(active+1)

@@ -23,10 +23,15 @@ const Detail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
         window.scrollTo(0, 0);
         dispatch(getProductById(id));
-        setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
+
+        async function set() {
+            setLowStock(input.value > (productDetail.stock - await getQuantityProductCart(productDetail.id, user && user.uid)));
+            }
+        set();
+
         return function () {
             dispatch(clearProduct())
         };
@@ -160,7 +165,7 @@ const Detail = () => {
 
                 <Separator title='Description' />
                 <div className={`container`}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis incidunt reiciendis hic possimus, architecto, id sapiente a nostrum consequatur doloribus nesciunt dolores. Repellendus, repudiandae quidem. Ut recusandae reprehenderit fuga saepe!</p>
+                    <p>{productDetail.description}</p>
                 </div>
 
                 <Separator title={'Product Reviews'} />
