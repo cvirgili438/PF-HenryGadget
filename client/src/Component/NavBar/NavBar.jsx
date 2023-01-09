@@ -20,7 +20,6 @@ import { app } from "../../Firebase/firebase.config";
 import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
 import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
 import { getAllCart } from "../../Utils/cart/cartCrud.js";
-
 import { logUserActivity } from "../../Redux/Actions/users.js";
 
 
@@ -45,9 +44,10 @@ const NavBar = () => {
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
- 
+
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
+
       dispatch(getProductsByQuery(search))
     if (search)
       dispatch(getProductsByQuery(search))
@@ -57,6 +57,7 @@ const NavBar = () => {
     });
 
   }, [search])
+
 
   useEffect(async () => {
     let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()   
