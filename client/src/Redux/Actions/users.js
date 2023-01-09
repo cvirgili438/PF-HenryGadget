@@ -209,8 +209,8 @@ export const forceResetPassword = (payload) => {
             return e.message
         }
     }
-}
 
+}
 
 export const checkUserStatus = (payload) => {
     return async function(dispatch) {
@@ -230,4 +230,5 @@ export const checkUserStatus = (payload) => {
             return e.message
         }
     }
+
 }
