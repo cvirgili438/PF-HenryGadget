@@ -4,12 +4,15 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Alert2 from 'react-bootstrap/Alert';
 
+import IconButton from '@mui/material/IconButton';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoneIcon from '@mui/icons-material/Done';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
@@ -21,7 +24,8 @@ import {
   getAdminOrders,
   changeOrderArchive,
   changeOrderStatus,
-  deleteOrder
+  deleteOrder,
+  sendShippedToCustomer
 } from '../../../Redux/Actions/order.js';
 
 import styles from './OrderCRUD.module.css';
@@ -97,6 +101,21 @@ const OrderCRUD = () => {
     setAlert2(false);
   }
 
+  const handleSendMail = e => {
+    dispatch(sendShippedToCustomer({
+      id: e.currentTarget.id,
+      archived: mode.archived,
+      token: token,
+      subject: 'HenryGadget order shipped',
+      text: `Hi ${
+        orders.filter(p => p.id === e.currentTarget.id )[0].user.displayName
+        }, your order ${
+          e.currentTarget.id
+        } has been shipped.`,
+      email: orders.filter(p => p.id === e.currentTarget.id )[0].user.email
+    }));
+  }
+
   useEffect(() => {
     dispatch(getAdminOrders(mode))
 
@@ -165,9 +184,22 @@ const OrderCRUD = () => {
                     <td>{ i + 1 }</td>
                     <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                     <td>{ p.trackingNumber }</td>
-                    <td>{ p.user.uid }</td>
+                    <td>{ p.user.displayName } - { p.user.email }</td>
                     <td>{ p.total }</td>
-                    <td>{ p.status.toUpperCase() }</td>
+                    <td>
+                      { p.status.toUpperCase() }&nbsp;
+                      { p.status === 'shipped' ?
+                          p.sentMailToCustomer === 0 ?
+                          <IconButton onClick={ handleSendMail } id={ p.id } title='Send email to customer'>
+                            <ContactMailIcon />
+                          </IconButton>
+                          :
+                          <IconButton onClick={ handleSendMail } id={ p.id } title={`${p.sentMailToCustomer} email/s already sent to customer... click to send again`}>
+                            <MarkEmailReadIcon />
+                          </IconButton>
+                        :
+                        null }
+                      </td>
                     <td>
                       {
                         p.status === 'processing' ? <LockOpenIcon /> :
@@ -176,7 +208,7 @@ const OrderCRUD = () => {
                         p.status === 'shipped' ? <LocalShippingIcon /> :
                         p.status === 'canceled' ? <CancelIcon /> : <DoneIcon />
                       }
-                      </td>
+                    </td>
                     <td>
                       <Button text='Change' onClick={ handleChangeStatus } value={ p.id } />
                     </td>

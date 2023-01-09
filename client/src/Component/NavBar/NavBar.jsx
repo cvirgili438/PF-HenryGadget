@@ -35,10 +35,10 @@ const NavBar = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
+
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
@@ -146,8 +146,9 @@ const NavBar = () => {
           }
         </div>
       </div>
+      
       {
-        loggedUser.rol !== 'admin' ?
+        loggedUser && loggedUser.rol !== 'admin' ?
           <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
             <Link to='/'>
             <ButtonBorderEffect text='Home'/>

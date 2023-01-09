@@ -163,4 +163,28 @@ router.post('/sendmail', async (req, res) => {
     }
 });
 
+router.post('/sendonemail', async (req, res) => {
+    const { text, subject, email } = req.body;
+    if (!text || !subject || !email)
+        return res.status(400).json({ err: 'Parameters missing.' });
+    
+    try {
+
+        const msg = {
+            to: email,
+            from: EMAIL_FROM_NEWSLETTER,
+            subject: subject,
+            html: text
+        };
+
+        await sgMail.send(msg); // Se envía el mail.
+
+        res.json({ msg: 'Email sent' });
+    }
+    catch (error) {
+        res.status(400).json({ err: 'Error sending mail.', error });
+    }
+});
+
+
 module.exports = router;
