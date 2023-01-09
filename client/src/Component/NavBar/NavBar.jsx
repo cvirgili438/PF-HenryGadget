@@ -62,10 +62,6 @@ const NavBar = () => {
   
   const handleInputChange = e => {
     setInput(e.target.value);
-    if(pathname !== '/products'){
-      history.push('/products')
-    }
-
   };
   const handleSubmit = e => {
     e.preventDefault();
