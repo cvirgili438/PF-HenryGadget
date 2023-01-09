@@ -46,17 +46,17 @@ const App = () => {
           <Route path="/NewsletterConfirm" component={NewsLetterConfirm} />
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route path={'/orders'} component={Orders}  />
-          <Route path={'/orderdetail/:id'} component={OrderDetail}  /> 
-          <Route  path="/review/:id" component={Review}  />
-          <Route path={'/map'} component={Locations} />
+          <Route path={'/orderdetail/:id'} component={OrderDetail}  />
+          <Route  path="/review/:id" component={Review}  />  
+          <Route path={'/map'} component={Locations} /> 
+
           
           {user && user.rol === 'client' && (
             <Route  path={"/user"}  component={DashboardUser}  />
             )
           }
           <Route path='/products' component={Products}/>
-      
-
+          
           {
             user && user.rol === 'admin' ?
               <Route path='/admin'>

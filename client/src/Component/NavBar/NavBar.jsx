@@ -25,7 +25,7 @@ import { logUserActivity } from "../../Redux/Actions/users.js";
 
 const NavBar = () => {
 
-
+  const loggedUser = useSelector(state => state.user);
 
   const [input, setInput] = useState('');
   const [modalShow, setModalShow] = useState(false);
@@ -39,8 +39,6 @@ const NavBar = () => {
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-
-  
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
@@ -55,8 +53,8 @@ const NavBar = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) dispatch(logUserActivity(user))
     });
+  },[search])
 
-  }, [search])
 
 
   useEffect(async () => {
@@ -148,31 +146,36 @@ const NavBar = () => {
           }
         </div>
       </div>
-      <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
-        <Link to='/'>
-         <ButtonBorderEffect text='Home'/>
-        </Link>
-        <Link to='/products'>
-         <ButtonBorderEffect text='Store'/>
-        </Link>
-        {pathname === '/'
-        ?(
-          <>
-          <a href="#anchor-services">
-             <ButtonBorderEffect text='Our services'/>
-          </a>
-          <a href='#anchor-featured'>
-             <ButtonBorderEffect text='Featured products'/>
-          </a> 
-          <a href='#anchor-about'>
-            <ButtonBorderEffect text='About us'/>
-         </a> 
-        </>
-        )
+      {
+        loggedUser.rol !== 'admin' ?
+          <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
+            <Link to='/'>
+            <ButtonBorderEffect text='Home'/>
+            </Link>
+            <Link to='/products'>
+            <ButtonBorderEffect text='Store'/>
+            </Link>
+            {pathname === '/'
+            ?(
+              <>
+              <a href="#anchor-services">
+                <ButtonBorderEffect text='Our services'/>
+              </a>
+              <a href='#anchor-featured'>
+                <ButtonBorderEffect text='Featured products'/>
+              </a> 
+              <a href='#anchor-about'>
+                <ButtonBorderEffect text='About us'/>
+            </a> 
+            </>
+            )
+            :
+            null
+            }    
+        </div>
         :
-        null
-        }
-      </div>
+        <></>
+      }
       <ModalUser
         show={modalShow}
         onHide={() => setModalShow(false)}
