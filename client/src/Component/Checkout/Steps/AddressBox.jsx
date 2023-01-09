@@ -1,69 +1,55 @@
+/* :3 */
+
 import React from 'react';
 import axios from 'axios';
 
-import { TextField,Box, FormControl } from '@mui/material'
+import { TextField,Box } from '@mui/material'
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { setButtonActive } from '../../../Redux/Actions/checkout';
 
 import styles from "./AddressBox.module.css";
 
 import {MdLocationOn} from "react-icons/md";
-import {IoAddCircleOutline} from "react-icons/io5";
 import {BsCheckCircle} from "react-icons/bs";
-
-import { setLocalAdress } from '../../../Redux/Actions/checkout';
+import {IoAddCircleOutline} from "react-icons/io5";
 
 import { URL } from '../../../Redux/Constants';
 
-export default function AddressBox({name, street, region, city, postalCode, type, id, setFunction, principal}) {
+export default function AddressBox({name, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
 
-  const [formActive, setFormActive] = useState(true);
-  const [addressSettled, setAddressSettled] = useState(false)
-  const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});
+  const [formActive, setFormActive] = useState(true);                                                                                   // Estado el cual nos servira para mostrar o no un form para la carta de " Add a different address"
+  const [addressSettled, setAddressSettled] = useState(false)                                                                           // Estado local el cual nos hara saber si una vez utilizado el form la direccion propuesta se agerego correctamente como principal
+  const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});    // Estado para controlar el form de la carta " Add a new address"
   
-  const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type: 'shipping', principal: true});
+  const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type: 'shipping', principal: true});                          // Referencia para luego ser pasada al estado de redux y finalmente hacer un post a la DB con esa misma informacion (ya no se usa xd - solo para mostrar error class)
 
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user);                                                                                        // Nos traemos al usuario que inicio sesion para luego utilizar su uid y linkear las direccioness propuestas
+  
 
-  const stepperButton = document.getElementById('stepper-button');
-
-  useEffect(()=>{
-    let {region,city,postalCode,street,name} = input.current
-
-    if(region === '' || city === '' || postalCode === '' || street === '' || name === ''){
-      if(!stepperButton.className.includes(' Mui-disabled')){return }
-      let location = stepperButton.className.indexOf(' Mui-disabled')
-      return stepperButton.className= stepperButton.className.slice(0,location)
-    }
-    
-    if(region !== '' || city !== '' || postalCode !== '' || street !== '' || name !== ''){
-      if(stepperButton.className.includes(' Mui-disabled')) {return}
-      else return stepperButton.className= stepperButton.className.concat(' Mui-disabled')
-    }
-  },[inputt])
-
-  function handleInput(event){
+  function handleInput(event){                                                                                                          // Funcion para ir manejando el form e ir actualziando el estado cadavez vez el usuario agrege un nuevo caracter
     event.preventDefault();
     setInputt({...inputt,
       [event.target.id]:event.target.value
     })  
   }  
 
-  function setAddressAsPrincipal(){
-    axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})
+  function setAddressAsPrincipal(){                                                                                                    // Esta funcion es para la carta " Add na new address " y cuya funcion que sera utilizada cuando querramos hacer el post de la direccion guardada en el estado local, la direccion tambien sera seteada como principal una vez se haya agregado
+    axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})                       // Creamos la nueva direccion pasando como valores el estado local
       .then(res => {
         const idAddress = res.data.result.id;
 
-        axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})
-             .then(res => {setAddressSettled(true)})
+        axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})     // Seteamos la direccion creada anteriormente como principal 
+             .then(res => {setAddressSettled(true); dispatch(setButtonActive(false));})
              .catch(err => console.log(err));
       })
       .catch(err => console.log(err))
 
-    axios.post(`${URL}/address`, {idUser: user.uid, address:{...inputt, type: 'billing'}})
+    axios.post(`${URL}/address`, {idUser: user.uid, address:{...inputt, type: 'billing'}})  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
       .then(res => {})
       .catch(err => console.log(err))
 
@@ -71,7 +57,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
   }
 
 
-  if(type === 'add'){
+  if(type === 'add'){                                                                        // Componente padre nos hara saber que tipo de AddressBox quiere crear, si es un "add" se generara esa carta " Add new address "
     return(
       <div>
         <div onClick={() => setFormActive(!formActive)} className={styles.divGlobal}>
@@ -154,7 +140,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
         </div>
     )
   }
-  if(type === 'address') {
+  if(type === 'address') {                                                                                                      // Mientras que el otro tipo de addressBox que se pueden generar sera ya la direccion en si mostrando sus propiedades recibidas desde componente padre
     return (
       <div onClick={() => {setFunction(id)}} className={principal ? styles.divGlobalActive : styles.divGlobal}>
         <div>

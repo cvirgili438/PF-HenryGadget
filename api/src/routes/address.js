@@ -86,23 +86,23 @@ router.put('/', async(req,res) => {                                             
     }
 })
 
-router.put('/principal', async (req,res) => {
-    const {idAddress, idUser} = req.body;
+router.put('/principal', async (req,res) => {                                                                               // localhost:3001/address/principal (put)
+    const {idAddress, idUser} = req.body;                                                                                   // Requerimos id's de address y el usuario
 
-    if(!idAddress || !idUser) return res.status(400).json({err: 'Missing important ID information'});
+    if(!idAddress || !idUser) return res.status(400).json({err: 'Missing important ID information'});                       // Validamos que los parametros hayan sido pasados
 
     try {
-        const address = await Address.findAll({where: {userUid: idUser}});
-        const primaryAddress = await Address.findByPk(idAddress);
+        const address = await Address.findAll({where: {userUid: idUser}});                                                  // Buscamos todas las direcciones del usuario
+        const primaryAddress = await Address.findByPk(idAddress);                                                           // Guardamos en una variable tambien la direccion la cual querremos hacer principal
 
-        if(address.length === 0) return res.status(404).json({err: 'User does not have any address related', id: idUser});
+        if(address.length === 0) return res.status(404).json({err: 'User does not have any address related', id: idUser});  // Validamos que existan direcciones con esos id
         if(!primaryAddress) return res.status(404).json({err: 'Address does not exist', id: idAddress});
 
         for (const a of address) {
-            await Address.update({principal: false}, {where: {id: a.id}})
+            await Address.update({principal: false}, {where: {id: a.id}})                                                   // Seteamos todas las direcciones del usuario como principal: false para luego dejar solo una activa (esto porque la ruta post de ordenes requiere que solo haya una address as principal)
         };
 
-        await Address.update({principal: true}, {where: {id: idAddress}});
+        await Address.update({principal: true}, {where: {id: idAddress}});                                                  // Actualizamos la direccion pasada para que sea principal: true
         res.status(200).json({msg: 'User address updated'});
     } catch (error) {
         res.status(400).json({err: error})

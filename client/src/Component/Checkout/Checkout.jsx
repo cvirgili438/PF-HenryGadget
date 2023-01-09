@@ -1,14 +1,16 @@
-import React, { useState, useEffect,useRef } from "react";
-import {  Button, Modal } from "@mui/material";
+import axios from "axios";
+
 import Steppers from './Stepper.jsx'
 import Adress from "./Steps/Adress.jsx";
-import Payment from "./Steps/Payment.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { setAddress } from "../../Redux/Actions/checkout";
+import Payment from "./Steps/Payment.jsx"
 import  CartPage from '../CartPage/CartPage.jsx'
+;
+import {  Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import ModalUser from "../ModalRegister/Modal.jsx";
-import axios from "axios";
 
 import { URL } from "../../Redux/Constants/index.js";
 
@@ -21,8 +23,8 @@ export default function Checkout() {
 
   const user = useSelector(state => state.user)
   const address = useSelector(state=>state.adress)
+  const buttonIsDisabled = useSelector(state => state.buttonAddress)
   
-  const dispatch = useDispatch()
   const auth = getAuth()
 
 
@@ -98,20 +100,29 @@ export default function Checkout() {
         onHide={() => setModalShow(false)}
         />
       <Button  
-       onClick={e =>setActive(active -1)}
-       variant="contained" sx={{
-         backgroundColor: 'black',
-         color:'white'
-       }} disabled={active === 0 ? true : false} 
+        onClick={e =>setActive(active -1)}
+        variant="contained" 
+        sx={{
+          backgroundColor: 'black',
+          color:'white'
+        }} 
+        disabled={active === 0 ? true : false} 
       >
         Back
       </Button>
-      <Button id="stepper-button"
-      onClick={e =>handleButton(e)}
-      variant="contained" sx={{
-        backgroundColor: 'black',
-        color:'white'
-      }} disabled={active > 1 ? true : false} >{active > 1 ? 'Finish' : 'Next'}</Button>
+      <Button 
+        id="stepper-button"
+        onClick={e =>handleButton(e)}
+        variant="contained" 
+        sx={{
+          backgroundColor: 'black',
+          color:'white',
+        }} 
+        disabled={buttonIsDisabled && active > 0}>
+
+        {active > 1 ? 'Finish' : 'Next'}
+
+      </Button>
     </div>
   );
 }

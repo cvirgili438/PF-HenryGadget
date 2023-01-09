@@ -1,59 +1,50 @@
-import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { TextField,Box, FormControl } from '@mui/material'
+
 import { useDispatch, useSelector } from 'react-redux';
-import { setLocalAdress } from '../../../Redux/Actions/checkout';
-import { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react'
+import { TextField,Box } from '@mui/material'
+import { setButtonActive, setLocalAdress } from '../../../Redux/Actions/checkout';
 
 import styles from "./Address.module.css";
 import AddressBox from './AddressBox.jsx';
 
 import { URL } from '../../../Redux/Constants';
 import Total from '../../CartPage/Total';
-import { width } from '@mui/system';
 
-export default function Adress() {
-  const [address, setAddress] = useState([]);
-  const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});
-  const [idActive, setIdActive] = useState('');
+export default function Adress() {                                                                                                           /* Inicializaremos el componente utilizado en el segundo step (Address) donde se seteara la direccion deseada para enviar la orden */
+  const [address, setAddress] = useState([]);                                                                                                // Renderizaremos dos tipos diferentes de componentes, uno donde el usuario no tenga ninguna direccion guardada (le mostraremos un form) y el caso donde el usuario ya tiene direcciones guardadas, lo sabremos guardandonos las direcciones del usuario en este estado.
+  const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});         // Estado para ir guardando la direccion escrita en el caso del form donde el usaurio no tiene direcciones anteriores
+  const [idActive, setIdActive] = useState('');                                                                                              // Desde este componente renderizaremos algunas cartas(direcciones) y una de esas cartas sera la direccion principal, necesitaremos especificar y renderizar esa carta con una informaicon diferente. (Para luego mostrarla con un estilo distinto)
 
-  const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type: 'shipping', principal: true});
-  
-  const stepperButton = document.getElementById('stepper-button');
+  const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type: 'shipping', principal: true});                               // Este input guardara la informacion del form la cual ya sera enviada a la store de redux para guardarla y luego poder hacer un post de esta a la DB
   
   const dispatch = useDispatch();
   
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user);                                                                                              // Nos traemos al usuario con sesion iniciada para luego preguntar su uid
   
-  useEffect(() => {
+  useEffect(() => {                                                                                                                           // Antes de renderizar el componente vamos a preguntar las direcciones del usuario con el uid, estas posibles direcciones seran guardadas en el estado local, dependiendo de si hay o no direcciones, mostraremos un tipo de componente o otro.
     axios(`${URL}/address?idUser=${user.uid}`)
          .then(res => {
             if(res.data.result.length === 0) return;
 
             setAddress([...address, ...res.data.result]);
          })
-         .catch(err => console.log(err))
+         .catch(err => console.log(err));
 
-    return stepperButton.className= stepperButton.className.concat(' Mui-disabled')
-  }, [])
-  
-  
-  useEffect(()=>{
-    let {region,city,postalCode,street,name} = input.current
+  }, []);
 
-    if(region === '' || city === '' || postalCode === '' || street === '' || name === ''){
-      if(stepperButton.className.includes(' Mui-disabled')) {return}
-      else return stepperButton.className= stepperButton.className.concat(' Mui-disabled')
+  useEffect(() => {                                                                                                                           // Con este useEffect iremos validando cada vez que modifican el form para saber si ya esta completo, si lo esta desbloquear el boton de "Next" sino... pues no                                                                                                                                                                                                                                   
+    const inputValidate = input.current
+
+    if(inputValidate.name === '' || inputValidate.city === '' || inputValidate.region === '' || inputValidate.postalCode === '' || inputValidate.street === ''  ){
+      dispatch(setButtonActive(true));
+      return
     }
-    
-    if(region !== '' || city !== '' || postalCode !== '' || street !== '' || name !== ''){
-      if(!stepperButton.className.includes(' Mui-disabled')){return }
-      let location = stepperButton.className.indexOf(' Mui-disabled')
-      return stepperButton.className= stepperButton.className.slice(0,location)
-    }
-  },[inputt])
+
+    dispatch(setButtonActive(false));
+  }, [inputt])
   
-  function handleInput(event){
+  function handleInput(event){                                                                  // Input para validar cada letra escrita en el form e irla agregando al estado para luego pasarla con un post a la db
     event.preventDefault();
     setInputt({...inputt,
       [event.target.id]:event.target.value
@@ -62,20 +53,22 @@ export default function Adress() {
     dispatch(setLocalAdress(input.current))    
   }  
   
-  function setAsPrincipal(addressId){
+  function setAsPrincipal(addressId){                                                           // En el caso que el usuario tenga direcciones, las direcciones no principales recibiran como metodo una funcion para poder convertirse en direcciones principales ( esta funcion sera utilizada cuando el usuario haga clic sobre la carta )
     axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: addressId});
-    setIdActive(addressId)
+    setIdActive(addressId);
+    dispatch(setButtonActive(false));
   }
 
-  function setNotPrincipal(addressId){
+  function setNotPrincipal(addressId){                                                          // En el caso que el usuario tenga direcciones, la direccion principal recibira como metodo una funcion para dejar de ser direccion principal ( esta funcion sera utilizada cuando el usuario haga clic sobre la carta )
     axios.put(`${URL}/address`, {idUser: user.uid, address: {principal: false}, idAddress: addressId});
-    setIdActive('')
+    setIdActive('');
+    dispatch(setButtonActive(true))
   }
 
   return(
     <div className={styles.divGlobal}>
       <div className={styles.divTitle}>
-        {address.length === 0
+        {address.length === 0               
           ? <h3>Please add your shipping address</h3>
           : <h3>Select your shipping address</h3>
         }

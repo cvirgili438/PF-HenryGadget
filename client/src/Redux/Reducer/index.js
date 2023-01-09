@@ -38,6 +38,7 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
+  SET_BUTTON_ACTIVE,
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -162,6 +163,11 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         adress: action.payload,
       };
+    case SET_BUTTON_ACTIVE:
+      return {
+        ...state,
+        buttonAddress: action.payload
+      }
     case GET_USERS:
       return {
         ...state,

@@ -67,72 +67,77 @@ export default function Payment() {
   return(
     <div className={styles.divGlobal}>
       <div className={styles.divTitle}> 
-        <h2 className={styles.title}>Your total to pay is: </h2> 
-        <h2>${total.current} USD</h2>
+        <h2 className={styles.title}>Select your payment method</h2> 
       </div>
         <hr className={styles.hr1}></hr>
-      <div className={styles.divPaymentOptions}>
-        <div 
-          className={styles.divStripe}
-          onClick={() => setStripeHidden(!stripeHidden)}
-        >
-          <div>
-            <h3 className={styles.stripeText}>Credit or Debit Card</h3>
+      <div className={styles.divContent}>
+        <div className={styles.divPaymentOptions}>
+          <div 
+            className={styles.divStripe}
+            onClick={() => setStripeHidden(!stripeHidden)}
+          >
+            <div>
+              <h3 className={styles.stripeText}>Credit or Debit Card</h3>
+            </div>
           </div>
-        </div>
-        <div className={stripeHidden ? styles.divHidden : styles.divStripeContent}>
-          <div>
-            <Box sx={{
-                display:'flex',
-                flexDirection:'row',
-                ml:10,  
-                mr :10,
-                justifyContent:'space-evenly'
-            }} >  
-              {clientSecret && (
-                <Elements options={options} stripe={stripePromise}>
-                <CheckoutForm />
-                </Elements>
-              )}
-            </Box>
+          <div className={stripeHidden ? styles.divHidden : styles.divStripeContent}>
+            <div>
+              <Box sx={{
+                  display:'flex',
+                  flexDirection:'row',
+                  ml:10,  
+                  mr :10,
+                  justifyContent:'space-evenly'
+              }} >  
+                {clientSecret && (
+                  <Elements options={options} stripe={stripePromise}>
+                  <CheckoutForm />
+                  </Elements>
+                )}
+              </Box>
+            </div>
           </div>
-        </div>
-        <div 
-          className={styles.divPayPal}
-          onClick={() => setPayPalHidden(!paypalHidden)}
-        >
-          <h3 className={styles.paypalText}>PayPal</h3>
-        </div>
-        <div className={paypalHidden ? styles.divHidden : styles.divPayPalContent}>
-          <div className={styles.divPayPalButtons}>
-            <PayPalScriptProvider options={{"client-id": PAYPAL_CLIENT_ID}}>
-                <PayPalButtons 
-                  createOrder={(data, actions) => {
-                    return actions.order
-                        .create({
-                            purchase_units: [
-                                {
-                                    amount: {
-                                        currency_code: 'USD',
-                                        value: total.current,
-                                    },
-                                },
-                            ],
-                        })
-                        .then((orderId) => {
-                            // Your code here after create the order
-                            return orderId;
-                        })
-                        .catch(err => console.log(err))
-                  }}
-                  onApprove={async function(data, actions) {
-                    dispatch(setOrder(user.uid))
-                    return await actions.order.capture()
+          <div 
+            className={styles.divPayPal}
+            onClick={() => setPayPalHidden(!paypalHidden)}
+          >
+            <h3 className={styles.paypalText}>PayPal</h3>
+          </div>
+          <div className={paypalHidden ? styles.divHidden : styles.divPayPalContent}>
+            <div className={styles.divPayPalButtons}>
+              <PayPalScriptProvider options={{"client-id": PAYPAL_CLIENT_ID}}>
+                  <PayPalButtons 
+                    createOrder={(data, actions) => {
+                      return actions.order
+                          .create({
+                              purchase_units: [
+                                  {
+                                      amount: {
+                                          currency_code: 'USD',
+                                          value: total.current,
+                                      },
+                                  },
+                              ],
+                          })
+                          .then((orderId) => {
+                              // Your code here after create the order
+                              return orderId;
+                          })
+                          .catch(err => console.log(err))
+                    }}
+                    onApprove={async function(data, actions) {
+                      dispatch(setOrder(user.uid))
+                      return await actions.order.capture()
 
-                  }}
-                />
-            </PayPalScriptProvider>
+                    }}
+                  />
+              </PayPalScriptProvider>
+            </div>
           </div>
+        </div>
+
+        <div className={styles.divTotal}>
+          <Total/>
         </div>
       </div>
     </div>
