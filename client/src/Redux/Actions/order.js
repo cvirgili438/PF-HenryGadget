@@ -154,3 +154,26 @@ export const sendShippedToCustomer = (payload) => {
         }
     }
 }
+
+export const changeOrderTrackingNumber = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/orders/admin/trackingNumber/' + payload.id,
+            {
+                method: 'PUT',
+                body: JSON.stringify({'trackingNumber': payload.trackingNumber}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: CHANGE_ORDER_ARCHIVE, // cambiar
+                payload: data
+            });
+        }catch(e){
+            return e.message
+        }
+    }
+};
