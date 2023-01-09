@@ -56,7 +56,6 @@ const NavBar = () => {
   },[search])
 
 
-
   useEffect(async () => {
     let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()   
     setCartItems(items)
@@ -146,9 +145,10 @@ const NavBar = () => {
           }
         </div>
       </div>
-      
+
       {
-        loggedUser && loggedUser.rol !== 'admin' ?
+        !loggedUser || loggedUser.rol !== 'admin' ?
+
           <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
             <Link to='/'>
             <ButtonBorderEffect text='Home'/>

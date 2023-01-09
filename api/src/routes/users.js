@@ -36,6 +36,19 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.post('/checkstatus/', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({where: {email}});
+        if (user === null) {
+            return res.status(200).json({msg: 'User does not exist.', result: false});
+        }
+        res.status(200).json({msg: 'User exists, retrieving status.', result: {forceNewPassword: user.forceNewPassword, active: user.active}});
+    } catch (error) {
+        res.status(400).json({err: error.message})
+    }
+})
+
 router.get('/:uid', async (req, res) => {
     try {
         const {uid} = req.params;

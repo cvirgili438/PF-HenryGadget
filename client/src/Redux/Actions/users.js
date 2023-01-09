@@ -7,6 +7,7 @@ import {
     CHANGE_USER_ACTIVE,
     CHANGE_USER_ADMIN,
     FORCE_RESET_PWD,
+    CHECK_USER_RESET_PWD,
     URL
 } from '../Constants/index'
 
@@ -208,4 +209,26 @@ export const forceResetPassword = (payload) => {
             return e.message
         }
     }
+
+}
+
+export const checkUserStatus = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/users/checkstatus/',
+            {
+                method: 'POST',
+                body: JSON.stringify({'email': payload}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return data.result;
+        }catch(e){
+            return e.message
+        }
+    }
+
 }
