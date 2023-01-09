@@ -105,14 +105,34 @@ function ModalLogin({
           >
             Login
           </Button>
-          <Separator title="Or sign in with" />
+          <Separator title="Or" />
           <div className={styles.body_modal_thirdparties}>
-            <FcGoogle
+            <Button 
+              className={styles.google_icon}
+              onClick={login} 
+              sx={{
+              border:'1px solid rgb(180,180,255)',
+              width:'70%',
+              fontSize:'1.2rem',
+              letterSpacing:'2px',
+              display:'flex',
+              justifyContent:'space-around'
+              }} 
+              id='google' 
+              >
+                <FcGoogle style={{
+                  width:'2.5rem',
+                  height:'2.5rem',
+                  justifySelf:'flex-start'
+                }}/>
+                Google account
+              </Button>
+            {/* <FcGoogle
               onClick={login}
               className={styles.google_icon}
               id="google"
             />
-            <GrFacebook className={styles.facebook_icon} />
+            <GrFacebook className={styles.facebook_icon} /> */}
           </div>
         </div>
       </Modal.Body>
