@@ -23,6 +23,7 @@ import {
   ADD_REVIEW,
   CHANGE_USER_ACTIVE,
   CHANGE_USER_ADMIN,
+  FORCE_RESET_PWD,
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
   REFRESH_CART,
@@ -174,12 +175,14 @@ export default function rootReducer(state = inicialtate, action) {
     case GET_USERS:
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case GET_REVIEWS:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case ADD_REVIEW:
       return{
@@ -241,6 +244,12 @@ export default function rootReducer(state = inicialtate, action) {
         lastMsg: action.payload.msg,
       };
     case CHANGE_USER_ADMIN:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case FORCE_RESET_PWD:
       return {
         ...state,
         users: action.payload.result,

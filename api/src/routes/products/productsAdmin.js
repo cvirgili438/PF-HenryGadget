@@ -1,14 +1,10 @@
 const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./../middleware/authWithoutAdm')
-// const decodeToken = require('../middleware/index')
 const { Sequelize } = require("sequelize");
 
 const { Product, Review, Brand, Storage, Type, Ram } = require('../../db.js');
 
-// router.use(decodeToken);
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
 
 router.get('/', async (req, res) => {
     const { archived } = req.query;
@@ -25,6 +21,9 @@ router.get('/', async (req, res) => {
         res.status(400).json({err: error})
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.put('/suspend', async (req,res) => {
     const {ids} = req.body;    

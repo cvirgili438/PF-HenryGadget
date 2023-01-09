@@ -42,10 +42,6 @@ router.get('/', async (req,res)=> {                                             
     }
 })
 
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
-
-
 router.get('/admin/', async (req, res) => {
     const { archived } = req.query;
     try {
@@ -62,7 +58,10 @@ router.get('/admin/', async (req, res) => {
     }
 })
 
-router.post('/', authWithoutAdm, async (req,res) => {                                                           // localhost:3001/reviews (post)
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
+
+router.post('/', async (req,res) => {                                                           // localhost:3001/reviews (post)
     const {idProduct, idUser, reviewData} = req.body;                                           // Information recibida por body, id de usuario y product y un objeto de review, que tendra *score, titleComment y comment los nombres de las propiedades de reviewData deben ser extrictamente esos
     const reviewDataValidate = reviewData || false;                                             // Validacion en caso de que reviewData sea null, evitar que rompa el servidor
     let uidFire = req.user.uid;
