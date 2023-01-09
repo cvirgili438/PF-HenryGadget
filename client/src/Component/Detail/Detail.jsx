@@ -119,13 +119,13 @@ const Detail = () => {
                             <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
                         </div >
                     </div >
-                    <div className={`${styles.section}`} style={{ padding: '20px' }}>
+                    <Stack className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>ITEMS</small></h6>
-                        <Box>
+                        <div>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i id="i-minus" className="bi bi-caret-left"></i></button>
                             <input onChange={e => handlerChange(e)} value={input.value} />
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
-                        </Box>
+                        </div>
                         {lowStock && <Alert xs={{ width: 100 }}
                             variant="outlined" severity="error">
                             There is not enough stock!
@@ -135,7 +135,7 @@ const Detail = () => {
                             variant="outlined" severity="error">
                             Stock must not be empty.
                         </Alert>}
-                    </div>
+                    </Stack>
 
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>

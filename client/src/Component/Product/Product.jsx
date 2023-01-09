@@ -41,9 +41,9 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
     <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 , paddingTop:'1rem',height:'auto'}}>
 
       <Link to={`/product/${id}`}>
-        <Box sx={{ width: '100%', height: '15rem' }}>
+        <Box sx={{ width: '100%', height: '10rem' }}>
           <CardMedia
-            sx={{ objectFit:'contain', margin: 'auto',width:'300px',height:'300px'}}
+            sx={{ objectFit:'contain', margin: 'auto',width:'150px',height:'150px'}}
             component="img"
             alt={img.alt}
             height="auto"
@@ -52,7 +52,7 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
         </Box>
       </Link>
       <CardContent sx={{ textAlign: 'left', color: '#333', borderTop: '1px solid rgba(51,51,51,.1)',marginTop:'5rem',height:'13rem' }}>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" component="div">
           {name}
         </Typography>
         <Typography variant='h5' component="div" sx={{ fontWeight: '600' }}>
