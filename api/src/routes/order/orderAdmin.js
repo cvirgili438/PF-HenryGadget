@@ -109,6 +109,25 @@ router.put('/ordership/:id', async (req,res) => {
     }
 })
 
+router.put('/trackingnumber/:idOrder', async(req,res) => { // localhost:3001/orders/trackingnumber/:id (put)
+    const { idOrder } = req.params;
+    const {trackingNumber} = req.body; 
+
+    if(!trackingNumber) return res.status(400).json({err: "trackingNumber id is missing"});
+
+    try {
+        const orderExist = await Order.findByPk(idOrder);
+        if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
+
+        await Order.update({trackingNumber}, { where: { id: idOrder } });
+
+        const result = await Order.findByPk(idOrder)
+        res.status(200).json({msg: 'The order was updated succesfuly', order: result})
+    } catch (error) {
+        res.status(400).json({err: 'An error ocurred in database', err: error})
+    }
+});
+
 router.delete('/:id', async (req, res) => {
     const { archived } = req.query;
 
