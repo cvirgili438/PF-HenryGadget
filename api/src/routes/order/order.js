@@ -62,16 +62,21 @@ router.post('/', async (req,res) => {                                           
 })
 
 router.put('/', async(req,res) => {                                                                       // localhost:3001/orders (put)
-    const {idOrder, status} = req.body;                                                                   //
+    const {idOrder, status, trackingNumber} = req.body;                                                                   //
 
     if(!idOrder) return res.status(400).json({err: "Order id is missing"});
-    if(!status) return res.status(400).json({err: 'Status is missing'});
 
     try {
         const orderExist = await Order.findByPk(idOrder);
-
         if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
-        await Order.update({status}, {where: {id: idOrder}});
+
+        let newData = {};
+        if (status)
+            newData = { status };
+        if (trackingNumber)
+            newData = { ...newData, trackingNumber };
+
+        await Order.update(newData, { where: { id: idOrder } });
 
         const result = await Order.findByPk(idOrder)
         res.status(200).json({msg: 'The order was updated succesfuly', order: result})
