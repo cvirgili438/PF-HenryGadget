@@ -3,11 +3,10 @@ const router = express.Router();
 
 const { Newsletter } = require('../../db.js');
 
-const { sgMail } = require('../config/sendgrid-config.js');
+const { sgMail, perzonalitationId } = require('../config/sendgrid-config.js');
 
 const {
     EMAIL_FROM_NEWSLETTER,
-    PERSONALIZATION_ID,
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
@@ -151,7 +150,7 @@ router.post('/sendmail', async (req, res) => {
 
         const msg = {
             personalizations,
-            template_id: PERSONALIZATION_ID,
+            template_id: perzonalitationId,
             from: EMAIL_FROM_NEWSLETTER
         };
 
