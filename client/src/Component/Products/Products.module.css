@@ -6,7 +6,8 @@
 
 .products {
   display: grid;
-  width: 80%; 
+  margin-left: 5.5rem;
+  /* width: 80%;  */
   flex-wrap: wrap;
   /* justify-content: space-evenly; */
   /* background-size: cover; */
