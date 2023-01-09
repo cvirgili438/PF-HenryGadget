@@ -110,22 +110,29 @@ router.put('/ordership/:id', async (req,res) => {
     }
 })
 
-router.put('/trackingnumber/:idOrder', decodeToken, async(req,res) => { // localhost:3001/orders/trackingnumber/:id (put)
+router.put('/trackingnumber/:idOrder', decodeToken, async (req, res) => { // localhost:3001/orders/trackingnumber/:idOrder (put)
     const { idOrder } = req.params;
-    const {trackingNumber} = req.body; 
+    const { archived } = req.query;
+    const { trackingNumber } = req.body;
 
-    if(!trackingNumber) return res.status(400).json({err: "TrackingNumber id is missing"});
+    if (!trackingNumber) return res.status(400).json({ err: "TrackingNumber id is missing" });
 
     try {
         const orderExist = await Order.findByPk(idOrder);
-        if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
+        if (!orderExist) return res.status(404).json({ err: `The order with id: ${idOrder} doesn't exist` });
 
-        await Order.update({trackingNumber}, { where: { id: idOrder } });
+        await Order.update({ trackingNumber }, { where: { id: idOrder } });
 
-        const result = await Order.findByPk(idOrder)
-        res.status(200).json({msg: 'The order was updated succesfuly', order: result})
+        const orders = await Order.findAll({
+            where: { archived: archived },
+            order: [['id', 'ASC']],
+            include: [{
+                model: User,
+            }]
+        });
+        res.status(200).json({ msg: 'The order was updated succesfuly', result: orders });
     } catch (error) {
-        res.status(400).json({err: 'An error ocurred in database', err: error})
+        res.status(400).json({ err: 'An error ocurred in database', err: error });
     }
 });
 
