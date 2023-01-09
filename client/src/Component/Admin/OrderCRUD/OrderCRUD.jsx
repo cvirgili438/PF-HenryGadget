@@ -25,7 +25,8 @@ import {
   changeOrderArchive,
   changeOrderStatus,
   deleteOrder,
-  sendShippedToCustomer
+  sendShippedToCustomer,
+  changeOrderTrackingNumber
 } from '../../../Redux/Actions/order.js';
 
 import styles from './OrderCRUD.module.css';
@@ -117,7 +118,9 @@ const OrderCRUD = () => {
   }
 
   const saveTrackNumber = e => {
-    console.log(e);
+    dispatch(
+      changeOrderTrackingNumber({ id: e.target.value, archived: mode.archived, trackingNumber: e.target.previousElementSibling.value, token: token })
+      );
   };
 
   useEffect(() => {
@@ -187,7 +190,7 @@ const OrderCRUD = () => {
                   <tr key={ p.id }>
                     <td>{ i + 1 }</td>
                     <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                    <td> <input defaultValue={p.trackingNumber} size='5'/> <Button text='Save' onClick={ saveTrackNumber } /></td>
+                    <td> <input defaultValue={p.trackingNumber} size='5'/> <Button text='Save' onClick={ e => saveTrackNumber(e) } value={ p.id } /></td>
                     <td>{ p.user.displayName } - { p.user.email }</td>
                     <td>{ p.total }</td>
                     <td>
