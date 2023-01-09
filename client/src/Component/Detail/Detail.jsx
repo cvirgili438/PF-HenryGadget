@@ -140,7 +140,7 @@ const Detail = () => {
                     {/* <!-- Botones de compra --> */}
                     <div className={`${styles.section}`} style={{ padding: '20px' }}>
                         <button className={`${styles.btn_success} btn btn-success`} onClick={(e) => handleCart(e)} disabled={lowStock || input.value === ''} >Add to cart</button>
-                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''}>Buy Now</button>
+                        <button className={`${styles.btn_success} btn btn-outline-success`} disabled={lowStock || input.value === ''} onClick={handleBuy}>Buy Now</button>
                     </div>
                 </div >
             </Box>
