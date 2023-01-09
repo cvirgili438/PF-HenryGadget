@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./../middleware/authWithoutAdm')
+const decodeToken = require('../middleware/index.js');
 const { Sequelize } = require("sequelize");
 
 const { Product, Review, User, Order } = require('../../db.js');
@@ -109,11 +110,11 @@ router.put('/ordership/:id', async (req,res) => {
     }
 })
 
-router.put('/trackingnumber/:idOrder', async(req,res) => { // localhost:3001/orders/trackingnumber/:id (put)
+router.put('/trackingnumber/:idOrder', decodeToken, async(req,res) => { // localhost:3001/orders/trackingnumber/:id (put)
     const { idOrder } = req.params;
     const {trackingNumber} = req.body; 
 
-    if(!trackingNumber) return res.status(400).json({err: "trackingNumber id is missing"});
+    if(!trackingNumber) return res.status(400).json({err: "TrackingNumber id is missing"});
 
     try {
         const orderExist = await Order.findByPk(idOrder);
