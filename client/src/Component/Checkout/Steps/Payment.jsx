@@ -17,6 +17,7 @@ import { URL } from "../../../Redux/Constants";
 
 import { setOrder } from "../../../Redux/Actions/order";
 
+import Total from "../../CartPage/Total.jsx";
 
 const PAYPAL_CLIENT_ID = 'AUjzPmpSla9_Kmo_fL_sdjJzYQLu0xDBxtsvUvUqo6q41fy_ukWAVjTnT0VgsYAU4QrcvGyn_08rkHdq'
 
@@ -134,9 +135,6 @@ export default function Payment() {
           </div>
         </div>
       </div>
-      {
-        
-      }
     </div>
   )
 }

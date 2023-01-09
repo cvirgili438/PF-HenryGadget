@@ -2,6 +2,11 @@
     display: none;
 }
 
+.divSuperGlobal{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
 .divGlobal{
     display: flex;
     flex-direction: column;

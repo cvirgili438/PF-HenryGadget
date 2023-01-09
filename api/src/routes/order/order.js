@@ -35,13 +35,13 @@ router.post('/', async (req,res) => {                                           
         const user = await User.findByPk(idUser, {include: Cart});                                                  // Con el id del usuario buscamos al usuario y su carrito(si este existe).
         const userCart = await Cart.findByPk(user.cart.id, {include: Product});                                     // Con el id del carrito encontrado en el user.cart buscamos el carrito incluyendo los productos en el. 
         const shippingAddress = await Address.findAll({where: {userUid: idUser, principal: true, type: 'shipping'}});// Nos traemos la direccion principal para shipping y que este activa y seleccionada como principal
-        const billingAddress = await Address.findAll({where: {userUid: idUser, principal: true, type: 'billing'}}); // Nos traemos direccion principal para billing "" ""          ""       ""
+        // const billingAddress = await Address.findAll({where: {userUid: idUser, principal: true, type: 'billing'}}); // Nos traemos direccion principal para billing "" ""          ""       ""
         const products = userCart.products;                                                                         // Guardamos los productos en una variable.
 
-        if(shippingAddress.length === 0 || billingAddress.length === 0) return res.status(404).json({err: `The user with id: ${idUser} doesn't have any address related "Billing or Shipping"`})
+        if(shippingAddress.length === 0) return res.status(404).json({err: `The user with id: ${idUser} doesn't have any address related "Billing or Shipping"`})
         
         const idShipping = shippingAddress[0].dataValues;                                                           // Accedemos a la direccion para luego tener su ID
-        const idBilling = billingAddress[0].dataValues;
+        // const idBilling = billingAddress[0].dataValues;
 
         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`});                  // Validamos que existan tanto usuario como que el usuario tiene carrito 
         if(!userCart) return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
@@ -51,7 +51,7 @@ router.post('/', async (req,res) => {                                           
         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
 
         await newOrder.addAddress(idShipping.id);                                                                   // Vinculamos la direccion (billing y shipping) seleccionada por el usuario y la vinculamos a la orden
-        await newOrder.addAddress(idBilling.id);
+        // await newOrder.addAddress(idBilling.id);
 
         for (const product of products) {       
             const idProduct = product.id    

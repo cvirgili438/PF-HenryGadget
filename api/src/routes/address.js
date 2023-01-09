@@ -8,7 +8,7 @@ const { User, Address } = require('../db.js');
 // router.use(authWithoutAdm);
 
 router.get('/', async(req,res) => {                                             // localhost:3001/address (get)
-    const {idUser} = req.body;                                                  // Requiere user id para buscar las direcciones de un usuario en especifico
+    const {idUser} = req.query;                                                 // Requiere user id para buscar las direcciones de un usuario en especifico
 
     if(!idUser) return res.status(400).json({err: 'No user id was provided.'});  // Muestra un mensaje apropiado en caso de que no pasen ningun ID
 
@@ -19,6 +19,9 @@ router.get('/', async(req,res) => {                                             
 
     try {
         const user = await User.findByPk(idUser, {include: Address});           // Buscamos el usuario por id incluyendo sus address.
+        
+        if(!user) return res.status(400).json({err: 'No user related with the id provided'})
+        
         const address = user.addresses;                                         // desde la base de datos normalzia el nombre como addresses, nada mas una pequeña correcion para darle el nombre correct
 
         res.status(200).send({msg: "Address obtained successfully.", result: address});
@@ -52,7 +55,7 @@ router.post('/', async(req,res) => {                                            
         const newAddress = await Address.create(addressValidate);                                                                   // Vinculacion de address con el usuario.
         const result = await user.addAddress(newAddress);
         
-        res.status(201).json({msg: "Address created successfully.", result: result});
+        res.status(201).json({msg: "Address created successfully.", result: newAddress});
     } catch (error) {
         res.status(400).json({err: error.message});
     }
@@ -82,6 +85,29 @@ router.put('/', async(req,res) => {                                             
         res.status(400).json({err: error.message})
     }
 })
+
+router.put('/principal', async (req,res) => {
+    const {idAddress, idUser} = req.body;
+
+    if(!idAddress || !idUser) return res.status(400).json({err: 'Missing important ID information'});
+
+    try {
+        const address = await Address.findAll({where: {userUid: idUser}});
+        const primaryAddress = await Address.findByPk(idAddress);
+
+        if(address.length === 0) return res.status(404).json({err: 'User does not have any address related', id: idUser});
+        if(!primaryAddress) return res.status(404).json({err: 'Address does not exist', id: idAddress});
+
+        for (const a of address) {
+            await Address.update({principal: false}, {where: {id: a.id}})
+        };
+
+        await Address.update({principal: true}, {where: {id: idAddress}});
+        res.status(200).json({msg: 'User address updated'});
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+});
 
 router.delete('/:idAddress', async(req,res) => {                                                                        // localhost:3001/address (delete)
     const {idAddress} = req.params;                                                                                     // Requerimos el id de la address a eliminar por params

@@ -1,0 +1,90 @@
+.divHidden {
+    display: none;
+}
+
+.divGlobal{
+    display: flex;
+    align-items: center;
+    margin: 30px 0px 0px 240px;
+    padding: 15px;
+    background-color: rgb(226, 242, 255);
+    border-radius: 5px;
+    width: 80%;
+    gap: 20px;
+    cursor: default;
+    transition-property: box-shadow;
+    transition-duration: 250ms;
+}
+
+.divGlobal:hover{
+    box-shadow: 9px 11px 23px -16px rgba(105,103,105,1);
+}
+
+.divGlobalActive{
+    display: flex;
+    align-items: center;
+    margin: 30px 0px 0px 240px;
+    padding: 15px;
+    background-color: rgb(226, 242, 255);
+    border: 3px solid rgb(161, 208, 246);
+    border-left: 10px solid rgb(161, 208, 246);
+    border-radius: 5px;
+    width: 80%;
+    gap: 20px;
+    cursor: default;
+    transition-property: box-shadow;
+    transition-duration: 250ms;
+}
+
+.divGlobalActive:hover{
+    box-shadow: 9px 11px 23px -16px rgba(105,103,105,1);
+}
+
+.divContent{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.name{
+    font-size: 25px;
+}
+
+.divBody{
+    display: flex;
+    gap: 10px;
+    width: 450px;
+    color: rgb(91, 91, 91);
+}
+
+.icon{
+    font-size: 30px;
+}
+
+.divInputAddress{
+    display: grid;
+    width: 80%;
+    background-color: rgb(246, 250, 254);
+    margin-left: 240px;
+    padding-bottom: 20px;
+    z-index: 1;
+}
+
+.addButton{
+    background-color: black;
+    border: none;
+    display: flex;
+    width: 33%;
+    margin-left: 375px;
+    margin-top: 20px;
+    padding: 5px 5px 5px 7px;
+    font-weight: 500;
+    color: white;
+    border-radius: 3px;
+    transition: background-color 300ms;
+    text-align: right;
+}
+
+.addButton:hover{
+    background-color: rgb(161, 208, 246);
+}
