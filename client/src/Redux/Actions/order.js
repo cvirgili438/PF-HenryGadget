@@ -8,6 +8,7 @@ import {
     CHANGE_ORDER_ARCHIVE,
     CHANGE_ORDER_STATUS,
     CHANGE_ORDER_SENT_MAIL,
+    CHANGE_ORDER_TRACKING_NUMBER,
     URL
 } from "../Constants"
 
@@ -158,7 +159,7 @@ export const sendShippedToCustomer = (payload) => {
 export const changeOrderTrackingNumber = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/orders/admin/trackingNumber/' + payload.id,
+            const response = await fetch(URL + '/orders/admin/trackingNumber/' + payload.id + '?archived=' + payload.archived,
             {
                 method: 'PUT',
                 body: JSON.stringify({'trackingNumber': payload.trackingNumber}),
@@ -166,10 +167,10 @@ export const changeOrderTrackingNumber = (payload) => {
                     "Content-Type": "application/json",
                     "authorization":"Bearer " + payload.token
                 }
-            })
-            const data = await response.json()
+            });
+            const data = await response.json();
             return dispatch({
-                type: CHANGE_ORDER_ARCHIVE, // cambiar
+                type: CHANGE_ORDER_TRACKING_NUMBER,
                 payload: data
             });
         }catch(e){
