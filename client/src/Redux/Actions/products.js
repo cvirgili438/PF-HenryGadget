@@ -165,7 +165,7 @@ export const deleteProduct = (payload) => {
 						method: 'DELETE',
 						headers: {
 								"Content-Type": "application/json",
-								"authorization":"Bearer " + payload
+								"authorization":"Bearer " + payload.token
 						}
 				})
 				const data = await response.json()
@@ -194,7 +194,7 @@ export const changeProductActive = (payload) => {
 							body: JSON.stringify({'ids': payload.ids}),
 							headers: {
 									"Content-Type": "application/json",
-									"authorization":"Bearer " + payload
+									"authorization":"Bearer " + payload.token
 							}
 					})
 					const data = await response.json()
@@ -217,7 +217,7 @@ export const changeProductArchive = (payload) => {
 							body: JSON.stringify({'ids': payload.ids}),
 							headers: {
 									"Content-Type": "application/json",
-									"authorization":"Bearer " + payload
+									"authorization":"Bearer " + payload.token
 							}
 					})
 					const data = await response.json()

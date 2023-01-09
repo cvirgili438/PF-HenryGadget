@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './Button.module.css';
 
-const Button = ({ text, onClick, disabled, value, selected }) => {
+const Button = ({ text, onClick, disabled, value, selected, title }) => {
 
   return (
     <>
@@ -12,6 +12,7 @@ const Button = ({ text, onClick, disabled, value, selected }) => {
         disabled={ disabled }
         value={ value }
         selected={ selected }
+        title={ title }
       >
         <span style={styles.span}></span>
         { text }

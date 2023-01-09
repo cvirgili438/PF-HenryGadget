@@ -22,6 +22,7 @@ const CartPage = () => {
 
   let [localCart, setLocalCart] = useState([]);
   const user = useSelector(state => state.user)
+  const refreshCart = useSelector(state => state.refreshCart);
 
   const totalPrice= (cart)=>{
     let price= 0
@@ -39,27 +40,31 @@ const CartPage = () => {
     return discount
   }
   
+  useEffect(async () => { // Cargar el carrito que fue actualizado.
+    setLocalCart(await getAllCart(user && user.uid));
+  }, [refreshCart]);
 
   useEffect(async () => {
-    setLocalCart(await getAllCart(user && user.uid));
     let button = document.getElementById('stepper-button')
     if(button.className.includes(' Mui-disabled')){
       let location = button.className.indexOf(' Mui-disabled')
       button.className = button.className.slice(0,location)
     }
+    if(user === null) /// Recargar el carrito cuando se desloguea.
+      setLocalCart(await getAllCart(user && user.uid));
   }, [user])
 
   return (
     <Box className={styles.mainContainer}>
     {(localCart.length === 0) ? (
       <Box className={styles.vacio}>
-        <Typography variant='h2'>Tu carrito esta vacio</Typography>
+        <Typography variant='h2'>Your cart is empty</Typography>
         <Button 
           variant="contained" 
           size='large' 
           sx={{borderRadius: "10px", marginTop: "20px"}}
           onClick={() => history.push("/")}>
-            Continuar comprando
+            Continue buying
         </Button>
       </Box>
     ) : (
@@ -87,11 +92,11 @@ const CartPage = () => {
       <Box className={styles.subcontainer2}>
         <Box sx={{borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <Box><Typography variant='body1'>Total parcial</Typography></Box>
+            <Box><Typography variant='body1'>Subtotal</Typography></Box>
             <Box><Typography variant='body1'>$ {totalPrice(localCart)}</Typography></Box>
           </Box>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <Box><Typography variant='body1'>Total descuento</Typography></Box>
+            <Box><Typography variant='body1'>Full discount</Typography></Box>
             <Box><Typography variant='body1'>$ {totalDiscount(localCart)}</Typography></Box>
           </Box>
         </Box>
@@ -100,24 +105,24 @@ const CartPage = () => {
           <Box><Typography variant='h3'>$ {totalPrice(localCart) - totalDiscount(localCart)}</Typography></Box>
         </Box>
         <Box sx={{margin: "20px 0"}}>
-          <Typography variant='body1' align='left'>El costo y días de envío serán calculados, después de ingresar la ciudad destino y tipo de envío</Typography>
+          <Typography variant='body1' align='left'>The cost and shipping days will be calculated, after entering the destination city and type of shipping</Typography>
         </Box>
 
         <Box sx={{margin: "20px 0"}}>
-          <Typography variant='subtitle1' align='left'>Puede pagar con:</Typography>
+          <Typography variant='subtitle1' align='left'>You can pay with:</Typography>
           <List sx={{display: "flex", flexDirection: "column"}}>
             <ListItem>
               <ListItemIcon>
                 <CheckIcon />
               </ListItemIcon>
-              <ListItemText primary="Tarjeta de Crédito / Débito"/>
+              <ListItemText primary="Credit / Debit Card"/>
             </ListItem>
 
             <ListItem>
               <ListItemIcon>
                 <CheckIcon />
               </ListItemIcon>
-              <ListItemText primary="PSE"/>
+              <ListItemText primary="Paypal"/>
             </ListItem>
           </List>
         </Box>

@@ -1,27 +1,29 @@
 const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./../middleware/authWithoutAdm')
-// const decodeToken = require('../middleware/index')
 const { Sequelize } = require("sequelize");
 
 const { Product, Review, Brand, Storage, Type, Ram } = require('../../db.js');
 
-// router.use(decodeToken);
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
 
 router.get('/', async (req, res) => {
     const { archived } = req.query;
     try {
         const products = await Product.findAll({
                                                 where: {archived: archived},
-                                                order: [['id', 'ASC']]
+                                                order: [['id', 'ASC']],
+                                                include: [
+                                                    { model: Review }, 
+                                                ]
                                             });
         res.status(200).json({msg: `${products.length} product/s loaded`, result: products})
     } catch (error) {
         res.status(400).json({err: error})
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.put('/suspend', async (req,res) => {
     const {ids} = req.body;    

@@ -5,16 +5,14 @@ const { Sequelize } = require("sequelize");
 
 const { Campaign, Newsletter } = require('../../db.js');
 
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> {                                                     
     const { archived } = req.query; 
     try {                                        
         const result = await Campaign.findAll({
-                                                where: {archived: archived},
-                                                order: [['created', 'DESC']],
-                                            });  
+            where: {archived: archived},
+            order: [['created', 'DESC']],
+        });  
         const mails = await Newsletter.count({where: {confirm: true}});
         res.status(200).json({msg: 'Campaigns obtained successfully.', result: result, mails: mails});
         return
@@ -23,6 +21,9 @@ router.get('/', async (req,res)=> {
         res.status(400).json({err: error.message});
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.post('/', async (req,res) => {    
     const campaign = req.body;                                                       

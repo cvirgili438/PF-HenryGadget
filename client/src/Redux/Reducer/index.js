@@ -23,14 +23,18 @@ import {
   ADD_REVIEW,
   CHANGE_USER_ACTIVE,
   CHANGE_USER_ADMIN,
+  FORCE_RESET_PWD,
+  CHECK_USER_RESET_PWD,
   CHANGE_REVIEW_VISIBLE,
   CHANGE_REVIEW_ARCHIVE,
+  REFRESH_CART,
   SET_ORDER,
   GET_ORDERS,
   GET_ADMIN_ORDERS,
   CHANGE_ORDER_ARCHIVE,
   CHANGE_ORDER_STATUS,
   DELETE_ORDER,
+  CHANGE_ORDER_SENT_MAIL,
   GET_CAMPAIGNS,
   CHANGE_CAMPAIGN_ARCHIVE,
   PUBLISH_CAMPAIGN,
@@ -38,6 +42,16 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
+  GET_LOCATIONS,
+  GET_ADMIN_LOCATIONS,
+  CREATE_LOCATION,
+  UPDATE_LOCATION,
+  DELETE_LOCATION,
+  CHANGE_LOCATION_ARCHIVE,
+  CHANGE_LOCATION_VISIBLE,
+  GET_ADDRESSES,
+  PUT_ADDRESSES,
+  DELETE_ADDRESS
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -160,18 +174,30 @@ export default function rootReducer(state = inicialtate, action) {
     case SET_USER_ADDRESS:
       return {
         ...state,
-        adress: action.payload,
+        adress: action.payload
+      }
+    case REFRESH_CART:
+      return {
+        ...state,
+        refreshCart: action.payload
       };
     case GET_USERS:
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
       };
     case GET_REVIEWS:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: action.payload.result,
+        lastMsg: action.payload.msg,
       };
+    case ADD_REVIEW:
+      return{
+        ...state,
+        lastMsg: action.payload.msg
+      }
     case CHANGE_REVIEW_VISIBLE:
       return {
         ...state,
@@ -197,6 +223,12 @@ export default function rootReducer(state = inicialtate, action) {
         order: action.payload.data.orders,
       };
     case DELETE_ORDER:
+      return {
+        ...state,
+        orders: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_ORDER_SENT_MAIL:
       return {
         ...state,
         orders: action.payload.result,
@@ -230,6 +262,18 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         users: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case FORCE_RESET_PWD:
+      return {
+        ...state,
+        users: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHECK_USER_RESET_PWD:
+      return {
+        ...state,
+        user: action.payload.result,
         lastMsg: action.payload.msg,
       };
     case GET_CAMPAIGNS:
@@ -275,6 +319,66 @@ export default function rootReducer(state = inicialtate, action) {
         campaigns: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case GET_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_ADMIN_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CREATE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case UPDATE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case DELETE_LOCATION:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_LOCATION_VISIBLE:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case CHANGE_LOCATION_ARCHIVE:
+      return {
+        ...state,
+        locations: action.payload.result,
+        lastMsg: action.payload.msg,
+      };
+    case GET_ADDRESSES:
+      return {
+        ...state,
+        lastMsg: action.payload.msg,
+        addresses: action.payload.result
+      }
+    case PUT_ADDRESSES:
+      return {
+        ...state,
+        lastMsg:action.payload.msg,
+        adress: action.payload.result
+      }
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        lsatMsg:action.payload.msg,
+        addresses: state.addresses.filter(e => e.id !== action.payload.result)
+      }
     default:
       return { ...state };
   }

@@ -1,5 +1,4 @@
 const EMAIL_FROM_NEWSLETTER = { email: 'proyectofinalhenrygadget@gmail.com', name: 'HenryGadget' };
-const PERSONALIZATION_ID = "d-6f40d484fddb4b98966a70d03ea3a122";
 
 const SUBJECT_SUBSCRIBE = 'HenryGadget: Confirm your subscription to our newsletter';
 const SUBJECT_CONFIRM = 'HenryGadget: Subscription succeed.';
@@ -19,6 +18,5 @@ module.exports = {
     SUBJECT_SENDMAIL,
     htmlSubscribe,
     HTML_CONFIRM,
-    HTML_UNSUBSCRIBE,
-    PERSONALIZATION_ID
+    HTML_UNSUBSCRIBE
 };
