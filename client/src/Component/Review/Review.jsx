@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, Link } from 'react-router-dom';
-import { app } from '../../Firebase/firebase.config';
+import { useHistory, useParams } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { getProductById, clearProduct } from '../../Redux/Actions/products'
@@ -13,8 +12,6 @@ import SendIcon from '@mui/icons-material/Send';
 import StarIcon from '@mui/icons-material/Star'
 import styles from './Review.module.css'
 import noImage from '../../Assets/noImage.jpg';
-
-import travolta from './../../Assets/john-travolta-perdido.gif';
 
 
 const labels = {
@@ -48,8 +45,21 @@ const Review = () => {
         titleComment: "",
         comment: ""
     })
-
+    const [errors, setErrors] = useState({});
+    const [send, setSend] = useState(false);
     const [hover, setHover] = useState(-1);
+
+    function validate(review) {
+        let errors = {};
+        if (!review.score || review.score === 0) {
+          errors.score = 'Score your experience please';
+        }else if (!review.titleComment || review.titleComment.length < 3) {
+          errors.titleComment = 'A title is required';
+        }else if(!review.comment || review.comment.length < 3){
+          errors.comment = 'A comment is required';
+        }
+        return errors;
+    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -77,26 +87,37 @@ const Review = () => {
           ...review,
           [e.target.name]: e.target.value
         });
+        setErrors(validate({
+            ...review,
+            [e.target.name]: e.target.value
+        }))
         
       };
 
     let handleSubmit = (e) => {
         e.preventDefault();
-        let info = {
-            idProduct: id,
-            idUser: user.uid,
-            reviewData:{
-                ...review
+        setErrors(validate(review))
+        if (Object.keys(errors).length === 0) {
+            let info = {
+                idProduct: id,
+                idUser: user.uid,
+                reviewData:{
+                    ...review
+                }
             }
+            dispatch(addReview({token, info}))
+            setReview({
+                score: 0,
+                titleComment: "",
+                comment: ""
+            })
+            setSend(true);
+            setTimeout(() => {
+                history.goBack();
+            }, 3000);
+            
         }
-        dispatch(addReview({token, info}))
-        alert('Your review has been sent');
-        setReview({
-            score: 0,
-            titleComment: "",
-            comment: ""
-        })
-        history.goBack();
+        return;
     }
 
   return (
@@ -189,6 +210,11 @@ const Review = () => {
                     <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : review.score]}</Box>
                 )}
             </Box>
+                {errors.score && (
+                    <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}}>
+                        <p className={`${styles.p}`}>{errors.score}</p>
+                    </Alert>
+                )}
 
             <Box
                 component="form"
@@ -208,6 +234,11 @@ const Review = () => {
                     />
                    
                 </div>
+                {errors.titleComment && (
+                    <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}}>
+                        <p className={`${styles.p}`}>{errors.titleComment}</p>
+                    </Alert>
+                )}
                 <div>
                     <TextField
                         id="outlined-multiline-static"
@@ -219,10 +250,20 @@ const Review = () => {
                         // defaultValue="Tell us more about your experience"
                     />
                 </div>
+                {errors.comment && (
+                    <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}} >
+                        <p className={`${styles.p}`}>{errors.comment}</p>
+                    </Alert>
+                )}
             </Box>
 
             <Box>
-                <Button variant="contained" onClick={handleSubmit} endIcon={<SendIcon />}>Send</Button>
+                <Button variant="contained" onClick={handleSubmit} endIcon={<SendIcon />}  disabled={Object.keys(errors).length > 0 || review.score === 0 ? true : false} >Send</Button>
+                {send && (
+                    <Alert severity="success" sx={{alignItems: 'center', width: 430, margin:'10px auto'}} >
+                        <p className={`${styles.p}`}> Your review has been sent, you are going to be redirect to your order detail</p>
+                    </Alert>
+                )}
             </Box>
         </div>
 
