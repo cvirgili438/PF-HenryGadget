@@ -14,19 +14,22 @@ import {
 } from "firebase/auth";
 import { app } from "../../Firebase/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInFrontState } from "../../Redux/Actions/users";
+import { setUserInFrontState, checkUserStatus } from "../../Redux/Actions/users";
 import { setIsLoading } from '../../Redux/Actions/index'
 import { loginApp } from "../../Redux/Actions/users";
 import ModalForgotPassword from "./ModalForgotPassword";
 import ModalRegister from "./ModalRegister";
 import ModalLogin from "./ModalLogin";
+import ModalAccountSuspended from "./ModalAccountSuspended";
 import validateRegister from "../../Utils/ValidateRegister/ValidateRegister";
 
+import { logUserActivity } from "../../Redux/Actions/users";
 
 function ModalUser(props) {
   const [displayRegisterModal, setDisplayRegisterModal] = useState(false);
   const isLoading = useSelector(state => state.loading)
-  const [displayForgotPassword, setDisplayForgotPassword] = useState(false)
+  const [displayForgotPassword, setDisplayForgotPassword] = useState(false);
+  const [displayAccountSuspended, setDisplayAccountSuspended] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -59,6 +62,8 @@ function ModalUser(props) {
     email_restore:""
   })
   
+  const [userStatus, setUserStatus] = useState(null);
+
   const [errors,setErrors] = useState({})
 
 
@@ -73,6 +78,7 @@ function ModalUser(props) {
   };
 
   const login = async (e) => {
+    
     if (e.target.id === "google") {
       const {
         user: { providerData, uid },
@@ -84,6 +90,7 @@ function ModalUser(props) {
         providerData[0].uid = uid
         localStorage.setItem("user", JSON.stringify(providerData[0]));
         dispatch(setUserInFrontState(providerData[0]));
+        dispatch(logUserActivity(providerData[0]));
       })
       .catch(e=>{
         setErrors({...errors,msg:e.message})
@@ -146,28 +153,38 @@ function ModalUser(props) {
         setErrors({...errors,msg_email:'Invalid email',msg_password:'Wrong password'})
         return
       }
-
-      // const {user: {providerData, uid}, _tokenResponse:{idToken}} = await signInWithEmailAndPassword(firebaseAuth,email,password);
-      const userDataFirebase = await signInWithEmailAndPassword(firebaseAuth,email,password);
-
-      if(userDataFirebase.user.emailVerified){
-        dispatch(setIsLoading(!isLoading))
-        dispatch(loginApp(userDataFirebase.user.accessToken))
-        .then(res=> {
-          userDataFirebase.user.providerData[0].rol = res.result[0].rol
-          userDataFirebase.user.providerData[0].uid = userDataFirebase.user.uid
-          localStorage.setItem("user", JSON.stringify(userDataFirebase.user.providerData[0]));
-          dispatch(setUserInFrontState(userDataFirebase.user.providerData[0]))
-         }
-        )
-        .finally(()=>{
-          dispatch(setIsLoading(!isLoading))
-          setInput(initialState)
-          setErrors({})
-          props.onHide()
-        })
-      }else throw Error('Check your email to verify your account')
       
+      dispatch(checkUserStatus(email))
+      .then(res => {
+        setUserStatus(res);
+        })
+
+      if(userStatus.forceNewPassword) {
+        setDisplayForgotPassword(true);
+      } else if (userStatus.active === false) {
+        setDisplayAccountSuspended(true);
+      } else {
+        // const {user: {providerData, uid}, _tokenResponse:{idToken}} = await signInWithEmailAndPassword(firebaseAuth,email,password);
+        const userDataFirebase = await signInWithEmailAndPassword(firebaseAuth,email,password);
+
+        if(userDataFirebase.user.emailVerified){
+          dispatch(setIsLoading(!isLoading))
+          dispatch(loginApp(userDataFirebase.user.accessToken))
+          .then(res=> {
+            userDataFirebase.user.providerData[0].rol = res.result[0].rol
+            userDataFirebase.user.providerData[0].uid = userDataFirebase.user.uid
+            localStorage.setItem("user", JSON.stringify(userDataFirebase.user.providerData[0]));
+            dispatch(setUserInFrontState(userDataFirebase.user.providerData[0]))
+          }
+          )
+          .finally(()=>{
+            dispatch(setIsLoading(!isLoading))
+            setInput(initialState)
+            setErrors({})
+            props.onHide()
+          })
+        }else throw Error('Check your email to verify your account')
+      }
     }catch(e){
       if(e.message === 'Firebase: Error (auth/invalid-email).')setErrors({...errors,msg_email:'Invalid email'})
       if(e.message === 'Firebase: Error (auth/wrong-password).')setErrors({...errors,msg_password:'Wrong Password'})
@@ -197,6 +214,10 @@ function ModalUser(props) {
     setErrors(validateRegister({...input,[e.target.name]:e.target.value}))  
   }
 
+  const handleDisplayAccountSuspended = () => {
+    setDisplayAccountSuspended(!displayAccountSuspended)
+  }
+
   return (
     <Modal
       {...props}
@@ -206,6 +227,9 @@ function ModalUser(props) {
       className={styles.container}
     > 
       {
+      displayAccountSuspended ?
+      <ModalAccountSuspended handleDisplayAccountSuspended={handleDisplayAccountSuspended} errors={errors} ></ModalAccountSuspended>
+      :
       displayForgotPassword 
       ? <ModalForgotPassword handleDisplayForgotPassword={handleDisplayForgotPassword} errors={errors} input={input} handleInput={handleInput} forgotPassword={forgotPassword} ></ModalForgotPassword>
       :

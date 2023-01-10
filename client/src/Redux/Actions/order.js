@@ -7,6 +7,7 @@ import {
     GET_ADMIN_ORDERS,
     CHANGE_ORDER_ARCHIVE,
     CHANGE_ORDER_STATUS,
+    CHANGE_ORDER_SENT_MAIL,
     URL
 } from "../Constants"
 
@@ -62,7 +63,7 @@ export const changeOrderArchive = (payload) => {
                 body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -84,7 +85,7 @@ export const changeOrderStatus = (payload) => {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -106,7 +107,7 @@ export const deleteOrder = (payload) => {
 						method: 'DELETE',
 						headers: {
 								"Content-Type": "application/json",
-								"authorization":"Bearer " + payload
+								"authorization":"Bearer " + payload.token
 						}
 				})
 				const data = await response.json()
@@ -118,4 +119,38 @@ export const deleteOrder = (payload) => {
 			console.log(err)
 		}
 	}
+}
+
+export const sendShippedToCustomer = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/orders/admin/ordership/' + payload.id + '?archived=' + payload.archived,
+            {
+                method: 'PUT',
+                headers: {
+                    "Accept": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+
+            const response2 = await fetch(URL + '/newsletter/sendonemail',
+            {
+                method: 'POST',
+                body: JSON.stringify({'subject': payload.subject, 'text': payload.text, 'email': payload.email}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data2 = await response2.json();
+
+            return dispatch({
+                type: CHANGE_ORDER_SENT_MAIL,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
 }
