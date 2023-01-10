@@ -27,7 +27,9 @@ export const inicialtate = {
   order:[],
   orders:[],
   campaigns:[],
-  locations:[]
+  locations:[],
+  appointments:{},
+  currentAppointment:{}
 };
 
 // PRODUCTOS
@@ -97,6 +99,8 @@ export const UPDATE_LOCATION = 'UPDATE_LOCATION'
 export const DELETE_LOCATION = 'DELETE_LOCATION'
 export const CHANGE_LOCATION_VISIBLE = 'CHANGE_LOCATION_VISIBLE'
 export const CHANGE_LOCATION_ARCHIVE = 'CHANGE_LOCATION_VISIBLE'
+export const GET_APPOINTMENTS = 'GET_APPOINTMENTS'
+export const CREATE_OR_UPDATE_APPOINTMENT = 'CREATE_OR_UPDATE_APPOINTMENT'
 
 //adresses
 export const GET_ADDRESSES = 'GET_ADDRESSES';

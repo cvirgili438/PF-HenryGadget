@@ -14,6 +14,8 @@ import henryMarker from '../../Assets/mapicon.png'
 import styles from './Map.module.css'
 import 'leaflet/dist/leaflet.css';
 
+import Calendar from '../Calendar/Calendar';
+
 import { getLocations } from './../../Redux/Actions/locations.js';
 
 const Locations = () => {
@@ -86,8 +88,9 @@ const Locations = () => {
           :
           <></>
         }
-        
+        <Calendar uid={ selected } />
       </div>
+      
       <div className={ styles.mapcomponent } >
         <div className={ styles.map }>
           <Map
