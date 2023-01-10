@@ -40,6 +40,7 @@ const OrderCRUD = () => {
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
   const [errorTrackNumber, setErrorTrackNumber] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const user = useSelector(state => state.user)
   const [token, setToken] = useState('');
@@ -123,6 +124,7 @@ const OrderCRUD = () => {
     dispatch(
       changeOrderTrackingNumber({ id: e.target.value, archived: mode.archived, trackingNumber: e.target.previousElementSibling.value, token: token })
       );
+      setShowAlert(true);
   };
 
   const handletrackNumber = (e, id) => {
@@ -136,6 +138,10 @@ const OrderCRUD = () => {
         ...errorTrackNumber,
         [id]: false
       });
+  };
+
+  function handleAlert(e) {
+    setShowAlert(false);
   };
 
   useEffect(() => {
@@ -254,14 +260,16 @@ const OrderCRUD = () => {
         <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} active orders</div>
         }
 
-      {responseServer.includes('succesfuly') ?
-        <Alert severity="success" sx={{ alignItems: 'center' }}>
-          <p className={`${styles.p}`}>The order was updated succesfuly.</p>
-        </Alert> : null}
-      {responseServer.includes('error') ?
-        <Alert severity="error" sx={{ alignItems: 'center' }}>
-          <p className={`${styles.p}`}>An error has occurred.</p>
-        </Alert> : null}
+      {showAlert ?
+        responseServer.includes('succesfuly') ?
+          <Alert severity="success" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p className={`${styles.p}`}>The order was updated succesfuly.</p>
+          </Alert> : null : null}
+      {showAlert ?
+        responseServer.includes('error') ?
+          <Alert severity="error" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p className={`${styles.p}`}>An error has occurred.</p>
+          </Alert> : null : null}
     </div>
   );
 };
