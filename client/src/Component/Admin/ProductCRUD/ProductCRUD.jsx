@@ -10,6 +10,8 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
 import Button from '../../Buttons/Button';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import {
   getAdminProducts,
   deleteProduct,
@@ -29,6 +31,10 @@ const ProductCRUD = () => {
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
 
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
+
   const products = useSelector(state => state.products);
 
   const dispatch = useDispatch();
@@ -43,7 +49,7 @@ const ProductCRUD = () => {
   };
 
   const handleConfirmDelete = (e) => {
-    dispatch(deleteProduct({id: deleteId, archived: mode.archived}));
+    dispatch(deleteProduct({id: deleteId, archived: mode.archived, token: token}));
     setDeleteId(false);
     setAlert2(false);
     setSelected([]);
@@ -55,21 +61,21 @@ const ProductCRUD = () => {
   }
 
   const handleChangeArchive = e => {
-    dispatch(changeProductArchive({ids: [e.target.value], archived: mode.archived}));
+    dispatch(changeProductArchive({ids: [e.target.value], archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeProductArchive({ids: selected, archived: mode.archived}));
+    dispatch(changeProductArchive({ids: selected, archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleChangeActive = e => {
-    dispatch(changeProductActive({ids: [e.target.id], archived: mode.archived}));
+    dispatch(changeProductActive({ids: [e.target.id], archived: mode.archived, token: token}));
   };
 
   const handleSubmiteMultipleActive = e => {
-    dispatch(changeProductActive({ids: selected, archived: mode.archived}));
+    dispatch(changeProductActive({ids: selected, archived: mode.archived, token: token}));
   };
 
   const handleCheckboxes = e => {
@@ -93,7 +99,16 @@ const ProductCRUD = () => {
 
   useEffect(() => {
     dispatch(getAdminProducts(mode))
-  }, [dispatch, mode]);
+
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+
+  }, [dispatch, mode, auth]);
 
   return (
     <div className={ styles.container }>
@@ -122,6 +137,13 @@ const ProductCRUD = () => {
         <div>
           Filter by brand, name, model or price: <Input type='text' name='name' value={input} onChange={ handleInputChange } />
         </div>
+        Viewing {products
+          .filter(p => p.name.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.model.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.price.toString().toLowerCase().includes(input.toLowerCase()))
+          .length} products
         {
           !mode.archived ?
           <Link to='/admin/createproduct' >

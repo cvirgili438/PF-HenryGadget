@@ -2,18 +2,9 @@ import axios from "axios";
 import { URL } from '../../../Redux/Constants/index.js';
 import { sendAllCart } from "../cartCrud.js";
 
-export async function sendDB(idProduct, idUser, quantity) {
+export async function sendDB(idProduct, idUser, quantity, set=false) {
     try {
-        return await axios.post(`${URL}/carts/`, { idProduct, idUser, quantity });
-    }
-    catch (error) {
-        return error;
-    }
-};
-
-export async function setDB(idProduct, idUser, quantity) {
-    try {
-        return await axios.post(`${URL}/carts/`, { idProduct, idUser, quantity, set: true });
+        return await axios.post(`${URL}/carts/`, { idProduct, idUser, quantity, set });
     }
     catch (error) {
         return error;

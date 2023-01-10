@@ -1,4 +1,15 @@
-import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL} from '../Constants/index'
+import {
+    SET_USER_LOGIN,
+    GET_USERS,
+    GET_REVIEWS,
+    CHANGE_REVIEW_VISIBLE,
+    CHANGE_REVIEW_ARCHIVE,
+    CHANGE_USER_ACTIVE,
+    CHANGE_USER_ADMIN,
+    FORCE_RESET_PWD,
+    CHECK_USER_RESET_PWD,
+    URL
+} from '../Constants/index'
 
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
@@ -27,10 +38,29 @@ export const loginApp = (payload)=>{
     }
 }
 
+export const logUserActivity = (payload)=>{
+    return async function(dispatch){
+        try{
+            const response = await fetch(URL + "/users/admin/log/",{
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return data
+        }catch(e){
+            return e.message
+        }
+    }
+}
+
 export const getUsers = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/users",{
+            const response = await fetch(URL + "/users/admin/",{
                 method: "GET",
                 headers:{
                     "Accept": "application/json",
@@ -40,7 +70,7 @@ export const getUsers = (payload)=>{
             const data = await response.json()
             return dispatch({
                 type: GET_USERS,
-                payload: data.result
+                payload: data
             })
         }catch(e){
             return e.message
@@ -62,7 +92,7 @@ export const getReviews = (payload)=>{
             const data = await response.json()
             return dispatch({
                 type: GET_REVIEWS,
-                payload: data.result
+                payload: data
             })
         }catch(e){
             return e.message
@@ -77,7 +107,7 @@ export const changeReviewVisible = (payload) => {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -100,7 +130,7 @@ export const changeReviewArchive = (payload) => {
                 body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -117,13 +147,13 @@ export const changeReviewArchive = (payload) => {
 export const changeUserActive = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/users/active/',
+            const response = await fetch(URL + '/users/admin/active/',
             {
                 method: 'PUT',
-                body: JSON.stringify({'ids': payload}),
+                body: JSON.stringify({'ids': payload.id}),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -140,12 +170,12 @@ export const changeUserActive = (payload) => {
 export const changeUserAdmin = (payload) => {
     return async function(dispatch) {
         try {
-            const response = await fetch(URL + '/users/admin/' + payload,
+            const response = await fetch(URL + '/users/admin/' + payload.id,
             {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -159,3 +189,46 @@ export const changeUserAdmin = (payload) => {
     }
 }
 
+export const forceResetPassword = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/users/admin/resetpwd/' + payload.id,
+            {
+                method: 'PUT',
+                headers: {
+                    "Accept": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: FORCE_RESET_PWD,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+
+}
+
+export const checkUserStatus = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/users/checkstatus/',
+            {
+                method: 'POST',
+                body: JSON.stringify({'email': payload}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload
+                }
+            })
+            const data = await response.json()
+            return data.result;
+        }catch(e){
+            return e.message
+        }
+    }
+
+}

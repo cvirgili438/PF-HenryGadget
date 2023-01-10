@@ -8,7 +8,7 @@ export const item_photo = {
 
 export const product_area = {
     display: 'flex',
-    padding: '7rem'
+    padding: '10.5rem'
 }
 
 export const img_mini = {
