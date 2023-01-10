@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Alert2 from 'react-bootstrap/Alert';
-import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import IconButton from '@mui/material/IconButton';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -254,11 +254,14 @@ const OrderCRUD = () => {
         <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} active orders</div>
         }
 
-      <Snackbar
-        open={responseServer.includes('The order was updated succesfuly')}
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
-        message="Tracking Number editaded." />
+      {responseServer.includes('succesfuly') ?
+        <Alert severity="success" sx={{ alignItems: 'center' }}>
+          <p className={`${styles.p}`}>The order was updated succesfuly.</p>
+        </Alert> : null}
+      {responseServer.includes('error') ?
+        <Alert severity="error" sx={{ alignItems: 'center' }}>
+          <p className={`${styles.p}`}>An error has occurred.</p>
+        </Alert> : null}
     </div>
   );
 };
