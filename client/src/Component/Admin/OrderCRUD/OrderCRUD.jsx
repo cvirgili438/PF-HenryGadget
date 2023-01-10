@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Alert2 from 'react-bootstrap/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 import IconButton from '@mui/material/IconButton';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -46,6 +46,7 @@ const OrderCRUD = () => {
   const auth = getAuth();
 
   const orders = useSelector(state => state.orders);
+  const responseServer = useSelector(state => state.lastMsg);
 
   const dispatch = useDispatch();
 
@@ -252,6 +253,12 @@ const OrderCRUD = () => {
         :
         <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} active orders</div>
         }
+
+      <Snackbar
+        open={responseServer.includes('The order was updated succesfuly')}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
+        message="Tracking Number editaded." />
     </div>
   );
 };
