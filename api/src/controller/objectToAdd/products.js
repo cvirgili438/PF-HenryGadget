@@ -19,7 +19,8 @@ module.exports = [
         model: 'Buds 120',
         stock: 3,
         img: ['https://motorolaus.vtexassets.com/arquivos/ids/162201-800-auto',
-            'https://motorolaus.vtexassets.com/arquivos/ids/162202-800-auto']
+            'https://motorolaus.vtexassets.com/arquivos/ids/162202-800-auto'],
+        discount:'15'
     },
     {
         name: 'Xiaomi Redmi Note 12 Pro+',
@@ -30,7 +31,8 @@ module.exports = [
         processor: 'OctaCore',
         description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-1.jpg',
-            'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg']
+            'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg'],
+        discount:'15'
     },
     {
         name: 'Xiaomi Poco X4 Pro 5G',
@@ -41,7 +43,8 @@ module.exports = [
         processor: 'OctaCore',
         description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro-1.jpg',
-            'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg']
+            'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg'],
+        discount:'10'
     },
     {
         name: 'Asus ROG Phone 6',
@@ -52,7 +55,8 @@ module.exports = [
         processor: 'OctaCore',
         description: 'Alguna muy buena descripción sobre el producto.',
         img: ['https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-01.jpg',
-            'https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-02.jpg']
+            'https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-02.jpg'],
+        discount:'20'
     },
     {
         name: 'Nokia X30',

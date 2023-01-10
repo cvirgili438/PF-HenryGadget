@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
 import noImage from '../../Assets/noImage.jpg';
@@ -22,6 +22,9 @@ const Product = ({ name, description, image, price, units_left, id }) => { //agr
     img.src = image[0];
     img.alt = name
   }
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
   return (
     <Card sx={{ backgroundColor: 'rgb(244, 244, 244)', margin: 1, maxWidth: 300, minWidth: 300 , paddingTop:'1rem',height:'auto'}}>
 

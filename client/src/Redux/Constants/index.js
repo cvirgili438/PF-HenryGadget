@@ -24,7 +24,8 @@ export const inicialtate = {
   adress:{},
   order:[],
   orders:[],
-  campaigns:[]
+  campaigns:[],
+  productsWithDiscount:[]
 };
 
 // PRODUCTOS
@@ -40,6 +41,7 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
+export const PRODUCTS_DISCOUNT = 'PRODUCTS_DISCOUNT'
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
