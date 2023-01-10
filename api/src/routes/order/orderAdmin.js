@@ -115,11 +115,11 @@ router.put('/trackingnumber/:idOrder', decodeToken, async (req, res) => { // loc
     const { archived } = req.query;
     const { trackingNumber } = req.body;
 
-    if (!trackingNumber) return res.status(400).json({ err: "TrackingNumber id is missing" });
+    if (!trackingNumber) return res.status(400).json({ err: "An error in trackingNumber." });
 
     try {
         const orderExist = await Order.findByPk(idOrder);
-        if (!orderExist) return res.status(404).json({ err: `The order with id: ${idOrder} doesn't exist` });
+        if (!orderExist) return res.status(404).json({ err: `An error in the order with id: ${idOrder} doesn't exist.` });
 
         await Order.update({ trackingNumber }, { where: { id: idOrder } });
 
@@ -130,7 +130,7 @@ router.put('/trackingnumber/:idOrder', decodeToken, async (req, res) => { // loc
                 model: User,
             }]
         });
-        res.status(200).json({ msg: 'The order was updated succesfuly', result: orders });
+        res.status(200).json({ msg: 'The order was updated succesfuly.', result: orders });
     } catch (error) {
         res.status(400).json({ err: 'An error ocurred in database', err: error });
     }
