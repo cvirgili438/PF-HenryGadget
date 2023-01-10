@@ -39,6 +39,7 @@ const OrderCRUD = () => {
 
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
+  const [errorTrackNumber, setErrorTrackNumber] = useState(false);
 
   const user = useSelector(state => state.user)
   const [token, setToken] = useState('');
@@ -123,6 +124,19 @@ const OrderCRUD = () => {
       );
   };
 
+  const handletrackNumber = (e, id) => {
+    if (!e.target.value.match(/^[a-zA-Z0-9]*$/))
+      setErrorTrackNumber({
+        ...errorTrackNumber,
+        [id]: true
+      });
+    else
+      setErrorTrackNumber({
+        ...errorTrackNumber,
+        [id]: false
+      });
+  };
+
   useEffect(() => {
     dispatch(getAdminOrders(mode))
 
@@ -190,7 +204,10 @@ const OrderCRUD = () => {
                   <tr key={ p.id }>
                     <td>{ i + 1 }</td>
                     <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                    <td> <input defaultValue={p.trackingNumber} size='5'/> <Button text='Save' onClick={ e => saveTrackNumber(e) } value={ p.id } /></td>
+                    <td>
+                      <input defaultValue={p.trackingNumber} onChange={e => handletrackNumber(e, p.id)} size='5'/>
+                      <Button text='Save' onClick={ saveTrackNumber } value={ p.id } disabled={errorTrackNumber[p.id]}/>
+                    </td>
                     <td>{ p.user.displayName } - { p.user.email }</td>
                     <td>{ p.total }</td>
                     <td>
