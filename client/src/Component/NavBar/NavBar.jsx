@@ -92,6 +92,7 @@ const NavBar = () => {
     localStorage.clear()
     dispatch(setUserInFrontState(null))
     signOut(firebaseAuth).catch(e => { console.log(e) })
+    history.push('/');
   }
 
 
