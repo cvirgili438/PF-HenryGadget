@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import { deleteAddress, putAddresses } from '../../../../Redux/Actions/adresses';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import * as style from './style.js'
+import styles from './AddressForm.module.css';
 
 
 export default function AddressForm(props) {
@@ -74,13 +75,10 @@ export default function AddressForm(props) {
   return (    
       <Box
             
-       sx={{        
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center'
-      }}
+       className={styles.divGlobalActive}
        >
          <TextField
+         fullWidth
           error={inputt.name === '' ? true : false}
           value={inputt.name}
           disabled={inputt.disabled}
@@ -91,6 +89,7 @@ export default function AddressForm(props) {
           onChange={e => handleInput(e)}                   
         />
       <TextField
+      fullWidth
           error={inputt.region === '' ? true : false}
           value={inputt.region}
           disabled={inputt.disabled}
@@ -101,6 +100,7 @@ export default function AddressForm(props) {
           onChange={e => handleInput(e)}                   
         />
         <TextField
+        fullWidth
           error={inputt.city === '' ? true : false}
           value={inputt.city}
           disabled={inputt.disabled}
@@ -111,6 +111,7 @@ export default function AddressForm(props) {
           onChange={e => handleInput(e)}                   
         />
         <TextField
+        fullWidth
           error={inputt.postalCode === '' ? true : false}
           value={inputt.postalCode}
           disabled={inputt.disabled}
@@ -121,6 +122,7 @@ export default function AddressForm(props) {
           onChange={e => handleInput(e)}                   
         />
         <TextField
+        fullWidth
           error={inputt.street === '' ? true : false}
           value={inputt.street}
           disabled={inputt.disabled}
