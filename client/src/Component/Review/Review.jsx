@@ -260,7 +260,7 @@ const Review = () => {
             <Box>
                 <Button variant="contained" onClick={handleSubmit} endIcon={<SendIcon />}  disabled={Object.keys(errors).length > 0 || review.score === 0 ? true : false} >Send</Button>
                 {send && (
-                    <Alert severity="success" sx={{alignItems: 'center', width: 430, margin:'10px auto'}} >
+                    <Alert severity="success" sx={{alignItems: 'center', width: 500, margin:'10px auto'}} >
                         <p className={`${styles.p}`}> Your review has been sent, you are going to be redirect to your order detail</p>
                     </Alert>
                 )}
