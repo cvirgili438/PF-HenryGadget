@@ -11,12 +11,12 @@ function SearchBar(props) {
                 <div onClick={props.onClick[0]} className={styles.search_icon_container_clear}>
                    {props.input
                     ? <div className={styles.iconClear}>
-                        <AiOutlineClear style={{width:'1.5rem',height:'1.5rem'}}/> 
+                        <AiOutlineClear style={{width:'1.9rem',height:'1.9rem'}}/> 
                       </div>
                     : null}
                 </div>
             <div className={styles.search_icon_container_submit} onClick={props.onClick[1]}>
-                <BsSearch style={{width:'1.5rem',height:'1.5rem'}}/>
+                <BsSearch style={{width:'1.9rem',height:'1.9rem'}}/>
             </div>
         </div>
     </div>
