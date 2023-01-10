@@ -6,6 +6,7 @@ import 'aos/dist/aos.css'
 import OurServices from '../OurServices/OurServices';
 import FeaturedProducts from '../FeaturedProducts/FeaturedProducts';
 import DiscountProducts from '../DiscountProducts/DiscountProducts';
+import Services from '../Services/Services';
 
 
 
@@ -20,6 +21,7 @@ const LandingPage = () => {
   return (
     <section className={ styles.container }>   
       <Slider/> 
+      <Services />
       <DiscountProducts/>
       <FeaturedProducts />
 
