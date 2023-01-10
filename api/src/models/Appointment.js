@@ -23,6 +23,10 @@ module.exports = (sequelize) => {
         time: {
             type: DataTypes.TIME,
             allowNull: false
+        },
+        location: {
+            type: DataTypes.STRING,
+            allowNull: false,
         }
     },
         {
