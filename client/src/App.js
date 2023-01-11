@@ -49,7 +49,7 @@ const App = () => {
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
           <Route  path="/review/:id" component={Review}  />  
           <Route path={'/map'} component={Locations} /> 
-          
+
           {user && user.rol === 'client' && (
             <Route  path={"/user"}  component={DashboardUser}  />
             )
