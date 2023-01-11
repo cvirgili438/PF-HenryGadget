@@ -5,8 +5,6 @@ const { Sequelize } = require("sequelize");
 
 const { Product, Review, User, Order } = require('../../db.js');
 
-//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
-//router.use(authWithoutAdm);
 
 router.get('/', async (req,res)=> { 
     const { archived } = req.query;
@@ -24,6 +22,9 @@ router.get('/', async (req,res)=> {
         res.status(400).json({err: error.message});
     }
 })
+
+//se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
+router.use(authWithoutAdm);
 
 router.put('/status/:idOrder', async (req,res) => {
     const {idOrder} = req.params;
@@ -70,7 +71,7 @@ router.put('/archive/', async (req,res) => {
         });
         let newOrder = true;
         if (order[0].archived === true) newOrder = false; 
-        const reviewUpdated = await Order.update({archived: newOrder}, {where: {id: {[Sequelize.Op.in]: ids}}});
+        const orderUpdated = await Order.update({archived: newOrder}, {where: {id: {[Sequelize.Op.in]: ids}}});
         const orders = await Order.findAll({
                                             where: {archived: archived},
                                             order: [['id', 'ASC']],
@@ -79,6 +80,30 @@ router.put('/archive/', async (req,res) => {
                                             }]
                                             });
         res.status(200).json({msg: `${order.length} order/s changed archived property to ${newOrder}`, result: orders})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
+router.put('/ordership/:id', async (req,res) => {
+    const { id } = req.params;     
+    const { archived } = req.query;
+    
+    try { 
+        const orderToUpdate = await Order.findByPk(id);
+        if (orderToUpdate === null) {
+            return res.status(400).json({ err: `The order with id: ${id} does not exits.` });
+        }
+        let newOrder = orderToUpdate.sentMailToCustomer + 1;
+        const orderUpdated = await Order.update({sentMailToCustomer: newOrder}, {where: {id: id}});
+        const orders = await Order.findAll({
+                                            where: {archived: archived},
+                                            order: [['id', 'ASC']],
+                                            include: [{
+                                                model: User
+                                            }]
+                                            });
+        res.status(200).json({msg: `Order ${id} changed email count sent to ${newOrder}`, result: orders})
     } catch (error) {
         res.status(400).json({err: error})
     }

@@ -74,7 +74,7 @@ const Cart = () => {
             anchorRef.current.focus();
           }
 
-          if(open)
+          if(open) // Cargar el carrito cadsa vez que es despolegado.
           setLocalCart(await getAllCart(user && user.uid));
 
           prevOpen.current = open;
@@ -84,6 +84,7 @@ const Cart = () => {
       <div >
 
         <IconButton
+          sx={{padding: 1}}
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? 'composition-menu' : undefined}
@@ -146,7 +147,7 @@ const Cart = () => {
                     }):<MenuItem>You have no items in your shopping cart</MenuItem>}
                     {localCart?.length > 0 ? <MenuItem sx={{
                       color:'red',
-                    }}>Total Price{totalPrice(localCart)}</MenuItem>: <></>}
+                    }}>Total Price{totalPrice(localCart)}</MenuItem>: null}
                     <MenuItem onClick={handleOpenCart}><Typography variant='button' display="block" gutterBottom  >Open cart</Typography></MenuItem>
                     <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
                   </MenuList>
