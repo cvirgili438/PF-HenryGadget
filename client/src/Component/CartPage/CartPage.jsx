@@ -14,6 +14,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useSelector, } from 'react-redux';
 import { getAllCart } from '../../Utils/cart/cartCrud.js';
 import CartPageUnit from './CartPageUnit/CartPageUnit';
+import Total from "./Total.jsx"
 
 
 const CartPage = () => {
@@ -85,49 +86,7 @@ const CartPage = () => {
         })}
       </Box>
       
-      
-
-      {/* total section */}
-
-      <Box className={styles.subcontainer2}>
-        <Box sx={{borderBottom: "1px solid gray", paddingBottom: "20px"}}>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <Box><Typography variant='body1'>Subtotal</Typography></Box>
-            <Box><Typography variant='body1'>$ {totalPrice(localCart)}</Typography></Box>
-          </Box>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
-            <Box><Typography variant='body1'>Full discount</Typography></Box>
-            <Box><Typography variant='body1'>$ {totalDiscount(localCart)}</Typography></Box>
-          </Box>
-        </Box>
-        <Box sx={{display: "flex", justifyContent: "space-between", margin: "20px 0", borderBottom: "1px solid gray", paddingBottom: "20px"}}>
-          <Box><Typography variant='h3'>Total</Typography></Box>
-          <Box><Typography variant='h3'>$ {totalPrice(localCart) - totalDiscount(localCart)}</Typography></Box>
-        </Box>
-        <Box sx={{margin: "20px 0"}}>
-          <Typography variant='body1' align='left'>The cost and shipping days will be calculated, after entering the destination city and type of shipping</Typography>
-        </Box>
-
-        <Box sx={{margin: "20px 0"}}>
-          <Typography variant='subtitle1' align='left'>You can pay with:</Typography>
-          <List sx={{display: "flex", flexDirection: "column"}}>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText primary="Credit / Debit Card"/>
-            </ListItem>
-
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText primary="Paypal"/>
-            </ListItem>
-          </List>
-        </Box>
-        
-      </Box>
+      <Total/>
       
     </Box>
     )}
