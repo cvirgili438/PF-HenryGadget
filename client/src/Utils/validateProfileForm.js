@@ -1,7 +1,7 @@
 export function validate(input){
     let errors = {};
-    if(!input.displayName){
-        errors.displayName='Please insert a Name'
+    if(!input.name){
+        errors.name='Please insert a Name'
     }
     if(!input.phoneNumber){
         errors.phoneNumber= 'phoneNumber is required'

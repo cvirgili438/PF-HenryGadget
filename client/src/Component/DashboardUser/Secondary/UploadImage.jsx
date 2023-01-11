@@ -31,7 +31,7 @@ export default function UploadImage(props) {
   const [input, setInput] = useState({
     idUser:props.idUser,
     google:props.google,
-    name:props.displayName ,
+    name:'' ,
     phoneNumber:'',
     currentPhoto:props.currentPhoto,
     img:[]
@@ -157,7 +157,7 @@ function handleSubmit(e) {
       <TextField  
         error={Object.keys(errors).length > 0 ? true : false}
         label="Name"
-        name="displayName"
+        name="name"
         onClick={e => onClick(e)}
         defaultValue={props.displayName || 'Please fill this field' }
         disabled={props.disabled}

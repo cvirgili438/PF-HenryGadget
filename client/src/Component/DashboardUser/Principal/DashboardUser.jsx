@@ -4,14 +4,17 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getAddresses } from '../../../Redux/Actions/adresses';
 import { Container } from '@mui/material';
 import BasicTabs from '../Secondary/Tabs.jsx';
+import { setUserInFrontState } from '../../../Redux/Actions/users';
 import { add } from 'dom7';
+import axios from 'axios';
+import { URL } from '../../../Redux/Constants';
 
 
 export default function DashboardUser() {
   const [token,setToken] =useState('')
   const [providerUser,setProviderUser] =useState([])
   const dispatch = useDispatch()
-  const user = useSelector(state =>state.user)
+  
   const addresses = useSelector(state => state.addresses)
   const auth = getAuth()
 
@@ -27,10 +30,18 @@ export default function DashboardUser() {
 				  	setToken(result);
             
 			  	});
-          setProviderUser({
+          axios.get(`${URL}/users/${user.uid}`).then(r => {
+           
+            return setProviderUser({
             ...user.providerData[0],
-            uid:user.uid
-          })
+            uid:user.uid,
+            phoneNumber:r.data.result.phoneNumber
+          })}
+          )
+          setUserInFrontState(providerUser)
+          
+          
+          
           
 			  }
 	  	});
