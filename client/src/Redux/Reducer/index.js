@@ -42,6 +42,8 @@ import {
   UPDATE_CAMPAIGN,
   DELETE_CAMPAIGN,
   CHANGE_CAMPAIGN_RATING,
+  PRODUCTS_DISCOUNT,
+  SET_BUTTON_ACTIVE,
   GET_LOCATIONS,
   GET_ADMIN_LOCATIONS,
   CREATE_LOCATION,
@@ -181,6 +183,11 @@ export default function rootReducer(state = inicialtate, action) {
         ...state,
         refreshCart: action.payload
       };
+    case SET_BUTTON_ACTIVE:
+      return {
+        ...state,
+        buttonAddress: action.payload
+      }
     case GET_USERS:
       return {
         ...state,
@@ -319,6 +326,11 @@ export default function rootReducer(state = inicialtate, action) {
         campaigns: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case PRODUCTS_DISCOUNT:
+      return{
+        ...state,
+      productsWithDiscount:action.payload
+      }
     case GET_LOCATIONS:
       return {
         ...state,

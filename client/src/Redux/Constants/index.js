@@ -2,7 +2,7 @@
 import { fetchUserData } from "../../Utils/fetchLocalStorageData";
 
 export const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-// export const URL = 'http://192.168.0.170:3001'; // para pruebas
+// export const URL = 'http://localhost:3001'; // para pruebas
 
 const userStorageData = fetchUserData()
 // ESTADO INICIAL
@@ -27,6 +27,8 @@ export const inicialtate = {
   order:[],
   orders:[],
   campaigns:[],
+  productsWithDiscount:[],
+  buttonAddress: true,
   locations:[]
 };
 
@@ -43,6 +45,7 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
+export const PRODUCTS_DISCOUNT = 'PRODUCTS_DISCOUNT'
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
@@ -63,6 +66,7 @@ export const SET_LOADING = 'SET_LOADING'
 //checkout
 export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
 export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
+export const SET_BUTTON_ACTIVE = 'SET_BUTTON_ACTIVE'
 
 // Cart
 export const REFRESH_CART = 'REFRESH_CART';

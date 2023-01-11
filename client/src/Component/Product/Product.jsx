@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import noImage from '../../Assets/noImage.jpg';
 import { Button, IconButton, Box, Card, CardActionArea, CardContent, CardMedia, Paper, Typography } from '@mui/material'
 import styles from './Product.module.css';
@@ -29,6 +28,7 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
   }
 
   useEffect(async () => {
+    window.scrollTo(0,0)
     setStock(units_left - await getQuantityProductCart(id, user && user.uid))    
   }, [stock]);  
 
