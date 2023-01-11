@@ -18,4 +18,10 @@ export const style = {
     backgroundColor: 'black',
     color:'white'
   }
+
+  export const boxAddressForm = {        
+        display:'flex',
+        flexDirection:'column',
+        alignItems:'center'
+      }
   
