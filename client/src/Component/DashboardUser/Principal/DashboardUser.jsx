@@ -4,17 +4,23 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getAddresses } from '../../../Redux/Actions/adresses';
 import { Container } from '@mui/material';
 import BasicTabs from '../Secondary/Tabs.jsx';
+import { setUserInFrontState } from '../../../Redux/Actions/users';
 import { add } from 'dom7';
+import axios from 'axios';
+import { URL } from '../../../Redux/Constants';
 
 
 export default function DashboardUser() {
   const [token,setToken] =useState('')
+  const [providerUser,setProviderUser] =useState([])
   const dispatch = useDispatch()
-  const user = useSelector(state =>state.user)
+  
   const addresses = useSelector(state => state.addresses)
   const auth = getAuth()
-  const adress = useSelector(state => state.adress)
 
+  
+  const adress = useSelector(state => state.adress)
+ 
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
@@ -24,18 +30,32 @@ export default function DashboardUser() {
 				  	setToken(result);
             
 			  	});
+          axios.get(`${URL}/users/${user.uid}`).then(r => {
+           
+            return setProviderUser({
+            ...user.providerData[0],
+            uid:user.uid,
+            phoneNumber:r.data.result.phoneNumber
+          })}
+          )
+          setUserInFrontState(providerUser)
+          
+          
+          
+          
 			  }
 	  	});
      
       
   },[adress])
+  
  
 
 
     
   return (
-    <Container sx={{paddingTop: '8rem'}} fixed={true}>
-      <BasicTabs addresses={addresses} token={token}/>
+    <Container sx={{paddingTop: '10rem'}} fixed={true}>
+      <BasicTabs user={providerUser} addresses={addresses} token={token}/>
     </Container>
   )
 }
