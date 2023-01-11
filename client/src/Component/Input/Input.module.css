@@ -1,0 +1,19 @@
+.label {
+  margin-right: 4px;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.input {
+  border: 1px solid rgb(0, 0, 0);
+  margin-right: 4px;
+  border-radius: 5px;
+  max-width: 130px;
+  height: 24px;
+  min-width: 200px;
+}
+
+.input:focus {
+  border: 2px dashed black;
+  outline: none;
+}

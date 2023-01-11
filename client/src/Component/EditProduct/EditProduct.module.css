@@ -1,0 +1,55 @@
+.main {
+    padding-top: 7rem;
+  }
+
+.formContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.subContainer{
+  width: 40%;
+}
+
+.subContainerT{
+  width: 70%;
+}
+
+.label{
+    font-weight: 500;
+    color: black;
+    margin: 10px;
+}
+
+.danger{
+  color: red;
+  font-weight: bold;
+}
+
+.inputs{
+  margin: 10px;
+  width: 30%;
+  border: solid black;
+  border-radius: 10rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: black;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.textarea{
+  margin-left: 10px;
+  width: 30%;
+  height: 5rem;
+  border: solid black;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: black;
+  background-color: white;
+  box-sizing: border-box;
+}

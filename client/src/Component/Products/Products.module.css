@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  margin: 3rem auto auto auto;
+  width: 100%;
+}
+
+.products {
+  display: grid;
+  margin-left: 5.5rem;
+  /* width: 80%;  */
+  flex-wrap: wrap;
+  /* justify-content: space-evenly; */
+  /* background-size: cover; */
+  min-height: 500px;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(3,1fr)
+}
+
+.filters{
+  width:20%;
+  margin-left: 1rem;
+}

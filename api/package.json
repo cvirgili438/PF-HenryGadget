@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js",
+    "start": "nodemon ./index.js",
     "test": "jest --verbose --detectOpenHandles"
   },
-  "jest" : {
-    "moduleNameMapper":{
+  "jest": {
+    "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
     }
   },
@@ -19,16 +19,20 @@
     "npm": ">=6.14.6"
   },
   "dependencies": {
+    "@sendgrid/client": "^7.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "axios": "^1.1.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.7.0",
     "morgan": "^1.10.0",
-    "pg-hstore": "^2.3.4",
     "pg": "^8.5.1",
-    "sequelize": "^6.3.5"
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.3.5",
+    "stripe": "^11.4.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

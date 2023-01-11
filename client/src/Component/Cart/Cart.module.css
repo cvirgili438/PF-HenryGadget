@@ -1,0 +1,13 @@
+.img{
+    max-width: 2rem;
+    max-height: 2rem;
+}
+
+.cart{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    border:none;
+    color:black;
+    cursor: pointer;
+  }

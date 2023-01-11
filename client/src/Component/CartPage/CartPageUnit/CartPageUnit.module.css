@@ -1,0 +1,21 @@
+.subcontainer1{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    border: 1px solid gray;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.img{
+    width: 80px;
+    margin: 20px;
+}
+
+.img:hover {
+    transition: 0.4s;
+    scale: 1.025;
+    filter: invert(20%);
+}

@@ -1,0 +1,28 @@
+.button {
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: .9em;
+  font-weight: 600;
+  min-height: 30px;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  will-change: transform;
+  background-color: rgb(213, 236, 255);
+  border: 2px solid rgb(73, 117, 221);
+  color: rgb(40, 40, 40);
+}
+
+.button:disabled {
+  pointer-events: none;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  color: #fff;
+  background-color: rgb(34, 34, 34);
+  box-shadow: rgb(0, 0, 0, 0.25) 0 8px 15px;
+}
