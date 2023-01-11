@@ -69,15 +69,16 @@ const Calendar = ({uid}) => {
     .filter(([key, value]) => Array.isArray(value) && value.length > 0)
     .map(([key, value]) => new Date(key))
     .map(e => addDays(e, 1))
-    .splice(0, 14)
+    .splice(0, 21)
 
   
   const handleChange = (e) => {
     let dia = e.target.innerText
+    if (dia <= 9) dia = '0' + dia;
     let key = Object.keys(appointments).filter(e => e.slice(8,10) === dia)
     setTimes(appointments[key])
     setSelectedDate(key[0])
-    
+    console.log(e.target.innerText)
     if (currentAppointment.id !== null && currentAppointment.id !== 'deleted') {
       const formatYmd = date => date.toISOString().slice(0, 10);
       if (highlightedDate !== null) {
