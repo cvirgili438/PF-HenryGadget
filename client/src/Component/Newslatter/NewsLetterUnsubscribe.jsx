@@ -18,8 +18,6 @@ const NewsLetterUnsubscribe = () => {
     }, [response]);
 
     return(<div>
-        <p>a</p>
-        <p>a</p>
         {processing ? <h3>Aguarde, por favor...</h3> : null}
         {response ? <h3>{response}</h3> : null}
     </div>);
