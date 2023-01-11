@@ -27,6 +27,7 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
     img.alt = name
   }
 
+
   useEffect(async () => {
     window.scrollTo(0,0)
     setStock(units_left - await getQuantityProductCart(id, user && user.uid))    

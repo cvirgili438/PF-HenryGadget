@@ -329,8 +329,8 @@ export default function rootReducer(state = inicialtate, action) {
     case PRODUCTS_DISCOUNT:
       return{
         ...state,
-      productsWithDiscount:action.payload
-      }
+      productsWithDiscount:action.payload  
+      };
     case GET_LOCATIONS:
       return {
         ...state,
