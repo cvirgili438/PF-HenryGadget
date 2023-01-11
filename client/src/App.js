@@ -50,9 +50,9 @@ const App = () => {
           <Route  path="/review/:id" component={Review}  />  
           <Route path={'/map'} component={Locations} /> 
           
-          {user && user.rol === 'client' && (
+          {(user && user.rol === 'client') ? (
             <Route  path={"/user"}  component={DashboardUser}  />
-            )
+            ): (<Route path="/user" component={Page404} />)
           }
           <Route path='/products' component={Products}/>
 
