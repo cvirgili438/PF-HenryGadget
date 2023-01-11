@@ -18,12 +18,12 @@ import ModalUser from "../ModalRegister/Modal.jsx";
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
 import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
-import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
-import { getAllCart } from "../../Utils/cart/cartCrud.js";
+// import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
+// import { getAllCart } from "../../Utils/cart/cartCrud.js";
 import { logUserActivity } from "../../Redux/Actions/users.js";
-import { Box, } from "@mui/system";
+// import { Box, } from "@mui/system";
 import MiniNav from "../MiniNav/MiniNav.jsx";
-import Separator from "../Separator/Separator.jsx";
+// import Separator from "../Separator/Separator.jsx";
 
 
 const NavBar = () => {
@@ -33,7 +33,7 @@ const NavBar = () => {
   const [input, setInput] = useState('');
   const [modalShow, setModalShow] = useState(false);
   const [displayOptions, setDisplayOptions] = useState(false)
-  const [cartItems, setCartItems] = useState(0)
+  // const [cartItems, setCartItems] = useState(0)
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const NavBar = () => {
   const history = useHistory()
   const query = new URLSearchParams(search)
 
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const auth = getAuth(app);
 
   useEffect(() => {
@@ -58,10 +58,10 @@ const NavBar = () => {
   }, [search])
 
 
-  useEffect(async () => {
-    let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()
-    setCartItems(items)
-  }, [state.refreshCart])
+  // useEffect(async () => {
+  //   let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()
+  //   setCartItems(items)
+  // }, [state.refreshCart])
 
   const handleInputChange = e => {
     setInput(e.target.value);
@@ -115,12 +115,7 @@ const NavBar = () => {
             />
           </div>
           <div className={styles.menu}>
-            {
-              cartItems ?
-                <Badge badgeContent={cartItems} color="primary">
-                  <Cart />
-                </Badge> : <Cart />
-            }
+            
             {state.user !== null
               ? (
                 <div>
