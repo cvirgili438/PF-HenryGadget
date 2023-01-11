@@ -138,6 +138,34 @@ const LocationCRUD = () => {
   }
   
 
+  const handleShowModalAp = (e) => {
+    if (e.target.value !== '0') {
+      setInput({
+        ...input,
+        new: false,
+        id: e.target.value,
+        name: locations.filter(p => p.id === e.target.value )[0].name,
+        address: locations.filter(p => p.id === e.target.value )[0].address,
+        contact: locations.filter(p => p.id === e.target.value )[0].contact,
+        lat: locations.filter(p => p.id === e.target.value )[0].lat,
+        lon: locations.filter(p => p.id === e.target.value )[0].lon,
+      });
+    } else {
+      setInput({
+        ...input,
+        id: false,
+        new: false,
+        name: '',
+        address: '',
+        contact: '',
+        lat: null,
+        lon: null
+      });
+    }
+    setShow(true);
+  };
+
+
   const handleSubmitDelete = e => {
     setDeleteId(e.target.value);
     setAlert2(true);
@@ -295,6 +323,7 @@ const LocationCRUD = () => {
                   <th>Position</th>
                   {/* <th>Rating</th> */}
                   <th>Visible</th>
+                  <th>Appointments</th>
                   <th>Edit</th>
                   <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
                   {
@@ -325,6 +354,7 @@ const LocationCRUD = () => {
                     <td>{ p.lat ? `Lat: ${p.lat}` : 'n/d' } / { p.lon ? `Lon: ${p.lon}` : 'n/d' }</td>
                     {/* <td><Rating name="rating" defaultValue={ p.score } precision={0.5} readOnly='true' /></td> */}
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
+                    <td><Button text='Appointments' onClick={ handleShowModalAp } value={ p.id } /></td>
                     <td><Button text='Edit' onClick={ handleShowModal } value={ p.id } /></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                     {
