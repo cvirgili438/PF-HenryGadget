@@ -28,6 +28,7 @@ import Locations from './Component/Map/Map';
 import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 import Products from './Component/Products/Products';
 import AboutUs from './Component/AboutUs/AboutUs';
+import EditProduct from './Component/EditProduct/EditProduct'
 
 const App = () => {
 
@@ -70,6 +71,7 @@ const App = () => {
                 <Route path='/admin/location' component={LocationCRUD} />
                 <Route path='/admin/users' component={UserCRUD} />
                 <Route path='/admin/createproduct' component={CreateProduct}/>
+                <Route path='/admin/edit/:id' component={EditProduct}/>
               </Route>         
             :
             <></>
