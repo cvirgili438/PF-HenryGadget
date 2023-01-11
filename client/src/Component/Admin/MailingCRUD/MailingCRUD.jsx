@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Rating from '@mui/material/Rating';
+import { Editor } from "@tinymce/tinymce-react";
 
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -10,7 +11,9 @@ import Alert2 from 'react-bootstrap/Alert';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button from '../../Buttons/Button';
+
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import {
   changeCampaignArchive,
@@ -46,6 +49,10 @@ const MailingCRUD = () => {
   const campaigns = useSelector(state => state.campaigns);
   const mails = useSelector(state => state.mails);
   
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
+
   const dispatch = useDispatch();
 
   const handleCloseModal = () => {
@@ -94,14 +101,14 @@ const MailingCRUD = () => {
   const handleSaveModal = (e) => {
     if (input.id) {
       if (!input.new) {
-        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id, mode: mode }));
+        dispatch(updateCampaign({title: input.campaignTitle, content: input.campaignContent, id: input.id, mode: mode, token: token}));
         setShow(false);
       } else {
-        dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+        dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent, token: token}));
         setShow(false);
       }
     } else {
-      dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent}));
+      dispatch(createCampaign({title: input.campaignTitle, content: input.campaignContent, token: token}));
       setShow(false);
     }
   }
@@ -119,7 +126,7 @@ const MailingCRUD = () => {
   };
 
   const handleConfirmDelete = (e) => {
-    dispatch(deleteCampaign({id: deleteId, archived: mode.archived}));
+    dispatch(deleteCampaign({id: deleteId, archived: mode.archived, token: token}));
     setDeleteId(false);
     setAlert2(false);
     setSelected([]);
@@ -131,12 +138,12 @@ const MailingCRUD = () => {
   }
 
   const handleChangeArchive = e => {
-    dispatch(changeCampaignArchive({ids: [e.target.value], archived: mode.archived}));
+    dispatch(changeCampaignArchive({ids: [e.target.value], archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeCampaignArchive({ids: selected, archived: mode.archived}));
+    dispatch(changeCampaignArchive({ids: selected, archived: mode.archived, token: token}));
     setSelected([]);
   };
 
@@ -150,6 +157,7 @@ const MailingCRUD = () => {
       id: publishId,
       subject: campaigns.filter(p => p.id === publishId )[0].title,
       text: campaigns.filter(p => p.id === publishId )[0].content,
+      token: token
     }));
     setPublishId(false);
     setAlert(false);
@@ -178,7 +186,7 @@ const MailingCRUD = () => {
   };
 
   const handleRating = (e) => {
-    dispatch(changeCampaignRaiting({id: e.target.name, value: e.target.value, mode: mode}))
+    dispatch(changeCampaignRaiting({id: e.target.name, value: e.target.value, mode: mode, token: token}))
     
   }
 
@@ -192,14 +200,30 @@ const MailingCRUD = () => {
     }
   };
 
+  const handleChange = (content, editor) => {
+    setInput({
+      ...input,
+      campaignContent: content
+    });
+  }
+
   useEffect(() => {
     dispatch(getCampaigns(mode))
-  }, [dispatch, mode]);
+    
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+    
+  }, [dispatch, mode, token, auth]);
 
 
   return (
     <div className={ styles.container }>
-      <Modal show={show} onHide={ handleCloseModal }>
+      <Modal show={show} onHide={ handleCloseModal } size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit campaign</Modal.Title>
         </Modal.Header>
@@ -211,7 +235,19 @@ const MailingCRUD = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" rows={3} name='campaignContent' value={ input.campaignContent } onChange={ handleInputChange } />
+              <Editor
+                apiKey='9ju8stu224tmneh7mkv47tvbpez050e351zdc5tqsky6z86r'
+                value={ input.campaignContent }
+                init={{
+                  height: 400,
+                  menubar: true,
+                  toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat'
+                }}
+                onEditorChange={ handleChange }
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -257,6 +293,11 @@ const MailingCRUD = () => {
         <div>
           Filter by title or content: <Input type='text' name='filter' value={ input.filter } onChange={ handleInputChange } />
         </div>
+        Viewing {campaigns
+          .filter(p => p.title.toLowerCase().includes(input.filter.toLowerCase())
+                        ||
+                        p.content.toLowerCase().includes(input.filter.toLowerCase()))
+          .length} campaigns
         <div>
           Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={ handleSubmitFilterScore }/>
           <Button text='All' onClick={ handleSubmitAllCampaigns } />
@@ -302,7 +343,7 @@ const MailingCRUD = () => {
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
                   <td>{ p.title }</td>
-                  <td>{ p.content.substring(0, 150) }{ p.content.length > 150 ? `...` : <></> }</td>
+                  <td>{ p.content.substring(0, 150).replace(/<[^>]*>/g,'') }{ p.content.length > 150 ? `...` : <></> }</td>
                   <td>{ new Date(p.created).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) }</td>
                   <td>{ p.contacts > 0 ? p.contacts : `n/a` }</td>
                   <td><Rating name={ p.id } defaultValue={ +p.rating } precision={1} onChange={ handleRating } /></td>

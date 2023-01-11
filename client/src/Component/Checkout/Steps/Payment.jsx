@@ -41,10 +41,8 @@ export default function Payment() {
     // Create PaymentIntent as soon as the page loads
     if(user.uid){
       const items = await getAllCart(user.uid)
-      console.log(items)
       total.current=suma(items)
-    
-    
+
       fetch(URL+"/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

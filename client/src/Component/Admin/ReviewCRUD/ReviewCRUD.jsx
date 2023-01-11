@@ -6,7 +6,9 @@ import Rating from '@mui/material/Rating';
 
 import Checkbox from '../../Checkbox/Checkbox';
 import Input from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button from '../../Buttons/Button';
+
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import {
   getReviews,
@@ -23,6 +25,10 @@ const ReviewCRUD = () => {
   const [score, setScore] = useState(null);
   const [mode, setMode] = useState({archived: false});
 
+  const user = useSelector(state => state.user)
+  const [token, setToken] = useState('');
+  const auth = getAuth();
+
   const reviews = useSelector(state => state.reviews);
   
   const dispatch = useDispatch();
@@ -32,16 +38,16 @@ const ReviewCRUD = () => {
   };
 
   const handleChangeVisible = e => {
-    dispatch(changeReviewVisible({id: e.target.id, archived: mode.archived}));
+    dispatch(changeReviewVisible({id: e.target.id, archived: mode.archived, token: token}));
   };
 
   const handleChangeArchive = e => {
-    dispatch(changeReviewArchive({ids: [e.target.value], archived: mode.archived}));
+    dispatch(changeReviewArchive({ids: [e.target.value], archived: mode.archived, token: token}));
     setSelected([]);
   };
 
   const handleSubmiteMultipleArchive = e => {
-    dispatch(changeReviewArchive({ids: selected, archived: mode.archived}));
+    dispatch(changeReviewArchive({ids: selected, archived: mode.archived, token: token}));
     setSelected([]);
   };
 
@@ -74,7 +80,16 @@ const ReviewCRUD = () => {
 
   useEffect(() => {
     dispatch(getReviews(mode))
-  }, [dispatch, mode]);
+
+    onAuthStateChanged(auth, (user) => {
+			if (user) {
+				user.getIdToken().then((result) => {
+					setToken(result);
+				});
+			}
+		});
+
+  }, [dispatch, mode, auth]);
 
   return (
     <div className={ styles.container }>
@@ -85,8 +100,16 @@ const ReviewCRUD = () => {
         <div>
           Filter by name, model or review: <Input type='text' name='review' value={input} onChange={ handleInputChange } />
         </div>
+        Viewing {reviews
+          .filter(p => p.comment.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.product.name.toLowerCase().includes(input.toLowerCase())
+                      ||
+                      p.product.model.toLowerCase().includes(input.toLowerCase()))
+          .filter(p => score === null ? p : +p.score === +score)
+          .length} reviews
         <div>
-          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={1} onChange={handleSubmitFilterScore}/>
+          Filter by rating: <Rating name="rating" defaultValue='0' value={score === null ? 0 : score} precision={0.5} onChange={handleSubmitFilterScore}/>
           <Button text='All' onClick={handleSubmitAllReviews} />
         </div>
         <div>
@@ -104,6 +127,7 @@ const ReviewCRUD = () => {
                   <th>Img</th>
                   <th>Name</th>
                   <th>Model</th>
+                  <th>Title</th>
                   <th>Review</th>
                   <th>Rating</th>
                   <th>Visible</th>
@@ -126,8 +150,9 @@ const ReviewCRUD = () => {
                     <td><img src={ p.product.img[0] } alt={ p.product.name } className={ styles.productImage } /></td>
                     <td>{ p.product.name }</td>
                     <td>{ p.product.model }</td>
+                    <td>{ p.titleComment }</td>
                     <td>{ p.comment }</td>
-                    <td><Rating name="rating" defaultValue={ p.score } precision={1} readOnly='true' /></td>
+                    <td><Rating name="rating" defaultValue={ p.score } precision={0.5} readOnly='true' /></td>
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                   </tr>

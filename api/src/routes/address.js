@@ -8,7 +8,9 @@ const { User, Address } = require('../db.js');
 // router.use(authWithoutAdm);
 
 router.get('/', async(req,res) => {                                             // localhost:3001/address (get)
+
     const {idUser} = req.query;                                                 // Requiere user id para buscar las direcciones de un usuario en especifico
+
 
     if(!idUser) return res.status(400).json({err: 'No user id was provided.'});  // Muestra un mensaje apropiado en caso de que no pasen ningun ID
 
