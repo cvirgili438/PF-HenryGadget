@@ -7,7 +7,9 @@
   width: 100%;
   padding: 10px;
   background: rgb(244, 244, 244);
-  z-index: 100;
+  z-index: 1;
+  position: sticky;
+  top: 0px;
 }
 
 .center {
