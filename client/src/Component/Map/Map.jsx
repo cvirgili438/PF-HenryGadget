@@ -44,7 +44,7 @@ const Locations = () => {
   }, [dispatch]);
 
   return (
-    <div className={ styles.container} >
+    <div id='anchor-about' className={ styles.container} >
       <div className={ styles.menu }>
         Locations and appointments, select from the list
         <Box sx={{ minWidth: 120, marginTop: 2 }}>

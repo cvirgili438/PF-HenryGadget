@@ -17,14 +17,13 @@ const LandingPage = () => {
   },[])
 
   return (
-    <section className={ styles.container }>   
-      <Slider/> 
+    <section className={styles.container}>
+      <Slider />
 
       <FeaturedProducts />
 
-      {/* <section  id='anchor-services' style={{height:'100vh'}} > */}
-        <OurServices/>
-      {/* </section> */}
+      <OurServices />
+
       <Map />
     </section>
   )
