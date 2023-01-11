@@ -15,17 +15,17 @@ import { BsArrowBarRight } from 'react-icons/bs'
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { IconButton, Badge } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
 import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
 import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
 import { getAllCart } from "../../Utils/cart/cartCrud.js";
-
+import { logUserActivity } from "../../Redux/Actions/users.js";
 
 
 const NavBar = () => {
 
-
+  const loggedUser = useSelector(state => state.user);
 
   const [input, setInput] = useState('');
   const [modalShow, setModalShow] = useState(false);
@@ -35,17 +35,25 @@ const NavBar = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-
   const {search,pathname} = useLocation()
   const history = useHistory()
   const query = new URLSearchParams(search)
-  console.log(pathname)
+
+  const [user, setUser] = useState(null);
+  const auth = getAuth(app);
+
   useEffect(()=>{
     if(!search && state.filteredProducts.length === 0)
+
       dispatch(getProductsByQuery(search))
     if (search)
       dispatch(getProductsByQuery(search))
-  }, [search])
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) dispatch(logUserActivity(user))
+    });
+  },[search])
+
 
   useEffect(async () => {
     let items = state.user ? await getAllItemCart(state.user.uid) : await getAllItemCart()   
@@ -54,17 +62,11 @@ const NavBar = () => {
   
   const handleInputChange = e => {
     setInput(e.target.value);
-    if(pathname !== '/products'){
-      history.push('/products')
-      console.log('hi')
-    }
-
   };
   const handleSubmit = e => {
     e.preventDefault();
     if(pathname !== '/products'){
       history.push('/products')
-      console.log('hi')
     }
     query.set('name',input)   
     query.set('offset', 0)    
@@ -138,31 +140,38 @@ const NavBar = () => {
           }
         </div>
       </div>
-      <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
-        <Link to='/'>
-         <ButtonBorderEffect text='Home'/>
-        </Link>
-        <Link to='/products'>
-         <ButtonBorderEffect text='Store'/>
-        </Link>
-        {pathname === '/'
-        ?(
-          <>
-          <a href="#anchor-services">
-             <ButtonBorderEffect text='Our services'/>
-          </a>
-          <a href='#anchor-featured'>
-             <ButtonBorderEffect text='Featured products'/>
-          </a> 
-          <a href='#anchor-about'>
-            <ButtonBorderEffect text='About us'/>
-         </a> 
-        </>
-        )
+
+      {
+        !loggedUser || loggedUser.rol !== 'admin' ?
+
+          <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
+            <Link to='/'>
+            <ButtonBorderEffect text='Home'/>
+            </Link>
+            <Link to='/products'>
+            <ButtonBorderEffect text='Store'/>
+            </Link>
+            {pathname === '/'
+            ?(
+              <>
+              <a href="#anchor-services">
+                <ButtonBorderEffect text='Our services'/>
+              </a>
+              <a href='#anchor-featured'>
+                <ButtonBorderEffect text='Featured products'/>
+              </a> 
+              <a href='#anchor-about'>
+                <ButtonBorderEffect text='About us'/>
+            </a> 
+            </>
+            )
+            :
+            null
+            }    
+        </div>
         :
-        null
-        }
-      </div>
+        <></>
+      }
       <ModalUser
         show={modalShow}
         onHide={() => setModalShow(false)}
