@@ -170,7 +170,7 @@ const NavBar = () => {
       </div>
       {
         !loggedUser || loggedUser.rol !== 'admin' ?
-          <MiniNav pathname={pathname} />
+          <MiniNav pathname={pathname} setInput={setInput}/>
           :
           <></>
       }

@@ -8,7 +8,7 @@ import { Badge, styled } from "@mui/material";
 import styles from './MiniNav.module.css'
 
 
-const MiniNav = ({ pathname }) => {
+const MiniNav = ({ pathname , setInput}) => {
 
     const [cartItems, setCartItems] = useState(0)
     const [user, setUser] = useState(null);
@@ -30,7 +30,7 @@ const MiniNav = ({ pathname }) => {
 
     return (
         <div className={styles.main}>
-            <Link to='/'>
+            <Link onClick={()=>setInput('')} to='/'>
                 <span className={styles.separator}>
                     <ButtonBorderEffect text='Home' />
                 </span>
