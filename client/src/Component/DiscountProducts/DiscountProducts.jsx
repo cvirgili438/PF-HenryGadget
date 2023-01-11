@@ -18,7 +18,7 @@ function DiscountProducts() {
   useEffect(() => {
     dispatch(getProductWithDiscount());
   }, []);
-  console.log(discountProducts);
+
   return (
     <section
       style={{
