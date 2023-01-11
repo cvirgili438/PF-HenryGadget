@@ -12,16 +12,18 @@
 
 .center {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  margin-right: auto;
+  margin-left: 20px;
 }
 
 .right {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  margin-right: 20px;
+  margin-left: auto;
 }
