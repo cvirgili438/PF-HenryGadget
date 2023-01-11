@@ -37,13 +37,14 @@ export const getCampaigns = (payload)=>{
 export const changeCampaignArchive = (payload) => {
     return async function(dispatch) {
         try {
+            console.log(payload)
             const response = await fetch(URL + '/campaigns/archive/?archived=' + payload.archived,
             {
                 method: 'PUT',
                 body: JSON.stringify({'ids': payload.ids}),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -65,7 +66,7 @@ export const publishCampaign = (payload) => {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "authorization":"Bearer " + payload.id
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json();
@@ -76,7 +77,7 @@ export const publishCampaign = (payload) => {
                 body: JSON.stringify({'subject': payload.subject, 'text': payload.text}),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload.id
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data2 = await response2.json();
@@ -99,7 +100,7 @@ export const createCampaign = (payload) => {
                 body: JSON.stringify(payload),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -122,7 +123,7 @@ export const updateCampaign = (payload) => {
                 body: JSON.stringify(payload),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()
@@ -144,7 +145,7 @@ export const deleteCampaign = (payload) => {
 						method: 'DELETE',
 						headers: {
 								"Content-Type": "application/json",
-								"authorization":"Bearer " + payload
+								"authorization":"Bearer " + payload.token
 						}
 				})
 				const data = await response.json()
@@ -167,7 +168,7 @@ export const changeCampaignRaiting = (payload) => {
                 body: JSON.stringify(payload),
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
+                    "authorization":"Bearer " + payload.token
                 }
             })
             const data = await response.json()

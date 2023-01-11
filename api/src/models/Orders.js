@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
       primaryKey:true,     
     },
     status: {
-      type: DataTypes.ENUM('processing', 'packed', 'delayed', 'shipped', 'canceled','done'),
+      type: DataTypes.ENUM('processing', 'packed', 'delayed', 'shipped', 'canceled', 'done'),
       allowNull: false,
     },
     trackingNumber: {
@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
     archived: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    sentMailToCustomer: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   },
   {

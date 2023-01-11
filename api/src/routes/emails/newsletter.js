@@ -3,11 +3,10 @@ const router = express.Router();
 
 const { Newsletter } = require('../../db.js');
 
-const { sgMail } = require('../config/sendgrid-config.js');
+const { sgMail, perzonalitationId } = require('../config/sendgrid-config.js');
 
 const {
     EMAIL_FROM_NEWSLETTER,
-    PERSONALIZATION_ID,
     SUBJECT_SUBSCRIBE,
     SUBJECT_CONFIRM,
     SUBJECT_UNSUBSCRIBE,
@@ -151,7 +150,7 @@ router.post('/sendmail', async (req, res) => {
 
         const msg = {
             personalizations,
-            template_id: PERSONALIZATION_ID,
+            template_id: perzonalitationId,
             from: EMAIL_FROM_NEWSLETTER
         };
 
@@ -163,5 +162,29 @@ router.post('/sendmail', async (req, res) => {
         res.status(400).json({ err: 'Error to send mail.', error });
     }
 });
+
+router.post('/sendonemail', async (req, res) => {
+    const { text, subject, email } = req.body;
+    if (!text || !subject || !email)
+        return res.status(400).json({ err: 'Parameters missing.' });
+    
+    try {
+
+        const msg = {
+            to: email,
+            from: EMAIL_FROM_NEWSLETTER,
+            subject: subject,
+            html: text
+        };
+
+        await sgMail.send(msg); // Se envía el mail.
+
+        res.json({ msg: 'Email sent' });
+    }
+    catch (error) {
+        res.status(400).json({ err: 'Error sending mail.', error });
+    }
+});
+
 
 module.exports = router;
