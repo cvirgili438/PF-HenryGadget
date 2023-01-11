@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Alert2 from 'react-bootstrap/Alert';
+import Alert from '@mui/material/Alert';
 
 import IconButton from '@mui/material/IconButton';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -25,7 +25,8 @@ import {
   changeOrderArchive,
   changeOrderStatus,
   deleteOrder,
-  sendShippedToCustomer
+  sendShippedToCustomer,
+  changeOrderTrackingNumber
 } from '../../../Redux/Actions/order.js';
 
 import styles from './OrderCRUD.module.css';
@@ -38,12 +39,15 @@ const OrderCRUD = () => {
 
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
+  const [errorTrackNumber, setErrorTrackNumber] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const user = useSelector(state => state.user)
   const [token, setToken] = useState('');
   const auth = getAuth();
 
   const orders = useSelector(state => state.orders);
+  const responseServer = useSelector(state => state.lastMsg);
 
   const dispatch = useDispatch();
 
@@ -116,6 +120,30 @@ const OrderCRUD = () => {
     }));
   }
 
+  const saveTrackNumber = e => {
+    dispatch(
+      changeOrderTrackingNumber({ id: e.target.value, archived: mode.archived, trackingNumber: e.target.previousElementSibling.value, token: token })
+      );
+      setShowAlert(true);
+  };
+
+  const handletrackNumber = (e, id) => {
+    if (!e.target.value.match(/^[a-zA-Z0-9]*$/))
+      setErrorTrackNumber({
+        ...errorTrackNumber,
+        [id]: true
+      });
+    else
+      setErrorTrackNumber({
+        ...errorTrackNumber,
+        [id]: false
+      });
+  };
+
+  function handleAlert(e) {
+    setShowAlert(false);
+  };
+
   useEffect(() => {
     dispatch(getAdminOrders(mode))
 
@@ -162,7 +190,7 @@ const OrderCRUD = () => {
               <tr>
                 <th>N°</th>
                 <th>Select</th>
-                <th>Order</th>
+                <th>Tracking Number</th>
                 <th>To user</th>
                 <th>Total</th>
                 <th colSpan={3}>Status</th>
@@ -183,7 +211,10 @@ const OrderCRUD = () => {
                   <tr key={ p.id }>
                     <td>{ i + 1 }</td>
                     <td><Checkbox name={ p.id } onChange={ handleCheckboxes } defaultChecked={selected.includes(p.id) ? true : false}/></td>
-                    <td>{ p.trackingNumber }</td>
+                    <td>
+                      <input defaultValue={p.trackingNumber} onChange={e => handletrackNumber(e, p.id)} size='5'/>
+                      <Button text='Save' onClick={ saveTrackNumber } value={ p.id } disabled={errorTrackNumber[p.id]}/>
+                    </td>
                     <td>{ p.user.displayName } - { p.user.email }</td>
                     <td>{ p.total }</td>
                     <td>
@@ -228,6 +259,17 @@ const OrderCRUD = () => {
         :
         <div className={ styles.emptyCrud }>No {mode.archived ? 'archived' : 'current'} active orders</div>
         }
+
+      {showAlert ?
+        responseServer.includes('succesfuly') ?
+          <Alert severity="success" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p className={`${styles.p}`}>The order was updated succesfuly.</p>
+          </Alert> : null : null}
+      {showAlert ?
+        responseServer.includes('error') ?
+          <Alert severity="error" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p className={`${styles.p}`}>An error has occurred.</p>
+          </Alert> : null : null}
     </div>
   );
 };

@@ -39,7 +39,7 @@ router.post('/', async (req,res) => {                                           
         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`});                  // Validamos que existan tanto usuario como que el usuario tiene carrito 
         if(!userCart) return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
 
-        const newOrder = await Order.create({status: 'processing', total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
+        const newOrder = await Order.create({status: 'processing', trackingNumber: 0, total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
 
         for (const product of products) {       
@@ -61,44 +61,49 @@ router.post('/', async (req,res) => {                                           
     }
 })
 
-router.put('/', async(req,res) => {                                                                       // localhost:3001/orders (put)
-    const {idOrder, status} = req.body;                                                                   //
+// router.put('/', async(req,res) => {                                                                       // localhost:3001/orders (put)
+//     const {idOrder, status, trackingNumber} = req.body;                                                                   //
 
-    if(!idOrder) return res.status(400).json({err: "Order id is missing"});
-    if(!status) return res.status(400).json({err: 'Status is missing'});
+//     if(!idOrder) return res.status(400).json({err: "Order id is missing"});
 
-    try {
-        const orderExist = await Order.findByPk(idOrder);
+//     try {
+//         const orderExist = await Order.findByPk(idOrder);
+//         if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
 
-        if(!orderExist) return res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
-        await Order.update({status}, {where: {id: idOrder}});
+//         let newData = {};
+//         if (status)
+//             newData = { status };
+//         if (trackingNumber)
+//             newData = { ...newData, trackingNumber };
 
-        const result = await Order.findByPk(idOrder)
-        res.status(200).json({msg: 'The order was updated succesfuly', order: result})
-    } catch (error) {
-        res.status(400).json({err: 'An error ocurred in database', err: error})
-    }
-})
+//         await Order.update(newData, { where: { id: idOrder } });
 
-router.delete('/', async(req,res) => {                                              // localhost:3001/orders (delete)
-    const {idOrder} = req.body;                                                     // Requerimos el id de la orden a eliminar por body
+//         const result = await Order.findByPk(idOrder)
+//         res.status(200).json({msg: 'The order was updated succesfuly', order: result})
+//     } catch (error) {
+//         res.status(400).json({err: 'An error ocurred in database', err: error})
+//     }
+// })
 
-    if(!idOrder)return res.status(400).json({err: 'Order id is missing'});          // Verificamos que hayan pasado idOrder
+// router.delete('/', async(req,res) => {                                              // localhost:3001/orders (delete)
+//     const {idOrder} = req.body;                                                     // Requerimos el id de la orden a eliminar por body
 
-    try {
-        const orderExist = await Order.findByPk(idOrder);                           // Buscamos la orden por id para verificar que si exista
+//     if(!idOrder)return res.status(400).json({err: 'Order id is missing'});          // Verificamos que hayan pasado idOrder
 
-        if(!orderExist){                                                            // En caso de que no exista lo notificamos
-            res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
-            return;
-        }
+//     try {
+//         const orderExist = await Order.findByPk(idOrder);                           // Buscamos la orden por id para verificar que si exista
+
+//         if(!orderExist){                                                            // En caso de que no exista lo notificamos
+//             res.status(404).json({err: `The order with id: ${idOrder} doesn't exist`});
+//             return;
+//         }
         
-        const deleteOrder = await Order.destroy({where: {id: idOrder}});             // En caso de que si exista simplemente la eliminamos y devolvemos mensaje apropiado
-        res.status(200).json({msg: 'Order deleted succesfuly', order: deleteOrder});
-        return;
-    } catch (error) {
-        res.status(400).json({err: 'Error happened in database', err: error})
-    }
-})
+//         const deleteOrder = await Order.destroy({where: {id: idOrder}});             // En caso de que si exista simplemente la eliminamos y devolvemos mensaje apropiado
+//         res.status(200).json({msg: 'Order deleted succesfuly', order: deleteOrder});
+//         return;
+//     } catch (error) {
+//         res.status(400).json({err: 'Error happened in database', err: error})
+//     }
+// })
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const authWithoutAdm = require('./../middleware/authWithoutAdm')
+const decodeToken = require('../middleware/index.js');
 const { Sequelize } = require("sequelize");
 
 const { Product, Review, User, Order } = require('../../db.js');
@@ -108,6 +109,32 @@ router.put('/ordership/:id', async (req,res) => {
         res.status(400).json({err: error})
     }
 })
+
+router.put('/trackingnumber/:idOrder', decodeToken, async (req, res) => { // localhost:3001/orders/trackingnumber/:idOrder (put)
+    const { idOrder } = req.params;
+    const { archived } = req.query;
+    const { trackingNumber } = req.body;
+
+    if (!trackingNumber) return res.status(400).json({ err: "An error in trackingNumber." });
+
+    try {
+        const orderExist = await Order.findByPk(idOrder);
+        if (!orderExist) return res.status(404).json({ err: `An error in the order with id: ${idOrder} doesn't exist.` });
+
+        await Order.update({ trackingNumber }, { where: { id: idOrder } });
+
+        const orders = await Order.findAll({
+            where: { archived: archived },
+            order: [['id', 'ASC']],
+            include: [{
+                model: User,
+            }]
+        });
+        res.status(200).json({ msg: 'The order was updated succesfuly.', result: orders });
+    } catch (error) {
+        res.status(400).json({ err: 'An error ocurred in database', err: error });
+    }
+});
 
 router.delete('/:id', async (req, res) => {
     const { archived } = req.query;

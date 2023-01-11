@@ -35,6 +35,7 @@ import {
   CHANGE_ORDER_STATUS,
   DELETE_ORDER,
   CHANGE_ORDER_SENT_MAIL,
+  CHANGE_ORDER_TRACKING_NUMBER,
   GET_CAMPAIGNS,
   CHANGE_CAMPAIGN_ARCHIVE,
   PUBLISH_CAMPAIGN,
@@ -234,6 +235,12 @@ export default function rootReducer(state = inicialtate, action) {
         orders: action.payload.result,
         lastMsg: action.payload.msg,
       };
+      case CHANGE_ORDER_TRACKING_NUMBER:
+        return {
+          ...state,
+          orders: action.payload.result,
+          lastMsg: action.payload.msg,
+        };
     case GET_ADMIN_ORDERS:
       return {
         ...state,
