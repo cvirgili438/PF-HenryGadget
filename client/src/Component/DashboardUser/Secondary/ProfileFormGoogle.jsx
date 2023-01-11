@@ -24,7 +24,7 @@ export default function ProfileFormGoogle(props) {
 
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({phoneNumber: '', photoURL : ''});
-    const auth = getAuth()
+    
  
 
     const handleChange = (event) => {        
@@ -48,7 +48,7 @@ export default function ProfileFormGoogle(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         // submit the form
-        
+        if(state.photoURL === '' && props.user.photoURL !== '' ){setState({...state,photoURL:props.user.photoURL})}
        dispatch(putProfileUser({
         google:true,
         idUser:props.user.uid,
