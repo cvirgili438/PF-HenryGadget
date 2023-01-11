@@ -9,7 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+import Button from '@mui/material/Button';
 
 import {
   getAppointments,
@@ -45,44 +45,17 @@ const Calendar = ({uid}) => {
   const [highlightedTime, setHighlightedTime] = useState(null);
 
   const dispatch = useDispatch();
-  
-  /*
-  - el objeto se guarda en cada sucursal
-  - al hacer click en cada hora del calendario se envia consulta al back para setear esa hora
-  - si se clickea sobre una hora seteada la consulta es para desmarcar esa hora
-  - el objeto se modifica con la edicion del admin y con los usuarios registrados
-  - tiene que haber otra tabla de turnos, donde se guarde la fecha y hora y el mail de quien reservo el turno
-  - en base a la combinacion de los datos de estas dos tablas sale el objeto al front como result y booked (con el horario del usuario si reservo algo)
-  - si el admin elimina horarios reservados, se tienen que borrar de la bd en la tabla turnos
-  */
 
   const user = useSelector(state => state.user);
   const appointments = useSelector(state => state.appointments);
   const currentAppointment = useSelector(state => state.currentAppointment);
 
-  const change = () => {
-    
-    const formatYmd = date => date.toISOString().slice(0, 10);
-
-    if (currentAppointment.id !== null && currentAppointment.id !== 'deleted') {
-      if (highlightedDate !== null) {
-        console.log(highlightedDate, startDate)
-        // el problema es que a startDate le llega tarde el click, toma el click anterior
-        // hay que dividir esto en dos y poner una parte en el click del dia y la otra en el click de la hora
-        // y ver como limpiar todo cuando se cambia de uid
-        if (highlightedDate === startDate) {
-          console.log(true);
-          setHighlightedTime(currentAppointment.time.slice(0, 5))
-        } else {
-          //setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
-          setHighlightedTime(null)
-        }
-       
-      } else {
-        setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
-      }
-    }
-    
+  if (currentAppointment.id !== null && currentAppointment.id !== 'deleted') {
+    if (highlightedDate === null) setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
+    if (highlightedTime === null && (highlightedDate === (new Date(currentAppointment.date + ' 00:00:00'))) ) setHighlightedTime(currentAppointment.time.slice(0, 5))
+  } else {
+    if (highlightedDate !== null) setHighlightedDate(null)
+    if (highlightedTime !== null) setHighlightedTime(null)
   }
 
   const addDays = (date, days) => {
@@ -104,27 +77,41 @@ const Calendar = ({uid}) => {
     let key = Object.keys(appointments).filter(e => e.slice(8,10) === dia)
     setTimes(appointments[key])
     setSelectedDate(key[0])
-    // change()
+    
+    if (currentAppointment.id !== null && currentAppointment.id !== 'deleted') {
+      const formatYmd = date => date.toISOString().slice(0, 10);
+      if (highlightedDate !== null) {
+        if (formatYmd(highlightedDate) === key[0]) {
+          setHighlightedTime(currentAppointment.time.slice(0, 5))
+        } else {
+          setHighlightedTime(null)
+        }
+      } else {
+        setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
+      }
+    } else {
+      setHighlightedTime(null)
+      setHighlightedDate(null)
+    }
   }
 
   const handleTimeClick = (e) => {
-    setSelectedTime(e.target.innerText);
     if (user) {
-      if (selectedTime === e.target.innerText) {
-        dispatch(deleteAppointment(currentAppointment.id))
-        // setSelectedTime(null);
-      } else {
-        dispatch(createOrUpdateAppointment({location: uid, email: user.email, date: selectedDate, time: e.target.innerText}))
-      }
-      // change()
+      dispatch(createOrUpdateAppointment({location: uid, email: user.email, date: selectedDate, time: e.target.innerText}))
+      setHighlightedDate(new Date(selectedDate + ' 00:00:00'))
+      setSelectedTime(e.target.innerText)
+      setHighlightedTime(e.target.innerText)
     }
+  }
+
+  const handleDelete = (e) => {
+    dispatch(deleteAppointment(currentAppointment.id))
   }
 
   useEffect(() => {
     if (uid) {
       dispatch(getAppointments({location: uid, email: user ? user.email : null}))
     }
-    // change()
   }, [dispatch, user, uid]);
   
   return (
@@ -165,25 +152,24 @@ const Calendar = ({uid}) => {
             }
             </List>
           </Box>
-         
         </>
       }
       </div>
       {
-        Object.keys(currentAppointment).length > 0 ?
-          currentAppointment.id === null ?
-            <div className={ styles.normal }>Select date and time<br />to appoint</div>
+        Object.keys(currentAppointment).length > 0 && uid ?
+          !user && selectedTime ?
+            <div className={ styles.deleted }>You should login<br />to make and appointment</div>
             :
             currentAppointment.id === 'deleted' ?
               <div className={ styles.deleted }>Appointment deleted</div>
               :
-              <div className={ styles.confirmed }>Appointment confirmed:<br />{ currentAppointment.date } at { currentAppointment.time.slice(0, 5)} hs.</div>
-          :
-          null
-      }
-      {
-        !user && selectedTime ?
-          <div className={ styles.normal }>You should login<br />to make and appointment</div>
+              currentAppointment.id === null ?
+                <div className={ styles.normal }>Select date and time<br />to appoint</div>
+                :
+                <>
+                <div className={ styles.confirmed }>Appointment confirmed:<br />{ currentAppointment.date } at { currentAppointment.time.slice(0, 5)} hs.</div>
+                <Button variant="outlined" onClick={ handleDelete } color="error" >Delete appointment</Button>
+                </>
           :
           null
       }

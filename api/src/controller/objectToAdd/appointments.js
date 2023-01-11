@@ -19,6 +19,7 @@ for (let i = 0; i < 9; i++) {
   }
 }
 
+// para simular un dia con pocos horarios libres 
 for (let i = 0; i < 8; i++) {
   for (let j = 0; j < 4; j++) {
     let min = ['00', '15', '30', '45']
