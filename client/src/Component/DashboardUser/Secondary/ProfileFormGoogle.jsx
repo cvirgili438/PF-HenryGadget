@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { putProfileUser } from '../../../Redux/Actions/users';
 import { getAuth, onAuthStateChanged,  } from 'firebase/auth';
 import styles from './addressForm/AddressForm.module.css'
+import UploadImage from './UploadImageGoogle';
+import UploadImageGoogle from './UploadImageGoogle';
 
 
 
@@ -21,7 +23,7 @@ export default function ProfileFormGoogle(props) {
         }
         else return false
     }
-
+    console.log('propsdeformgoogle',props)
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({phoneNumber: '', photoURL : ''});
     
@@ -59,7 +61,7 @@ export default function ProfileFormGoogle(props) {
   return (
    <div className={styles.divCenter}>    
      
-      <TextField        
+      {/* <TextField        
         error={!error(state.phoneNumber)}
         helperText={'Without spaces'}
         label="phoneNumber"
@@ -69,8 +71,8 @@ export default function ProfileFormGoogle(props) {
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
-      />
-      <TextField
+      /> */}
+      {/* <TextField
         label="photoURL"
         name="photoURL"
         defaultValue={props.user.photoURL || 'Please fill this field'  }
@@ -78,8 +80,14 @@ export default function ProfileFormGoogle(props) {
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
-      />   
-        <Button onClick={handleSubmit} variant="contained" 
+      />    */}
+      <UploadImageGoogle
+      currentPhoto={props.user.photoURL ? props.user.photoURL : ''}
+      google={true} 
+      disabled={props.disabled}
+      phoneNumber={props.user.phoneNumber}
+       idUser={props.user.uid} />
+        {/* <Button onClick={handleSubmit} variant="contained" 
         disabled={disabledButton(errors)}
         sx={{
           backgroundColor: 'black',
@@ -87,7 +95,7 @@ export default function ProfileFormGoogle(props) {
           }}
           color="primary">
       Submit
-    </Button>
+    </Button> */}
     </div>
   )
 }

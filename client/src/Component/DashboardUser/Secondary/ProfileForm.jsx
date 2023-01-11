@@ -5,12 +5,13 @@ import { putProfileUser } from '../../../Redux/Actions/users';
 import { getAuth, onAuthStateChanged,  } from 'firebase/auth';
 import styles from './addressForm/AddressForm.module.css'
 import ProfileFormGoogle from './ProfileFormGoogle.jsx';
+import UploadImage from './UploadImage';
 
 
 
 
 export default function ProfileForm(props) {
-  
+    console.log('Props en ProfileForm', props)
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({});
     const auth = getAuth()
@@ -61,9 +62,20 @@ export default function ProfileForm(props) {
         alignItems:'center'
             }}
      >
-    {props.user.providerId ===  'google.com' ? (<ProfileFormGoogle user={props.user} disabled={props.disabled} />): (
+    {props.user.providerId ===  'google.com' ? (
+    <ProfileFormGoogle token={props.token} user={props.user} disabled={props.disabled} />): 
+    (
       <div>
-         <TextField  
+        <UploadImage
+        token={props.token}
+        currentPhoto={props.user.photoURL ? props.user.photoURL : ''}
+        displayName={props.user.displayName}
+        google={false} 
+        disabled={props.disabled}
+        phoneNumber={props.user.phoneNumber}
+         idUser={props.user.uid}
+        />
+         {/* <TextField  
         label="Name"
         name="displayName"
         onClick={e => onClick(e)}
@@ -98,14 +110,14 @@ export default function ProfileForm(props) {
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
-      />
-         <Button onClick={handleSubmit} variant="contained" sx={{
+      /> */}
+         {/* <Button onClick={handleSubmit} variant="contained" sx={{
           backgroundColor: 'black',
           color:'white'
           }}
           color="primary">
       Submit
-    </Button>
+    </Button> */}
       </div>
     )}
      

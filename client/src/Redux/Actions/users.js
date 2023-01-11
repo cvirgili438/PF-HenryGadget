@@ -1,5 +1,6 @@
 import { SET_USER_LOGIN, GET_USERS, GET_REVIEWS, CHANGE_REVIEW_VISIBLE, CHANGE_REVIEW_ARCHIVE, CHANGE_USER_ACTIVE, CHANGE_USER_ADMIN, URL, PUT_PROFILE_USER} from '../Constants/index'
 import { getAuth,updateProfile } from 'firebase/auth'
+import axios from 'axios'
 export const setUserInFrontState = (payload)=>{
     return async function(dispatch){
         return dispatch({
@@ -160,16 +161,106 @@ export const changeUserAdmin = (payload) => {
 }
 
 
-export const putProfileUser = (payload)=>(dispatch)=>{
+export const putProfileUser = (payload)=>async (dispatch)=>{
         const auth = getAuth()
         const user = auth.currentUser
-        updateProfile(user, payload)
-        .then (r => {
-           
-            return dispatch({
-                type:PUT_PROFILE_USER,
-                payload:payload
-            })
-        })
-        .catch(r => console.log(r))
+        console.log('photo url',payload.photoURL[0])
+        if(payload.google === true){
+            try {
+                if(payload.idUser && payload.phoneNumber){
+                     let put = await axios({
+                    url: `${URL}/users/phone`,
+                    method: 'put',
+                    headers: {"Authorization":"Bearer " + payload.token},
+                    data:{
+                        idUser:payload.idUser,
+                        phoneNumber:payload.phoneNumber
+                    }
+                    
+                })
+                if(payload.photoURL[0]){
+                    updateProfile(user,{photoURL:payload.photoURL[0]})
+                    .then (r => {                        
+                        return dispatch({
+                            type:PUT_PROFILE_USER,
+                            payload:{...user,phoneNumber:payload.phoneNumber,photoURL:payload.photoURL[0]}
+                        })
+                    })
+                    .catch(r => console.log(r))
+                    }
+                    if(!payload.photoURL[0] && payload.idUser && payload.phoneNumber ){
+                        return dispatch({
+                            type:PUT_PROFILE_USER,
+                            payload:{
+                                ...user,phoneNumber:put.data.phoneNumber
+                            }
+                        })
+                    }
+                }
+              
+               
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        if(payload.google === false){
+            try {
+                if(payload.idUser && payload.phoneNumber ){
+                    let put = await axios({
+                        url: `${URL}/users/phone`,
+                        method: 'put',
+                        headers: {"Authorization":"Bearer " + payload.token},
+                        data:{
+                            idUser:payload.idUser,
+                            phoneNumber:payload.phoneNumber
+                        }                        
+                    })
+                }
+                if(payload.photoURL[0] && payload.displayName){
+                    updateProfile(user,{photoURL:payload.photoURL[0],displayName:payload.displayName})
+                    .then (r => {
+                        console.log('photo urn', payload.photoURL[0])
+                        console.log('photo url y name',user)
+                        return dispatch({
+                            type:PUT_PROFILE_USER,
+                            payload:{...user,phoneNumber:payload.phoneNumber
+                                ,photoURL:payload.photoURL[0],
+                                displayName:payload.displayName}
+                        })
+                    })
+                    .catch(r => console.log(r))
+                }
+                if(payload.photoURL[0] && !payload.displayName){
+                    updateProfile(user,{photoURL:payload.photoURL[0]})
+                    .then (r => {
+                        console.log(user)
+                        return dispatch({
+                            type:PUT_PROFILE_USER,
+                            payload:{...user,phoneNumber:payload.phoneNumber
+                                ,photoURL:payload.photoURL[0],
+                                }
+                        })
+                    })
+                    .catch(r => console.log(r))
+                }
+                if(!payload.photoURL[0] && payload.displayName){
+                    updateProfile(user,{displayName:payload.displayName})
+                    .then (r => {
+                        console.log(user)
+                        return dispatch({
+                            type:PUT_PROFILE_USER,
+                            payload:{...user,
+                                phoneNumber:payload.phoneNumber,                                
+                                displayName:payload.displayName}
+                        })
+                    })
+                    .catch(r => console.log(r))
+                }
+                
+                
+            } catch (error) {
+                
+            }
+        }
+      
 }

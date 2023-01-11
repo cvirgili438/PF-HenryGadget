@@ -137,11 +137,11 @@ export default function BasicTabs(props) {
                 </Container>
                 {edit === false ? (
                 <Container fixed >
-                  <ProfileForm user={props.user} disabled={!edit}/>
+                  <ProfileForm token={props.token} user={props.user} disabled={!edit}/>
                 </Container>):
                 (
                   <Container fixed >
-                    <ProfileForm user={props.user} disabled={!edit}/>
+                    <ProfileForm token={props.token} user={props.user} disabled={!edit}/>
                   </Container>
                 )
                 }

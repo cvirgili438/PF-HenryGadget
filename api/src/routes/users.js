@@ -87,14 +87,14 @@ router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
 
 router.put('/phone', async (req,res)=>{  // put para cambiar el telefono 
     const {idUser} = req.body
-    const {phoneNumber} =req.body    
-    console.log(idUser,phoneNumber)
+    const {phoneNumber} =req.body     
     try {
         // const user = await User.findAll({where:{uid:idUser}})
         // user.phoneNumber = 3537585662
         // await user.save()
         const user =await User.update({phoneNumber:phoneNumber},{where:{uid:idUser}})
-        res.status(200).json(user)
+        const update = await User.findByPk(idUser)
+        res.status(200).json(update)
     } catch (error) {
         res.status(400).json({err:error})
     }
