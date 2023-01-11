@@ -41,7 +41,7 @@ const Calendar = ({uid}) => {
   const [startDate, setStartDate] = useState(); // fecha elegida en formato calendario
   const [selectedDate, setSelectedDate] = useState(); // fecha elegida en formato YYYY-MM-DD
   const [selectedTime, setSelectedTime] = useState(); // hora elegida
-  const [highlightedDate, setHighlightedDate] = useState([]);
+  const [highlightedDate, setHighlightedDate] = useState(null);
   const [highlightedTime, setHighlightedTime] = useState(null);
 
   const dispatch = useDispatch();
@@ -61,36 +61,28 @@ const Calendar = ({uid}) => {
   const currentAppointment = useSelector(state => state.currentAppointment);
 
   const change = () => {
-    // if (currentAppointment.id !== null && currentAppointment.id !== 'deleted' && highlightedDate.length > 0) {
-    //   setHighlightedTime(currentAppointment.time)
-    //   // setHighlightedDate([])
-    // } else {
-    //   setHighlightedTime('25:00')
-    //   // setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
-    // }
+    
+    const formatYmd = date => date.toISOString().slice(0, 10);
+
     if (currentAppointment.id !== null && currentAppointment.id !== 'deleted') {
-      
-      if (highlightedDate !== currentAppointment.date) {
-        setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
-        setHighlightedTime(null)
+      if (highlightedDate !== null) {
+        console.log(highlightedDate, startDate)
+        // el problema es que a startDate le llega tarde el click, toma el click anterior
+        // hay que dividir esto en dos y poner una parte en el click del dia y la otra en el click de la hora
+        // y ver como limpiar todo cuando se cambia de uid
+        if (highlightedDate === startDate) {
+          console.log(true);
+          setHighlightedTime(currentAppointment.time.slice(0, 5))
+        } else {
+          //setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
+          setHighlightedTime(null)
+        }
+       
       } else {
-        setHighlightedTime(currentAppointment.time.slice(0, 5))
+        setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
       }
-      // if (highlightedTime === null) {
-      //   setHighlightedDate(new Date(currentAppointment.date + ' 00:00:00'))
-      //   setHighlightedTime(currentAppointment.time)
-      // }
     }
-    //  else {
-    //   if (highlightedDate.length !== 0) {
-    //     setHighlightedTime(null)
-    //     setHighlightedDate([])
-    //   }
-    //   if (highlightedTime !== null) {
-    //     setHighlightedDate([])
-    //     setHighlightedTime(null)
-    //   }
-    // }
+    
   }
 
   const addDays = (date, days) => {
@@ -112,7 +104,7 @@ const Calendar = ({uid}) => {
     let key = Object.keys(appointments).filter(e => e.slice(8,10) === dia)
     setTimes(appointments[key])
     setSelectedDate(key[0])
-    change()
+    // change()
   }
 
   const handleTimeClick = (e) => {
@@ -124,7 +116,7 @@ const Calendar = ({uid}) => {
       } else {
         dispatch(createOrUpdateAppointment({location: uid, email: user.email, date: selectedDate, time: e.target.innerText}))
       }
-      change()
+      // change()
     }
   }
 
@@ -132,7 +124,7 @@ const Calendar = ({uid}) => {
     if (uid) {
       dispatch(getAppointments({location: uid, email: user ? user.email : null}))
     }
-    change()
+    // change()
   }, [dispatch, user, uid]);
   
   return (
@@ -149,7 +141,7 @@ const Calendar = ({uid}) => {
           onChange={ (date) => setStartDate(date) }
           onChangeRaw={ handleChange }
           includeDates={ nonEmptyArrays }
-          highlightDates={ [highlightedDate]  }
+          highlightDates={ highlightedDate === null ? [] : [highlightedDate]  }
           dateFormat="MMMM d, yyyy h:mm aa"
           />
           <Box sx={{
