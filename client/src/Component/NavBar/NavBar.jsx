@@ -45,13 +45,16 @@ const NavBar = () => {
   };
   const handleSubmit = e => {
     e.preventDefault();
+
     if(pathname !== '/products'){
       history.push('/products')
     }
+   
     query.set('name',input)   
     query.set('offset', 0)
     
     history.push({search:query.toString()})
+    setInput('')
   };
   
 
@@ -75,11 +78,24 @@ const NavBar = () => {
     signOut(firebaseAuth).catch(e=>{console.log(e)})
   }
 
+  const handlePress = (e) => {
+    if (e.key === "Enter") {
+      if(pathname !== '/products'){
+        history.push('/products')
+      }
+     
+      query.set('name',input)   
+      query.set('offset', 0)
+      
+      history.push({search:query.toString()})
+      setInput('')
+    }
+  };
  
   return (
     <div className={ styles.container }>
       <div style={{display:'flex'}}>
-        <Link to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
+        <Link onClick={()=>setInput('')} to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
         <div className={ styles.center }>
             <SearchBar 
               type='text'
@@ -89,6 +105,12 @@ const NavBar = () => {
               onChange={handleInputChange}
               onClick={[handleClear,handleSubmit]}
               input={input}
+              setInput={setInput}
+              pathname={pathname}
+              history={history}
+              search={search}
+              query={query}
+              handlePress={handlePress}
             />
         </div>
         <div className={ styles.menu }>
@@ -118,7 +140,7 @@ const NavBar = () => {
         </div>
       </div>
       <div style={{display:'flex',padding:'1rem',gap:'1rem'}}>
-        <Link to='/'>
+        <Link onClick={()=>{setInput('')}} to='/'>
          <ButtonBorderEffect text='Home'/>
         </Link>
         {pathname === '/products' 

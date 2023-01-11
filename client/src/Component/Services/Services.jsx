@@ -4,11 +4,12 @@ import shipping from '../../Assets/shipping.png'
 import Cards from '../../Assets/Cards.png'
 import GooglePay from '../../Assets/GooglePay.png'
 import Attention from '../../Assets/Attention.png'
+import { height } from 'dom7'
 
 function Services() {
   return (
     <section style={{
-      marginTop:'7rem',
+      marginTop:'6rem',
       marginBottom:'8rem'
     }}>
       <Box
@@ -50,7 +51,7 @@ function Services() {
          </Box>
         </Box>
 
-        <Divider orientation="vertical" variant='middle' flexItem sx={{width:'1rem',backgroundColor:'rgb(0,0,232)'}} />
+        <Divider orientation="vertical" variant='middle' flexItem sx={{width:'0.2rem',backgroundColor:'rgb(0,0,232)',height:'80%',marginTop:'1.3rem'}} />
         <Box
           sx={{
             width:'33%',
@@ -60,7 +61,7 @@ function Services() {
           }}
         >
           <Typography variant='overline' sx={{fontSize:'1.1rem',marginTop:'10px'}}>
-             Pay width credit, debit or cash
+             Pay width credit or debit
           </Typography>
           <Box sx={{display:'flex',placeItems:'center',justifyContent:'center',width:'100%'}}>
             <img 
@@ -85,7 +86,12 @@ function Services() {
           </Box>
 
         </Box>
-        <Divider orientation="vertical" variant='middle' flexItem sx={{width:'1rem',backgroundColor:'rgb(0,0,232)'}} />
+        <Divider orientation="vertical" variant='middle' flexItem sx={{width:'0.2rem',
+        backgroundColor:'rgb(0,0,232)',
+        // background: 'linear-gradient(90deg, rgba(246,75,176,1) 3%, rgba(196,63,240,1) 23%, rgba(142,77,233,1) 56%, rgba(230,34,100,1) 80%)'
+        height:'80%',
+        marginTop:'1.3rem'
+        }} />
         <Box
           sx={{
             width:'33%',

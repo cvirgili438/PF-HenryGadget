@@ -31,6 +31,7 @@ function EffectCubes() {
         pagination={true}
         modules={[EffectCube, Pagination]}
         className="mySwiper"
+        // style={{height:'35rem'}}
       >
         {products.length > 0
         ? products.slice(2,8).map(e=>(
