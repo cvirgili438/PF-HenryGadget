@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_LOCAL_ADRESS,SET_USER_ADDRESS,URL } from '../Constants';
+import { SET_LOCAL_ADRESS, SET_BUTTON_ACTIVE } from '../Constants';
 
 export const setLocalAdress = (payload)=>(dispatch)=>{
     return dispatch({
@@ -9,19 +9,14 @@ export const setLocalAdress = (payload)=>(dispatch)=>{
     })
 }
 
-export const setAddress = (payload)=>async (dispatch)=>{
-    try {
-        //let json = axios.post(`${URL}/address`,payload)
-        let json = await axios({
-            url : `${URL}/address`,
-            method: 'post',
-            headers: {"Authorization":"Bearer " + payload.token},
-            data : payload
-        })
+
+export const setButtonActive = (boolean) => {
+    return (dispatch) =>{
+
         return dispatch({
-            type:SET_USER_ADDRESS,
-            payload:payload.data.result
+            type: SET_BUTTON_ACTIVE,
+            payload: boolean
         })
+        
     }
-    catch(error){console.log(error)}
 }
