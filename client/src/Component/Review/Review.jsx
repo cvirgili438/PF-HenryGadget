@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getProductById, clearProduct } from '../../Redux/Actions/products'
 import { addReview } from '../../Redux/Actions/review';
 
-import { Alert, Box, Button, Container, Divider, Paper, Stack, Grid, Typography, Rating, LinearProgress } from "@mui/material";
+import { Alert, Box, Button, Divider, Paper, Stack, Typography, Rating } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import StarIcon from '@mui/icons-material/Star'
@@ -53,9 +53,9 @@ const Review = () => {
         let errors = {};
         if (!review.score || review.score === 0) {
           errors.score = 'Score your experience please';
-        }else if (!review.titleComment || review.titleComment.length < 3) {
+        }else if (review.titleComment === "" || review.titleComment.length < 3) {
           errors.titleComment = 'A title is required';
-        }else if(!review.comment || review.comment.length < 3){
+        }else if(review.comment === "" || review.comment.length < 3){
           errors.comment = 'A comment is required';
         }
         return errors;
@@ -78,6 +78,10 @@ const Review = () => {
         };
     }, [])
 
+    useEffect(() => {
+        setErrors(validate(review))
+    }, [review]);
+
     let handleImg = (e) => {
         document.getElementById('mainImg').src = e.target.src
     }
@@ -87,10 +91,6 @@ const Review = () => {
           ...review,
           [e.target.name]: e.target.value
         });
-        setErrors(validate({
-            ...review,
-            [e.target.name]: e.target.value
-        }))
         
       };
 
@@ -115,7 +115,6 @@ const Review = () => {
             setTimeout(() => {
                 history.goBack();
             }, 3000);
-            
         }
         return;
     }
@@ -171,8 +170,6 @@ const Review = () => {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                     margin: '10px auto'
-                    // marginRight: 'auto', 
-                    // marginLeft: 'auto'
                   }}
             >
                 <Typography variant='body1' color="initial">Product: {productDetail.name}</Typography>
@@ -210,7 +207,7 @@ const Review = () => {
                     <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : review.score]}</Box>
                 )}
             </Box>
-                {errors.score && (
+                {errors.score && !send && (
                     <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}}>
                         <p className={`${styles.p}`}>{errors.score}</p>
                     </Alert>
@@ -234,7 +231,7 @@ const Review = () => {
                     />
                    
                 </div>
-                {errors.titleComment && (
+                {errors.titleComment && !send && (
                     <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}}>
                         <p className={`${styles.p}`}>{errors.titleComment}</p>
                     </Alert>
@@ -247,10 +244,9 @@ const Review = () => {
                         rows={4}
                         name="comment"
                         onChange={handleChange}
-                        // defaultValue="Tell us more about your experience"
                     />
                 </div>
-                {errors.comment && (
+                {errors.comment && !send && (
                     <Alert severity="error" sx={{alignItems: 'center', width: 430, margin:'10px auto'}} >
                         <p className={`${styles.p}`}>{errors.comment}</p>
                     </Alert>
