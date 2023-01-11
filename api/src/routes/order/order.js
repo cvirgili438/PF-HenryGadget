@@ -46,8 +46,8 @@ router.post('/', async (req,res) => {                                           
         if(!user) return res.status(404).json({err: `The user with id: ${idUser} doesn't exist`});                  // Validamos que existan tanto usuario como que el usuario tiene carrito 
         if(!userCart) return res.status(404).json({err: `The user with id: ${idUser} doesn't have an active cart`})
 
+        const newOrder = await Order.create({status: 'processing', trackingNumber: Math.ceil(Math.random() * 1000000), total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
 
-        const newOrder = await Order.create({status: 'processing', total: userCart.total})                          // Creamos una orden y la inicializamos con estado 'proccesing' es el estado inicial de toda orden y el total lo seteamos del total del carrito ya existente del usuario
         await user.addOrder(newOrder.id)                                                                            // Vinculamos esa nueva orden con el usuario 
 
         await newOrder.addAddress(idShipping.id);                                                                   // Vinculamos la direccion (billing y shipping) seleccionada por el usuario y la vinculamos a la orden
