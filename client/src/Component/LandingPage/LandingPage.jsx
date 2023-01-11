@@ -7,6 +7,9 @@ import OurServices from '../OurServices/OurServices';
 import FeaturedProducts from '../FeaturedProducts/FeaturedProducts';
 import DiscountProducts from '../DiscountProducts/DiscountProducts';
 
+import Services from '../Services/Services';
+
+
 import Map from '../Map/Map'
 
 const LandingPage = () => {
@@ -20,13 +23,16 @@ const LandingPage = () => {
   return (
     <section className={ styles.container }>   
       <Slider/> 
+
+      <Services />
+
       <DiscountProducts/>
       <FeaturedProducts />
 
       <section  id='anchor-services' style={{height:'100vh'}} > */}
         <OurServices/>
       </section>
-     
+
       <Map />
 
     </section>
