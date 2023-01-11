@@ -84,6 +84,7 @@ const Cart = () => {
       <div >
 
         <IconButton
+          sx={{padding: 1}}
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? 'composition-menu' : undefined}

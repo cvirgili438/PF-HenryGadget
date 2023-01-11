@@ -1,11 +1,11 @@
 .img{
-    max-width: 2rem;
-    max-height: 2rem;
+    max-width: 1.5rem;
+    max-height: 1.5rem;
 }
 
 .cart{
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 100%;
     border:none;
     color:black;

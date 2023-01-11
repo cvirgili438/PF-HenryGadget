@@ -27,6 +27,7 @@ import Review from './Component/Review/Review';
 import Locations from './Component/Map/Map';
 import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 import Products from './Component/Products/Products';
+import AboutUs from './Component/AboutUs/AboutUs';
 
 const App = () => {
 
@@ -49,6 +50,7 @@ const App = () => {
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
           <Route  path="/review/:id" component={Review}  />  
           <Route path={'/map'} component={Locations} /> 
+          <Route path={'/aboutUs'} component={AboutUs} />
           
           {user && user.rol === 'client' && (
             <Route  path={"/user"}  component={DashboardUser}  />

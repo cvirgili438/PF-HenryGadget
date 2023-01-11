@@ -16,7 +16,7 @@ function OurServices() {
 
 
   return (
-    <div className={styles.container_info}>
+    <div id="anchor-services" className={styles.container_info}>
 
       <div className={styles.container_info_sub1}>
         <div className={styles.title_container} data-aos='flip-up' data-aos-offset='-400' data-aos-duration='1300' data-aos-once='true'>
