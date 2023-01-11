@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     },
+    phoneNumber : {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     timestamps: true,
     createdAt: 'created',

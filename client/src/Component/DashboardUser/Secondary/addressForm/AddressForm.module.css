@@ -19,3 +19,9 @@
 .divGlobalActive:hover{
     box-shadow: 9px 11px 23px -16px rgba(105,103,105,1);
 }
+
+.divCenter {
+    display:inherit;
+    flex-direction:inherit;
+    align-items:center
+}

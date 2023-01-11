@@ -9,7 +9,7 @@ import { add } from 'dom7';
 
 export default function DashboardUser() {
   const [token,setToken] =useState('')
-  let [providerUser,setProviderUser] =useState([])
+  const [providerUser,setProviderUser] =useState([])
   const dispatch = useDispatch()
   const user = useSelector(state =>state.user)
   const addresses = useSelector(state => state.addresses)
@@ -27,7 +27,11 @@ export default function DashboardUser() {
 				  	setToken(result);
             
 			  	});
-          setProviderUser(user.providerData)
+          setProviderUser({
+            ...user.providerData[0],
+            uid:user.uid
+          })
+          
 			  }
 	  	});
      
@@ -40,7 +44,7 @@ export default function DashboardUser() {
     
   return (
     <Container sx={{paddingTop: '10rem'}} fixed={true}>
-      <BasicTabs user={providerUser[0]} addresses={addresses} token={token}/>
+      <BasicTabs user={providerUser} addresses={addresses} token={token}/>
     </Container>
   )
 }

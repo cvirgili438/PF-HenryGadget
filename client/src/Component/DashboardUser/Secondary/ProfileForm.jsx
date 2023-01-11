@@ -3,12 +3,14 @@ import { TextField, Button, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import { putProfileUser } from '../../../Redux/Actions/users';
 import { getAuth, onAuthStateChanged,  } from 'firebase/auth';
+import styles from './addressForm/AddressForm.module.css'
+import ProfileFormGoogle from './ProfileFormGoogle.jsx';
 
 
 
 
 export default function ProfileForm(props) {
-
+  
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({});
     const auth = getAuth()
@@ -22,29 +24,50 @@ export default function ProfileForm(props) {
         
         
     };
-
+    function onClick(e){
+      e.preventDefault();
+      if(e.target.disabled === true){
+        return
+      }
+      if(e.target.disabled === false){
+        e.target.value= ''
+      }
+    }
+   
     const handleSubmit = (event) => {
         event.preventDefault();
         // submit the form
-       
-        dispatch(putProfileUser({displayName:state.displayName,photoURL:state.photoURL}))
-               
+       if (state.displayName === '' && state.displayName === ''){
+        return dispatch(putProfileUser({displayName:props.user.displayName,photoURL:props.user.photoURL}))
+       }
+       if (state.displayName === '' && state.displayName !== ''){
+        return dispatch(putProfileUser({displayName:props.user.displayName,photoURL:state.photoURL}))
+       }
+       if (state.displayName !== '' && state.displayName === ''){
+        return dispatch(putProfileUser({displayName:state.displayName,photoURL:props.user.photoURL}))
+       }
+       if (state.displayName !== '' && state.displayName !== ''){
+        return dispatch(putProfileUser({displayName:state.displayName,photoURL:state.photoURL}))   
+       }
+                    
     };
 
   return (
     <Box    
+    className={styles.divGlobalActive}
         sx={{        
         display:'flex',
         flexDirection:'column',
         alignItems:'center'
             }}
      >
-    
-      <TextField  
+    {props.user.providerId ===  'google.com' ? (<ProfileFormGoogle user={props.user} disabled={props.disabled} />): (
+      <div>
+         <TextField  
         label="Name"
         name="displayName"
-        onClick={e => e.target.value=''}
-        value={props.user.displayName }
+        onClick={e => onClick(e)}
+        defaultValue={props.user.displayName || 'Please fill this field' }
         disabled={props.disabled}
         variant="standard"  
         onChange={handleChange}
@@ -52,7 +75,8 @@ export default function ProfileForm(props) {
       <TextField
         label="Email"
         name="email"
-        value={props.user.email } 
+        onClick={e => onClick(e)}
+        defaultValue={props.user.email || 'Please fill this field'  } 
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
@@ -60,7 +84,8 @@ export default function ProfileForm(props) {
       <TextField
         label="phoneNumber"
         name="phoneNumber"
-        value={props.user.phoneNumber}
+        defaultValue={props.user.phoneNumber || 'Please fill this field' }
+        onClick={e => onClick(e)}
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
@@ -68,18 +93,24 @@ export default function ProfileForm(props) {
       <TextField
         label="photoURL"
         name="photoURL"
-        value={props.user.photoURL }
+        defaultValue={props.user.photoURL || 'Please fill this field'  }
+        onClick={e => onClick(e)}
         variant="standard"
         disabled={props.disabled}
         onChange={handleChange}
       />
-   
-    <Button onClick={handleSubmit} variant="contained" sx={{
-    backgroundColor: 'black',
-    color:'white'
-  }} color="primary">
+         <Button onClick={handleSubmit} variant="contained" sx={{
+          backgroundColor: 'black',
+          color:'white'
+          }}
+          color="primary">
       Submit
     </Button>
+      </div>
+    )}
+     
+   
+ 
   </Box>
   )
 }

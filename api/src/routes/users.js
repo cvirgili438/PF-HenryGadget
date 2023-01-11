@@ -85,6 +85,21 @@ router.delete('/:uid', decodeTokenNotAdmin,  async (req, res) => {
 })
 
 
+router.put('/phone', async (req,res)=>{  // put para cambiar el telefono 
+    const {idUser} = req.body
+    const {phoneNumber} =req.body    
+    console.log(idUser,phoneNumber)
+    try {
+        // const user = await User.findAll({where:{uid:idUser}})
+        // user.phoneNumber = 3537585662
+        // await user.save()
+        const user =await User.update({phoneNumber:phoneNumber},{where:{uid:idUser}})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({err:error})
+    }
+  })
+
 //se pasa middleware para proteger rutas de users para suspender o cambiar modo
 router.use(authWithoutAdm);
 
@@ -128,6 +143,7 @@ router.put('/admin/:idUser', async (req,res) => {
         res.status(400).json({err: error})
     }
   })
+ 
 
 
 module.exports = router;
