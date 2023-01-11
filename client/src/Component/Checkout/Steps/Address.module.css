@@ -1,0 +1,48 @@
+.divGlobal{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.divTitle {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    margin-left: 250px;
+}
+
+.hr1{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.divContent{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: 150px;
+    justify-content: space-between;
+}
+
+.divInputAddress{
+    width: 700px;
+    margin: 0 auto;
+}
+
+.divTotal{
+    display: flex;
+    margin-top: 30px;
+}
+
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 20px 0px 0px 125px;
+}
+
+.checkbox__input{
+    display: flex;
+    margin-right: 5px;
+    margin-top: 3px;
+}
