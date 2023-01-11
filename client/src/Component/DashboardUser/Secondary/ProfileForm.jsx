@@ -11,7 +11,7 @@ import UploadImage from './UploadImage';
 
 
 export default function ProfileForm(props) {
-    console.log('Props en ProfileForm', props)
+    
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({});
     const auth = getAuth()

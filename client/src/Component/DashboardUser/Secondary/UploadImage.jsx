@@ -118,7 +118,7 @@ function handleSubmit(e) {
   setErrors(validate(input));
   
   if (Object.keys(errors).length === 0 && props.google === false) {
-    console.log(props.user)
+    
     dispatch(putProfileUser({
         token:props.token,
         google:false,

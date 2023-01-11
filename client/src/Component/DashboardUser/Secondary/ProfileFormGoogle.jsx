@@ -23,7 +23,7 @@ export default function ProfileFormGoogle(props) {
         }
         else return false
     }
-    console.log('propsdeformgoogle',props)
+    
     const dispatch=useDispatch()   
     const [state, setState] = React.useState({phoneNumber: '', photoURL : ''});
     

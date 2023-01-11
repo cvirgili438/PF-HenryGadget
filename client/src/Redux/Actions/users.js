@@ -164,7 +164,7 @@ export const changeUserAdmin = (payload) => {
 export const putProfileUser = (payload)=>async (dispatch)=>{
         const auth = getAuth()
         const user = auth.currentUser
-        console.log('AAAAAACTION',payload.displayName)
+        
         if(payload.google === true){
             try {
                 if(payload.idUser && payload.phoneNumber){
@@ -217,11 +217,10 @@ export const putProfileUser = (payload)=>async (dispatch)=>{
                     })
                 }
                 if(payload.photoURL[0] && payload.displayName){
-                    console.log('AAAAAACTION',payload.displayName)
+                    
                     updateProfile(user,{displayName:payload.displayName,photoURL:payload.photoURL[0]})
                     .then (r => {
-                        console.log('photo urn', payload.photoURL[0])
-                        console.log('photo url y name',user)
+                        
                         return dispatch({
                             type:PUT_PROFILE_USER,
                             payload:{...user,phoneNumber:payload.phoneNumber
@@ -234,7 +233,7 @@ export const putProfileUser = (payload)=>async (dispatch)=>{
                 if(payload.photoURL[0] && !payload.displayName){
                     updateProfile(user,{photoURL:payload.photoURL[0]})
                     .then (r => {
-                        console.log(user)
+                        
                         return dispatch({
                             type:PUT_PROFILE_USER,
                             payload:{...user,phoneNumber:payload.phoneNumber
@@ -247,7 +246,7 @@ export const putProfileUser = (payload)=>async (dispatch)=>{
                 if(!payload.photoURL[0] && payload.displayName){
                     updateProfile(user,{displayName:payload.displayName})
                     .then (r => {
-                        console.log(user)
+                        
                         return dispatch({
                             type:PUT_PROFILE_USER,
                             payload:{...user,
