@@ -55,6 +55,7 @@ const Calendar = ({uid}) => {
 
   const user = useSelector(state => state.user);
   const appointments = useSelector(state => state.appointments);
+  const currentAppointment = useSelector(state => state.currentAppointment);
 
   const addDays = (date, days) => {
     let result = new Date(date);
@@ -77,69 +78,64 @@ const Calendar = ({uid}) => {
 
   const handleTimeClick = (e) => {
     if (user) {
-      setSelectedTime(e.target.innerText)
-      dispatch(createOrUpdateAppointment({location: uid, email: 'stabilini@hotmail.com', date: selectedDate, time: selectedTime || e.target.innerText}))
-      .then(dispatch(getAppointments({location: uid, user: user ? user.email : null})))
+      dispatch(createOrUpdateAppointment({location: uid, email: user.email, date: selectedDate, time: e.target.innerText}))
+      .then(dispatch(getAppointments({location: uid, email: user.email})))
+    } else {
+      setSelectedTime(e.target.innerText);
     }
   }
 
   useEffect(() => {
-    dispatch(getAppointments({location: uid, user: user ? user.email : null}))
+    dispatch(getAppointments({location: uid, email: user ? user.email : null}))
   }, [dispatch, user, uid]);
 
   return (
-    <div className={ styles.container }>
-      <DatePicker
-        inline
-        selected={ startDate }
-        onChange={ (date) => setStartDate(date) }
-        onChangeRaw={ handleChange }
-        // showTimeSelect
-        includeDates={ nonEmptyArrays }
-        // includeTimes={ time }
-        dateFormat="MMMM d, yyyy h:mm aa"
-      />
-        {
-          // logica que muestre si se confirmo el turno o si se anulo
-        /* <div style={{ color: "red" }}>
-          Appointment confirmed for {
-                      startDate ? 
-                        startDate.toLocaleString('en-GB', {
-                                                          day: '2-digit',
-                                                          month: '2-digit',
-                                                          year: 'numeric',
-                                                          hour: '2-digit',
-                                                          minute: '2-digit'
-                                                          })
-                          :
-                          'none'
-                    }
-          </div> */
+    <>
+      <div className={ styles.container }>
+        <DatePicker
+          inline
+          selected={ startDate }
+          onChange={ (date) => setStartDate(date) }
+          onChangeRaw={ handleChange }
+          includeDates={ nonEmptyArrays }
+          dateFormat="MMMM d, yyyy h:mm aa"
+        />
+        <Box sx={{
+                width: '100%', maxWidth: 80, bgcolor: 'background.paper',
+                height: 240, overflow: 'hidden', overflowY: 'scroll',
+                borderTop: 1, borderRight: 1, borderBottom: 1, borderColor: 'grey.500' }}>
+          <List dense>
+          {
+            startDate ?
+              times
+              .map((p, i) => (
+                <ListItem disablePadding>
+                  <ListItemButton >
+                    <ListItemText primary={ p } onClick={ handleTimeClick } />
+                  </ListItemButton>
+                </ListItem>
+              )
+              )
+            :
+            null
           }
-      {/* </DatePicker> */}
-
-      <Box sx={{
-              width: '100%', maxWidth: 80, bgcolor: 'background.paper',
-              height: 240, overflow: 'hidden', overflowY: 'scroll',
-              borderTop: 1, borderRight: 1, borderBottom: 1, borderColor: 'grey.500' }}>
-        <List dense>
-        {
-          startDate ?
-            times
-            .map((p, i) => (
-              <ListItem disablePadding>
-                <ListItemButton >
-                  <ListItemText primary={ p } onClick={ handleTimeClick } />
-                </ListItemButton>
-              </ListItem>
-            )
-            )
+          </List>
+      </Box>
+      </div>
+      {
+        Object.keys(currentAppointment).length > 0 ?
+          <div className={ styles.confirmed }>Appointment confirmed: { currentAppointment.date } at { currentAppointment.time.slice(0, 5)}</div>
           :
           null
-        }
-        </List>
-    </Box>
-    </div>
+      }
+      {
+        !user && selectedTime ?
+          <div className={ styles.confirmed }>You should login to make and appointment</div>
+          :
+          null
+      }
+    </>
+    
   );
 }
 

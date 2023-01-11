@@ -18,7 +18,7 @@ import {
 export const getAppointments = (payload)=>{
     return async function(dispatch){
         try{
-            const response = await fetch(URL + "/calendar/" + payload.location + '?user=' + payload.user,{
+            const response = await fetch(URL + "/calendar/" + payload.location + '?email=' + payload.email,{
                 method: "GET",
                 headers:{
                     "Content-Type": "application/json",

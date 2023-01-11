@@ -100,10 +100,11 @@ router.post('/', async (req, res) => {
     // si el mail tenia un turno asignado lo actualizo con la fecha y hora
     if (checkAppointment) {
       await Appointment.update(
-                                { date: date, time: time },
-                                { where: { email: email } }
-                              );
-      res.status(200).json({ msg: `Appointment updated succesfully.`, result: result });
+        { location: location, date: date, time: time },
+        { where: { email: email } }
+        );
+      const result = await Appointment.findOne({ where: { email: email } });
+      return res.status(200).json({ msg: 'Appointment updated succesfully.', result: result });
     }
     
     // sino lo creo
