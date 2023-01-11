@@ -13,7 +13,8 @@ import {
   EDIT_PRODUCT,
   CLEAR_PRODUCT,
 	CHANGE_PRODUCT_ACTIVE,
-	CHANGE_PRODUCT_ARCHIVE
+	CHANGE_PRODUCT_ARCHIVE,
+	PRODUCTS_DISCOUNT
 } from '../Constants/index.js';
 
 export const getAllProducts= ()=> async (dispatch)=>{   
@@ -228,5 +229,19 @@ export const changeProductArchive = (payload) => {
 			}catch(e){
 					return e.message
 			}
+	}
+}
+
+export const getProductWithDiscount = ()=>{
+	return async function(dispatch){
+		try{
+			const response = await axios('http://localhost:3001/products/discount')
+			return dispatch({
+				type: PRODUCTS_DISCOUNT,
+				payload:response.data
+			})
+		}catch(e){
+			return e.message
+		}
 	}
 }

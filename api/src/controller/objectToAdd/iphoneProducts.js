@@ -129,7 +129,8 @@ module.exports = [
           camera: '10Mpx',
           processor: 'OctaCore',
           description: 'Alguna muy buena descripción sobre el producto.',
-          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-colors.png']
+          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-colors.png'],
+          discount:'20'
       },
     {
           name: 'iPhone 12 mini',
@@ -140,7 +141,8 @@ module.exports = [
           camera: '10Mpx',
           processor: 'OctaCore',
           description: 'Alguna muy buena descripción sobre el producto.',
-          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-mini-colors.png']
+          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-mini-colors.png'],
+          discount:'25'
       },
     {
           name: 'iPhone SE (2nd generation)',
@@ -173,7 +175,9 @@ module.exports = [
           camera: '10Mpx',
           processor: 'OctaCore',
           description: 'Alguna muy buena descripción sobre el producto.',
-          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro-max.jpg']
+          img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro-max.jpg'
+        ],
+        discount:'10'
       },
     {
           name: 'iPhone 11',
