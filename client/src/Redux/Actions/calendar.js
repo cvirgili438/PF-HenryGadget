@@ -2,16 +2,9 @@ import axios from "axios";
 
 import {
   URL,
-  GET_LOCATIONS,
-  GET_ADMIN_LOCATIONS,
-  CREATE_LOCATION,
-  UPDATE_LOCATION,
-  DELETE_LOCATION,
-  CHANGE_LOCATION_ARCHIVE,
-  CHANGE_LOCATION_VISIBLE,
-
   GET_APPOINTMENTS,
-  CREATE_OR_UPDATE_APPOINTMENT
+  CREATE_OR_UPDATE_APPOINTMENT,
+  DELETE_APPOINTMENT
 } from "../Constants"
 
 
@@ -126,50 +119,28 @@ export const createOrUpdateAppointment = (payload) => {
     }
 }
 
-// export const updateLocation = (payload) => {
-//     return async function(dispatch) {
-//         try {
-//             const response = await fetch(URL + '/locations/admin/?archived=' + payload.mode.archived,
-//             {
-//                 method: 'PUT',
-//                 body: JSON.stringify(payload),
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "authorization":"Bearer " + payload.token
-//                 }
-//             })
-//             const data = await response.json()
-//             return dispatch({
-//                 type: UPDATE_LOCATION,
-//                 payload: data
-//             })
-//         }catch(e){
-//             return e.message
-//         }
-//     }
-// }
-
-// export const deleteLocation = (payload) => {
-// 	return async function (dispatch) {   
-// 		try {
-// 				const response = await fetch(URL + '/locations/admin/'+ payload.id + '?archived=' + payload.archived,
-// 				{
-// 						method: 'DELETE',
-// 						headers: {
-// 								"Content-Type": "application/json",
-// 								"authorization":"Bearer " + payload.token
-// 						}
-// 				})
-// 				const data = await response.json()
-// 				return dispatch({
-// 					type: DELETE_LOCATION,
-// 					payload: data
-// 				})
-// 		}catch(err) {
-// 			console.log(err)
-// 		}
-// 	}
-// }
+export const deleteAppointment = (payload) => {
+	return async function (dispatch) {   
+		try {
+                console.log(payload)
+				const response = await fetch(URL + '/calendar/'+ payload,
+				{
+						method: 'DELETE',
+						headers: {
+								"Content-Type": "application/json",
+								"authorization":"Bearer " + payload
+						}
+				})
+				const data = await response.json()
+				return dispatch({
+					type: DELETE_APPOINTMENT,
+					payload: data
+				})
+		}catch(err) {
+			console.log(err)
+		}
+	}
+}
 
 // export const changeLocationRaiting = (payload) => {
 //     return async function(dispatch) {

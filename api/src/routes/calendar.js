@@ -7,7 +7,7 @@ const { Appointment } = require('./../db.js');
 
 router.get('/:location', async (req, res) => {
   const { location } = req.params;
-  const { user } = req.query;
+  const { email } = req.query;
 
   try {
     // si faltan datos, no continua
@@ -44,18 +44,28 @@ router.get('/:location', async (req, res) => {
 
     // agrego al objeto base todos los dias y horarios libres
     for (let i = 1; i <= 21; i++) {
-      upcoming[addDays(startDate, i).toISOString().split('T')[0]] = defaultTimes;
+      if(addDays(startDate, i).getDay() !== 6 && addDays(startDate, i).getDay() !== 5) {
+        upcoming[addDays(startDate, i).toISOString().split('T')[0]] = defaultTimes;
+      }
     }
 
     // obtengo los horarios reservados de la DB
     const reserved = await Appointment.findAll({
                                               where: {
-                                                date: {
-                                                  [Sequelize.Op.between]: [
-                                                    startDate,
-                                                    finalDate.toISOString().slice(0,10)
-                                                  ]
-                                                },
+                                                [Sequelize.Op.and]: [
+                                                  {date: {
+                                                    [Sequelize.Op.between]: [
+                                                      startDate,
+                                                      finalDate.toISOString().slice(0,10)
+                                                    ]
+                                                  }},
+                                                  {
+                                                    email: {
+                                                      [Sequelize.Op.not]: email
+                                                    }
+                                                  }
+                                                ]
+                                                ,
                                                 location: location
                                               },
                                             });
@@ -78,7 +88,12 @@ router.get('/:location', async (req, res) => {
     // en el modal donde se edita la informacion de la sucursal
     // *************************************
 
-    res.status(200).json({ msg: 'Locations obtained successfully.', result: upcoming });
+    let user;
+    if (email) {
+      user = await Appointment.findOne({ where: { email: email, location: location } });
+      if (!user) user = {id: null}
+    }
+    res.status(200).json({ msg: 'Locations obtained successfully.', result: upcoming, user: user });
   } catch (error) {
     res.status(400).json({ err: error.message });
   }
@@ -117,40 +132,26 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.delete('/', async (req, res) => {
-  const appointment = req.body;
-  const { date, time, email } = req.body;
+router.delete('/:id', async (req, res) => {
+  //const appointment = req.body;
+  const { id } = req.params;
 
-  if (!date || !time || !email)
+  if (!id)
     return res.status(400).json({ err: 'Missing data.' });
 
   try {
-    const { id } = req.params;
-    const appointmentToDelete = await Appointment.findAll({
-      where: {
-        date: date,
-        time: time,
-        email: email,
-      },
-    });
+    const appointmentToDelete = await Appointment.findByPk(id);
+    
     if (appointmentToDelete === null) {
       return res.status(400).json({ err: `The appointment does not exits.` });
     }
+
     await Appointment.destroy({
-      where: {
-        date: date,
-        time: time,
-        email: email,
-      },
-    });
-    const appointments = await Appointment
-      .findAll
-      //  {
-      //     where: {archived: archived},
-      //     order: [['created', 'DESC']],
-      // }
-      ();
-    res.json({ msg: `Appointment for ${email} has been deleted.`, result: appointments});
+                                where: {
+                                    id: id
+                                }
+                            });
+    res.json({ msg: `Appointment ${id} has been deleted.`, result: {id: 'deleted'}});
   } catch (error) {
     res.status(400).json({ err: error });
   }

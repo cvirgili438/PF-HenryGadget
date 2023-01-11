@@ -20,7 +20,7 @@ import { getLocations } from './../../Redux/Actions/locations.js';
 
 const Locations = () => {
   const [position, setPosition] = useState([-34.36, -58.26])
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState('');
 
   const locations = useSelector(state => state.locations);
 
@@ -75,12 +75,12 @@ const Locations = () => {
           locations.length > 0 && selected ?
             <Box sx={{ minWidth: 120, marginTop: 2 }}>
             <Typography
-              fontSize={25}
+              fontSize={20}
               fontWeight={600}
               component="h3">{ locations.find(p => p.id === selected).address }
             </Typography>
             <Typography
-              fontSize={25}
+              fontSize={20}
               fontWeight={600}
               component="h3">Contact: { locations.find(p => p.id === selected).contact }
             </Typography>

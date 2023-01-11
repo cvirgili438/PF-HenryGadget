@@ -29,7 +29,7 @@ export const inicialtate = {
   campaigns:[],
   locations:[],
   appointments:{},
-  currentAppointment:{}
+  currentAppointment:{id: null}
 };
 
 // PRODUCTOS
@@ -101,6 +101,7 @@ export const CHANGE_LOCATION_VISIBLE = 'CHANGE_LOCATION_VISIBLE'
 export const CHANGE_LOCATION_ARCHIVE = 'CHANGE_LOCATION_VISIBLE'
 export const GET_APPOINTMENTS = 'GET_APPOINTMENTS'
 export const CREATE_OR_UPDATE_APPOINTMENT = 'CREATE_OR_UPDATE_APPOINTMENT'
+export const DELETE_APPOINTMENT = 'DELETE_APPOINTMENT'
 
 //adresses
 export const GET_ADDRESSES = 'GET_ADDRESSES';
