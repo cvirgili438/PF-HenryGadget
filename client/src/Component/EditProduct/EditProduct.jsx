@@ -56,8 +56,7 @@ function EditProduct() {
       img: []
     })
 
-  }, [dispatch, id, productDetail.name, productDetail.type, productDetail.brand, productDetail.price, productDetail.model, productDetail.stock, productDetail.camera,
-        productDetail.description, productDetail.storage, productDetail.processor, productDetail.ram, productDetail.discount]);
+  }, [dispatch]);
 
   function validate(input) {
     let errors = {};
