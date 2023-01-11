@@ -153,17 +153,17 @@ const NavBar = () => {
             </Link>
             {pathname === '/'
             ?(
-              <>
-              <a href="#anchor-services">
-                <ButtonBorderEffect text='Our services'/>
-              </a>
-              <a href='#anchor-featured'>
-                <ButtonBorderEffect text='Featured products'/>
-              </a> 
-              <a href='#anchor-about'>
-                <ButtonBorderEffect text='About us'/>
-            </a> 
-            </>
+                <>
+                  <a href='#anchor-featured'>
+                    <ButtonBorderEffect text='Featured products' />
+                  </a>
+                  <a href="#anchor-services">
+                    <ButtonBorderEffect text='Our services' />
+                  </a>
+                  <a href='#anchor-about'>
+                    <ButtonBorderEffect text='About us' />
+                  </a>
+                </>
             )
             :
             null
