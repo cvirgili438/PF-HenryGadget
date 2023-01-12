@@ -106,8 +106,38 @@ router.get('/:location', async (req, res) => {
     }
 
     // quito del objeto principal los dias especiales
-    // *** no implementado por ahora ***
+    if (availables[0].dataValues.aPspecialDates) {
+      
+      // funcion para validar las fechas
+      function isValidDate(dateString) {
+        // Verifica si la fecha cumple con el formato YYYY-MM-DD
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(dateString)) return false;
+      
+        // Utiliza el objeto Date para verificar si la fecha es válida
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return false;
+      
+        // Verifica si el año, mes y día de la fecha son los mismos que los de la cadena de fecha
+        const [year, month, day] = dateString.split("-").map(x => parseInt(x, 10));
+        return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day;
+      }
 
+      // elimino los comentarios y convierto todo en un array de fechas, y saco elementos vacios del array
+      const pattern = /\*.*?\*(.*?)/gm;
+      const replacement = ',';
+      const replacedString = availables[0].dataValues.aPspecialDates.replaceAll(pattern, replacement);
+      const specialDates = replacedString.split(',').filter(p => p !== '')
+
+      for (const date in upcoming) {
+        for (let i = 0; i < specialDates.length; i++) {
+          if (isValidDate(specialDates[i]) && (date === specialDates[i])) {
+            // saco todos los horarios de la fecha, solo si es una fecha valida
+            upcoming[date] = []
+          }
+        }
+      }
+    }
     
     let user;
     if (email) {

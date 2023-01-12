@@ -8,6 +8,9 @@ import Alert2 from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import HelpIcon from '@mui/icons-material/Help';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -391,7 +394,11 @@ const LocationCRUD = () => {
               </table>
             </div>
             <Form.Group as={Col} controlId="exampleForm.ControlInput5">
-                <Form.Label>Special dates</Form.Label>
+            <Tooltip title="Everything between * * are comments. Dates in YYYY-MM-DD format. Use ',' as separator. Use ',' at end of each line. Invalid dates will be ommited.">
+              <IconButton>
+              <HelpIcon  />
+              </IconButton>
+            </Tooltip>&nbsp;<Form.Label>Special dates</Form.Label>
                 <Form.Control as="textarea"  placeholder="*see instructions for setting special dates*"
                               name='specialDates' value={ input.specialDates } onChange={ handleInputChange } />
               </Form.Group>

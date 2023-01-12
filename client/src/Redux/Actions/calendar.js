@@ -55,20 +55,19 @@ export const createOrUpdateAppointment = (payload) => {
 export const deleteAppointment = (payload) => {
 	return async function (dispatch) {   
 		try {
-                console.log(payload)
-				const response = await fetch(URL + '/calendar/'+ payload,
-				{
-						method: 'DELETE',
-						headers: {
-								"Content-Type": "application/json",
-								"authorization":"Bearer " + payload
-						}
-				})
-				const data = await response.json()
-				return dispatch({
-					type: DELETE_APPOINTMENT,
-					payload: data
-				})
+            const response = await fetch(URL + '/calendar/'+ payload,
+            {
+                    method: 'DELETE',
+                    headers: {
+                            "Content-Type": "application/json",
+                            "authorization":"Bearer " + payload
+                    }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: DELETE_APPOINTMENT,
+                payload: data
+            })
 		}catch(err) {
 			console.log(err)
 		}

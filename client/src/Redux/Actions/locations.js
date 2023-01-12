@@ -172,7 +172,6 @@ export const deleteLocation = (payload) => {
 export const updateLocationAp = (payload) => {
     return async function(dispatch) {
         try {
-            console.log(payload)
             const response = await fetch(URL + '/locations/admin/ap/?archived=' + payload.mode.archived,
             {
                 method: 'PUT',

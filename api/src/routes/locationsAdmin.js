@@ -78,7 +78,6 @@ router.put('/ap/', async (req,res) => {
     const { archived } = req.query; 
      
     const {id, aPspecialDates, aPnormalDates} = req.body;
-    console.log(id, aPspecialDates, aPnormalDates)
 
     if(!id || !aPnormalDates) return res.status(400).json({err: 'Missing data.'}); 
     try { 
