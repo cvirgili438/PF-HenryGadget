@@ -127,15 +127,38 @@ export function addProduct(payload) {
 	}
 }
 
-export function editProduct(payload) {
-	return async function (dispatch) {
-		const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
-		return {
-			type: EDIT_PRODUCT,
-			response
-		}
+export const editProduct = (payload) => {
+	return async function(dispatch) {
+			try {
+					const response = await fetch(URL + '/Products/' + payload.id, payload.data,
+					{
+							method: 'PUT',
+							body: JSON.stringify(payload),
+							headers: {
+									"Content-Type": "application/json",
+									"authorization":"Bearer " + payload.token
+							}
+					})
+					const data = await response.json()
+					return dispatch({
+							type: CHANGE_PRODUCT_ACTIVE,
+							payload: data
+					})
+			}catch(e){
+					return e.message
+			}
 	}
 }
+
+// export function editProduct(payload) {
+// 	return async function (dispatch) {
+// 		const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
+// 		return {
+// 			type: EDIT_PRODUCT,
+// 			response
+// 		}
+// 	}
+// }
 
 export const getAdminProducts = (payload) => async (dispatch)=>{   
 	try {
