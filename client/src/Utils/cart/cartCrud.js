@@ -157,3 +157,8 @@ export async function getQuantityProductCart(idProduct, idUser) {
     }
 
 };
+
+export function emptyCart() {
+    store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+    return;
+};
