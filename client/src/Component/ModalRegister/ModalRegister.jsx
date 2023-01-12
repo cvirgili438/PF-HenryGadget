@@ -6,6 +6,7 @@ import { Container, FormControl, FormHelperText, IconButton, InputAdornment, Inp
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import validateRegister from '../../Utils/ValidateRegister/ValidateRegister';
+import { Button_contained_primary } from '../../Utils/MiuStyles/MiuStyles';
 
 function ModalRegister(props) {
   useEffect(()=>{
@@ -117,6 +118,7 @@ function ModalRegister(props) {
           variant="contained"
           size="lg"
           onClick={props.handleDisplayRegisterModal}
+          sx={Button_contained_primary}
         >
           Back
         </Button>
@@ -124,6 +126,7 @@ function ModalRegister(props) {
           className={styles.register_container_footer_button}
           variant='contained' 
           size="lg"
+          sx={Button_contained_primary}
           onClick={!props.isLoading ? props.handleSubmit : null}
           disabled={Object.keys(props.errors).length > 0 ? true : false}
         >

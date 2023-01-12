@@ -108,7 +108,8 @@
     flex-direction:column;
     align-items:flex-start;
     box-shadow: 0px 0px 3px 1px rgba(120,120,120,.2);
-
+    max-height: 12rem;
+    overflow-y: auto;
 }
 .search_box_p{
     padding-left: 1rem;
@@ -123,5 +124,19 @@
     border-radius: 10px;
 }
 .search_box_p:hover{
-    background-color: rgb(240,240,255);
+    background-color: rgb(186, 225, 207);
+}
+
+::-webkit-scrollbar{
+    border-radius: 50px;
+    background-color: transparent;
+    width: 1rem;
+}
+::-webkit-scrollbar-thumb{
+    background-color:rgb(25, 135, 84);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(120,120,120,.02);
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color:rgb(17, 95, 59); ;
 }

@@ -30,7 +30,7 @@ const MiniNav = ({ pathname , setInput}) => {
 
     return (
         <div className={styles.main}>
-            <Link onClick={()=>setInput('')} to='/'>
+            <Link style={{marginLeft:'1rem'}} onClick={()=>setInput('')} to='/'>
                 <span className={styles.separator}>
                     <ButtonBorderEffect text='Home' />
                 </span>
@@ -43,14 +43,19 @@ const MiniNav = ({ pathname , setInput}) => {
             {pathname === '/'
                 ? (
                     <>
-                        <a href="#anchor-services">
+                        <a href="#anchor-contact">
                             <span className={styles.separator}>
-                                <ButtonBorderEffect text='Our services' />
+                                <ButtonBorderEffect text='Contact' />
                             </span>
                         </a>
                         <a href='#anchor-featured'>
                             <span className={styles.separator}>
                                 <ButtonBorderEffect text='Featured products' />
+                            </span>
+                        </a>
+                        <a href='#anchor-sales'>
+                            <span className={styles.separator}>
+                                <ButtonBorderEffect text='Sales' />
                             </span>
                         </a>
                         <Link to={'/aboutUs'}>
