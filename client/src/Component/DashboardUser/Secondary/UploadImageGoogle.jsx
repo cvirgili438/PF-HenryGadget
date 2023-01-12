@@ -15,9 +15,10 @@ import { putProfileUser } from '../../../Redux/Actions/users.js';
 
 
 
-export default function UploadImageGoogle(props) {
 
-    const dispatch = useDispatch();
+export default function UploadImageGoogle(props) {
+  
+  const dispatch = useDispatch();
   const isLoading = useSelector(state=>state.loading)
 
 
@@ -120,16 +121,14 @@ function handleSubmit(e) {
         google:true,
         idUser:props.idUser,
         phoneNumber:input.phoneNumber,
-        photoURL:input.img? input.img : input.currentPhoto}))               
+        photoURL: input.currentPhoto}))       
+        setTimeout(()=>{
+          setMsg({...msg,success:'Your account has succefully updated'})
+        },1000)        
       setTimeout(()=>{
-       setMsg({...msg,success:'Product created successfully'})
+        window.location.reload()
       },2500)
-      setInput({
-        idUser:props.idUser,
-        google:props.google,
-        phoneNumber:props.phoneNumber,
-        img:[]
-      })           
+             
   }
  
   return;
@@ -153,7 +152,7 @@ function handleSubmit(e) {
             <div>
                 Your current photo < img src={props.currentPhoto} style={{width:'50px',height:'50px'}} alt='nothing to share' />
             </div>):(<h3 color='red'>You haven't a photo yet</h3>)}
-          <Button 
+          {/* <Button 
           
           variant='contained'
           component="label"
@@ -168,14 +167,14 @@ function handleSubmit(e) {
           </Button>
           <div style={{width:'5rem' , height:'2rem'}}>
             {isLoading ? <Loader value={progress}/>:null}
-          </div>
+          </div> */}
         </div>
-        {input.img.length > 0
+        {/* {input.img.length > 0
         ? input.img.map((e,indx)=>{
          return <MiniCardCreateProduct key={indx} handleRemoveImg={handleRemoveImg} img={e}/>
         })
         : null
-        }
+        } */}
         
         
       </Box>
