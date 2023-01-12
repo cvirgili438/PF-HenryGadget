@@ -8,7 +8,8 @@
     background-color: rgb(244, 244, 244);
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.5);
     top: 0px;
-    z-Index: 1
+    z-Index: 1;
+    height:3.3rem
 }
 
 
@@ -22,4 +23,5 @@
 .cart {
     position: absolute;
     right: 2rem;
+    bottom:10px;
 }
