@@ -45,12 +45,7 @@ const CartPage = () => {
     setLocalCart(await getAllCart(user && user.uid));
   }, [refreshCart]);
 
-  useEffect(async () => {
-    let button = document.getElementById('stepper-button')
-    if(button.className.includes(' Mui-disabled')){
-      let location = button.className.indexOf(' Mui-disabled')
-      button.className = button.className.slice(0,location)
-    }
+  useEffect(async () => {   
     if(user === null) /// Recargar el carrito cuando se desloguea.
       setLocalCart(await getAllCart(user && user.uid));
   }, [user])
