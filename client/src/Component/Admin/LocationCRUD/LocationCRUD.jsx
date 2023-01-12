@@ -421,11 +421,11 @@ const LocationCRUD = () => {
               </table>
             </div>
             <Form.Group as={Col} controlId="exampleForm.ControlInput5">
-            <Tooltip title="Everything between * * are comments. Dates in YYYY-MM-DD format. Use ',' as separator. Use ',' at end of each line. Invalid dates will be ommited.">
+            <Tooltip title="These dates will not be available for this location. Everything between * * are comments. Dates in YYYY-MM-DD format. Use ',' as separator. Use ',' at end of each line. Invalid dates will be ommited.">
               <IconButton>
               <HelpIcon  />
               </IconButton>
-            </Tooltip>&nbsp;<Form.Label>Special dates</Form.Label>
+            </Tooltip>&nbsp;<Form.Label>Special no appointment dates</Form.Label>
                 <Form.Control as="textarea"  placeholder="*see instructions for setting special dates*"
                               name='specialDates' value={ input.specialDates } onChange={ handleInputChange } />
               </Form.Group>
