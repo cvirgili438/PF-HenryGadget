@@ -2,6 +2,9 @@ import React from "react";
 import Carousel from 'react-bootstrap/Carousel'
 
 import styles from './Slider.module.css'
+import banner1 from '../../Assets/banner01.jpg'
+import banner2 from '../../Assets/banner02.jpg'
+import banner3 from '../../Assets/banner03.jpg'
 
 export default function Slider() {
     return (
@@ -11,7 +14,7 @@ export default function Slider() {
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src="https://www.tiendadiggit.com.ar/Pubs/Sites/Default/Banners/1514.jpg"
+              src={ banner1 }
               alt="First slide"
             />
             {/* <Carousel.Caption>
@@ -22,7 +25,7 @@ export default function Slider() {
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src="https://www.elit.com.ar/_next/image?url=https%3A%2F%2Felit-prod.s3.amazonaws.com%2Fbanners%2F638a4e403559f108582157b9%2Fdesktop.webp&w=1920&q=95"
+              src={ banner2 }
               alt="Second slide"
             />
     
@@ -34,7 +37,7 @@ export default function Slider() {
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src="https://zelucashdev.s3.sa-east-1.amazonaws.com/uploads/BANERS%20ZC/09_Septiembre/Samsung%20Linea%20A%20-%20Linea%20J.png"
+              src={ banner3 }
               alt="Third slide"
             />
     

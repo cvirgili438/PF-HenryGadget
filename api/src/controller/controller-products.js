@@ -1,7 +1,8 @@
 const { Product, Type, Storage, Ram, Brand, User, Order, Campaign, Newsletter, Location, Appointment } = require('../db');
 const products = require('./objectToAdd/products.js');
 const iphones = require('./objectToAdd/iphoneProducts')
-const review = require('./objectToAdd/reviews.js');
+const reviewaur = require('./objectToAdd/reviewsaur.js');
+const reviewtel = require('./objectToAdd/reviewstel.js');
 const brands = require('./objectToAdd/brands.js');
 const storages = require('./objectToAdd/storages.js');
 const types = require('./objectToAdd/types.js');
@@ -27,8 +28,16 @@ async function inicialProducts() {
         for (let i = 0; i < products.length; i++) {
             let produc = await Product.create(products[i]);
 
-            for (let j = i * 3; j < i * 3 + 3; j++)
-                produc.createReview(review[j]);
+            // crea tres reviews para cada producto
+            for (let j = i * 3; j < i * 3 + 3; j++) {
+                if (i <= 2) {
+                    // auriculares
+                    produc.createReview(reviewaur[Math.floor(Math.random() * (2 - 0 + 1)) + 0]);
+                } else {
+                    // telefonos
+                    produc.createReview(reviewtel[Math.floor(Math.random() * (9 - 0 + 1)) + 0]);
+                }
+            }
 
             produc.createBrand(brands[i]);
 
@@ -45,7 +54,7 @@ async function inicialProducts() {
             let iphone = await Product.create(iphones[i]);
 
             for (let j = i; j < i + 1; j++)
-                iphone.createReview(review[j]);
+                iphone.createReview(reviewtel[Math.floor(Math.random() * (9 - 0 + 1)) + 0]);
 
             const [brandOfDevice, brandCreated] = await Brand.findOrCreate({
                 where: { name: "Apple" }
