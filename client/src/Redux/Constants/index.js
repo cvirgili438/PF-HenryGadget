@@ -2,7 +2,7 @@
 import { fetchUserData } from "../../Utils/fetchLocalStorageData";
 
 export const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-// export const URL = 'http://192.168.0.170:3001'; // para pruebas
+// export const URL = 'http://localhost:3001'; // para pruebas
 
 const userStorageData = fetchUserData()
 // ESTADO INICIAL
@@ -29,7 +29,9 @@ export const inicialtate = {
   campaigns:[],
   locations:[],
   appointments:{},
-  currentAppointment:{id: null}
+  currentAppointment:{id: null},
+  productsWithDiscount:[],
+  buttonAddress: true
 };
 
 // PRODUCTOS
@@ -45,6 +47,7 @@ export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
+export const PRODUCTS_DISCOUNT = 'PRODUCTS_DISCOUNT'
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
@@ -54,8 +57,10 @@ export const CHANGE_REVIEW_VISIBLE = 'CHANGE_REVIEW_VISIBLE'
 export const CHANGE_REVIEW_ARCHIVE = 'CHANGE_REVIEW_ARCHIVE'
 export const CHANGE_USER_ACTIVE = 'CHANGE_USER_ACTIVE'
 export const CHANGE_USER_ADMIN = 'CHANGE_USER_ADMIN'
+export const PUT_PROFILE_USER = 'PUT_PROFILE_USER'
 export const FORCE_RESET_PWD = 'FORCE_RESET_PWD'
 export const CHECK_USER_RESET_PWD = 'CHECK_USER_RESET_PWD'
+
 
 
 // VARIAS
@@ -65,6 +70,7 @@ export const SET_LOADING = 'SET_LOADING'
 //checkout
 export const SET_LOCAL_ADRESS= 'SET_LOCAL_ADRESS'
 export const SET_USER_ADDRESS = 'SET_USER_ADDRESS'
+export const SET_BUTTON_ACTIVE = 'SET_BUTTON_ACTIVE'
 
 // Cart
 export const REFRESH_CART = 'REFRESH_CART';

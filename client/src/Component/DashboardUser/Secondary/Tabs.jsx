@@ -6,9 +6,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Addresses from './Addresses';
 import AddressForm from './addressForm/AddressForm';
-import { Button, CircularProgress } from '@mui/material';
+import { Button,Container } from '@mui/material';
 import * as style from './addressForm/style.js'
 import Modal from '@mui/material/Modal';
+import ProfileForm from './ProfileForm';
+import Switch from '@mui/material/Switch';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,7 +54,10 @@ export default function BasicTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+  const [edit,setEdit] = React.useState(false)
+  const handleChangeEdit = (event) => {
+    setEdit(event.target.checked);
+  };
   React.useEffect(()=>{},[])
   
   return (
@@ -116,7 +121,31 @@ export default function BasicTabs(props) {
         }): <></>}    
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+      <Container sx={{
+                    display:'flex',
+                    direction:'row',
+                    alignItems:'center',
+                    justifyContent:'right'
+                    
+                }}>
+                <Typography >Edit</Typography>
+                <Switch
+                     checked={edit}
+                     onChange={handleChangeEdit}
+                     inputProps={{ 'aria-label': 'controlled' }}
+                />
+                </Container>
+                {edit === false ? (
+                <Container fixed >
+                  <ProfileForm token={props.token} user={props.user} disabled={!edit}/>
+                </Container>):
+                (
+                  <Container fixed >
+                    <ProfileForm token={props.token} user={props.user} disabled={!edit}/>
+                  </Container>
+                )
+                }
+        
       </TabPanel>
       {/* <TabPanel value={value} index={2}>
         Item Three

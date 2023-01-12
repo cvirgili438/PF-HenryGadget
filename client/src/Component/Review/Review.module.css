@@ -1,8 +1,14 @@
 .mainContainer{
-    padding-top: 8rem;
+    padding-top: 10rem;
     display: flex
 }
 
 .main_img{    
     max-width: 60%;
 }
+
+.p{
+    margin: auto;
+    padding-right: 2rem;
+}
+

@@ -27,6 +27,8 @@ import Review from './Component/Review/Review';
 import Locations from './Component/Map/Map';
 import DashboardUser from './Component/DashboardUser/Principal/DashboardUser';
 import Products from './Component/Products/Products';
+import AboutUs from './Component/AboutUs/AboutUs';
+import EditProduct from './Component/EditProduct/EditProduct'
 
 const App = () => {
 
@@ -47,11 +49,12 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route path={'/orders'} component={Orders}  />
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
-          <Route  path="/review/:id" component={Review}  />  
-
-          {user && user.rol === 'client' && (
+          <Route  path="/review/:id" component={Review}  />
+          <Route path={'/aboutUs'} component={AboutUs} />
+          
+          {(user && user.rol === 'client') ? (
             <Route  path={"/user"}  component={DashboardUser}  />
-            )
+            ): (<Route path="/user" component={Page404} />)
           }
           <Route path='/products' component={Products}/>
 
@@ -67,6 +70,7 @@ const App = () => {
                 <Route path='/admin/location' component={LocationCRUD} />
                 <Route path='/admin/users' component={UserCRUD} />
                 <Route path='/admin/createproduct' component={CreateProduct}/>
+                <Route path='/admin/edit/:id' component={EditProduct}/>
               </Route>         
             :
             <></>

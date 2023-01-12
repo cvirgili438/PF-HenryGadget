@@ -102,6 +102,20 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/discount',async(req, res) => {
+    try{
+        const data = await Product.findAll({
+            where:{
+                    discount: { [Sequelize.Op.ne]: null } 
+            },
+            include:[{model:Review}]
+        })
+        res.json(data)
+    }catch(e){
+        res.status(400).json({err: e})
+    }
+})
+
 router.get('/type', async (req, res) => {
     try {
         const types = await Type.findAll();

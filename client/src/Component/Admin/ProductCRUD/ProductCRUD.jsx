@@ -213,7 +213,7 @@ const ProductCRUD = () => {
                       :
                       <></>
                     }
-                    <td><Link to={`/edit/${p.id}`}><Button text='Edit' /></Link></td>
+                    <td><Link to={`/admin/edit/${p.id}`}><Button text='Edit' /></Link></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                     {
                       mode.archived ?
