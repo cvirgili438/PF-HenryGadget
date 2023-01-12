@@ -129,7 +129,7 @@
 
 ::-webkit-scrollbar{
     border-radius: 50px;
-    background-color: rgb(186, 225, 207);
+    background-color: transparent;
     width: 1rem;
 }
 ::-webkit-scrollbar-thumb{
