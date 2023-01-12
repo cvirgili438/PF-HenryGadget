@@ -22,9 +22,10 @@ export default function AddressForm(props) {
     postalCode:props.postalCode,
     street:props.street,
     name:props.name,
-    disabled:props.disabled
+    disabled:props.disabled,
+    type:'shipping'
   })
-  const input = useRef({region:'',city:'',postalCode:'',street:'',name:''})
+  const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type:'shipping'})
   const dispatch = useDispatch()  
   function verification (input){
     if(input.region===''||input.city===''||input.postalCode===''||input.street===''||input.name==='' || loading=== true){
@@ -38,7 +39,9 @@ export default function AddressForm(props) {
       city:inputt.city,
       postalCode:inputt.postalCode,
       street:inputt.street,
-      name:inputt.name} 
+      name:inputt.name,
+      type:inputt.type
+    } 
             
   },[inputt,adress])
   

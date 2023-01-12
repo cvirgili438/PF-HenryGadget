@@ -25,21 +25,12 @@ const token = props.token
 const handleChange = (event) => {
     setEdit(event.target.checked);
   };
-
+const principal = props.principal
     return (
     <Container fixed>
-        {/* {edit === false ? ( 
-        <Root>        
-            <Divider><Chip label={props.name} /></Divider>
-            {props.region}
-        </Root>):
-        (
-            <AddressForm id={props.id} token={props.token}/>
-        )
-        
-        } */}
+ 
          <Root>        
-            <Divider><Chip label={props.name} /></Divider>
+            {principal === true ? (<Divider><Chip label={props.name+ "as Principal address"} /></Divider>):(<Divider><Chip label={props.name} /></Divider>)}
                 <Container sx={{
                     display:'flex',
                     direction:'row',

@@ -108,7 +108,20 @@ export default function BasicTabs(props) {
     }}
       >Create new address</Button>) }       
         {addresses.length > 0 ? addresses.map((element,index)=>{
+          if(element.type === 'shipping' && element.principal === false){
             return <Addresses
+            key={element.name + index}
+            name ={element.name}
+            id={element.id}
+            street={element.street}
+            city={element.city}
+            region={element.region}
+            postalCode={element.postalCode}
+            token={props.token}
+            />
+          }
+          if(element.type=== 'shipping' && element.principal === true){
+            return (<Addresses
                             key={element.name + index}
                             name ={element.name}
                             id={element.id}
@@ -117,7 +130,10 @@ export default function BasicTabs(props) {
                             region={element.region}
                             postalCode={element.postalCode}
                             token={props.token}
-                            />
+                            principal={true}
+                            />)
+          }
+            
         }): <></>}    
       </TabPanel>
       <TabPanel value={value} index={1}>
