@@ -61,7 +61,7 @@ function Services() {
           }}
         >
           <Typography variant='overline' sx={{fontSize:'1.1rem',marginTop:'10px'}}>
-             Pay width credit or debit
+             Pay with credit or debit
           </Typography>
           <Box sx={{display:'flex',placeItems:'center',justifyContent:'center',width:'100%'}}>
             <img 
