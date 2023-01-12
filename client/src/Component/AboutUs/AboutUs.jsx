@@ -1,11 +1,15 @@
 import { Box, Typography, Stack } from "@mui/material";
 import { Container } from "@mui/system";
-import React from "react";
+import React, { useEffect }  from "react";
 import Separator from "../Separator/Separator";
 import logo from "../../Assets/logo.png"
 
 
 const AboutUs = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <Container>
@@ -17,7 +21,9 @@ const AboutUs = () => {
                     <br />
                     <Typography sx={
                         {
-                            textAlign: 'start'
+                            textAlign: 'start',
+                            fontWeight:'bold',
+                            fontSize:'1.2rem'
                         }
                     } variant="body1">
                         <p>Somos el grupo de proyecto final de Soy Henry de la cohorte Part-Time 08-05.</p>
@@ -29,7 +35,7 @@ const AboutUs = () => {
                             <li>Mijail Pulgar</li>
                             <li>Moises Plata</li>
                             <li>Nicolas Stabilini</li>
-                            <li>Svens Clausz</li>
+                            <li>Sven Andreas Clausz</li>
                             <li>Leonardo Meza</li>
                         </ul>
                         <p>Estamos muy orgullosos de este proyecto pero sobre todo de haberlo hecho juntos. </p>

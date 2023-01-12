@@ -16,6 +16,7 @@ const mail = require('./emails/sendMail.js');
 const campaigns = require('./emails/campaigns.js')
 const locationsAdmin = require('./locationsAdmin.js');
 const locations = require('./locations.js');
+const appointment = require('./calendar.js');
 
 const { route } = require('../routes/products/productsAdmin');
 const router = Router();
@@ -37,6 +38,7 @@ router.use('/mail', mail);
 router.use('/campaigns', campaigns);
 router.use('/locations/admin', locationsAdmin);
 router.use('/locations', locations);
+router.use('/calendar', appointment);
 
 router.get('/', (req, res) => {
     res.status(200).send("HenryGadget");
