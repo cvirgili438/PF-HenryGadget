@@ -81,7 +81,7 @@ const CartPage = () => {
         })}
       </Box>
       
-      <Total/>
+      <Total localCart={localCart} setLocalCart={setLocalCart} />
       
     </Box>
     )}
