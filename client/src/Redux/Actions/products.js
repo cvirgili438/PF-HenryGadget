@@ -235,7 +235,7 @@ export const changeProductArchive = (payload) => {
 export const getProductWithDiscount = ()=>{
 	return async function(dispatch){
 		try{
-			const response = await axios('http://localhost:3001/products/discount')
+			const response = await axios(URL + '/products/discount')
 			return dispatch({
 				type: PRODUCTS_DISCOUNT,
 				payload:response.data
