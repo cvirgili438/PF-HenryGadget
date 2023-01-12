@@ -1,4 +1,4 @@
-import { Skeleton, Typography, IconButton, Divider } from '@mui/material';
+import { Skeleton, Typography, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
 import React,{useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
@@ -12,10 +12,8 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { getAllCart, cleanCart, sendAllCart } from '../../Utils/cart/cartCrud.js';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import styles from './Cart.module.css'
 
-const Cart = (props) => {     
+const Cart = () => {     
         let [localCart, setLocalCart] = useState([]);
         const user = useSelector(state => state.user)
         const history = useHistory();
@@ -83,17 +81,19 @@ const Cart = (props) => {
         }, [open]);
 
     return (
-      <div style={props.cartItems ? {marginTop:'8px'} : {marginRight:'2rem'}}>
-          <ShoppingCartIcon 
-            className={style.cart} 
-            sx={{width:'2.2rem',height:'2.2rem'}}
-            ref={anchorRef}
-            id="composition-button"
-            aria-controls={open ? 'composition-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-          />
+      <div >
+
+        <IconButton
+          sx={{padding: 1}}
+          ref={anchorRef}
+          id="composition-button"
+          aria-controls={open ? 'composition-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+           <TiShoppingCart className={style.cart}/>
+        </IconButton>
         <Popper
           open={open}
           anchorEl={anchorRef.current}
@@ -101,7 +101,6 @@ const Cart = (props) => {
           placement="bottom-start"
           transition
           disablePortal
-          sx={{width:'28rem'}}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -113,7 +112,6 @@ const Cart = (props) => {
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
-                  <Box>
                   <MenuList
                     autoFocusItem={open}
                     id="composition-menu"
@@ -121,81 +119,38 @@ const Cart = (props) => {
                     onKeyDown={handleListKeyDown}
                     sx={{
                       display:'flex',
-                      flexDirection:'column',
-                      overflowY:'auto',
-                      maxHeight:'40rem',
-                    }}    
-                    className={styles.scrollbar}           
-                   >                    
-
+                      flexDirection:'column'
+                    }}                  >                    
+                   
                     {localCart?.length > 0?  localCart?.map((e,i) => {
                       return <MenuItem key={'menu'+i}>
                         <Box sx={{
                           display:'flex',
-                          overflow:'hidden',
-                          width:'100%',
-                          borderBottom:'1px dotted #198754',
-                          paddingBottom:'10px'
+                          flexDirection: 'row'
                         }} >
-                          <img 
-                          style={{
-                            width:'5rem',
-                            heigth:'5rem',
-                            objectFit:'contain'
-                          }}
-                          src={e.img} 
-                          alt={<Skeleton variant='rectangular'  />}/>
-                          <Box  sx={{
-                            flex:'flex',
-                            flexDirection:'column',
-                            alignItems:'center',
-                            width:'100%'
-                          }}>
-                            <Typography variant='h6' > {e.name}  </Typography>
-                            <Typography>
-                              <p style={{fontWeight:'bold',display:'inline-block',color:'#198754',}}>{`$${e.price}`}</p> x {e.quantity} units</Typography>
-                            <Typography variant='subtitle1' sx={{
-                                
-                              }} > Sub Total: ${e.price*e.quantity}</Typography>
+                        <img width='30%' 
+                        height='30px' 
+                        src={e.img} 
+                        alt={<Skeleton variant='rectangular'  />}/>
+                        <Box  sx={{
+                          display:'grid',
+                          gridAutoRows:'auto'
+                          
+                        }}>
+                         <Typography variant='h6' > {e.name} {`($${e.price})`} ||  {e.quantity} units </Typography>
+                          <Typography variant='subtitle1' sx={{
+                            
+                          }} > Price ${e.price*e.quantity}</Typography>
                           </Box>
                         </Box>
                       </MenuItem>
                     }):<MenuItem>You have no items in your shopping cart</MenuItem>}
-                   
-                  </MenuList>
-                  {localCart?.length > 0 ? <MenuItem sx={{
-                      color:'#198754',
-                      
-                    }}>
-                      <Box sx={{
-                        display:'flex',
-                        justifyContent:'center',
-                        height:'2rem',
-                        marginTop:'1rem',
-                        width:'100%'
-                      }}>
-                        <Typography sx={{
-                          marginRight:'0.3rem'
-                        }}>
-                          Total Price: 
-                        </Typography>
-                        <Typography sx={{
-                          fontSize:'1.1rem'
-                          }}>
-                            ${totalPrice(localCart)}
-                        </Typography>
-                      </Box>
-                      </MenuItem>: null}
-                    <Divider 
-                        variant='middle'
-                        sx={{
-                          backgroundColor:'#198754',
-                          height:'0.2rem'
-                        }}
-                      />
+                    {localCart?.length > 0 ? <MenuItem sx={{
+                      color:'red',
+                    }}>Total Price{totalPrice(localCart)}</MenuItem>: null}
                     <MenuItem onClick={handleOpenCart}><Typography variant='button' display="block" gutterBottom  >Open cart</Typography></MenuItem>
-                    <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem> 
-                  </Box>
+                    <MenuItem onClick={handleClose} ><Typography variant='button' display="block" gutterBottom >Close</Typography></MenuItem>
+                  </MenuList>
                 </ClickAwayListener>
               </Paper>
             </Grow>

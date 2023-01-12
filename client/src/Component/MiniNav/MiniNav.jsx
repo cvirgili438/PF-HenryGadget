@@ -66,26 +66,13 @@ const MiniNav = ({ pathname , setInput}) => {
             <div className={styles.cart}>
                 {
                     cartItems ?
-                    <>
                         <StyledBadge
-                            sx={{
-                                verticalAlign: 'sub',
-                                marginRight:'2rem',
-                            }}
+                            style={{ verticalAlign: 'sub' }}
+                            // sx={{varticalAlign: 'sub'}}
                             badgeContent={cartItems}
-                            color="primary"
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                              }}
-                            >
-                        <Cart cartItems={cartItems} />
-
-                        </StyledBadge>
-
-                    </>
-
-                        : <Cart cartItems={cartItems} />
+                            color="primary">
+                            <Cart />
+                        </StyledBadge> : <Cart />
                 }
             </div>
         </div>
