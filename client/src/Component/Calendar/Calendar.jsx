@@ -103,6 +103,7 @@ const Calendar = ({uid}) => {
       setSelectedTime(e.target.innerText)
       setHighlightedTime(e.target.innerText)
     }
+    setSelectedTime(e.target.innerText)
   }
 
   const handleDelete = (e) => {
