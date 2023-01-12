@@ -1,6 +1,6 @@
 module.exports = [
     // proyectofinalhenrygadget@gmail.com
-    { uid: 'ZTAC4VigPiX2a2VWQM939zMdSaF2', rol: 'admin' },
+    { uid: 'ZTAC4VigPiX2a2VWQM939zMdSaF2', rol: 'admin', displayName: 'PF grupo 5 - Admin', email: 'proyectofinalhenrygadget@gmail.com' },
     // varios tests
     { uid: 'hr22OxMDfIc8aUkS9YYXXJ1jG4r2', rol: 'client', displayName: 'Pablo Lampone', email: 'basilio@simulad.or', photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3uIVDhybW_4vcn-NiCU7_HZgL7Ia-oa6hDVnkh_xP6hIwSankgYLyHd7y1BGWhk14ewM&usqp=CAU'},
     { uid: 'few4ferf4faewf4aefawefa4af4f', rol: 'client', displayName: 'Emilio Ravenna', email: 'camaleon@simulad.or', photoURL: 'https://img.ecartelera.com/personas/mini/3900/3988_th.jpg' },

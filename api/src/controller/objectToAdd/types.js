@@ -1,10 +1,10 @@
 module.exports = [
     {
         name: 'headphone',
-        description: 'Una descripción.'
+        description: 'Accesories'
     },
     {
         name: 'smartphone',
-        description: 'Alguna otra descripcion.'
+        description: 'Cellphones'
     },
 ]

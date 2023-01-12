@@ -169,6 +169,29 @@ export const deleteLocation = (payload) => {
 	}
 }
 
+export const updateLocationAp = (payload) => {
+    return async function(dispatch) {
+        try {
+            const response = await fetch(URL + '/locations/admin/ap/?archived=' + payload.mode.archived,
+            {
+                method: 'PUT',
+                body: JSON.stringify(payload),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: UPDATE_LOCATION,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+}
+
 // export const changeLocationRaiting = (payload) => {
 //     return async function(dispatch) {
 //         try {

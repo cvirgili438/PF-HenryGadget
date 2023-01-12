@@ -49,8 +49,7 @@ const App = () => {
           <Route path="/NewsletterUnsubscribe" component={NewsLetterUnsubscribe} />
           <Route path={'/orders'} component={Orders}  />
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
-          <Route  path="/review/:id" component={Review}  />  
-          <Route path={'/map'} component={Locations} /> 
+          <Route  path="/review/:id" component={Review}  />
           <Route path={'/aboutUs'} component={AboutUs} />
 
           {(user && user.rol === 'client') ? (
