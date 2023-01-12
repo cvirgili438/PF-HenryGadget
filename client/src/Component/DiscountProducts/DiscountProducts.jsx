@@ -18,18 +18,20 @@ function DiscountProducts() {
   useEffect(() => {
     dispatch(getProductWithDiscount());
   }, []);
-  console.log(discountProducts);
+
   return (
     <section
       style={{
         width: "100%",
         height: "30rem",
+        marginBottom:'5rem',
+        marginTop:'4rem'
       }}
     >
       <Typography
         variant="h2"
         sx={{
-          margin: "1rem",
+          marginBottom: "4rem",
         }}
       >
         Sales
@@ -132,7 +134,7 @@ function DiscountProducts() {
                         variant="overline"
                         sx={{
                           fontSize: "1.5rem",
-                          // backgroundColor:'rgb(112, 10, 207)',
+                          // backgroundColor:'rgb(161, 208, 246)',
                           backgroundColor: "rgb(207, 12, 35)",
                           color: "white",
                           paddingLeft: "10px",

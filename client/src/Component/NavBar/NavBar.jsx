@@ -68,12 +68,16 @@ const NavBar = () => {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    if (pathname !== '/products') {
+
+    if(pathname !== '/products'){
       history.push('/products')
     }
-    query.set('name', input)
+   
+    query.set('name',input)   
     query.set('offset', 0)
-    history.push({ search: query.toString() })
+    
+    history.push({search:query.toString()})
+    setInput('')
   };
 
 
@@ -98,14 +102,27 @@ const NavBar = () => {
     history.push('/');
   }
 
-
+  const handlePress = (e) => {
+    if (e.key === "Enter") {
+      if(pathname !== '/products'){
+        history.push('/products')
+      }
+     
+      query.set('name',input)   
+      query.set('offset', 0)
+      
+      history.push({search:query.toString()})
+      setInput('')
+    }
+  };
+ 
   return (
     <div className={styles.main} >
       <div className={styles.container}>
         <div style={{ display: 'flex' }}>
-          <Link to='/'><img src={logo} alt='logo' className={styles.logo} /></Link>
-          <div className={styles.center}>
-            <SearchBar
+        <Link onClick={()=>setInput('')} to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
+        <div className={ styles.center }>
+            <SearchBar 
               type='text'
               name='name'
               placeholder="Search..."
@@ -113,6 +130,12 @@ const NavBar = () => {
               onChange={handleInputChange}
               onClick={[handleClear, handleSubmit]}
               input={input}
+              setInput={setInput}
+              pathname={pathname}
+              history={history}
+              search={search}
+              query={query}
+              handlePress={handlePress}
             />
           </div>
           <div className={styles.menu}>
@@ -147,7 +170,7 @@ const NavBar = () => {
       </div>
       {
         !loggedUser || loggedUser.rol !== 'admin' ?
-          <MiniNav pathname={pathname} />
+          <MiniNav pathname={pathname} setInput={setInput}/>
           :
           <></>
       }

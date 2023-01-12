@@ -341,47 +341,4 @@ export const checkUserStatus = (payload) => {
 
 }
 
-export const forceResetPassword = (payload) => {
-    return async function(dispatch) {
-        try {
-            const response = await fetch(URL + '/users/admin/resetpwd/' + payload.id,
-            {
-                method: 'PUT',
-                headers: {
-                    "Accept": "application/json",
-                    "authorization":"Bearer " + payload.token
-                }
-            })
-            const data = await response.json()
-            return dispatch({
-                type: FORCE_RESET_PWD,
-                payload: data
-            })
-        }catch(e){
-            return e.message
-        }
-    }
-
-}
-
-export const checkUserStatus = (payload) => {
-    return async function(dispatch) {
-        try {
-            const response = await fetch(URL + '/users/checkstatus/',
-            {
-                method: 'POST',
-                body: JSON.stringify({'email': payload}),
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload
-                }
-            })
-            const data = await response.json()
-            return data.result;
-        }catch(e){
-            return e.message
-        }
-    }
-
-}
 
