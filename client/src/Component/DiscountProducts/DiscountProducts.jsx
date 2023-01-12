@@ -20,7 +20,7 @@ function DiscountProducts() {
   }, []);
 
   return (
-    <section
+    <section id='anchor-sales'
       style={{
         width: "100%",
         height: "30rem",
