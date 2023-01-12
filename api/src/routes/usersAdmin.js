@@ -9,7 +9,6 @@ const { Sequelize } = require("sequelize");
 router.get('/', async (req,res) => {
 
     try { 
-        console.log(true)
         const users = await User.findAll({order: [['uid', 'ASC']]});
         res.status(200).json({msg: `${users.length} users loaded`, result: users})
     } catch (error) {
@@ -17,18 +16,21 @@ router.get('/', async (req,res) => {
     }
   })
 
-//se pasa middleware para proteger rutas de users para suspender o cambiar modo
-router.use(authWithoutAdm);
-
 router.post('/log/', async (req, res) => {
   const {uid, displayName, email, photoURL} = req.body;
-    console.log(uid, displayName, email, photoURL);
+
   try {
       const user = await User.findByPk(uid);
       if(!user){
           // crea el registro
-          res.status(404).json({err: `User with uid: ${uid} doesn't exist.`});
-          return;
+        const userCreated = await User.create({
+            uid: uid,
+            displayName: displayName,
+            email: email,
+            photoURL: photoURL
+            })
+        return res.status(200).json({msg: `${userCreated.displayName} user created`, result: userCreated})
+    
       }
       //actualiza el registro
       const userUpdated = await User.update({
@@ -36,12 +38,15 @@ router.post('/log/', async (req, res) => {
                                             email: email,
                                             photoURL: photoURL
                                             }, {where: {uid: uid}});
-      const users = await User.findAll({order: [['uid', 'ASC']]});
-      res.status(200).json({msg: `${user.length} user/s changed active property to ${newUser}`, result: users})
+    //   const users = await User.findAll({order: [['uid', 'ASC']]});
+      res.status(200).json({msg: `${userUpdated.dosplayName} updated`, result: userUpdated})
   } catch (error) {
       res.status(400).json({err: error.message})
   }
 })
+
+//se pasa middleware para proteger rutas de users para suspender o cambiar modo
+router.use(authWithoutAdm);
 
 router.put('/active/', async (req,res) => {
     const {ids} = req.body;     

@@ -73,9 +73,10 @@
   color: white;
 }
 
-.productImage {
+.userImage {
   max-width: 40px;
   max-height: 40px;
+  border-radius: 20px;
 }
 
 .available {

@@ -114,7 +114,7 @@ const UserCRUD = () => {
                   <td>{ i + 1 }</td>
                   <td><Checkbox name={ p.uid } onChange={ handleInputUsers } defaultChecked={selected.includes(p.uid) ? true : false}/></td>
                   {/* <td>{ p.uid }</td> */}
-                  <td><img src={ p.photoURL } alt={ p.name } className={ styles.productImage } /></td>
+                  <td><img src={ p.photoURL } alt={ p.name } className={ styles.userImage } /></td>
                   <td>{ p.displayName }</td>
                   <td>{ p.email }</td>
                   <td>{ new Date(p.updated).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: 'numeric', minute: 'numeric' }) }</td>

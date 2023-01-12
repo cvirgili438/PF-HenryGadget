@@ -52,10 +52,10 @@ const NavBar = () => {
     if (search)
       dispatch(getProductsByQuery(search))
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) dispatch(logUserActivity(user))
-    });
-  }, [search])
+    
+    if (loggedUser) dispatch(logUserActivity(loggedUser))
+    
+  }, [search, loggedUser])
 
 
   // useEffect(async () => {
