@@ -21,9 +21,7 @@ const AboutUs = () => {
                     <br />
                     <Typography sx={
                         {
-                            textAlign: 'start',
-                            fontWeight:'bold',
-                            fontSize:'1.2rem'
+                            textAlign: 'start'
                         }
                     } variant="body1">
                         <p>Somos el grupo de proyecto final de Soy Henry de la cohorte Part-Time 08-05.</p>
@@ -35,7 +33,7 @@ const AboutUs = () => {
                             <li>Mijail Pulgar</li>
                             <li>Moises Plata</li>
                             <li>Nicolas Stabilini</li>
-                            <li>Sven Andreas Clausz</li>
+                            <li>Svens Clausz</li>
                             <li>Leonardo Meza</li>
                         </ul>
                         <p>Estamos muy orgullosos de este proyecto pero sobre todo de haberlo hecho juntos. </p>

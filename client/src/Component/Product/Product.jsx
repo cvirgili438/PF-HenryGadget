@@ -77,6 +77,7 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
         </IconButton>
 
         <Button onClick={e => HandleAddCart(e)} variant='contained' sx={Button_contained_primary}>
+          <AddShoppingCartIcon style={{ marginRight: '1rem' }} />
           Add cart
         </Button>
       </div>
