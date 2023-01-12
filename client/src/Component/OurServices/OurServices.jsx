@@ -50,14 +50,14 @@ function OurServices() {
         <div className={styles.services_container} data-aos='fade-right' data-aos-offset='-650' data-aos-duration='1300' data-aos-delay="1200" data-aos-once='true'>
             <div className={styles.services}>
                 <ElectricBoltIcon className={styles.services_icon}/>
-                <p>Fast deliver</p>
+                <p>Fast deliveries</p>
             </div>
              <CheckCircleOutlinedIcon style={{width:'3rem',height:'3em'}} />
         </div>
         <div className={styles.services_container} data-aos='fade-right' data-aos-offset='-750' data-aos-duration='1300' data-aos-delay="1600" data-aos-once='true'>
             <div className={styles.services}>
                 <PaymentIcon className={styles.services_icon}/>
-                <p>All payments</p>
+                <p>All payment methods</p>
             </div>
              <CheckCircleOutlinedIcon style={{width:'3rem',height:'3em'}} />
         </div>
@@ -65,7 +65,7 @@ function OurServices() {
         <div className={styles.services_container} data-aos='fade-right' data-aos-offset='-850' data-aos-duration='1300' data-aos-delay="2000" data-aos-once='true'>
             <div className={styles.services}>
                 <SupportAgentOutlinedIcon className={styles.services_icon}/>
-                <p>Personalized attention</p>
+                <p>24/7 Customer support</p>
             </div>
              <CheckCircleOutlinedIcon style={{width:'3rem',height:'3em'}} />
         </div>
