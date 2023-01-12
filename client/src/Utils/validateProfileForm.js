@@ -1,11 +1,13 @@
 export function validate(input){
     let errors = {};
+    var numberRegex = /^\d+$/;
     if(!input.name){
         errors.name='Please insert a Name'
     }
     if(!input.phoneNumber){
         errors.phoneNumber= 'phoneNumber is required'
     }
+    if(!numberRegex.test(input.phoneNumber)){errors.phoneNumber= 'the caracters you have entered has a Space or not a number '}
     if(!input.img || input.img === "" || !input.currentPhoto || input.currentPhoto === "" ){
         errors.img = 'Image is required';
       }
