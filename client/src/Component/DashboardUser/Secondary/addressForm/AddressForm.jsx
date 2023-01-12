@@ -22,7 +22,8 @@ export default function AddressForm(props) {
     postalCode:props.postalCode,
     street:props.street,
     name:props.name,
-    disabled:props.disabled
+    disabled:props.disabled,
+    type:'shipping'
   })
   const input = useRef({region:'',city:'',postalCode:'',street:'',name:''})
   const dispatch = useDispatch()  
