@@ -71,10 +71,20 @@ const LocationCRUD = () => {
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
+    let temp = e.target.value;
+    if (e.target.name === 'lat') {
+      if (temp > 90) temp = 90; 
+      if (temp < -90) temp = -90;
+    }
+    if (e.target.name === 'lon') {
+      if (temp > 180) temp = 180; 
+      if (temp < -180) temp = -180;
+    }
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [e.target.name]: temp,
     });
+    
   };
 
   const handleChangeVisible = e => {
@@ -267,6 +277,12 @@ const LocationCRUD = () => {
       ...initialAp,
       [e.target.id - 1]: e.target.value
     })
+    if (e.target.value > finalAp[e.target.id - 1]) {
+      setFinalAp({
+        ...finalAp,
+        [e.target.id - 1]: e.target.value
+      })
+    }
   }
 
   const handleChangeFinal = (e) => {
@@ -274,6 +290,12 @@ const LocationCRUD = () => {
       ...finalAp,
       [e.target.id - 1]: e.target.value
     })
+    if (e.target.value < initialAp[e.target.id - 1]) {
+      setInitialAp({
+        ...initialAp,
+        [e.target.id - 1]: e.target.value
+      })
+    }
   }
 
  
@@ -332,7 +354,12 @@ const LocationCRUD = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button text="Discard" onClick={ handleCloseModal } />
-          <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
+          {
+            !input.name || !input.address ?
+            <Button text={ `Missing data!` } disabled={ true } />
+            :
+            <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
+          }
         </Modal.Footer>
       </Modal>
       <ModalAp show={showAp} onHide={ handleCloseModalAp } size="lg">
