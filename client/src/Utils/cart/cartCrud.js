@@ -111,6 +111,9 @@ export async function getAllItemCart(idUser) {
 // Función que solo se llama cuando el cliente se logueado
 // teniendo un carrito en el localstorage.
 export async function sendAllCart(storage, idUser) {
+    if(storage.length === 0)
+        return null;
+
     try {
         let response = await sendAllCartDB(storage, idUser);
         store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
