@@ -48,7 +48,7 @@ function DiscountProducts() {
         navigation={true}
         modules={[Pagination, Navigation]}
         className="mySwiper"
-        style={{ height: "20rem", margin: "auto" }}
+        style={{ height: "25rem", margin: "auto" }}
       >
         {discountProducts ? (
           discountProducts.map((e) => (

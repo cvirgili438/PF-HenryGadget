@@ -20,7 +20,7 @@ module.exports = [
         price: 120,
         model: 'Buds 120',
         stock: 3,
-        description: 'Built-in Microphone, Call functions, Extra Bass, HD Voice, Noise Isolation, Replaceable Ear Tips, Stereo, Sweat-Proof, Touch Control, Water-Resistant, Wireless, Single Master Feature, 15h Playtime, Compact',
+        description: 'Built-in Microphone, Extra Bass, HD Voice, Noise Isolation, Replaceable Ear Tips, Stereo, Touch Control, Water-Resistant, Wireless, Compact',
         img: ['https://motorolaus.vtexassets.com/arquivos/ids/162201-800-auto',
             'https://motorolaus.vtexassets.com/arquivos/ids/162202-800-auto'],
         discount:'15'
@@ -32,7 +32,7 @@ module.exports = [
         stock: 13,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg'],
         discount:'15'
@@ -44,7 +44,7 @@ module.exports = [
         stock: 4,
         camera: '100Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg'],
         discount:'10'
@@ -133,7 +133,7 @@ module.exports = [
         stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg']
     },
     {
@@ -143,7 +143,7 @@ module.exports = [
         stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-lite-2.jpg']
     },
     {
@@ -163,7 +163,7 @@ module.exports = [
         stock: 4,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg']
     },
     {
@@ -183,7 +183,7 @@ module.exports = [
         stock: 13,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg']
     },
     {
@@ -213,7 +213,7 @@ module.exports = [
         stock: 5,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg']
     },
 ]
