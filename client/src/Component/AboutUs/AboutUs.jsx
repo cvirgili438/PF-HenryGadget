@@ -1,11 +1,15 @@
 import { Box, Typography, Stack } from "@mui/material";
 import { Container } from "@mui/system";
-import React from "react";
+import React, { useEffect }  from "react";
 import Separator from "../Separator/Separator";
 import logo from "../../Assets/logo.png"
 
 
 const AboutUs = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <Container>

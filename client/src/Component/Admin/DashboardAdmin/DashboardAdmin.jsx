@@ -12,7 +12,6 @@ const DashboardAdmin = () => {
 
   return (
     <div className={ styles.container }>
-      <Link to='/'><img src={logo} alt='logo' className={ styles.logo }/></Link>
       <div className={ styles.center }>
         <ButtonGroup variant="outlined" aria-label="outlined primary button group">
           <Button component={Link} to="/admin/products" >Products</Button>

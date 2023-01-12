@@ -29,13 +29,16 @@ export default function Checkout() {
 
 
   useEffect(() => {
-    axios(`${URL}/address?idUser=${user.uid}`)
+    if(user && user.uid){
+      axios(`${URL}/address?idUser=${user.uid}`)
          .then(res => {
             if(res.data.result.length === 0) return;
 
             setAddressUser([...addressUser, ...res.data.result]);
          })
          .catch(err => console.log(err))
+    }
+    
   }, [active]);
 
   useEffect(()=>{
