@@ -9,9 +9,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { ListItemText } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { useSelector, } from 'react-redux';
+import { getAllCart } from '../../Utils/cart/cartCrud.js';
 
 const Total = (props) => {
 
+  const user = useSelector(state => state.user)
   const [total, setTotal] = useState("");
   const [totalDiscount, setTotalDiscount] = useState("");
 
@@ -31,9 +34,15 @@ const Total = (props) => {
     return discount
   }
 
-  useEffect(() => {
-    setTotal(totalPrice(props.localCart));
-    setTotalDiscount(totalDiscountF(props.localCart))
+  useEffect(async() => {
+    if (props.localCart) {
+      setTotal(totalPrice(props.localCart));
+      setTotalDiscount(totalDiscountF(props.localCart))
+    }else{
+      let cart = await getAllCart(user && user.uid);
+      setTotal(totalPrice(cart));
+      setTotalDiscount(totalDiscountF(cart))
+    }
   }, [props.localCart])
 
   return (
