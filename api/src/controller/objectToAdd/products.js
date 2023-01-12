@@ -4,6 +4,7 @@ module.exports = [
         price: 100,
         model: 'Apple AirPods Pro',
         stock: 10,
+        description: 'Water-Resistant, Speech-detecting accelerometer, Rechargeable Battery, Noise Cancellation, Sweat-Proof, Motion-detecting accelerometer.',
         img: ['https://http2.mlstatic.com/D_NQ_NP_667877-MCO50292509021_062022-O.webp']
     },
     {
@@ -11,6 +12,7 @@ module.exports = [
         price: 70,
         model: 'LP40',
         stock: 10,
+        description: 'Water-Resistant, Speech-detecting accelerometer, Rechargeable Battery, Noise Cancellation, Sweat-Proof, Motion-detecting accelerometer.',
         img: ['https://http2.mlstatic.com/D_NQ_NP_958613-MLA46481706067_062021-O.webp']
     },
     {
@@ -18,6 +20,7 @@ module.exports = [
         price: 120,
         model: 'Buds 120',
         stock: 3,
+        description: 'Built-in Microphone, Call functions, Extra Bass, HD Voice, Noise Isolation, Replaceable Ear Tips, Stereo, Sweat-Proof, Touch Control, Water-Resistant, Wireless, Single Master Feature, 15h Playtime, Compact',
         img: ['https://motorolaus.vtexassets.com/arquivos/ids/162201-800-auto',
             'https://motorolaus.vtexassets.com/arquivos/ids/162202-800-auto'],
         discount:'15'
@@ -29,7 +32,7 @@ module.exports = [
         stock: 13,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-12-pro-plus-2.jpg'],
         discount:'15'
@@ -41,7 +44,7 @@ module.exports = [
         stock: 4,
         camera: '100Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-poco-x4-pro--.jpg'],
         discount:'10'
@@ -53,7 +56,7 @@ module.exports = [
         stock: 4,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-01.jpg',
             'https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone6-02.jpg'],
         discount:'20'
@@ -65,7 +68,7 @@ module.exports = [
         stock: 6,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/nokia/nokia-x30-5g-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/nokia/nokia-x30-5g-2.jpg']
     },
@@ -76,7 +79,7 @@ module.exports = [
         stock: 2,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-2.jpg']
     },
@@ -87,7 +90,7 @@ module.exports = [
         stock: 1,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-2.jpg']
     },
@@ -98,7 +101,7 @@ module.exports = [
         stock: 1,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/zte/blade-v40s-00.jpg',
             'https://fdn2.gsmarena.com/vv/pics/zte/zte-axon-40-se-2.jpg']
     },
@@ -109,7 +112,7 @@ module.exports = [
         stock: 16,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-1.jpg',
             'https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-10t-5g-2.jpg']
     },
@@ -120,7 +123,7 @@ module.exports = [
         stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-5-iv-ecru-white.jpg']
     },
     {
@@ -130,7 +133,7 @@ module.exports = [
         stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg']
     },
     {
@@ -140,7 +143,7 @@ module.exports = [
         stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-lite-2.jpg']
     },
     {
@@ -150,7 +153,7 @@ module.exports = [
         stock: 7,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/lg/lg-w41-pro-1.jpg']
     },
     {
@@ -160,7 +163,7 @@ module.exports = [
         stock: 4,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg']
     },
     {
@@ -170,7 +173,7 @@ module.exports = [
         stock: 5,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/honor/honor-80-pro-2.jpg']
     },
     {
@@ -180,7 +183,7 @@ module.exports = [
         stock: 13,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg']
     },
     {
@@ -190,7 +193,7 @@ module.exports = [
         stock: 24,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/blackberry/blackberry-key2-le-1.jpg']
     },
     {
@@ -200,7 +203,7 @@ module.exports = [
         stock: 34,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/meizu/meizu-18s-1.jpg']
     },
     {
@@ -210,7 +213,7 @@ module.exports = [
         stock: 5,
         camera: '10Mpx',
         processor: 'OctaCore',
-        description: 'Alguna muy buena descripción sobre el producto.',
+        description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Active Edge, Ambient Light Sensor, Bluetooth Enabled, Camera, FM Radio, 4G Data Capable, Dual SIM, 3G Data Capable, Email, Colour Screen, 5G.',
         img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg']
     },
 ]

@@ -64,8 +64,8 @@ async function inicialProducts() {
         // campaign para pruebas
         await Campaign.bulkCreate(campaigns);
 
-        // newsletter para pruebas
-        await Newsletter.bulkCreate(newsletter);
+        // newsletter para pruebas (no es necesario)
+        // await Newsletter.bulkCreate(newsletter);
 
          // newsletter para pruebas
          await Location.bulkCreate(locations);
