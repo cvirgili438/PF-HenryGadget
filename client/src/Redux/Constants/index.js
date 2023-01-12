@@ -31,7 +31,7 @@ export const inicialtate = {
   appointments:{},
   currentAppointment:{id: null},
   productsWithDiscount:[],
-  buttonAddress: true
+  buttonAddress: true,
 };
 
 // PRODUCTOS

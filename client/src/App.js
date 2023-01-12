@@ -51,7 +51,7 @@ const App = () => {
           <Route path={'/orderdetail/:id'} component={OrderDetail}  />
           <Route  path="/review/:id" component={Review}  />
           <Route path={'/aboutUs'} component={AboutUs} />
-          
+
           {(user && user.rol === 'client') ? (
             <Route  path={"/user"}  component={DashboardUser}  />
             ): (<Route path="/user" component={Page404} />)

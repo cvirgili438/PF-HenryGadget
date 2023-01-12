@@ -1,5 +1,5 @@
 module.exports = [
-  {name: 'Tandil', address: 'La Piedra Movediza 345', contact: '123-3333-3333', lat: -37.20, lon: -59.08, visible: true},
+  {id: '5411f30f-c6ab-4fcc-8648-0c9fbe5dcdbe', name: 'Tandil', address: 'La Piedra Movediza 345', contact: '123-3333-3333', lat: -37.20, lon: -59.08, visible: true},
   {name: 'Rosario', address: 'Av. Siempreviva 742', contact: '123-3333-3333', lat: -32.99, lon: -60.71, visible: true},
   {name: 'Buenos Aires', address: 'Pasaje Gardel 400', contact: 'vago@soyhenry.no', lat: -34.36, lon: -58.26, visible: true,
     aPspecialDates: '2023-01-17,2023-01-18'},
