@@ -18,6 +18,7 @@ import { URL } from "../../../Redux/Constants";
 import { setOrder } from "../../../Redux/Actions/order";
 
 import Total from "../../CartPage/Total.jsx";
+import { REFRESH_CART } from '../../../Redux/Constants/index.js';
 
 const PAYPAL_CLIENT_ID = 'AUjzPmpSla9_Kmo_fL_sdjJzYQLu0xDBxtsvUvUqo6q41fy_ukWAVjTnT0VgsYAU4QrcvGyn_08rkHdq'
 
@@ -125,6 +126,7 @@ export default function Payment() {
                     }}
                     onApprove={async function(data, actions) {
                       dispatch(setOrder(user.uid))
+                      dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
                       return await actions.order.capture()
 
                     }}
