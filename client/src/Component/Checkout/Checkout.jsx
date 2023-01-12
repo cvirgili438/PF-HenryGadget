@@ -121,7 +121,7 @@ export default function Checkout() {
           backgroundColor: 'black',
           color:'white',
         }} 
-        disabled={buttonIsDisabled && active > 0}>
+        disabled={(buttonIsDisabled && active > 0) || active > 1}>
 
         {active > 1 ? 'Finish' : 'Next'}
 
