@@ -39,11 +39,7 @@ const Total = () => {
 
   useEffect(async () => {
     setLocalCart(await getAllCart(user && user.uid));
-    let button = document.getElementById('stepper-button')
-    if(button.className.includes(' Mui-disabled')){
-      let location = button.className.indexOf(' Mui-disabled')
-      button.className = button.className.slice(0,location)
-    }
+    
   }, [user])
 
   return (

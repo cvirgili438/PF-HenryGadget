@@ -127,8 +127,9 @@ function handleSubmit(e) {
         displayName:input.name,
         photoURL:input.img}))               
       setTimeout(()=>{
-       setMsg({...msg,success:'Product created successfully'})
+       setMsg({...msg,success:'Your profile has been succesufull updated'})
       },2500)
+      setTimeout(()=>{window.location.reload()},2500)
       setInput({
         idUser:props.idUser,
         google:props.google,
