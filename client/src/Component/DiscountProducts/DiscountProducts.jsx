@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductWithDiscount } from "../../Redux/Actions/products";
 import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
@@ -10,7 +10,7 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import BasicRating from "../FeaturedProducts/BasicRating";
 import { AverageRating } from "../../Utils/Rating/controller";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function DiscountProducts() {
   const dispatch = useDispatch();
@@ -23,9 +23,9 @@ function DiscountProducts() {
     <section id='anchor-sales'
       style={{
         width: "100%",
-        height: "30rem",
-        marginBottom:'5rem',
-        marginTop:'4rem'
+        height: "25rem",
+        marginBottom: '5rem',
+        marginTop: '4rem'
       }}
     >
       <Typography
@@ -48,7 +48,7 @@ function DiscountProducts() {
         navigation={true}
         modules={[Pagination, Navigation]}
         className="mySwiper"
-        style={{ height: "20rem", margin: "auto" }}
+        style={{ height: "25rem", margin: "auto" }}
       >
         {discountProducts ? (
           discountProducts.map((e) => (
@@ -62,9 +62,12 @@ function DiscountProducts() {
               <Box
                 sx={{
                   width: "100%",
+                  height: '20rem',
+                  padding: "1rem",
                   backgroundColor: "rgb(242,242,242)",
                   display: "flex",
                   borderRadius: "8px",
+                  boxSizing: 'border-box'
                 }}
               >
                 <Link to={`/product/${e.id}`}>
@@ -72,8 +75,8 @@ function DiscountProducts() {
                     src={e.img[0]}
                     alt={e.name}
                     style={{
-                      maxWidth: "20rem",
-                      height: "18rem",
+                      maxWidth: "15rem",
+                      height: "15rem",
                       objectFit: "contain",
                     }}
                   />
@@ -88,9 +91,9 @@ function DiscountProducts() {
                 >
                   <Typography variant="h6">{e.name}</Typography>
                   <BasicRating valor={AverageRating(e.reviews)} />
-                  <Typography variant="subtitle1">
+                  {/* <Typography variant="subtitle1">
                     {e.description ? e.description : null}
-                  </Typography>
+                  </Typography> */}
                   <Box
                     sx={{
                       height: "100%",
@@ -116,7 +119,7 @@ function DiscountProducts() {
                           variant="overline"
                           sx={{
                             fontSize: "1rem",
-                            textDecoration:'line-through'
+                            textDecoration: 'line-through'
                           }}
                         >
                           ${e.price}
@@ -131,18 +134,20 @@ function DiscountProducts() {
                         </Typography>
                       </Box>
                       <Typography
-                        variant="overline"
+                        variant="h5"
                         sx={{
-                          fontSize: "1.5rem",
+                          textAlign: 'center',
+                          justifyContent: 'center',
+                          fontSize: "larger",
                           // backgroundColor:'rgb(161, 208, 246)',
                           backgroundColor: "rgb(207, 12, 35)",
-                          color: "white",
-                          paddingLeft: "10px",
-                          paddingRight: "10px",
+                          color: "black",
+                          padding: "5px",
+                          // paddingRight: "10px",
                           marginTop: "2rem",
                           borderRadius: "10px",
                           boxShadow: "1px 1px 0px rgba(0,0,0,0.5)",
-                          height:'4rem'
+                          height: '4rem'
                         }}
                       >
                         {e.discount}% OFF

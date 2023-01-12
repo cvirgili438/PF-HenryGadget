@@ -41,6 +41,14 @@ const Locations = () => {
     ])
   };
 
+  const handleMarkerClick = (e) => {
+    setSelected(e.target.options.value);
+    setPosition([
+      locations.find(p => p.id === e.target.options.value).lat, 
+      locations.find(p => p.id === e.target.options.value).lon
+    ])
+  }
+
   useEffect(() => {
     dispatch(getLocations())
   }, [dispatch]);
@@ -113,12 +121,14 @@ const Locations = () => {
                 locations
                 .map((p, i) => (
                                 <Marker
+                                  value={ p.id }
                                   position={[ p.lat, p.lon ]}
                                   icon={ GetIcon() }
+                                  onClick={ handleMarkerClick }
                                 >
-                                  <Popup>
+                                  {/* <Popup>
                                     { p.name }
-                                  </Popup>
+                                  </Popup> */}
                                 </Marker>
                 ))
                 :

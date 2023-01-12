@@ -1,5 +1,5 @@
 
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -41,6 +41,23 @@ module.exports = (sequelize) => {
     archived: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    aPnormalDates: {
+      type: DataTypes.ARRAY(Sequelize.JSON),
+      allowNull: true,
+      defaultValue: [
+        { 0: ['00:00', '23:45'] },
+        { 1: ['00:00', '23:45'] },
+        { 2: ['00:00', '23:45'] },
+        { 3: ['00:00', '23:45'] },
+        { 4: ['00:00', '23:45'] },
+        { 5: ['00:00', '23:45'] },
+        { 6: ['00:00', '23:45'] },
+      ]
+    },
+    aPspecialDates: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   },
     {

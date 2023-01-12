@@ -7,7 +7,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-max-colors.png']
       },
     {
@@ -18,7 +18,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-pro-colors.png']
       },
     {
@@ -29,7 +29,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-plus-colors.png']
       },
     {
@@ -40,7 +40,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-14-colors.png']
       },
     {
@@ -51,7 +51,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-se-3rd-gen-colors.png']
       },
     {
@@ -62,7 +62,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-pro-max-colors.png']
       },
     {
@@ -73,7 +73,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-pro-colors.png']
       },
     {
@@ -84,7 +84,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-spring-iphone13-colors.png']
       },
     {
@@ -95,7 +95,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2022-iphone13-mini-colors.png']
       },
     {
@@ -106,7 +106,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone12promax/iphone12-pro-max-colors.jpg']
       },
     {
@@ -117,7 +117,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone12pro/iphone12-pro-colors.jpg']
       },
     {
@@ -128,7 +128,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-colors.png'],
           discount:'20'
       },
@@ -140,7 +140,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/2021-iphone12-mini-colors.png'],
           discount:'25'
       },
@@ -152,7 +152,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone_se/iphone-se-2nd-gen-colors.jpg']
       },
     {
@@ -163,7 +163,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro.jpg']
       },
     {
@@ -174,7 +174,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11pro-max.jpg'
         ],
         discount:'10'
@@ -187,7 +187,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/identify-iphone-11-colors.jpg']
       },
     {
@@ -198,7 +198,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xs-colors.jpg']
       },
     {
@@ -209,7 +209,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: '3D Depth Camera, 3D Depth Sensor, 3D Face Recognition, 4K Video Recording, Accelerometer, Ambient Light Sensor.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xs-max-colors.jpg']
       },
     {
@@ -220,7 +220,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Optical Image Stabilization, 4K Video Recording, Accelerometer, Barometer, Bluetooth Enabled, Digital Compass, Dual Front Camera.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-xr/identify-iphone-xr-colors.jpg']
       },
     {
@@ -231,7 +231,7 @@ module.exports = [
           stock: 13,
           camera: '10Mpx',
           processor: 'OctaCore',
-          description: 'Alguna muy buena descripción sobre el producto.',
+          description: 'Super Retina Xdr Display, Fast Wireless Charging, Dust-Resistant, OLED Display, Telephoto Lens, Water-Resistant, 4K Video Recording.',
           img: ['https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-x-colors.jpg']
       },
   

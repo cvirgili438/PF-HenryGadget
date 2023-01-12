@@ -17,7 +17,7 @@ import { IconButton, Badge, ListSubheader } from "@mui/material";
 import ModalUser from "../ModalRegister/Modal.jsx";
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { app } from "../../Firebase/firebase.config";
-import { getAllItemCart } from "../../Utils/cart/cartCrud.js";
+import { getAllItemCart, emptyCart } from "../../Utils/cart/cartCrud.js";
 // import ButtonBorderEffect from "../Buttons/ButtonBorderEffect/ButtonBorderEffect.jsx";
 // import { getAllCart } from "../../Utils/cart/cartCrud.js";
 import { logUserActivity } from "../../Redux/Actions/users.js";
@@ -52,10 +52,10 @@ const NavBar = () => {
     if (search)
       dispatch(getProductsByQuery(search))
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) dispatch(logUserActivity(user))
-    });
-  }, [search])
+    
+    if (loggedUser) dispatch(logUserActivity(loggedUser))
+    
+  }, [search, loggedUser])
 
 
   // useEffect(async () => {
@@ -99,6 +99,7 @@ const NavBar = () => {
     localStorage.clear()
     dispatch(setUserInFrontState(null))
     signOut(firebaseAuth).catch(e => { console.log(e) })
+    emptyCart();
     history.push('/');
   }
 

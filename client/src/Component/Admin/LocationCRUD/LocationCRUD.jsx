@@ -3,10 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import ModalAp from 'react-bootstrap/Modal';
 import Alert2 from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import HelpIcon from '@mui/icons-material/Help';
+import TextField from '@mui/material/TextField';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 // import Rating from '@mui/material/Rating';
 
@@ -23,7 +30,8 @@ import {
   changeLocationArchive,
   updateLocation,
   createLocation,
-  deleteLocation
+  deleteLocation,
+  updateLocationAp
 } from '../../../Redux/Actions/locations.js';
 
 import styles from './LocationCRUD.module.css';
@@ -37,7 +45,9 @@ const LocationCRUD = () => {
     lat: null,
     lon: null,
     id: false,
-    new: false
+    new: false,
+    normalDates: [],
+    specialDates: ''
   });
 
   const [selected, setSelected] = useState([]);
@@ -49,18 +59,32 @@ const LocationCRUD = () => {
   const auth = getAuth();
 
   const [show, setShow] = useState(false);
+  const [showAp, setShowAp] = useState(false);
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
+  const [switchDay, setSwitchDay] = useState({0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false})
+  const [initialAp, setInitialAp] = useState({})
+  const [finalAp, setFinalAp] = useState({})
 
   const locations = useSelector(state => state.locations);
   
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
+    let temp = e.target.value;
+    if (e.target.name === 'lat') {
+      if (temp > 90) temp = 90; 
+      if (temp < -90) temp = -90;
+    }
+    if (e.target.name === 'lon') {
+      if (temp > 180) temp = 180; 
+      if (temp < -180) temp = -180;
+    }
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [e.target.name]: temp,
     });
+    
   };
 
   const handleChangeVisible = e => {
@@ -137,7 +161,6 @@ const LocationCRUD = () => {
     setShow(false);
   }
   
-
   const handleSubmitDelete = e => {
     setDeleteId(e.target.value);
     setAlert2(true);
@@ -169,6 +192,60 @@ const LocationCRUD = () => {
     setShow(false);
   }
 
+  const handleShowModalAp = (e) => {
+    setInput({
+      ...input,
+      new: false,
+      id: e.target.value,
+      name: locations.filter(p => p.id === e.target.value )[0].name,
+      normalDates: locations.filter(p => p.id === e.target.value )[0].aPnormalDates,
+      specialDates: locations.filter(p => p.id === e.target.value )[0].aPspecialDates
+    });
+    let tempDay, tempInitialAp, tempFinalAp = {}
+    for (let i = 0; i < 7; i++) {
+      tempDay = {...tempDay, [i]: locations.filter(p => p.id === e.target.value )[0].aPnormalDates[i][i].length !== 0}
+      tempInitialAp = {...tempInitialAp, [i]: locations.filter(p => p.id === e.target.value )[0].aPnormalDates[i][i][0]}
+      tempFinalAp = {...tempFinalAp, [i]: locations.filter(p => p.id === e.target.value )[0].aPnormalDates[i][i][1]}
+    }
+    setSwitchDay(tempDay);
+    setInitialAp(tempInitialAp);
+    setFinalAp(tempFinalAp);
+    setShowAp(true);
+  };
+
+  const handleCloseModalAp = () => {
+    setInput({
+      ...input,
+      new: false,
+      id: false,
+      normalDates: [],
+      specialDates: ''
+    });
+    setSwitchDay({0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false})
+    setInitialAp({});
+    setFinalAp({});
+    setShowAp(false);
+  }
+
+  const handleSaveModalAp = (e) => {
+    dispatch(updateLocationAp({
+      id: input.id,
+      mode: mode,
+      token: token,
+      aPspecialDates: input.specialDates,
+      aPnormalDates: [
+        {0: switchDay[0] ? [initialAp[0], finalAp[0]] : []},
+        {1: switchDay[1] ? [initialAp[1], finalAp[1]] : []},
+        {2: switchDay[2] ? [initialAp[2], finalAp[2]] : []},
+        {3: switchDay[3] ? [initialAp[3], finalAp[3]] : []},
+        {4: switchDay[4] ? [initialAp[4], finalAp[4]] : []},
+        {5: switchDay[5] ? [initialAp[5], finalAp[5]] : []},
+        {6: switchDay[6] ? [initialAp[6], finalAp[6]] : []}
+      ]
+    }));
+    setShowAp(false);
+  }
+
   const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
@@ -187,6 +264,48 @@ const LocationCRUD = () => {
     }
     setSelected([]);
   };
+
+  const handleChangeDay = (e) => {
+    setSwitchDay({
+      ...switchDay,
+      [e.target.id]: !switchDay[e.target.id]
+    })
+  }
+
+  const handleChangeInitial = (e) => {
+    setInitialAp({
+      ...initialAp,
+      [e.target.id - 1]: e.target.value
+    })
+    if (e.target.value > finalAp[e.target.id - 1]) {
+      setFinalAp({
+        ...finalAp,
+        [e.target.id - 1]: e.target.value
+      })
+    }
+  }
+
+  const handleChangeFinal = (e) => {
+    setFinalAp({
+      ...finalAp,
+      [e.target.id - 1]: e.target.value
+    })
+    if (e.target.value < initialAp[e.target.id - 1]) {
+      setInitialAp({
+        ...initialAp,
+        [e.target.id - 1]: e.target.value
+      })
+    }
+  }
+
+ 
+  var intervals = [];
+  for (var hours = 0; hours <= 23; hours++) {
+      for (var minutes = 0; minutes <= 45; minutes += 15) {
+          var time = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
+          intervals.push(time);
+      }
+  }    
 
   useEffect(() => {
     dispatch(getAdminLocations({archived: mode.archived, token: token}))
@@ -235,9 +354,88 @@ const LocationCRUD = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button text="Discard" onClick={ handleCloseModal } />
-          <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
+          {
+            !input.name || !input.address ?
+            <Button text={ `Missing data!` } disabled={ true } />
+            :
+            <Button text={ input.new ? `Create` : `Save` } onClick={ handleSaveModal } />
+          }
         </Modal.Footer>
       </Modal>
+      <ModalAp show={showAp} onHide={ handleCloseModalAp } size="lg">
+        <ModalAp.Header closeButton>
+          <ModalAp.Title>Available appointments for { input.name }</ModalAp.Title>
+        </ModalAp.Header>
+        <ModalAp.Body>
+          <Form>
+            <div className={ styles.formAp }>
+              <table className={ styles.formApTable }>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>First appointment</th>
+                    <th>Last appointment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {
+                    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                    .map((p, i) => (
+                      <tr>
+                        <td>
+                          <Switch checked={ switchDay[i] } onChange={ handleChangeDay } id={ i } size="lg" />
+                          <Form.Label srOnly={false} >{ p }</Form.Label>
+                        </td>
+                        <td>
+                          <Form.Select aria-label="First appointment" style={{ width: "130px" }}
+                                onChange={ handleChangeInitial } id={ i + 1 } disabled={ !switchDay[i] }>
+                            {
+                              switchDay[i] ?
+                                intervals.map((p, j) => (
+                                  <option value={ p } selected={ initialAp[i] === p ? 'selected' : null } 
+                                                    className={ initialAp[i] === p ? styles.selected : null }>{ p }</option>
+                                ))
+                              : null
+                            }
+                          </Form.Select>
+                        </td>
+                        <td>
+                          <Form.Select aria-label="First appointment" style={{ width: "130px" }}
+                                onChange={ handleChangeFinal } id={ i + 1 } disabled={ !switchDay[i] }>
+                            {
+                              switchDay[i] ?
+                                intervals.map((p, j) => (
+                                  <option value={ p } selected={ finalAp[i] === p ? 'selected' : null }
+                                                    className={ finalAp[i] === p ? styles.selected : null }>{ p }</option>
+                                ))
+                              : null
+                            }
+                          </Form.Select>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                  
+                </tbody>
+              </table>
+            </div>
+            <Form.Group as={Col} controlId="exampleForm.ControlInput5">
+            <Tooltip title="These dates will not be available for this location. Everything between * * are comments. Dates in YYYY-MM-DD format. Use ',' as separator. Use ',' at end of each line. Invalid dates will be ommited.">
+              <IconButton>
+              <HelpIcon  />
+              </IconButton>
+            </Tooltip>&nbsp;<Form.Label>Special no appointment dates</Form.Label>
+                <Form.Control as="textarea"  placeholder="*see instructions for setting special dates*"
+                              name='specialDates' value={ input.specialDates } onChange={ handleInputChange } />
+              </Form.Group>
+          </Form>
+        </ModalAp.Body>
+        <ModalAp.Footer>
+          <Button text="Discard" onClick={ handleCloseModalAp } />
+          <Button text="Save" onClick={ handleSaveModalAp } />
+        </ModalAp.Footer>
+      </ModalAp>
       <Alert2 show={alert2} variant="danger">
         <Alert2.Heading>Danger</Alert2.Heading>
         <p>
@@ -295,6 +493,7 @@ const LocationCRUD = () => {
                   <th>Position</th>
                   {/* <th>Rating</th> */}
                   <th>Visible</th>
+                  <th>Appointments</th>
                   <th>Edit</th>
                   <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
                   {
@@ -325,6 +524,7 @@ const LocationCRUD = () => {
                     <td>{ p.lat ? `Lat: ${p.lat}` : 'n/d' } / { p.lon ? `Lon: ${p.lon}` : 'n/d' }</td>
                     {/* <td><Rating name="rating" defaultValue={ p.score } precision={0.5} readOnly='true' /></td> */}
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
+                    <td><Button text='Appointments' onClick={ handleShowModalAp } value={ p.id } /></td>
                     <td><Button text='Edit' onClick={ handleShowModal } value={ p.id } /></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                     {

@@ -1,6 +1,47 @@
 module.exports = [
-  {id: '5411f30f-c6ab-4fcc-8648-0c9fbe5dcdbe', name: 'Tandil', address: 'La Piedra Movediza 345', contact: '123-3333-3333', lat: -37.20, lon: -59.08, visible: true},
-  {name: 'Rosario', address: 'Av. Siempreviva 742', contact: '123-3333-3333', lat: -32.99, lon: -60.71, visible: true},
-  {name: 'Buenos Aires', address: 'Pasaje Gardel 400', contact: 'vago@soyhenry.no', lat: -34.36, lon: -58.26, visible: true},
-  {name: 'Cordoba', address: 'Otra direccion 222', contact: '3232-2221-2122', lat: -31.41, lon: -64.18, visible: false}
+  {name: 'Mar del Plata', address: 'Peralta Ramos 5410', contact: 'Whatsapp text: +54 9 223 323-3333', lat: -38.0251, lon: -57.5306, visible: true,
+    aPspecialDates: '',
+    aPnormalDates: [
+      {0: []},
+      {1: []},
+      {2: ['12:00', '14:00']},
+      {3: []},
+      {4: ['12:00', '14:00']},
+      {5: []},
+      {6: []},
+    ]},
+  {name: 'Bogotá', address: 'Calle 54 y Calle 44a', contact: '+57 60 1235487', lat: 4.64558, lon: -74.09165, visible: true,
+    aPspecialDates: '*Festivos*2023-05-01,2023-07-20,',
+    aPnormalDates: [
+      {0: []},
+      {1: ['10:00', '15:00']},
+      {2: ['10:00', '15:00']},
+      {3: ['10:00', '15:00']},
+      {4: ['10:00', '15:00']},
+      {5: []},
+      {6: []},
+    ]},
+  {name: 'Buenos Aires', address: 'Av. Diaz Velez 4950', contact: 'sucursalcentenario@gmail.com', lat: -34.60875, lon: -58.43593, visible: true,
+    aPspecialDates: '*Henry-Gadget Fest*2023-01-13,2023-01-14,2023-01-15',
+    aPnormalDates: [
+      {0: []},
+      {1: ['09:00', '18:00']},
+      {2: ['09:00', '18:00']},
+      {3: ['09:00', '18:00']},
+      {4: ['09:00', '18:00']},
+      {5: ['09:00', '18:00']},
+      {6: ['09:00', '13:00']},
+    ]},
+  {name: 'Córdoba', address: 'Av. 24 de Septiembre 1350', contact: '+54 351 9487-4789', lat: -31.41351, lon: -64.16535, visible: true,
+    aPspecialDates: '*feriados nacionales*2023-02-28,2023-03-01,2023-03-24,2023-04-02,2023-05-01,\n*pascuas*2023-04-14,2023-04-15',
+    aPnormalDates: [
+      {0: []},
+      {1: ['12:00', '17:45']},
+      {2: ['13:30', '14:45']},
+      {3: ['00:00', '08:15']},
+      {4: ['09:00', '18:00']},
+      {5: ['20:00', '22:15']},
+      {6: []},
+    ]
+  }
 ];

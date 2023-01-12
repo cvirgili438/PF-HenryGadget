@@ -5,6 +5,7 @@ import { setOrder } from '../../Redux/Actions/order';
 import { sendAutomatickEmail } from '../../Utils/SendAutomaticEmail/automaticEmail.js';
 import { SUBJECT_PAYMENT, TEXT_PAYMENT } from './constants/automaticEmail.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { REFRESH_CART } from '../../Redux/Constants/index.js';
 
 export default function Payment() {
     const dispatch =useDispatch();
@@ -22,7 +23,10 @@ export default function Payment() {
               if (user)
                 user.getIdToken().then((token) => sendAutomatickEmail(user.uid, SUBJECT_PAYMENT, TEXT_PAYMENT, token));
             });
-            setTimeout(()=>{history.push('/')},3000)
+            setTimeout(()=>{
+              dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+              history.push('/')
+            },3000)
         }
     },[])
 

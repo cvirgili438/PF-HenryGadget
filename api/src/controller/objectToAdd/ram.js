@@ -1,14 +1,14 @@
 module.exports = [
     {
         size: '2GB',
-        description: 'Alguna descripcion de la cantiad de RAM.'
+        description: 'Standard memory.'
     },
     {
         size: '4GB',
-        description: 'Alguna descripcion de la cantiad de RAM.'
+        description: 'Standard memory.'
     },
     {
         size: '8GB',
-        description: 'Alguna descripcion de la cantiad de RAM.'
+        description: 'Standard memory.'
     },
 ];
