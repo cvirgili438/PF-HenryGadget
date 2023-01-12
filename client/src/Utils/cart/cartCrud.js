@@ -112,9 +112,12 @@ export async function getAllItemCart(idUser) {
 // teniendo un carrito en el localstorage.
 export async function sendAllCart(storage, idUser) {
     try {
-        let response = await sendAllCartDB(storage, idUser);
-        store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
-        return response;
+        if(localStorage.getItem('cart')){
+            let response = await sendAllCartDB(storage, idUser);
+            store.dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+            return response;
+        }
+        
     }
     catch (e) {
         return false;
