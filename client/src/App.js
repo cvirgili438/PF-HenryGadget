@@ -52,7 +52,7 @@ const App = () => {
           <Route  path="/review/:id" component={Review}  />  
           <Route path={'/map'} component={Locations} /> 
           <Route path={'/aboutUs'} component={AboutUs} />
-          
+
           {(user && user.rol === 'client') ? (
             <Route  path={"/user"}  component={DashboardUser}  />
             ): (<Route path="/user" component={Page404} />)
