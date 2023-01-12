@@ -19,6 +19,21 @@
   border: 1px solid black;
 }
 
+.formAp {
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.selected {
+  background-color: rgb(145, 204, 145);
+}
+
+.formApTable {
+  width: 100%;
+}
+
 .statisticsCard {
   border: 2px solid black;
   border-radius: 10px;

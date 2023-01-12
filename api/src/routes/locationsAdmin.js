@@ -74,6 +74,34 @@ router.put('/', async (req,res) => {
     }
 })
 
+router.put('/ap/', async (req,res) => {
+    const { archived } = req.query; 
+     
+    const {id, aPspecialDates, aPnormalDates} = req.body;
+    console.log(id, aPspecialDates, aPnormalDates)
+
+    if(!id || !aPnormalDates) return res.status(400).json({err: 'Missing data.'}); 
+    try { 
+        const location = await Location.findByPk(id);
+        if(!location){
+            res.status(404).json({err: `Location with id: ${id} doesn't exist.`});
+            return;
+        }
+        const udpatedLocation = await Location.update({
+                                                    aPspecialDates: aPspecialDates,
+                                                    aPnormalDates: aPnormalDates,   
+                                                    },
+                                                    {where: {id: id}});
+        const result = await Location.findAll({
+                                                where: {archived: archived},
+                                                order: [['created', 'DESC']],
+                                                }); 
+        res.status(200).json({msg: `Location with id: ${id} has been updated`, result: result})
+    } catch (error) {
+        res.status(400).json({err: error})
+    }
+})
+
 router.put('/archive/', async (req,res) => {
     const {ids} = req.body;     
     const { archived } = req.query; 
