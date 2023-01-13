@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { getProductsNames, editProduct, getProductById } from '../../Redux/Actions/products.js';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import styles from './EditProduct.module.css';
 
@@ -20,7 +21,8 @@ function EditProduct() {
 
   
   const [errors, setErrors] = useState({});
-  
+  const [token, setToken] = useState('');
+
   const [input, setInput] = useState({
     name: '',
     type: '',
@@ -38,25 +40,36 @@ function EditProduct() {
   })
   
   useEffect(() => {
-    dispatch(getProductById(id));     
+    dispatch(getProductById(id));
     dispatch(getProductsNames());
-    setInput({
-      name: productDetail.name,
-      type: productDetail.type,
-      brand: productDetail.brand,
-      price: productDetail.price,
-      model: productDetail.model,
-      stock: productDetail.stock,
-      camera: productDetail.camera,
-      description: productDetail.description,
-      storage: productDetail.storage,
-      processor: productDetail.processor,
-      ram: productDetail.ram,
-      discount: productDetail.discount,
-      img: []
-    })
-
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdToken().then((result) => {
+          setToken(result);
+        });
+      }
+    });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (productDetail.type)
+      setInput({
+        name: productDetail.name,
+        type: productDetail.type?.name,
+        brand: productDetail.brand?.name,
+        price: productDetail.price,
+        model: productDetail.model,
+        stock: productDetail.stock,
+        camera: productDetail.camera,
+        description: productDetail.description,
+        storage: productDetail.storage?.size,
+        processor: productDetail.processor,
+        ram: productDetail.ram?.size,
+        discount: productDetail.discount,
+        img: []
+      });
+  }, [productDetail]);
 
   function validate(input) {
     let errors = {};
@@ -112,7 +125,7 @@ function handleSubmit(e) {
   e.preventDefault();
   setErrors(validate(input));
   if (Object.keys(errors).length === 0) {
-      dispatch(editProduct({id: id, data: input}))
+      dispatch(editProduct({id: id, data: input, token}))
       alert('Product saved successfully');
   }
   return;

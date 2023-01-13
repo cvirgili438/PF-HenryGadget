@@ -57,7 +57,8 @@ import {
   GET_ADDRESSES,
   PUT_ADDRESSES,
   DELETE_ADDRESS,
-  PUT_PROFILE_USER
+  PUT_PROFILE_USER,
+  CLEAR_CREATE_PRODUCT
 } from '../Constants/index.js';
 
 export default function rootReducer(state = inicialtate, action) {
@@ -124,6 +125,12 @@ export default function rootReducer(state = inicialtate, action) {
     case CREATE_PRODUCT:
       return {
         ...state,
+        createdProduct: action.payload
+      };
+    case CLEAR_CREATE_PRODUCT:
+      return {
+        ...state,
+        createdProduct: null
       };
     case EDIT_PRODUCT:
       return {

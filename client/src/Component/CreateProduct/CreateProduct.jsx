@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { addProduct } from '../../Redux/Actions/products.js';
 import { validate } from '../../Utils/validateCreateForm.js';
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Alert } from "@mui/material";
 import { TextareaAutosize } from '@mui/base';
 import { Container } from '@mui/system';
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -11,6 +11,8 @@ import { storage } from '../../Firebase/firebase.config.js';
 import { setIsLoading } from '../../Redux/Actions/index.js';
 import Loader from '../Loader/Loader'
 import MiniCardCreateProduct from '../MiniCardCreateProduct/MiniCardCreateProduct.jsx';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { CLEAR_CREATE_PRODUCT } from '../../Redux/Constants/index.js';
 
 function CreateProduct() {
 
@@ -18,8 +20,10 @@ function CreateProduct() {
   let productsName = products.map(e => e.name);
   const dispatch = useDispatch();
   const isLoading = useSelector(state=>state.loading)
+  const created = useSelector(state => state.createdProduct);
 
-
+  const [send, setSend] = useState(null);
+  const [token, setToken] = useState('');
   const [errors, setErrors] = useState({});
   const [msg,setMsg] = useState({
     error:'',
@@ -28,6 +32,7 @@ function CreateProduct() {
 
   const [progress,setProgress]= useState(null)
   const [input, setInput] = useState({
+    token: '',
     name: '',
     type: '',
     brand: '',
@@ -44,7 +49,20 @@ function CreateProduct() {
     img:[]
   })
 
- 
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdToken().then((result) => {
+          setToken(result);
+        });
+      }
+    });
+    return () => {
+      dispatch({ type: CLEAR_CREATE_PRODUCT });
+    };
+  }, []);
+
   useEffect(() => {
       setErrors(validate(input));
 }, [input])
@@ -60,6 +78,9 @@ function handleChange(e) {
   }))
 };
 
+  function handleAlert(e) {
+    setSend(null);
+  };
 
 
 const handleUpLoad = (e)=>{
@@ -117,10 +138,7 @@ function handleSubmit(e) {
   e.preventDefault();
   setErrors(validate(input));
   if (Object.keys(errors).length === 0) {
-      dispatch(addProduct(input))
-      setTimeout(()=>{
-       setMsg({...msg,success:'Product created successfully'})
-      },2500)
+      dispatch(addProduct(input, token))
       setInput({
         name: '',
         type: '',
@@ -136,6 +154,7 @@ function handleSubmit(e) {
 }
 
   return (
+    <div>
    <form style={{paddingTop:'10rem',paddingBottom:'10rem',display:'block'}}>
     <h1 style={{marginBottom:"2rem"}}>Create product</h1>
     <Box  sx={{
@@ -215,8 +234,16 @@ function handleSubmit(e) {
     </Container>
 
    </form>
-
-  //  </form>
+      {created != null ?
+        created === true ?
+          <Alert severity="success" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p>Product created satisfactorily.</p>
+          </Alert> :
+          <Alert severity="error" onClose={e => handleAlert(e)} sx={{ alignItems: 'center' }}>
+            <p>An error has occurred. Try again in a moment, please.</p>
+          </Alert> :
+        null}
+  </div>
   )
 }
 
