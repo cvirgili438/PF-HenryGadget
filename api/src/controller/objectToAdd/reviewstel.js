@@ -4,18 +4,21 @@ let comments = [
     comment:
       'Muy satisfecho con mi compra, el teléfono tiene una excelente pantalla y cámara, además de un rendimiento rápido.',
     score: '5',
+    archived: true
   },
   {
     titleComment: 'Muy recomendable',
     comment:
       'Acabo de comprar este teléfono y estoy muy contento con él, tiene todas las características que necesito y un precio razonable.',
     score: '4',
+    archived: true
   },
   {
     titleComment: 'Gran compra',
     comment:
       'Este teléfono cumple con todas mis expectativas, tiene una buena cámara y una batería que dura todo el día.',
     score: '4',
+    archived: true
   },
   {
     titleComment: 'Muy decepcionado',

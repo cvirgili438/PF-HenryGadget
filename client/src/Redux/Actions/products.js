@@ -127,6 +127,7 @@ export function addProduct(payload, token) {
 	}
 }
 
+
 export function editProduct(payload) {
 	return async function (dispatch) {
 		const response = await axios.put(URL + `/products/admin/` + payload.id, payload.data,
@@ -138,6 +139,16 @@ export function editProduct(payload) {
 		}
 	}
 }
+
+// export function editProduct(payload) {
+// 	return async function (dispatch) {
+// 		const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
+// 		return {
+// 			type: EDIT_PRODUCT,
+// 			response
+// 		}
+// 	}
+// }
 
 export const getAdminProducts = (payload) => async (dispatch)=>{   
 	try {
