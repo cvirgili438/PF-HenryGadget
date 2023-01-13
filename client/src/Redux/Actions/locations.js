@@ -8,7 +8,9 @@ import {
   UPDATE_LOCATION,
   DELETE_LOCATION,
   CHANGE_LOCATION_ARCHIVE,
-  CHANGE_LOCATION_VISIBLE
+  CHANGE_LOCATION_VISIBLE,
+  GET_LOCATION_APPOINTMENTS,
+  DELETE_APPOINTMENT_ADMIN
 } from "../Constants"
 
 
@@ -53,6 +55,28 @@ export const getAdminLocations = (payload)=>{
       }
   }
 }
+
+export const getLocationAppointments = (payload)=>{
+    return async function(dispatch){
+        try{
+            const response = await fetch(URL + '/locations/admin/' + payload.id,{
+                method: "GET",
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: GET_LOCATION_APPOINTMENTS,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+  }
+  
 
 export const changeLocationArchive = (payload) => {
     return async function(dispatch) {
@@ -190,6 +214,36 @@ export const updateLocationAp = (payload) => {
             return e.message
         }
     }
+}
+
+export const deleteAppointmentAdmin = (payload) => {
+	return async function (dispatch) {   
+		try {
+            const response = await fetch(URL + '/locations/admin/ap/'+ payload,
+            {
+                    method: 'DELETE',
+                    headers: {
+                            "Content-Type": "application/json",
+                            "authorization":"Bearer " + payload
+                    }
+            })
+            const data = await response.json();
+            const response2 = await fetch(URL + '/locations/admin/' + payload.id,{
+                method: "GET",
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data2 = await response2.json()
+            return dispatch({
+                type: GET_LOCATION_APPOINTMENTS,
+                payload: data2
+            })
+		}catch(err) {
+			console.log(err)
+		}
+	}
 }
 
 // export const changeLocationRaiting = (payload) => {

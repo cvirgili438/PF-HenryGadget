@@ -55,7 +55,6 @@ export const createOrUpdateAppointment = (payload) => {
 export const deleteAppointment = (payload) => {
 	return async function (dispatch) {   
 		try {
-
             const response = await fetch(URL + '/calendar/'+ payload,
             {
                     method: 'DELETE',
