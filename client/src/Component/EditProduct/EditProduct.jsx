@@ -8,8 +8,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import styles from './EditProduct.module.css';
 
-import { Box, Button, Stack, TextField, Alert } from "@mui/material";
-import { TextareaAutosize } from '@mui/base';
+import { Box, Button } from "@mui/material";
 import { Container } from '@mui/system';
 import { setIsLoading } from '../../Redux/Actions/index.js';
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -28,7 +27,7 @@ function EditProduct() {
 
   const navigate = useHistory();
 
-  
+
   const [errors, setErrors] = useState({});
   const [token, setToken] = useState('');
 
@@ -126,17 +125,6 @@ function handleChange(e) {
   }))
 };
 
-function handleChangeImg(e) {
-  setInput({
-    ...input,
-    [e.target.name]: [e.target.value]
-  });
-  setErrors(validate({
-      ...input,
-      [e.target.name]: [e.target.value]
-  }))
-};
-
 function handleSubmit(e) {
   e.preventDefault();
   setErrors(validate(input));
@@ -144,6 +132,7 @@ function handleSubmit(e) {
       dispatch(editProduct({id: id, data: input, token}))
       alert('Product saved successfully');
   }
+  setTimeout(() => {navigate.push("/admin/products")}, 2000);
   return;
 }
 
