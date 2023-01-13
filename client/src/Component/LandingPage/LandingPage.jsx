@@ -29,7 +29,7 @@ const LandingPage = () => {
 
       <Services />
 
-      <DiscountProducts/>
+      {/* <DiscountProducts/> */}
       <FeaturedProducts />
 
       {/* <section  id='anchor-services' style={{height:'100vh'}} >

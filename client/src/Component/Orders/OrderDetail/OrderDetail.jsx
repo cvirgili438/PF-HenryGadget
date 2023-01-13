@@ -53,7 +53,7 @@ const OrderDetail = () => {
                             <StyledTableCell></StyledTableCell>
                             <StyledTableCell align="right">Model</StyledTableCell>
                             <StyledTableCell align="right">Cost ($)</StyledTableCell>
-                            <StyledTableCell align="right">Discount (%)</StyledTableCell>
+                            {/* <StyledTableCell align="right">Discount (%)</StyledTableCell> */}
                             <StyledTableCell align="right">Units in the order</StyledTableCell>
                             <StyledTableCell align="right">Total (per product)</StyledTableCell>
                         </TableRow>
@@ -70,7 +70,7 @@ const OrderDetail = () => {
                                 <StyledTableCell align="right"><Link to={`/review/${row.id}`}>Make a review</Link></StyledTableCell>
                                 <StyledTableCell align="right">{row.model}</StyledTableCell>
                                 <StyledTableCell align="right">{row.price}</StyledTableCell>
-                                <StyledTableCell align="right">{row.discount == null ? 0 : row.discount}</StyledTableCell>
+                                {/* <StyledTableCell align="right">{row.discount == null ? 0 : row.discount}</StyledTableCell> */}
                                 <StyledTableCell align="right">{row.product_order.quantity}</StyledTableCell>
                                 <StyledTableCell align="right">{row.price * row.product_order.quantity}</StyledTableCell>
                             </TableRow>
