@@ -8,6 +8,15 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import styles from './EditProduct.module.css';
 
+import { Box, Button, Stack, TextField, Alert } from "@mui/material";
+import { TextareaAutosize } from '@mui/base';
+import { Container } from '@mui/system';
+import { setIsLoading } from '../../Redux/Actions/index.js';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '../../Firebase/firebase.config.js';
+import Loader from '../Loader/Loader';
+import MiniCardCreateProduct from '../MiniCardCreateProduct/MiniCardCreateProduct.jsx';
+
 function EditProduct() {
 
   const { id } = useParams();
@@ -39,6 +48,13 @@ function EditProduct() {
     img: []
   })
   
+  const [progress,setProgress]= useState(null);
+  const [msg,setMsg] = useState({
+    error:'',
+    success:''
+  });
+  const isLoading = useSelector(state=>state.loading);
+
   useEffect(() => {
     dispatch(getProductById(id));
     dispatch(getProductsNames());
@@ -131,6 +147,55 @@ function handleSubmit(e) {
   return;
 }
 
+  const handleUpLoad = (e) => {
+    dispatch(setIsLoading())
+    const file = e.target.files[0]
+    const storageRef = ref(storage, `img/${Date.now()}-${file.name}`)
+    const uploaded = uploadBytesResumable(storageRef, file)
+    uploaded.on('state_changed', (snapshot) => {
+      const progressFirebase = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      setProgress(progressFirebase)
+    },
+      (e) => {
+        setMsg({ ...msg, error: e.message })
+        setTimeout(() => {
+          setMsg({ ...msg, error: '' })
+        }, 2500)
+      },
+      () => {
+        getDownloadURL(uploaded.snapshot.ref)
+          .then(downLoadUrl => {
+            dispatch(setIsLoading())
+            setInput(input => ({ ...input, img: input.img.concat(downLoadUrl) }))
+            setErrors(validate({ ...input, img: downLoadUrl }))
+            setMsg({ ...msg, success: 'Image uploaded successfully' })
+            setTimeout(() => {
+              setMsg({ ...msg, success: '' })
+            }, 2500)
+            setProgress(null)
+          })
+      })
+}
+
+  const handleRemoveImg = (e) => {
+    let file = e.target.id
+    const deleteRef = ref(storage, file);
+    deleteObject(deleteRef)
+      .then(() => {
+        let inputWithOutRemovedImg = input.img.filter(e => e !== file)
+        setInput(input => ({ ...input, img: inputWithOutRemovedImg }))
+        setMsg({ ...msg, success: 'Image removed' })
+        setTimeout(() => {
+          setMsg({ ...msg, success: '' })
+        }, 2500)
+      })
+      .catch(e => {
+        setMsg({ ...msg, error: e.message })
+        setTimeout(() => {
+          setMsg({ ...msg, error: '' })
+        }, 2500)
+      })
+  }
   return (
     <div className={ styles.main }>
       <div className={styles.createDiv} >
@@ -240,14 +305,35 @@ function handleSubmit(e) {
                     )}
                 </div>
 
-                <div className={styles.subContainer}>
-                    <label className={styles.label}>Image</label>
-                    {/* <br/> */}
-                    <input className={styles.inputs} type="text"  name='img' placeholder='Product image...' onChange={e => handleChangeImg(e)} />
-                    {errors.img && (
-                        <p className={styles.danger}>{errors.img}</p>
-                    )}
+            <Container sx={{ display: 'flex', justifyContent: 'space-between', mt: '1rem', width: '100%' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex' }}>
+                  <Button
+                    variant='contained'
+                    component="label"
+                    disabled={progress > 0 ? true : false}
+                    // sx={{margin:'0 auto 0 0'}}
+                    style={{ marginRight: 'auto' }}
+                    color={errors.img && 'error'}
+                  >
+                    {errors.img ? 'Image is required click to upload' : 'Upload images'}
+                    <input hidden accept="image/*" type="file" onChange={handleUpLoad} />
+                  </Button>
+                  <div style={{ width: '5rem', height: '2rem' }}>
+                    {isLoading ? <Loader value={progress} /> : null}
+                  </div>
                 </div>
+                {input.img.length > 0
+                  ? input.img.map((e, indx) => {
+                    return <MiniCardCreateProduct key={indx} handleRemoveImg={handleRemoveImg} img={e} />
+                  })
+                  : null
+                }
+
+
+              </Box>
+              <p style={{ margin: 'auto', width: '10rem' }}>{Object.values(msg).length > 0 ? (msg.success || msg.error) : ' '}</p>
+            </Container>
 
                 <div className={styles.subContainerT}>
                     <label className={styles.label} cols="30" rows="8">Description</label>
