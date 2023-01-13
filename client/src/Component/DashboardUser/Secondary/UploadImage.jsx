@@ -19,6 +19,8 @@ export default function UploadImage(props) {
 
     const dispatch = useDispatch();
   const isLoading = useSelector(state=>state.loading)
+  const name = props.displayName ? props.displayName : 'Please fill this field'
+  const phone = props.phoneNumber ? props.phoneNumber : 'Please fill this field'
 
 
   const [errors, setErrors] = useState({});
@@ -31,8 +33,8 @@ export default function UploadImage(props) {
   const [input, setInput] = useState({
     idUser:props.idUser,
     google:props.google,
-    name:'' ,
-    phoneNumber:'',
+    name:name === 'Please fill this field' ? '' : name  ,
+    phoneNumber:phone === 'Please fill this field' ? '' : phone,
     currentPhoto:props.currentPhoto,
     img:[]
   })
