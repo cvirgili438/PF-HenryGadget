@@ -32,6 +32,7 @@ export const inicialtate = {
   currentAppointment:{id: null},
   productsWithDiscount:[],
   buttonAddress: true,
+  createdProduct: null
 };
 
 // PRODUCTOS
@@ -48,6 +49,7 @@ export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
 export const PRODUCTS_DISCOUNT = 'PRODUCTS_DISCOUNT'
+export const CLEAR_CREATE_PRODUCT = 'CLEAR_CREATE_PRODUCT';
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
