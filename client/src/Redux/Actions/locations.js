@@ -219,26 +219,19 @@ export const updateLocationAp = (payload) => {
 export const deleteAppointmentAdmin = (payload) => {
 	return async function (dispatch) {   
 		try {
-            const response = await fetch(URL + '/locations/admin/ap/'+ payload,
+            const response = await fetch(URL + '/locations/admin/ap/',
             {
                     method: 'DELETE',
+                    body: JSON.stringify(payload),
                     headers: {
                             "Content-Type": "application/json",
-                            "authorization":"Bearer " + payload
+                            "authorization":"Bearer " + payload.token
                     }
             })
-            const data = await response.json();
-            const response2 = await fetch(URL + '/locations/admin/' + payload.id,{
-                method: "GET",
-                headers:{
-                    "Content-Type": "application/json",
-                    "authorization":"Bearer " + payload.token
-                }
-            })
-            const data2 = await response2.json()
+            const data = await response.json()
             return dispatch({
-                type: GET_LOCATION_APPOINTMENTS,
-                payload: data2
+                type: DELETE_APPOINTMENT_ADMIN,
+                payload: data
             })
 		}catch(err) {
 			console.log(err)

@@ -28,27 +28,16 @@ router.get('/:id', async (req,res)=> {
     const { id } = req.params;
 
     try {                                        
-        //funcion para sumar dias a una fecha
-        const addDays = (date, days) => {
-            let result = new Date(date);
-            result.setDate(result.getDate() + days);
-            return result;
-        };
-    
-        // fecha de inicio y fin de trunos disponibles
-        // inincio: hoy ... fin: dentro de 21 dias
+        
+        // fecha de inicio
         const today = new Date();
         var startDate = today.toISOString().split('T')[0];
-        var finalDate = addDays(startDate, 21);
     
         // obtengo los horarios reservados de la DB
         const reserved = await Appointment.findAll({
             where: {
                 date: {
-                [Sequelize.Op.between]: [
-                    startDate,
-                    finalDate.toISOString().slice(0,10)
-                ]
+                [Sequelize.Op.gte]: startDate
                 },
                 location: id
                 },
@@ -214,10 +203,10 @@ router.put('/rating/', async (req,res) => {
     }
 })
 
-router.delete('/ap/:id', async (req, res) => {
+router.delete('/ap/', async (req, res) => {
     //const appointment = req.body;
-    const { id } = req.params;
-  
+    const { id, location } = req.body;
+    
     if (!id)
       return res.status(400).json({ err: 'Missing data.' });
   
@@ -233,7 +222,25 @@ router.delete('/ap/:id', async (req, res) => {
                                       id: id
                                   }
                               });
-      res.json({ msg: `Appointment ${id} has been deleted.`, result: {id: 'deleted'}});
+
+        // fecha de inicio
+        const today = new Date();
+        var startDate = today.toISOString().split('T')[0];
+    
+        // obtengo los horarios reservados de la DB
+        const reserved = await Appointment.findAll({
+            where: {
+                date: {
+                [Sequelize.Op.gte]: startDate
+                },
+                location: location
+                },
+            order: [
+                ['date', 'ASC'],
+                ['time', 'ASC']
+            ]
+            });
+      res.json({ msg: `Appointment ${id} has been deleted.`, result: reserved});
     } catch (error) {
       res.status(400).json({ err: error });
     }

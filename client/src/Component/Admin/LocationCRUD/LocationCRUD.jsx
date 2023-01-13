@@ -14,9 +14,6 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import HelpIcon from '@mui/icons-material/Help';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 // import Rating from '@mui/material/Rating';
 
@@ -325,8 +322,7 @@ const LocationCRUD = () => {
   }
 
   const handleDeleteAppointment = (e) => {
-    dispatch(deleteAppointmentAdmin({id: e.target.id, token: token}))
-
+    dispatch(deleteAppointmentAdmin({id: e.nativeEvent.originalTarget.id, token: token, location: input.id}))
   }
  
   var intervals = [];
@@ -472,15 +468,16 @@ const LocationCRUD = () => {
         </ModalNx.Header>
         <ModalNx.Body>
           {
-            appointments.length > 0 ?
+            appointments && appointments.length > 0 ?
               <>
               {
                 appointments.map((p, i) => (
                   <ListGroup.Item>
                     <Tooltip title="Delete appointment... THIS CAN'T BE UNDONE">
-                      <DeleteForeverOutlinedIcon onClick={ handleDeleteAppointment } id={ p.id }/>
+                      <DeleteForeverOutlinedIcon onClick={ handleDeleteAppointment } id={ p.id } />
                     </Tooltip>
-                    &nbsp;{ p.date } - { p.time }: { p.email }</ListGroup.Item>
+                    &nbsp;{ p.date } - { p.time }: { p.email }
+                  </ListGroup.Item>
                 ))
               }
               </>
