@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import styles from './EditProduct.module.css';
 
-import { Box, Button } from "@mui/material";
+import { Alert, Box, Button } from "@mui/material";
 import { Container } from '@mui/system';
 import { setIsLoading } from '../../Redux/Actions/index.js';
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
@@ -52,6 +52,7 @@ function EditProduct() {
     error:'',
     success:''
   });
+  const [send, setSend] = useState(false);
   const isLoading = useSelector(state=>state.loading);
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function EditProduct() {
         processor: productDetail.processor,
         ram: productDetail.ram?.size,
         discount: productDetail.discount,
-        img: []
+        img: [productDetail.img[0]]
       });
   }, [productDetail]);
 
@@ -130,7 +131,7 @@ function handleSubmit(e) {
   setErrors(validate(input));
   if (Object.keys(errors).length === 0) {
       dispatch(editProduct({id: id, data: input, token}))
-      alert('Product saved successfully');
+      setSend(true);
   }
   setTimeout(() => {navigate.push("/admin/products")}, 2000);
   return;
@@ -336,6 +337,12 @@ function handleSubmit(e) {
               </div>  
                 
                 <button className={styles.createBtn} type='submit' disabled={Object.keys(errors).length > 0 || input.name === "" ? true : false}>Save changes</button>
+
+                {send && (
+                    <Alert severity="success" sx={{alignItems: 'center', width: 500, margin:'10px auto'}} >
+                        <p className={`${styles.p}`}> The product has been edited, you are going to be redirect to products dashboard</p>
+                    </Alert>
+                )}
             </form>
             
         </div>
