@@ -27,9 +27,12 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
     img.alt = name
   }
 
+  useEffect(() => {
+    window.scroll(0,0)
+  })
 
   useEffect(async () => {
-    window.scrollTo(0,0)
+    
     setStock(units_left - await getQuantityProductCart(id, user && user.uid))    
   }, [stock]);  
 
@@ -76,7 +79,7 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
           <FavoriteBorderIcon></FavoriteBorderIcon>
         </IconButton>
 
-        <Button onClick={e => HandleAddCart(e)} variant='contained' sx={Button_contained_primary}>
+        <Button onClick={e => HandleAddCart(e)} disabled={stock <= 0 && true} variant='contained' sx={Button_contained_primary}>
           Add cart
         </Button>
       </div>
