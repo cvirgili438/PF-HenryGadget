@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseActionCodeURL } from 'firebase/auth';
 
 import {
   URL,
@@ -117,25 +118,37 @@ export  const getAllFilters= ()=> async (dispatch)=>{
 	}
 }
 
-export function addProduct(payload) {
+export function addProduct(payload, token) {
 	return async function (dispatch) {
-		const response = await axios.post(URL + `/Products`, payload)
-		return {
-			type: CREATE_PRODUCT,
-			response
-		}
+		axios.post(URL + `/products/admin/`, payload,
+			{ headers: { 'Authorization': `Bearer ${token}` } })
+			.then(() => { return dispatch({ type: CREATE_PRODUCT, payload: true }) })
+			.catch(() => { return dispatch({ type: CREATE_PRODUCT, payload: false }) });
 	}
 }
 
+
 export function editProduct(payload) {
 	return async function (dispatch) {
-		const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
+		const response = await axios.put(URL + `/products/admin/` + payload.id, payload.data,
+			{ headers: { 'Authorization': `Bearer ${payload.token}` } }
+		);
 		return {
 			type: EDIT_PRODUCT,
 			response
 		}
 	}
 }
+
+// export function editProduct(payload) {
+// 	return async function (dispatch) {
+// 		const response = await axios.put(URL + `/Products/`+ payload.id, payload.data)
+// 		return {
+// 			type: EDIT_PRODUCT,
+// 			response
+// 		}
+// 	}
+// }
 
 export const getAdminProducts = (payload) => async (dispatch)=>{   
 	try {

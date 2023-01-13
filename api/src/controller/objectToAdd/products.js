@@ -81,7 +81,8 @@ module.exports = [
         processor: 'OctaCore',
         description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
         img: ['https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-1.jpg',
-            'https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-2.jpg']
+            'https://fdn2.gsmarena.com/vv/pics/cat/cat-s62-2.jpg'],
+        active: false,
     },
     {
         name: 'vivo X90',
@@ -92,7 +93,8 @@ module.exports = [
         processor: 'OctaCore',
         description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
         img: ['https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-1.jpg',
-            'https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-2.jpg']
+            'https://fdn2.gsmarena.com/vv/pics/vivo/vivo-x90-2.jpg'],
+        active: false,
     },
     {
         name: 'ZTE Axon 40 SE',
@@ -124,7 +126,8 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-5-iv-ecru-white.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-5-iv-ecru-white.jpg'],
+        active: false,
     },
     {
         name: 'Galaxy M13 5G',
@@ -134,7 +137,8 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-m13-5g-1.jpg'],
+        active: false,
     },
     {
         name: 'Pocket SG',
@@ -164,7 +168,8 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/htc/htc-wildfire-e2-plus-1.jpg'],
+        active: false,
     },
     {
         name: '80',
@@ -174,7 +179,8 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/honor/honor-80-pro-2.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/honor/honor-80-pro-2.jpg'],
+        active: false,
     },
     {
         name: '10 Pro',
@@ -184,17 +190,20 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/realme/realme-10-pro-1.jpg'],
+        active: false,
     },
     {
         name: 'KEY2 LE',
         price: 950,
         model: 'BlackBerry KEY2 LE',
-        stock: 24,
+        stock: 0,
         camera: '10Mpx',
         processor: 'OctaCore',
         description: 'Bluetooth Enabled, Camera, Color Screen, Email Access, Front Camera, Global Ready, GPS, Internet Connectivity, Rear Camera, Speakerphone, Touch Screen, Vibration, Wi-Fi Capable.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/blackberry/blackberry-key2-le-1.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/blackberry/blackberry-key2-le-1.jpg'],
+        active: false,
+        archived: true
     },
     {
         name: '18s',
@@ -204,7 +213,9 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: 'Proximity Sensor, Gyro Sensor, Accelerometer, Fingerprint Sensor.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/meizu/meizu-18s-1.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/meizu/meizu-18s-1.jpg'],
+        active: false,
+        archived: true
     },
     {
         name: 'Surface Du',
@@ -214,6 +225,8 @@ module.exports = [
         camera: '10Mpx',
         processor: 'OctaCore',
         description: '3D Depth Camera, 3D Depth Sensor, 4K Video Recording, Accelerometer, Camera, FM Radio, Dual SIM, 3G Data Capable, Colour Screen, 5G.',
-        img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg']
+        img: ['https://fdn2.gsmarena.com/vv/pics/microsoft/microsoft-surface-duo-03.jpg'],
+        active: false,
+        archived: true
     },
 ]

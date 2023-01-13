@@ -106,6 +106,7 @@ router.get('/discount',async(req, res) => {
     try{
         const data = await Product.findAll({
             where:{
+                    archived: false,
                     discount: { [Sequelize.Op.ne]: null } 
             },
             include:[{model:Review}]
