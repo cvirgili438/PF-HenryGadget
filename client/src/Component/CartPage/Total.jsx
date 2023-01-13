@@ -52,10 +52,10 @@ const Total = (props) => {
             <Box><Typography variant='body1'>Product</Typography></Box>
             <Box><Typography variant='body1'>$ {total}</Typography></Box>
           </Box>
-          <Box sx={{display: "flex", justifyContent: "space-between"}}>
+          {/* <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <Box><Typography variant='body1'>Discount</Typography></Box>
             <Box><Typography variant='body1'>$ {totalDiscount}</Typography></Box>
-          </Box>
+          </Box> */}
         </Box>
         <Box sx={{display: "flex", justifyContent: "space-between", margin: "20px 0", borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box><Typography variant='h3'>Total</Typography></Box>
