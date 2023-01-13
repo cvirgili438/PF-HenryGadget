@@ -114,11 +114,11 @@ router.put('/principal', async (req,res) => {                                   
 router.delete('/:idAddress', async(req,res) => {                                                                        // localhost:3001/address (delete)
     const {idAddress} = req.params;                                                                                     // Requerimos el id de la address a eliminar por params
 
-    const {idUser} = req.body;
-    let uidFire = req.user.uid;
-    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    }
+    // const {idUser} = req.body;
+    // let uidFire = req.user.uid;
+    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    // }
 
     try {
         const addressToDelete = await Address.findByPk(idAddress);                                                      // Buscamos que la address exista
