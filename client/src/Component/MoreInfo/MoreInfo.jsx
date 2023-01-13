@@ -18,19 +18,19 @@ const MoreInfo = () => {
                 <Stack direction={'row'} divider={<Divider orientation="vertical" flexItem />}  justifyContent="space-evenly" alignItems="center" spacing={5}>
                     <Box position={"relative"} >
                         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} justifyContent="space-evenly">
-                            <a href="https://www.facebook.com/profile.php?id=100089485689501">
+                            <a target="_blank" href="https://www.facebook.com/profile.php?id=100089485689501">
                                 <IconButton color="success" size="large" sx={{ fontSize: "40px", '&:hover, &.Mui-focusVisible': { backgroundColor: 'lightgreen'}}}>
                                     <FaFacebook sx={{ fontSize: "40px" }} />
                                 </IconButton>
                             </a>
-                            <a href="https://twitter.com/Henry_Gadget">
+                            <a target="_blank" href="https://twitter.com/Henry_Gadget">
                                 <IconButton color="success" size="large" sx={{ fontSize: "40px", '&:hover, &.Mui-focusVisible': { backgroundColor: 'lightgreen'}}}>
                                     <FaTwitter sx={{ fontSize: "40px" }} />
                                 </IconButton>
                             </a>
                         </Stack>
                                                 
-                        <a style={{textDecoration :'none'}} href="https://wa.me/5491157384737">
+                        <a target="_blank" style={{textDecoration :'none'}} href="https://wa.me/5491157384737">
                             <Paper sx={{
                                 backgroundColor:"#52ba638a",
                                 border:"1px solid #52ba63",
