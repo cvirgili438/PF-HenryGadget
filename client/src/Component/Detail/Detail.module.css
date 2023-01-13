@@ -5,6 +5,7 @@ ul > li{
     cursor:pointer
 }
 
+
 li.active {
     border-bottom:3px solid silver;
 }
@@ -87,14 +88,10 @@ div.section > div > input {
     text-align:center;
 }
 
-.attr,.attr2{
-    cursor:pointer;
-    margin-right:5px;
-    height:20px;
-    font-size:10px;
-    padding:2px;
-    border:1px solid gray;
-    border-radius:2px;
+.attr,.attr2{    
+    font-size:0.5rem;
+    display: flex;    
+    margin: auto;    
 }
 
 .attr.active,.attr2.active{ 

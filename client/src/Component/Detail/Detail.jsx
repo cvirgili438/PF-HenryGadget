@@ -113,15 +113,22 @@ const Detail = () => {
 
                     {/* <!-- Detalles especificos del producto --> */}
 
-                    <div className={`${styles.section}`} style={{ padding: '5px' }}>
-                        <h6 className="title-attr"><small>STORAGE</small></h6>
+                    <div className={`${styles.section}`} style={{ padding: '5px' }}>                        
                         <div>
-                            <div className={`${styles.attr2}`}>{!productDetail.storage ? '-n/a-' : productDetail.storage.size}</div>
+                            <div className={`${styles.attr2}`}>
+                            <Rating  //estrellas
+                                        sx={{ padding: 'auto' }}
+                                        name="read-only"
+                                        value={reviews ? Number(AverageRating(reviews).toFixed(1)) : 1}
+                                        precision={0.5}
+                                        readOnly
+                                    />
+                            </div>
                         </div >
                     </div >
                     <Stack className={`${styles.section}`} style={{ padding: '20px' }}>
                         <h6 className={`${styles.title_attr}`}><small>ITEMS</small></h6>
-                        <div>
+                        <div style={{display: 'flex', justifyContent: 'center' }}>
                             <button onClick={e => handleCount(e)} id="minus" className={`${styles.btn_minus}`}><i id="i-minus" className="bi bi-caret-left"></i></button>
                             <input onChange={e => handlerChange(e)} value={input.value} />
                             <button onClick={e => handleCount(e)} id="plus" className={`${styles.btn_plus}`}><i id="i-plus" className="bi bi-caret-right"></i></button>
