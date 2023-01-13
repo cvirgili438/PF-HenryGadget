@@ -11,32 +11,3 @@
     color:black;
     cursor: pointer;
   }
-
-  
-
-.scrollbar::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 10px;
-}
-
-/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
-.scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #b3b3b3;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
-}
-
-/* Cambiamos el fondo cuando esté en active */
-.scrollbar::-webkit-scrollbar-thumb:active {
-    background-color: #999999;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-    background: #e1e1e1;
-    border-radius: 4px;
-}
-
-/* Cambiamos el fondo cuando esté en active o hover */
-.scrollbar::-webkit-scrollbar-track:hover,
-.scrollbar::-webkit-scrollbar-track:active {
-  background: #e01e1e;
-}

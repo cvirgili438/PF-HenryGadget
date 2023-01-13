@@ -55,7 +55,7 @@ function SearchBar(props) {
         >
           {props.input ? (
             <div className={styles.iconClear}>
-              <AiOutlineClear style={{ width: "1.9rem", height: "1.9rem" }} />
+              <AiOutlineClear style={{ width: "1.3rem", height: "1.3rem" }} />
             </div>
           ) : null}
         </div>
