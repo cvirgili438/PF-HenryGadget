@@ -59,7 +59,8 @@ const Total = (props) => {
         </Box>
         <Box sx={{display: "flex", justifyContent: "space-between", margin: "20px 0", borderBottom: "1px solid gray", paddingBottom: "20px"}}>
           <Box><Typography variant='h3'>Total</Typography></Box>
-          <Box><Typography variant='h3'>$ {total - totalDiscount}</Typography></Box>
+          {/* <Box><Typography variant='h3'>$ {total - totalDiscount}</Typography></Box> */}
+          <Box><Typography variant='h3'>$ {total}</Typography></Box>
         </Box>
         <Box sx={{margin: "20px 0"}}>
           <Typography variant='body1' align='left'>Shipping timelines and costs will be calculated in base of your shipping address and shipping method.</Typography>
