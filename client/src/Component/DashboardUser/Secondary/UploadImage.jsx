@@ -11,13 +11,14 @@ import { setIsLoading } from '../../../Redux/Actions/index.js';
 import Loader from '../../Loader/Loader'
 import MiniCardCreateProduct from '../../MiniCardCreateProduct/MiniCardCreateProduct.jsx';
 import { putProfileUser } from '../../../Redux/Actions/users.js';
+import { useHistory } from 'react-router';
 
 
 
 
 export default function UploadImage(props) {
-
-    const dispatch = useDispatch();
+  const history = useHistory()
+  const dispatch = useDispatch();
   const isLoading = useSelector(state=>state.loading)
   const name = props.displayName ? props.displayName : 'Please fill this field'
   const phone = props.phoneNumber ? props.phoneNumber : 'Please fill this field'
@@ -131,7 +132,7 @@ function handleSubmit(e) {
       setTimeout(()=>{
        setMsg({...msg,success:'Your profile has been succesufull updated'})
       },2500)
-      setTimeout(()=>{window.location.reload()},2500)
+      setTimeout(()=>{history.push('/')},2500)
       setInput({
         idUser:props.idUser,
         google:props.google,
