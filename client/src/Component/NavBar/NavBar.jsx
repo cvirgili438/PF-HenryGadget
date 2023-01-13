@@ -159,8 +159,8 @@ const NavBar = () => {
             {state.user !== null
               ? (
                 <div>
-                  {state.user.photoURL
-                    ? <img src={providerUser.photoURL} alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+                  {providerUser.photoURL
+                    ? <img src={providerUser.photoURL?providerUser.photoURL: 'avatar' } alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
                     : (
                       <IconButton style={{ margin: '0 2rem 0 2rem' }}>
                         <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions} />
