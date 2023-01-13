@@ -29,7 +29,7 @@ const MiniNav = ({ pathname , setInput}) => {
     }));
 
     return (
-        <div className={styles.main}>
+        <div className={pathname === '/' ? styles.main_landing : styles.main}>
             <Link style={{marginLeft:'1rem'}} onClick={()=>setInput('')} to='/'>
                 <span className={styles.separator}>
                     <ButtonBorderEffect text='Home' />

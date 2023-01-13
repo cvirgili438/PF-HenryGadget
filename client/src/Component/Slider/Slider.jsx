@@ -5,6 +5,9 @@ import styles from './Slider.module.css'
 import banner1 from '../../Assets/banner01.jpg'
 import banner2 from '../../Assets/banner02.jpg'
 import banner3 from '../../Assets/banner03.jpg'
+import banner04 from '../../Assets/banner04.jpg'
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Slider() {
     return (
@@ -38,6 +41,31 @@ export default function Slider() {
             <img
               className="d-block w-100"
               src={ banner3 }
+              alt="Third slide"
+            />
+    
+            {/* <Carousel.Caption>
+              <h3>Third slide label</h3>
+              <p>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              </p>
+            </Carousel.Caption> */}
+          </Carousel.Item>
+          <Carousel.Item>
+            <Link to='/products'>
+              <Button variant='contained' sx={{
+                position:'absolute',
+                marginTop:'10rem',
+                fontSize:'2rem',
+                backgroundColor:'#d8d11e',
+                '&:hover':{
+                  backgroundColor:'#c9c318'
+                }
+              }}>Buy Now</Button>
+            </Link>
+            <img
+              className="d-block w-100"
+              src={ banner04 }
               alt="Third slide"
             />
     
