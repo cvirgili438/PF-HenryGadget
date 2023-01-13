@@ -2,6 +2,7 @@ import React from "react";
 import Newslatter from "../Newslatter/Newslatter";
 import MoreInfo from "../MoreInfo/MoreInfo";
 import styles from './Footer.module.css';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
 
@@ -13,10 +14,20 @@ const Footer = () => {
 
       <div className={styles.container}>
         <div className={styles.column}>
-          HenryGadget v0.1<br />Contact: testmail@testmail.com<br />
+          <div>
+            Henry - Part Time 08 - Grupo 5
+          </div>
+          <div>
+            Contact: <a href="mailto:proyectofinalhenrygadget@gmail.com">proyectofinalhenrygadget@gmail.com</a>
+          </div>
         </div>
         <div className={styles.column}>
-          Column<br />Legal notice / more info / etc
+          <div>
+            HenryGadget v1.0
+          </div>
+          <div>
+            <a href="https://github.com/cvirgili438/PF-HenryGadget" target='_blank' rel='noreferrer' >github.com/cvirgili438/PF-HenryGadget</a>
+          </div>
         </div>
       </div>
     </div>
