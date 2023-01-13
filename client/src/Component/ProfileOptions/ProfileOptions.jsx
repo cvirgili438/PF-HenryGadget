@@ -41,14 +41,27 @@ function ProfileOptions(props) {
                 :
                 <></>
             }
-            <div className={styles.container_options}>
-                <FaUserCog className={styles.icons}/>
-                <span onClick={handleOpenAccount} className={styles.container_options_span}>Account</span>
-            </div>
-            <div className={styles.container_options}>
-                <FaShoppingCart className={styles.icons}/>
-                <span onClick={handleOpenCart} className={styles.container_options_span}>Orders</span>
-            </div>
+            {
+                user && user.rol === 'client' ?
+                    <div className={styles.container_options}>
+                        <FaUserCog className={styles.icons}/>
+                        <span onClick={handleOpenAccount} className={styles.container_options_span}>Account</span>
+                    </div>
+                :
+                <></>
+            }
+
+            {
+                user && user.rol === 'client' ?
+                    <div className={styles.container_options}>
+                        <FaShoppingCart className={styles.icons}/>
+                        <span onClick={handleOpenCart} className={styles.container_options_span}>Orders</span>
+                    </div>
+                :
+                <></>
+            }
+            
+            
 
             <div className={styles.divider}></div>
 
