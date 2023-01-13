@@ -66,7 +66,7 @@ function SearchBar(props) {
           <BsSearch style={{ width: "1.9rem", height: "1.9rem" }} />
         </div>
       </div>
-      {props.value  && props.pathname !== '/products' ?  (
+      {props.value  ?  (
         <div className={styles.search_box}>
           {filteredProducts.length > 0
           ? (
