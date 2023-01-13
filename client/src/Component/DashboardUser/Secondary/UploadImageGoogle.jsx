@@ -11,15 +11,17 @@ import { setIsLoading } from '../../../Redux/Actions/index.js';
 import Loader from '../../Loader/Loader'
 import MiniCardCreateProduct from '../../MiniCardCreateProduct/MiniCardCreateProduct.jsx';
 import { putProfileUser } from '../../../Redux/Actions/users.js';
+import { useHistory } from 'react-router';
 
 
 
 
 
 export default function UploadImageGoogle(props) {
-  
+  const history = useHistory()
   const dispatch = useDispatch();
   const isLoading = useSelector(state=>state.loading)
+  const phone = props.phoneNumber ? props.phoneNumber : 'Please fill this field'
 
 
   const [errors, setErrors] = useState({});
@@ -32,7 +34,7 @@ export default function UploadImageGoogle(props) {
   const [input, setInput] = useState({
     idUser:props.idUser,
     google:props.google,
-    phoneNumber:'',
+    phoneNumber:phone === 'Please fill this field' ? '' : phone,
     currentPhoto:props.currentPhoto,
     img:[]
   })
@@ -126,7 +128,7 @@ function handleSubmit(e) {
           setMsg({...msg,success:'Your account has succefully updated'})
         },1000)        
       setTimeout(()=>{
-        window.location.reload()
+        history.push('/')
       },2500)
              
   }

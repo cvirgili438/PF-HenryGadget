@@ -23,7 +23,9 @@ import { getAllItemCart, emptyCart } from "../../Utils/cart/cartCrud.js";
 import { logUserActivity } from "../../Redux/Actions/users.js";
 // import { Box, } from "@mui/system";
 import MiniNav from "../MiniNav/MiniNav.jsx";
+import { URL } from "../../Redux/Constants/index.js";
 // import Separator from "../Separator/Separator.jsx";
+import axios from 'axios'
 
 
 const NavBar = () => {
@@ -34,7 +36,7 @@ const NavBar = () => {
   const [modalShow, setModalShow] = useState(false);
   const [displayOptions, setDisplayOptions] = useState(false)
   // const [cartItems, setCartItems] = useState(0)
-
+  const [providerUser,setProviderUser] =useState([])
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
@@ -54,6 +56,19 @@ const NavBar = () => {
 
     
     if (loggedUser) dispatch(logUserActivity(loggedUser))
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+       
+        axios.get(`${URL}/users/${user.uid}`).then(r => {         
+          return setProviderUser({
+          ...user.providerData[0],
+          uid:user.uid,
+          phoneNumber:r.data.result.phoneNumber
+        })}
+        )
+        setUserInFrontState(providerUser)
+      }
+    });
     
   }, [search, loggedUser])
 
@@ -144,8 +159,8 @@ const NavBar = () => {
             {state.user !== null
               ? (
                 <div>
-                  {state.user.photoURL
-                    ? <img src={state.user.photoURL} alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
+                  {providerUser.photoURL
+                    ? <img src={providerUser.photoURL?providerUser.photoURL: 'avatar' } alt='avatar' className={styles.login_button_avatar} onClick={handleDisplayOptions} referrerPolicy='no-referrer' />
                     : (
                       <IconButton style={{ margin: '0 2rem 0 2rem' }}>
                         <FiUserCheck className={styles.login_button} onClick={handleDisplayOptions} />
