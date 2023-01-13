@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import ModalAp from 'react-bootstrap/Modal';
+import ModalNx from 'react-bootstrap/Modal';
 import Alert2 from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import HelpIcon from '@mui/icons-material/Help';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import Switch from '@mui/material/Switch';
 // import Rating from '@mui/material/Rating';
 
@@ -31,7 +31,9 @@ import {
   updateLocation,
   createLocation,
   deleteLocation,
-  updateLocationAp
+  updateLocationAp,
+  getLocationAppointments,
+  deleteAppointmentAdmin
 } from '../../../Redux/Actions/locations.js';
 
 import styles from './LocationCRUD.module.css';
@@ -60,6 +62,7 @@ const LocationCRUD = () => {
 
   const [show, setShow] = useState(false);
   const [showAp, setShowAp] = useState(false);
+  const [showNx, setShowNx] = useState(false);
   const [alert2, setAlert2] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
   const [switchDay, setSwitchDay] = useState({0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false})
@@ -67,6 +70,7 @@ const LocationCRUD = () => {
   const [finalAp, setFinalAp] = useState({})
 
   const locations = useSelector(state => state.locations);
+  const appointments = useSelector(state => state.appointments);
   
   const dispatch = useDispatch();
 
@@ -246,6 +250,25 @@ const LocationCRUD = () => {
     setShowAp(false);
   }
 
+  const handleShowModalNx = (e) => {
+    setInput({
+      ...input,
+      id: e.target.value,
+      name: locations.filter(p => p.id === e.target.value )[0].name,
+    });
+    dispatch(getLocationAppointments({id: e.target.value, token: token}))
+    setShowNx(true);
+  }
+
+  const handleCloseModalNx = () => {
+    setInput({
+      ...input,
+      id: false,
+      name: false,
+    });
+    setShowNx(false);
+  }
+
   const handleCheckboxes = e => {
     if (e.target.checked) {
       if (selected.indexOf(e.target.name) === -1) {
@@ -298,6 +321,9 @@ const LocationCRUD = () => {
     }
   }
 
+  const handleDeleteAppointment = (e) => {
+    dispatch(deleteAppointmentAdmin({id: e.nativeEvent.originalTarget.id, token: token, location: input.id}))
+  }
  
   var intervals = [];
   for (var hours = 0; hours <= 23; hours++) {
@@ -436,6 +462,37 @@ const LocationCRUD = () => {
           <Button text="Save" onClick={ handleSaveModalAp } />
         </ModalAp.Footer>
       </ModalAp>
+      <ModalNx show={showNx} onHide={ handleCloseModalNx } size="md">
+        <ModalNx.Header closeButton>
+          <ModalNx.Title>Next clients appointed for { input.name }</ModalNx.Title>
+        </ModalNx.Header>
+        <ModalNx.Body>
+          {
+            appointments && appointments.length > 0 ?
+              <>
+              {
+                appointments.map((p, i) => (
+                  <ListGroup.Item>
+                    <Tooltip title="Delete appointment... THIS CAN'T BE UNDONE">
+                      <DeleteForeverOutlinedIcon onClick={ handleDeleteAppointment } id={ p.id } />
+                    </Tooltip>
+                    &nbsp;{ p.date } - { p.time }: { p.email }
+                  </ListGroup.Item>
+                ))
+              }
+              </>
+              
+              :
+              'No appointments'
+          }
+          <ListGroup>
+            
+          </ListGroup>
+        </ModalNx.Body>
+        <ModalNx.Footer>
+          <Button text="Close" onClick={ handleCloseModalNx } />
+        </ModalNx.Footer>
+      </ModalNx>
       <Alert2 show={alert2} variant="danger">
         <Alert2.Heading>Danger</Alert2.Heading>
         <p>
@@ -493,8 +550,9 @@ const LocationCRUD = () => {
                   <th>Position</th>
                   {/* <th>Rating</th> */}
                   <th>Visible</th>
-                  <th>Appointments</th>
-                  <th>Edit</th>
+                  <th>Clients</th>
+                  <th>Calendar</th>
+                  <th>Location</th>
                   <th>{ !mode.archived ? 'Archive' : 'Restore' }</th>
                   {
                   mode.archived ?
@@ -524,8 +582,9 @@ const LocationCRUD = () => {
                     <td>{ p.lat ? `Lat: ${p.lat}` : 'n/d' } / { p.lon ? `Lon: ${p.lon}` : 'n/d' }</td>
                     {/* <td><Rating name="rating" defaultValue={ p.score } precision={0.5} readOnly='true' /></td> */}
                     <td><Switch checked={ p.visible } onChange={ handleChangeVisible } id={ p.id } /></td>
-                    <td><Button text='Appointments' onClick={ handleShowModalAp } value={ p.id } /></td>
-                    <td><Button text='Edit' onClick={ handleShowModal } value={ p.id } /></td>
+                    <td><Button text='Next clients' onClick={ handleShowModalNx } value={ p.id } /></td>
+                    <td><Button text='Edit calendar' onClick={ handleShowModalAp } value={ p.id } /></td>
+                    <td><Button text='Edit location' onClick={ handleShowModal } value={ p.id } /></td>
                     <td><Button text={mode.archived ? 'Restore' : 'Archive'} onClick={ handleChangeArchive } value={ p.id } /></td>
                     {
                     mode.archived ?

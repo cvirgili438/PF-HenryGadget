@@ -3,7 +3,7 @@ const router = Router();
 const authWithoutAdm = require('./middleware/authWithoutAdm')
 const { Sequelize } = require("sequelize");
 
-const { Location } = require('./../db.js');
+const { Location, Appointment } = require('./../db.js');
 
 
 router.get('/', async (req,res)=> {                                                     
@@ -23,6 +23,36 @@ router.get('/', async (req,res)=> {
 
 //se pasa middleware para proteger rutas de review para creacion, modificacion o eliminacion
 router.use(authWithoutAdm);
+
+router.get('/:id', async (req,res)=> {                                                     
+    const { id } = req.params;
+
+    try {                                        
+        
+        // fecha de inicio
+        const today = new Date();
+        var startDate = today.toISOString().split('T')[0];
+    
+        // obtengo los horarios reservados de la DB
+        const reserved = await Appointment.findAll({
+            where: {
+                date: {
+                [Sequelize.Op.gte]: startDate
+                },
+                location: id
+                },
+            order: [
+                ['date', 'ASC'],
+                ['time', 'ASC']
+            ]
+            });
+        
+        res.status(200).json({msg: 'Appointments obtained successfully.', result: reserved});
+        return
+    } catch (error) {
+        res.status(400).json({err: error.message});
+    }
+})
 
 router.post('/', async (req,res) => {    
     const location = req.body;                                                       
@@ -173,6 +203,49 @@ router.put('/rating/', async (req,res) => {
     }
 })
 
+router.delete('/ap/', async (req, res) => {
+    //const appointment = req.body;
+    const { id, location } = req.body;
+    
+    if (!id)
+      return res.status(400).json({ err: 'Missing data.' });
+  
+    try {
+      const appointmentToDelete = await Appointment.findByPk(id);
+      
+      if (appointmentToDelete === null) {
+        return res.status(400).json({ err: `The appointment does not exits.` });
+      }
+  
+      await Appointment.destroy({
+                                  where: {
+                                      id: id
+                                  }
+                              });
+
+        // fecha de inicio
+        const today = new Date();
+        var startDate = today.toISOString().split('T')[0];
+    
+        // obtengo los horarios reservados de la DB
+        const reserved = await Appointment.findAll({
+            where: {
+                date: {
+                [Sequelize.Op.gte]: startDate
+                },
+                location: location
+                },
+            order: [
+                ['date', 'ASC'],
+                ['time', 'ASC']
+            ]
+            });
+      res.json({ msg: `Appointment ${id} has been deleted.`, result: reserved});
+    } catch (error) {
+      res.status(400).json({ err: error });
+    }
+  });
+  
 router.delete('/:id', async (req, res) => {
     const { archived } = req.query;
 
@@ -196,5 +269,7 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ err: error })
     }
 })
+
+
 
 module.exports = router;

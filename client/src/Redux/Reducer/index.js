@@ -54,6 +54,8 @@ import {
   GET_APPOINTMENTS,
   CREATE_OR_UPDATE_APPOINTMENT,
   DELETE_APPOINTMENT,
+  GET_LOCATION_APPOINTMENTS,
+  DELETE_APPOINTMENT_ADMIN,
   GET_ADDRESSES,
   PUT_ADDRESSES,
   DELETE_ADDRESS,
@@ -354,6 +356,12 @@ export default function rootReducer(state = inicialtate, action) {
         locations: action.payload.result,
         lastMsg: action.payload.msg,
       };
+    case GET_LOCATION_APPOINTMENTS:
+      return {
+        ...state,
+        appointments: action.payload.result,
+        lastMsg: action.payload.msg
+      }
     case CREATE_LOCATION:
       return {
         ...state,
@@ -401,6 +409,12 @@ export default function rootReducer(state = inicialtate, action) {
       return {
         ...state,
         currentAppointment: action.payload.result,
+        lastMsg: action.payload.msg
+      }
+    case DELETE_APPOINTMENT_ADMIN:
+      return {
+        ...state,
+        appointments: action.payload.result,
         lastMsg: action.payload.msg
       }
     case GET_ADDRESSES:
