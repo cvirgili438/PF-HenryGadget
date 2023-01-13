@@ -53,11 +53,11 @@ const MiniNav = ({ pathname , setInput}) => {
                                 <ButtonBorderEffect text='Featured products' />
                             </span>
                         </a>
-                        <a href='#anchor-sales'>
+                        {/* <a href='#anchor-sales'>
                             <span className={styles.separator}>
                                 <ButtonBorderEffect text='Sales' />
                             </span>
-                        </a>
+                        </a> */}
                         <Link to={'/aboutUs'}>
                             <span className={styles.separator}>
                                 <ButtonBorderEffect text='About us' />
