@@ -148,7 +148,9 @@ function DiscountProducts() {
                           marginTop: "2rem",
                           borderRadius: "10px",
                           boxShadow: "1px 1px 0px rgba(0,0,0,0.5)",
-                          height: '4rem'
+                          height: '4rem',
+                          boxSizing: 'content-box'
+
                         }}
                       >
                         {e.discount}% OFF
