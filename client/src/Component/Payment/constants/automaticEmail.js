@@ -1,2 +1,2 @@
 export const SUBJECT_PAYMENT = 'Your payment was registered successfully.';
-export const TEXT_PAYMENT = 'Your order will be processed by our team shortly. You will be notified when your package is dispatched.';
+export const TEXT_PAYMENT = 'Your order will be processed by our team shortly. You will be notified once your package was dispatched.';
