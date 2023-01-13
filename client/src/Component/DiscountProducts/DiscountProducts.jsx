@@ -133,28 +133,28 @@ function DiscountProducts() {
                           ${Math.round((1 - e.discount / 100) * e.price)}
                         </Typography>
                       </Box>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          textAlign: 'center',
-                          justifyContent: 'center',
-                          fontSize: "1.5rem",
-                          fontWeight:'500',
-                          // backgroundColor:'rgb(161, 208, 246)',
-                          backgroundColor: "rgb(0, 0, 0)",
-                          color: "white",
-                          padding:'15px',
-                          // paddingRight: "10px",
-                          marginTop: "2rem",
-                          borderRadius: "10px",
-                          boxShadow: "1px 1px 0px rgba(0,0,0,0.5)",
-                          height: '4rem',
-                          boxSizing: 'content-box'
-
-                        }}
-                      >
-                        {e.discount}% OFF
-                      </Typography>
+                      <div style={{
+                        backgroundColor:'rgb(0,0,0)',
+                        display:'flex',
+                        placeItems:'center',
+                        borderRadius:'10px',
+                        boxShadow: "1px 1px 0px rgba(0,0,0,0.5)",
+                        height:'4rem',
+                        padding:'10px'
+                      }}>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontSize: "1.5rem",
+                            fontWeight:'500',
+                            color: "white",
+                            borderRadius: "10px",
+                            boxSizing: 'content-box',
+                          }}
+                        >
+                          {e.discount}% OFF
+                        </Typography>
+                      </div>
                     </Box>
                   </Box>
                 </Box>
