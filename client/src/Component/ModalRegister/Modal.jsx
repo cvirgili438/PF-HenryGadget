@@ -112,6 +112,8 @@ function ModalUser(props) {
 
   const handleDisplayForgotPassword = ()=>{
     setDisplayForgotPassword(!displayForgotPassword)
+    setInput({...input,email_restore:''})
+    setErrors({})
   }
 
   const handleSubmit = async (e)=>{
@@ -149,8 +151,14 @@ function ModalUser(props) {
     const password = input.password_login
     try{
 
-      if(!password &&  !email){
-        setErrors({...errors,msg_email:'Invalid email',msg_password:'Wrong password'})
+      if(!password || !email){
+        if(!password){
+          setErrors({...errors,msg_password:'Wrong password'})
+        }
+        if(!email){
+          setErrors({...errors,msg_email:'Invalid email'})
+
+        }
         return
       }
       
@@ -191,6 +199,7 @@ function ModalUser(props) {
       if(e.message === 'Firebase: Error (auth/internal-error).')setErrors({...errors,msg:e.message})
       if (e.message === 'Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).')setErrors({...errors,msg:'Too many request, try again later or reset your password'})
       if(e.message === 'Check your email to verify your account')setErrors({...errors,msg:e.message})
+      if(e.message === 'Firebase: Error (auth/user-not-found).')setErrors({...errors,msg_email:'User not found'})
       dispatch(setIsLoading(!isLoading))
     }
    
