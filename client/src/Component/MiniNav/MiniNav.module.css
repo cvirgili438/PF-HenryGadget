@@ -9,7 +9,9 @@
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.5);
     top: 0px;
     z-Index: 1;
-    height:3.3rem
+    height:3.3rem;
+    align-items: center;
+
 }
 
 .main_landing{
@@ -23,7 +25,8 @@
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.5);
     top: 0px;
     z-Index: 11;
-    height:3.3rem
+    height:3.3rem;
+    align-items: center;
 }
 
 

@@ -25,7 +25,6 @@ function DiscountProducts() {
         width: "100%",
         height: "25rem",
         marginBottom: '20rem',
-        paddingTop: '4rem'
       }}
     >
       <Typography
@@ -64,10 +63,15 @@ function DiscountProducts() {
                   width: "100%",
                   height: '20rem',
                   padding: "1rem",
-                  backgroundColor: "rgb(242,242,242)",
+                  // backgroundColor: "rgb(242,242,242)",
                   display: "flex",
                   borderRadius: "8px",
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition:'all 200ms ease',
+                  '&:hover':{
+                    backgroundColor:'rgb(242,242,242)',
+                    boxShadow:'0px 0px 4px rgba(0,0,0,0.2)'
+                  }
                 }}
               >
                 <Link to={`/product/${e.id}`}>
@@ -75,8 +79,8 @@ function DiscountProducts() {
                     src={e.img[0]}
                     alt={e.name}
                     style={{
-                      maxWidth: "18rem",
-                      height: "18rem",
+                      maxWidth: "16.6rem",
+                      height: "16.6rem",
                       objectFit: "contain",
                     }}
                   />
@@ -94,6 +98,32 @@ function DiscountProducts() {
                   {/* <Typography variant="subtitle1">
                     {e.description ? e.description : null}
                   </Typography> */}
+                   <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography
+                          variant="overline"
+                          sx={{
+                            fontSize: "0.8rem",
+                            textDecoration: 'line-through',
+
+                          }}
+                        >
+                          ${e.price}
+                        </Typography>
+                        <Typography
+                          variant="overline"
+                          sx={{
+                            fontSize: "1.2rem",
+
+                          }}
+                        >
+                         ${Math.round((1 - e.discount / 100) * e.price)}
+                        </Typography>
+                      </Box>
                   <Box
                     sx={{
                       height: "100%",
@@ -106,49 +136,27 @@ function DiscountProducts() {
                     <Box
                       sx={{
                         display: "flex",
-                        justifyContent: "space-around",
+                        width:'100%',
+                        justifyContent: "flex-end",
                       }}
                     >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Typography
-                          variant="overline"
-                          sx={{
-                            fontSize: "1rem",
-                            textDecoration: 'line-through'
-                          }}
-                        >
-                          ${e.price}
-                        </Typography>
-                        <Typography
-                          variant="overline"
-                          sx={{
-                            fontSize: "1.8rem",
-                          }}
-                        >
-                          ${Math.round((1 - e.discount / 100) * e.price)}
-                        </Typography>
-                      </Box>
                       <div style={{
                         backgroundColor:'rgb(0,0,0)',
                         display:'flex',
                         placeItems:'center',
-                        borderRadius:'10px',
+                        borderRadius:'6px',
                         boxShadow: "1px 1px 0px rgba(0,0,0,0.5)",
-                        height:'4rem',
-                        padding:'10px'
+                        height:'3rem',
+                        padding:'10px',
+                        justifyContent:'center',
+                        maxWidth:'8rem'
                       }}>
                         <Typography
                           variant="h5"
                           sx={{
-                            fontSize: "1.5rem",
+                            fontSize: "1.2rem",
                             fontWeight:'500',
                             color: "white",
-                            borderRadius: "10px",
                             boxSizing: 'content-box',
                           }}
                         >

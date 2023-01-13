@@ -123,7 +123,7 @@ const Cart = (props) => {
                       display:'flex',
                       flexDirection:'column',
                       overflowY:'auto',
-                      maxHeight:'40rem',
+                      maxHeight:'20rem',
                     }}    
                     className={styles.scrollbar}           
                    >                    

@@ -67,11 +67,15 @@ const Product = ({ name, image, price, units_left, id }) => { //agregue id para 
             <Paper sx={{ backgroundColor: '#5fcd21c2', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
               {stock} units left
             </Paper> :
-
-            <Paper sx={{ backgroundColor: '#e91818b8', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
-              {stock === 0 ? `NO` : stock} unit{stock > 1 || stock === 0 ? `s` : null} left
-            </Paper>
-          
+            stock === 0 ?
+              <Paper sx={{ backgroundColor: '#e91818b8', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
+              NO units left
+              </Paper>
+              :
+             <Paper sx={{ backgroundColor: '#efa10a', color: '#fff', maxWidth: '6rem', padding: '3px' }} elevation={0}>
+             {stock} unit{stock > 1 || stock === 0 ? `s` : null} left
+             </Paper>
+            
         }
       </CardContent>
       <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around',margin:'1rem'}}>

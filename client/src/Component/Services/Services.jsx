@@ -14,8 +14,8 @@ function Services() {
     }}>
       <Box
         sx={{
-          width:'90%',
-          height:'15rem',
+          width:'80%',
+          height:'11rem',
           backgroundColor:'rgb(242,242,242)',
           margin:'auto',
           borderRadius:'10px',
@@ -29,22 +29,21 @@ function Services() {
             display:'flex',
             placeItems:'center',
             justifyContent:'center',
-            gap:'4rem'
+            gap:2
           }}
         >
          <img 
           src={shipping} 
           alt='shipping' 
           style={{
-            width:'13rem',
-            height:'13rem',
-            objectFit:'contain'
+            maxWidth:'10rem',
+            height:'auto',
+            objectFit:'contain',
           }}
           />
          <Box sx={{
           display:'flex',
-          flexDirection:'column'
-
+          flexDirection:'column',
          }}>
           <Typography variant='h3'sx={{fontWeight:'bold'}}>Free</Typography>
           <Typography variant='h4'>Shipping</Typography>
@@ -63,13 +62,13 @@ function Services() {
           <Typography variant='overline' sx={{fontSize:'1.1rem',marginTop:'10px'}}>
              Pay with credit or debit
           </Typography>
-          <Box sx={{display:'flex',placeItems:'center',justifyContent:'center',width:'100%'}}>
+          <Box sx={{display:'flex',placeItems:'center',justifyContent:'center',width:'100%',marginTop:'2rem'}}>
             <img 
               src={Cards} 
               alt='PaymentsCards' 
               style={{
-                width:'13rem',
-                height:'13rem',
+                maxWidth:'10rem',
+                height:'auto',
                 objectFit:'contain'
               }}
             />
@@ -106,8 +105,8 @@ function Services() {
               src={Attention} 
               alt='CustomerServices' 
               style={{
-                width:'50%',
-                height:'80%',
+                width:'45%',
+                height:'75%',
                 objectFit:'contain'
               }}
           />
