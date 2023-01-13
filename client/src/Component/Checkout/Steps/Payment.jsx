@@ -18,9 +18,8 @@ import { URL } from "../../../Redux/Constants";
 import { setOrder } from "../../../Redux/Actions/order";
 
 import Total from "../../CartPage/Total.jsx";
+import PaymentBox from "./PaymentBox";
 import { REFRESH_CART } from '../../../Redux/Constants/index.js';
-
-const PAYPAL_CLIENT_ID = 'AUjzPmpSla9_Kmo_fL_sdjJzYQLu0xDBxtsvUvUqo6q41fy_ukWAVjTnT0VgsYAU4QrcvGyn_08rkHdq'
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -31,7 +30,7 @@ export default function Payment() {
     const [clientSecret, setClientSecret] = useState("");
     const [stripeHidden, setStripeHidden] = useState(true);
     const [paypalHidden, setPayPalHidden] = useState(true);
-    const [paymentStatus, setPaymentStatus] = useState(false);
+    const [paymentStatus, setPaymentStatus] = useState({status: false, data: {}});
 
     const user = useSelector(state =>state.user)
     let total = useRef(0)
@@ -104,7 +103,7 @@ export default function Payment() {
           </div>
           <div className={paypalHidden ? styles.divHidden : styles.divPayPalContent}>
             <div className={styles.divPayPalButtons}>
-              <PayPalScriptProvider options={{"client-id": PAYPAL_CLIENT_ID}}>
+              <PayPalScriptProvider options={{"client-id": process.env.REACT_APP_PAYPAL}}>
                   <PayPalButtons 
                     createOrder={(data, actions) => {
                       return actions.order
@@ -120,20 +119,30 @@ export default function Payment() {
                           })
                           .then((orderId) => {
                               // Your code here after create the order
+                              setPaymentStatus({status: 'loading', data : {}})
                               return orderId;
                           })
-                          .catch(err => console.log(err))
+                          .catch(err => {
+                              setPaymentStatus({status: 'rejected', data: err}) 
+                          })
                     }}
                     onApprove={async function(data, actions) {
-                      dispatch(setOrder(user.uid))
-                      dispatch({type: REFRESH_CART, payload: Math.ceil(Math.random() * 1000000000000)});
+                      window.location.href = "/payment?redirect_status=succeeded"
                       return await actions.order.capture()
+                    }}
 
+                    onCancel={function(data,actions) {
+                      setPaymentStatus({status: false, data: {}})
                     }}
                   />
               </PayPalScriptProvider>
             </div>
           </div>
+
+          <div>
+            {paymentStatus.status && <PaymentBox status={paymentStatus.status} data={paymentStatus.data}/>}
+          </div>
+
         </div>
 
         <div className={styles.divTotal}>

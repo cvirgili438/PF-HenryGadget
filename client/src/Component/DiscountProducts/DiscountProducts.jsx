@@ -24,8 +24,8 @@ function DiscountProducts() {
       style={{
         width: "100%",
         height: "25rem",
-        marginBottom: '5rem',
-        marginTop: '4rem'
+        marginBottom: '20rem',
+        paddingTop: '4rem'
       }}
     >
       <Typography
@@ -75,8 +75,8 @@ function DiscountProducts() {
                     src={e.img[0]}
                     alt={e.name}
                     style={{
-                      maxWidth: "15rem",
-                      height: "15rem",
+                      maxWidth: "18rem",
+                      height: "18rem",
                       objectFit: "contain",
                     }}
                   />
@@ -138,11 +138,12 @@ function DiscountProducts() {
                         sx={{
                           textAlign: 'center',
                           justifyContent: 'center',
-                          fontSize: "larger",
+                          fontSize: "1.5rem",
+                          fontWeight:'500',
                           // backgroundColor:'rgb(161, 208, 246)',
-                          backgroundColor: "rgb(207, 12, 35)",
-                          color: "black",
-                          padding: "5px",
+                          backgroundColor: "rgb(0, 0, 0)",
+                          color: "white",
+                          padding:'15px',
                           // paddingRight: "10px",
                           marginTop: "2rem",
                           borderRadius: "10px",

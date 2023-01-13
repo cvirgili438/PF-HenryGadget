@@ -80,7 +80,7 @@ async function inicialProducts() {
          await Location.bulkCreate(locations);
 
          // prueba horarios turnos
-         await Appointment.bulkCreate(appointments);
+         // await Appointment.bulkCreate(appointments);
 
 
     } catch (error) {

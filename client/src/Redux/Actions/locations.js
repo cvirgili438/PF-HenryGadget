@@ -8,7 +8,9 @@ import {
   UPDATE_LOCATION,
   DELETE_LOCATION,
   CHANGE_LOCATION_ARCHIVE,
-  CHANGE_LOCATION_VISIBLE
+  CHANGE_LOCATION_VISIBLE,
+  GET_LOCATION_APPOINTMENTS,
+  DELETE_APPOINTMENT_ADMIN
 } from "../Constants"
 
 
@@ -53,6 +55,28 @@ export const getAdminLocations = (payload)=>{
       }
   }
 }
+
+export const getLocationAppointments = (payload)=>{
+    return async function(dispatch){
+        try{
+            const response = await fetch(URL + '/locations/admin/' + payload.id,{
+                method: "GET",
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization":"Bearer " + payload.token
+                }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: GET_LOCATION_APPOINTMENTS,
+                payload: data
+            })
+        }catch(e){
+            return e.message
+        }
+    }
+  }
+  
 
 export const changeLocationArchive = (payload) => {
     return async function(dispatch) {
@@ -190,6 +214,29 @@ export const updateLocationAp = (payload) => {
             return e.message
         }
     }
+}
+
+export const deleteAppointmentAdmin = (payload) => {
+	return async function (dispatch) {   
+		try {
+            const response = await fetch(URL + '/locations/admin/ap/',
+            {
+                    method: 'DELETE',
+                    body: JSON.stringify(payload),
+                    headers: {
+                            "Content-Type": "application/json",
+                            "authorization":"Bearer " + payload.token
+                    }
+            })
+            const data = await response.json()
+            return dispatch({
+                type: DELETE_APPOINTMENT_ADMIN,
+                payload: data
+            })
+		}catch(err) {
+			console.log(err)
+		}
+	}
 }
 
 // export const changeLocationRaiting = (payload) => {

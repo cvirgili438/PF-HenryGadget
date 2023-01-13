@@ -1,0 +1,32 @@
+.divGlobal{
+    display: flex;
+    flex-direction: column;
+    background-color: #b7e4c6;
+    border: 3px solid #3DA35D;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.divGlobalError{
+    display: flex;
+    flex-direction: column;
+    background-color: #dc809c;
+    border: 3px solid #93032E;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.divGlobalLoading{
+    display: flex;
+    flex-direction: column;
+    background-color: #9dc7de;
+    border: 3px solid #4281A4;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+}
+.icon{
+    font-size: 20px;
+}

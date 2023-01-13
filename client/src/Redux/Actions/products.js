@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseActionCodeURL } from 'firebase/auth';
 
 import {
   URL,
@@ -117,36 +118,25 @@ export  const getAllFilters= ()=> async (dispatch)=>{
 	}
 }
 
-export function addProduct(payload) {
+export function addProduct(payload, token) {
 	return async function (dispatch) {
-		const response = await axios.post(URL + `/Products`, payload)
-		return {
-			type: CREATE_PRODUCT,
-			response
-		}
+		axios.post(URL + `/products/admin/`, payload,
+			{ headers: { 'Authorization': `Bearer ${token}` } })
+			.then(() => { return dispatch({ type: CREATE_PRODUCT, payload: true }) })
+			.catch(() => { return dispatch({ type: CREATE_PRODUCT, payload: false }) });
 	}
 }
 
-export const editProduct = (payload) => {
-	return async function(dispatch) {
-			try {
-					const response = await fetch(URL + '/Products/' + payload.id, payload.data,
-					{
-							method: 'PUT',
-							body: JSON.stringify(payload),
-							headers: {
-									"Content-Type": "application/json",
-									"authorization":"Bearer " + payload.token
-							}
-					})
-					const data = await response.json()
-					return dispatch({
-							type: CHANGE_PRODUCT_ACTIVE,
-							payload: data
-					})
-			}catch(e){
-					return e.message
-			}
+
+export function editProduct(payload) {
+	return async function (dispatch) {
+		const response = await axios.put(URL + `/products/admin/` + payload.id, payload.data,
+			{ headers: { 'Authorization': `Bearer ${payload.token}` } }
+		);
+		return {
+			type: EDIT_PRODUCT,
+			response
+		}
 	}
 }
 

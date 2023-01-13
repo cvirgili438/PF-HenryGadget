@@ -32,6 +32,7 @@ export const inicialtate = {
   currentAppointment:{id: null},
   productsWithDiscount:[],
   buttonAddress: true,
+  createdProduct: null
 };
 
 // PRODUCTOS
@@ -48,6 +49,7 @@ export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const CHANGE_PRODUCT_ACTIVE = 'CHANGE_PRODUCT_ACTIVE';
 export const CHANGE_PRODUCT_ARCHIVE = 'CHANGE_PRODUCT_ARCHIVE';
 export const PRODUCTS_DISCOUNT = 'PRODUCTS_DISCOUNT'
+export const CLEAR_CREATE_PRODUCT = 'CLEAR_CREATE_PRODUCT';
 
 // USUARIOS
 export const SET_USER_LOGIN = 'SET_USER_LOGIN'
@@ -108,6 +110,8 @@ export const CHANGE_LOCATION_ARCHIVE = 'CHANGE_LOCATION_VISIBLE'
 export const GET_APPOINTMENTS = 'GET_APPOINTMENTS'
 export const CREATE_OR_UPDATE_APPOINTMENT = 'CREATE_OR_UPDATE_APPOINTMENT'
 export const DELETE_APPOINTMENT = 'DELETE_APPOINTMENT'
+export const GET_LOCATION_APPOINTMENTS = 'GET_LOCATION_APPOINTMENTS'
+export const DELETE_APPOINTMENT_ADMIN = 'DELETE_APPOINTMENT_ADMIN'
 
 //adresses
 export const GET_ADDRESSES = 'GET_ADDRESSES';
