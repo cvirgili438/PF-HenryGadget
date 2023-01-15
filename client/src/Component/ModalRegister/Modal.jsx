@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import styles from "./ModalRegister.module.css";
 import {

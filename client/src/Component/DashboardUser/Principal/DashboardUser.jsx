@@ -5,7 +5,6 @@ import { getAddresses } from '../../../Redux/Actions/adresses';
 import { Container } from '@mui/material';
 import BasicTabs from '../Secondary/Tabs.jsx';
 import { setUserInFrontState } from '../../../Redux/Actions/users';
-import { add } from 'dom7';
 import axios from 'axios';
 import { URL } from '../../../Redux/Constants';
 

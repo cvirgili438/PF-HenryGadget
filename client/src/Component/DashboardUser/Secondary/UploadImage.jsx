@@ -2,8 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { validate } from '../../../Utils/validateProfileForm.js';
-import { Box, Button, Stack, TextField } from "@mui/material";
-import { TextareaAutosize } from '@mui/base';
+import { Box, Button,  TextField } from "@mui/material";
 import { Container } from '@mui/system';
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../../../Firebase/firebase.config.js';
