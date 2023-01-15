@@ -5,7 +5,7 @@ const authWithoutAdm = require('./middleware/authWithoutAdm')
 const { User, Address } = require('../db.js');
 
 //protejo todas las rutas ya que no es de nuestro interes que las vean quienes no estan autentificados
-// router.use(authWithoutAdm);
+ router.use(authWithoutAdm);
 
 router.get('/', async(req,res) => {                                             // localhost:3001/address (get)
 
@@ -14,10 +14,10 @@ router.get('/', async(req,res) => {                                             
 
     if(!idUser) return res.status(400).json({err: 'No user id was provided.'});  // Muestra un mensaje apropiado en caso de que no pasen ningun ID
 
-    // let uidFire = req.user.uid;
-    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    // }
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     try {
         const user = await User.findByPk(idUser, {include: Address});           // Buscamos el usuario por id incluyendo sus address.
@@ -36,10 +36,10 @@ router.post('/', async(req,res) => {                                            
     const {idUser, address} = req.body;                                                                                             // Requerimos usuario y la direccion como objeto por body
     if(!idUser) return res.status(404).json({err: "User id is missing."});                                                           // Validaciones en caso de que falte algun dato y devuelve un msg apropiado
 
-    // let uidFire = req.user.uid;
-    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    // }
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
     
     const addressValidate = address || false;                                                                                       // Pequeño short circuit para evitar que si no pasan el address rompa el servidor
 
@@ -69,10 +69,10 @@ router.put('/', async(req,res) => {                                             
     if(!idAddress) return res.status(404).json({err: 'Address id is missing.'});                                         // Pequeñas validaciones para verificar que todos los datos fueron enviados
     if(!address) return res.status(404).json({err: "New address data is missing."});
 
-    // let uidFire = req.user.uid;
-    // if (idUser !== uidFire) { // Se verifica que coincidan los uid.
-    //     return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
-    // }
+    let uidFire = req.user.uid;
+    if (idUser !== uidFire) { // Se verifica que coincidan los uid.
+        return res.status(400).json({err: 'The idUser from the body and firebase does not match.'})
+    }
 
     try {
         const addressToUpdate = await Address.findByPk(idAddress);                                                      // Buscamos la direccion a actualizar por id
