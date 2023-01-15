@@ -11,7 +11,7 @@ import AddressBox from './AddressBox.jsx';
 import { URL } from '../../../Redux/Constants';
 import Total from '../../CartPage/Total';
 
-export default function Adress() {                                                                                                           /* Inicializaremos el componente utilizado en el segundo step (Address) donde se seteara la direccion deseada para enviar la orden */
+export default function Adress(props) {                                                                                                           /* Inicializaremos el componente utilizado en el segundo step (Address) donde se seteara la direccion deseada para enviar la orden */
   const [address, setAddress] = useState([]);                                                                                                // Renderizaremos dos tipos diferentes de componentes, uno donde el usuario no tenga ninguna direccion guardada (le mostraremos un form) y el caso donde el usuario ya tiene direcciones guardadas, lo sabremos guardandonos las direcciones del usuario en este estado.
   const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});         // Estado para ir guardando la direccion escrita en el caso del form donde el usaurio no tiene direcciones anteriores
   const [idActive, setIdActive] = useState('');                                                                                              // Desde este componente renderizaremos algunas cartas(direcciones) y una de esas cartas sera la direccion principal, necesitaremos especificar y renderizar esa carta con una informaicon diferente. (Para luego mostrarla con un estilo distinto)
@@ -23,7 +23,11 @@ export default function Adress() {                                              
   const user = useSelector(state => state.user);                                                                                              // Nos traemos al usuario con sesion iniciada para luego preguntar su uid
   
   useEffect(() => {                                                                                                                           // Antes de renderizar el componente vamos a preguntar las direcciones del usuario con el uid, estas posibles direcciones seran guardadas en el estado local, dependiendo de si hay o no direcciones, mostraremos un tipo de componente o otro.
-    axios(`${URL}/address?idUser=${user.uid}`)
+    axios({
+      url:`${URL}/address?idUser=${user.uid}`,
+      method: 'get',
+      headers: {"Authorization":"Bearer " + props.token}
+    })
          .then(res => {
             if(res.data.result.length === 0) return;
 
@@ -54,13 +58,22 @@ export default function Adress() {                                              
   }  
   
   function setAsPrincipal(addressId){                                                           // En el caso que el usuario tenga direcciones, las direcciones no principales recibiran como metodo una funcion para poder convertirse en direcciones principales ( esta funcion sera utilizada cuando el usuario haga clic sobre la carta )
-    axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: addressId});
+    axios({
+      url:`${URL}/address/principal`,
+      method:'put',
+      data: {idUser: user.uid, idAddress: addressId},
+      headers: {"Authorization":"Bearer " + props.token}
+      });
     setIdActive(addressId);
     dispatch(setButtonActive(false));
   }
 
   function setNotPrincipal(addressId){                                                          // En el caso que el usuario tenga direcciones, la direccion principal recibira como metodo una funcion para dejar de ser direccion principal ( esta funcion sera utilizada cuando el usuario haga clic sobre la carta )
-    axios.put(`${URL}/address`, {idUser: user.uid, address: {principal: false}, idAddress: addressId});
+    axios({
+      url: `${URL}/address`, 
+      method:'put',
+      data: {idUser: user.uid, address: {principal: false}, idAddress: addressId},
+      headers: {"Authorization":"Bearer " + props.token}});
     setIdActive('');
     dispatch(setButtonActive(true))
   }
@@ -140,6 +153,7 @@ export default function Adress() {                                              
           : address.map(a => {
               if(a.type === 'shipping' && a.id === idActive){
                 return <AddressBox
+                token={props.token}
                 key={a.id}
                 id={a.id}
                 name={a.name}
@@ -155,6 +169,7 @@ export default function Adress() {                                              
 
               if(a.type === 'shipping'){
                 return <AddressBox
+                  token={props.token}
                   key={a.id}
                   id={a.id}
                   name={a.name}

@@ -2,23 +2,17 @@
 
 import React from 'react';
 import axios from 'axios';
-
 import { TextField,Box } from '@mui/material'
-
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { setButtonActive } from '../../../Redux/Actions/checkout';
-
 import styles from "./AddressBox.module.css";
-
 import {MdLocationOn} from "react-icons/md";
 import {BsCheckCircle} from "react-icons/bs";
 import {IoAddCircleOutline} from "react-icons/io5";
-
 import { URL } from '../../../Redux/Constants';
 
-export default function AddressBox({name, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
+export default function AddressBox({name,token, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
 
   const [formActive, setFormActive] = useState(true);                                                                                   // Estado el cual nos servira para mostrar o no un form para la carta de " Add a different address"
   const [addressSettled, setAddressSettled] = useState(false)                                                                           // Estado local el cual nos hara saber si una vez utilizado el form la direccion propuesta se agerego correctamente como principal
@@ -39,17 +33,34 @@ export default function AddressBox({name, street, region, city, postalCode, type
   }  
 
   function setAddressAsPrincipal(){                                                                                                    // Esta funcion es para la carta " Add na new address " y cuya funcion que sera utilizada cuando querramos hacer el post de la direccion guardada en el estado local, la direccion tambien sera seteada como principal una vez se haya agregado
-    axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})                       // Creamos la nueva direccion pasando como valores el estado local
+   // axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})      
+      axios({
+        url:`${URL}/address`,
+        method: 'post',
+        data:{idUser: user.uid, address: inputt},
+        headers: {"Authorization":"Bearer " + token}
+      })                 // Creamos la nueva direccion pasando como valores el estado local
       .then(res => {
         const idAddress = res.data.result.id;
 
-        axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})     // Seteamos la direccion creada anteriormente como principal 
+       // axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})  
+        axios({
+          url:`${URL}/address/principal`,
+        method: 'put',
+        data:{idUser: user.uid, idAddress: idAddress},
+        headers: {"Authorization":"Bearer " + token}
+        })   // Seteamos la direccion creada anteriormente como principal 
              .then(res => {setAddressSettled(true); dispatch(setButtonActive(false));})
              .catch(err => console.log(err));
       })
       .catch(err => console.log(err))
 
-    axios.post(`${URL}/address`, {idUser: user.uid, address:{...inputt, type: 'billing'}})  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
+    axios({
+      url:`${URL}/address`,
+       data:{idUser: user.uid, address:{...inputt, type: 'billing'}},
+       method: 'post',
+       headers: {"Authorization":"Bearer " + token}
+      })  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
       .then(res => {})
       .catch(err => console.log(err))
 
