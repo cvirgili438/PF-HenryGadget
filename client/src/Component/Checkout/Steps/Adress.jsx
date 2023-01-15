@@ -19,7 +19,7 @@ export default function Adress(props) {                                         
   const input = useRef({region:'',city:'',postalCode:'',street:'',name:'',type: 'shipping', principal: true});                               // Este input guardara la informacion del form la cual ya sera enviada a la store de redux para guardarla y luego poder hacer un post de esta a la DB
   
   const dispatch = useDispatch();
-  
+  const button = useSelector(state=>state.buttonAddress)
   const user = useSelector(state => state.user);                                                                                              // Nos traemos al usuario con sesion iniciada para luego preguntar su uid
   
   useEffect(() => {                                                                                                                           // Antes de renderizar el componente vamos a preguntar las direcciones del usuario con el uid, estas posibles direcciones seran guardadas en el estado local, dependiendo de si hay o no direcciones, mostraremos un tipo de componente o otro.
@@ -35,7 +35,7 @@ export default function Adress(props) {                                         
          })
          .catch(err => console.log(err));
 
-  }, []);
+  }, [button]);
 
   useEffect(() => {                                                                                                                           // Con este useEffect iremos validando cada vez que modifican el form para saber si ya esta completo, si lo esta desbloquear el boton de "Next" sino... pues no                                                                                                                                                                                                                                   
     const inputValidate = input.current
@@ -184,7 +184,7 @@ export default function Adress(props) {                                         
               }
             })
         }
-        {address.length !== 0 && <AddressBox type='add'/>}
+        {address.length !== 0 && <AddressBox token={props.token} type='add'/>}
         <div>
           <label className={styles.checkbox} for="myCheckboxId">
             <input onClick={() => {/* Future code */}} className={styles.checkbox__input} type="checkbox" name="myCheckboxName" id="myCheckboxId"/>

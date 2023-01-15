@@ -13,7 +13,7 @@ import {IoAddCircleOutline} from "react-icons/io5";
 import { URL } from '../../../Redux/Constants';
 
 export default function AddressBox({name,token, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
-
+  const buttonIsDisabled = useSelector(state => state.buttonAddress)
   const [formActive, setFormActive] = useState(true);                                                                                   // Estado el cual nos servira para mostrar o no un form para la carta de " Add a different address"
   const [addressSettled, setAddressSettled] = useState(false)                                                                           // Estado local el cual nos hara saber si una vez utilizado el form la direccion propuesta se agerego correctamente como principal
   const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});    // Estado para controlar el form de la carta " Add a new address"
@@ -50,7 +50,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
         data:{idUser: user.uid, idAddress: idAddress},
         headers: {"Authorization":"Bearer " + token}
         })   // Seteamos la direccion creada anteriormente como principal 
-             .then(res => {setAddressSettled(true); dispatch(setButtonActive(false));})
+             .then(res => {setAddressSettled(true); return dispatch(setButtonActive(false));})
              .catch(err => console.log(err));
       })
       .catch(err => console.log(err))
@@ -61,7 +61,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
        method: 'post',
        headers: {"Authorization":"Bearer " + token}
       })  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
-      .then(res => {})
+      .then(res => {return dispatch(setButtonActive(false));})
       .catch(err => console.log(err))
 
       return;
@@ -86,7 +86,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
         </div>
 
         <div>
-          <div className={formActive ? styles.divHidden : styles.divInputAddress}>
+          <div className={formActive  ? styles.divHidden : styles.divInputAddress}>
               <Box
                 component={'form'}        
                 sx={{        
@@ -100,7 +100,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
                 }}
               >
                 <TextField
-                  error={input.current.name === '' ? true : false}
+                  error={inputt.name === '' ? true : false}
                   required
                   fullWidth
                   id="name"
@@ -109,7 +109,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.region === '' ? true : false}
+                  error={inputt.region === '' ? true : false}
                   required
                   fullWidth
                   id="street"
@@ -118,7 +118,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.city === '' ? true : false}
+                  error={inputt.city === '' ? true : false}
                   required
                   fullWidth
                   id="city"
@@ -127,7 +127,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.postalCode === '' ? true : false}
+                  error={inputt.postalCode === '' ? true : false}
                   required
                   fullWidth
                   id="postalCode"
@@ -136,7 +136,7 @@ export default function AddressBox({name,token, street, region, city, postalCode
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.street === '' ? true : false}
+                  error={inputt.street === '' ? true : false}
                   required
                   fullWidth
                   id="region"

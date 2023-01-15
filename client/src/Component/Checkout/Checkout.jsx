@@ -82,11 +82,19 @@ export default function Checkout() {
     }
 
     if(active === 1 && addressUser.length === 0){
-      axios.post(`${URL}/address`, {idUser: user.uid, address})
+      axios({url:`${URL}/address`,
+        data:{idUser: user.uid, address},
+        method:'post',
+        headers: {"Authorization":"Bearer " + token}  
+      })
            .then(res => console.log(res))
            .catch(err => console.log(err))
 
-      axios.post(`${URL}/address`, {idUser: user.uid, address:{...address, type: 'billing'}})
+      axios({url:`${URL}/address`,
+        data:{idUser: user.uid, address:{...address, type: 'billing'}},
+        method:'post',
+        headers: {"Authorization":"Bearer " + token}
+      })
            .then(res => setActive(active + 1))
            .catch(err => console.log(err))
 
