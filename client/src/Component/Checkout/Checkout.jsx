@@ -28,19 +28,7 @@ export default function Checkout() {
   const auth = getAuth()
 
 
-  useEffect(() => {
-    if(user && user.uid){
-      axios(`${URL}/address?idUser=${user.uid}`)
-         .then(res => {
-            if(res.data.result.length === 0) return;
-
-            setAddressUser([...addressUser, ...res.data.result]);
-         })
-         .catch(err => console.log(err))
-    }
-    
-  }, [active]);
-
+  
   useEffect(()=>{
     setActive(active)
     onAuthStateChanged(auth, (user) => {
@@ -52,13 +40,31 @@ export default function Checkout() {
     }); 
   },[user && user.uid]);
 
+  useEffect(() => {
+    if(user && user.uid){
+      axios({
+        url:`${URL}/address?idUser=${user.uid}`,
+        method:'get',
+        headers: {"Authorization":"Bearer " + token}
+      })
+         .then(res => {
+            if(res.data.result.length === 0) return;
+
+            setAddressUser([...addressUser, ...res.data.result]);
+         })
+         .catch(err => console.log(err))
+    }
+    
+  }, [active]);
+
+
   function verification (num){
     switch(num){
       case 0:
         return (<CartPage />);
       case 1 :
         
-        return (<Adress />);     
+        return (<Adress token={token} />);     
       case 2 :
         return (<Payment />)
     }
@@ -76,11 +82,19 @@ export default function Checkout() {
     }
 
     if(active === 1 && addressUser.length === 0){
-      axios.post(`${URL}/address`, {idUser: user.uid, address})
+      axios({url:`${URL}/address`,
+        data:{idUser: user.uid, address},
+        method:'post',
+        headers: {"Authorization":"Bearer " + token}  
+      })
            .then(res => console.log(res))
            .catch(err => console.log(err))
 
-      axios.post(`${URL}/address`, {idUser: user.uid, address:{...address, type: 'billing'}})
+      axios({url:`${URL}/address`,
+        data:{idUser: user.uid, address:{...address, type: 'billing'}},
+        method:'post',
+        headers: {"Authorization":"Bearer " + token}
+      })
            .then(res => setActive(active + 1))
            .catch(err => console.log(err))
 

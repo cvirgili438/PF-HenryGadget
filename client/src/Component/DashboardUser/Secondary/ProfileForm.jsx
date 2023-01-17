@@ -1,11 +1,12 @@
 import React from 'react';
-import { TextField, Button, Box } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux';
+import { Box } from '@mui/material'
+import { useDispatch } from 'react-redux';
 import { putProfileUser } from '../../../Redux/Actions/users';
-import { getAuth, onAuthStateChanged,  } from 'firebase/auth';
+import { getAuth, } from 'firebase/auth';
 import styles from './addressForm/AddressForm.module.css'
-import ProfileFormGoogle from './ProfileFormGoogle.jsx';
+
 import UploadImage from './UploadImage';
+import UploadImageGoogle from './UploadImageGoogle';
 
 
 
@@ -63,7 +64,13 @@ export default function ProfileForm(props) {
             }}
      >
     {props.user.providerId ===  'google.com' ? (
-    <ProfileFormGoogle token={props.token} user={props.user} disabled={props.disabled} />): 
+     <UploadImageGoogle
+     currentPhoto={props.user.photoURL ? props.user.photoURL : ''}
+     google={true} 
+     disabled={props.disabled}
+     phoneNumber={props.user.phoneNumber}
+      idUser={props.user.uid} />
+    ): 
     (
       <div>
         <UploadImage

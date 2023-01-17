@@ -2,24 +2,18 @@
 
 import React from 'react';
 import axios from 'axios';
-
 import { TextField,Box } from '@mui/material'
-
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { setButtonActive } from '../../../Redux/Actions/checkout';
-
 import styles from "./AddressBox.module.css";
-
 import {MdLocationOn} from "react-icons/md";
 import {BsCheckCircle} from "react-icons/bs";
 import {IoAddCircleOutline} from "react-icons/io5";
-
 import { URL } from '../../../Redux/Constants';
 
-export default function AddressBox({name, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
-
+export default function AddressBox({name,token, street, region, city, postalCode, type, id, setFunction, principal}) {                        /* Inicializamos componente para cada address individual (cajita to show) */
+  const buttonIsDisabled = useSelector(state => state.buttonAddress)
   const [formActive, setFormActive] = useState(true);                                                                                   // Estado el cual nos servira para mostrar o no un form para la carta de " Add a different address"
   const [addressSettled, setAddressSettled] = useState(false)                                                                           // Estado local el cual nos hara saber si una vez utilizado el form la direccion propuesta se agerego correctamente como principal
   const [inputt,setInputt] = React.useState({region:'',city:'',postalCode:'',street:'',name:'', type: 'shipping', principal: true});    // Estado para controlar el form de la carta " Add a new address"
@@ -39,18 +33,35 @@ export default function AddressBox({name, street, region, city, postalCode, type
   }  
 
   function setAddressAsPrincipal(){                                                                                                    // Esta funcion es para la carta " Add na new address " y cuya funcion que sera utilizada cuando querramos hacer el post de la direccion guardada en el estado local, la direccion tambien sera seteada como principal una vez se haya agregado
-    axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})                       // Creamos la nueva direccion pasando como valores el estado local
+   // axios.post(`${URL}/address`, {idUser: user.uid, address: inputt})      
+      axios({
+        url:`${URL}/address`,
+        method: 'post',
+        data:{idUser: user.uid, address: inputt},
+        headers: {"Authorization":"Bearer " + token}
+      })                 // Creamos la nueva direccion pasando como valores el estado local
       .then(res => {
         const idAddress = res.data.result.id;
 
-        axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})     // Seteamos la direccion creada anteriormente como principal 
-             .then(res => {setAddressSettled(true); dispatch(setButtonActive(false));})
+       // axios.put(`${URL}/address/principal`, {idUser: user.uid, idAddress: idAddress})  
+        axios({
+          url:`${URL}/address/principal`,
+        method: 'put',
+        data:{idUser: user.uid, idAddress: idAddress},
+        headers: {"Authorization":"Bearer " + token}
+        })   // Seteamos la direccion creada anteriormente como principal 
+             .then(res => {setAddressSettled(true); return dispatch(setButtonActive(false));})
              .catch(err => console.log(err));
       })
       .catch(err => console.log(err))
 
-    axios.post(`${URL}/address`, {idUser: user.uid, address:{...inputt, type: 'billing'}})  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
-      .then(res => {})
+    axios({
+      url:`${URL}/address`,
+       data:{idUser: user.uid, address:{...inputt, type: 'billing'}},
+       method: 'post',
+       headers: {"Authorization":"Bearer " + token}
+      })  // Seteamos la misma direccion como billing address (ya que no hay facturacion aun, no hay mucha logica relacionada este tipo de address)
+      .then(res => {return dispatch(setButtonActive(false));})
       .catch(err => console.log(err))
 
       return;
@@ -75,7 +86,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
         </div>
 
         <div>
-          <div className={formActive ? styles.divHidden : styles.divInputAddress}>
+          <div className={formActive  ? styles.divHidden : styles.divInputAddress}>
               <Box
                 component={'form'}        
                 sx={{        
@@ -89,7 +100,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
                 }}
               >
                 <TextField
-                  error={input.current.name === '' ? true : false}
+                  error={inputt.name === '' ? true : false}
                   required
                   fullWidth
                   id="name"
@@ -98,7 +109,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.region === '' ? true : false}
+                  error={inputt.region === '' ? true : false}
                   required
                   fullWidth
                   id="street"
@@ -107,7 +118,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.city === '' ? true : false}
+                  error={inputt.city === '' ? true : false}
                   required
                   fullWidth
                   id="city"
@@ -116,7 +127,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.postalCode === '' ? true : false}
+                  error={inputt.postalCode === '' ? true : false}
                   required
                   fullWidth
                   id="postalCode"
@@ -125,7 +136,7 @@ export default function AddressBox({name, street, region, city, postalCode, type
                   onChange={e => handleInput(e)}                   
                 />
                 <TextField
-                  error={input.current.street === '' ? true : false}
+                  error={inputt.street === '' ? true : false}
                   required
                   fullWidth
                   id="region"
