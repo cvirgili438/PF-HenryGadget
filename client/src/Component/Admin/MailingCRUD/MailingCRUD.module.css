@@ -1,0 +1,115 @@
+.container {
+  width: 100%;
+}
+
+.separador {
+  height: 60px;
+}
+
+.emptyCrud {
+  margin-top: 30px;
+  font-size: 1.8em;
+
+}
+
+.statistics {
+  height: 100px;
+  background-color: rgb(210, 210, 210);
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid black;
+}
+
+.statisticsCard {
+  border: 2px solid black;
+  border-radius: 10px;
+  min-width: 150px;
+  min-height: 70px;
+  background-color: white;
+}
+
+.statisticsCardTitle {
+  font-size: 1.3em;
+  font-style: italic;
+}
+
+.statisticsCardContent {
+  font-size: 1.70em;
+  color: blue;
+  font-weight: bold;
+}
+
+.managebar{
+  height: 40px;
+  background-color: rgb(229, 229, 229);
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid black;
+
+}
+
+.tableContainer {
+  width: 95%;
+  margin: auto;  
+}
+
+.table {
+  margin-top: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table td, .table th {
+  border: 1px solid black;
+  padding: 2px;
+}
+
+.table tr:nth-child(even){background-color: #d8f4e2;}
+
+.table tr:hover {background-color: rgb(209, 209, 209);}
+
+.table th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.productImage {
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.available {
+  font-size: 1.2em;
+  padding: 3px;
+  width: 50px;
+  height: 30px;
+  display: inline-block;
+}
+
+.textYES {
+  color: green;
+  background-color: lightgreen;
+  border: 1px solid green;
+}
+
+.textLOW {
+  color: yellow;
+  background-color: rgb(155, 155, 79);
+  border: 1px solid yellow;
+}
+
+.textNO {
+  color: red;
+  background-color: rgb(247, 169, 169);
+  border: 1px solid red;
+}

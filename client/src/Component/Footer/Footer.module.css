@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(220, 220, 220);
+  border: 1px solid black;
+}
+
+.separador {
+  height: 60px;
+}
+.column {
+  font-size: 0.9em;
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  justify-content: center;
+}

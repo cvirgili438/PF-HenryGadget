@@ -1,0 +1,12 @@
+
+
+.carousel{
+    background-color: black;
+    height: 25rem;
+    overflow: hidden;
+}
+
+.carousel img {
+    height: 25rem;
+}
+

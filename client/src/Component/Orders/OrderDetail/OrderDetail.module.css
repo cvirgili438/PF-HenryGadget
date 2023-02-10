@@ -1,0 +1,9 @@
+.mainContainer{
+    padding: 1rem;
+}
+
+.button{
+    float: left;
+    margin: 20px;
+    border-radius: 1px solid black;
+}
